@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GSM YASSER – فحص IMEI للآيفون</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a1628;--bg2:rgba(255,255,255,.05);--card:rgba(255,255,255,.04);--ink:#ffffff;--muted:rgba(255,255,255,.6);--line:rgba(255,255,255,.1);
+  --gold:#fbbf24;--gold2:#f59e0b;--gold-ink:#1a1204;--green:#10b981;--green2:#059669;--ok:#4ade80;--bad:#ff8a80;
+  --glow:rgba(251,191,36,.14);--glow2:rgba(6,182,212,.13);--glow3:rgba(26,10,46,.85);--pill:rgba(10,22,40,.85);
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#f6f4ee;--bg2:#efeadd;--card:#ffffff;--ink:#0a1628;--muted:#5b6678;--line:#dcd8cc;
+  --gold:#b7791f;--ok:#0f7a4f;--bad:#b42318;--glow:rgba(251,191,36,.2);--glow2:rgba(6,182,212,.12);--glow3:transparent;--pill:#ffffff;color-scheme:light;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Inter','Tajawal',system-ui,sans-serif;font-weight:500;font-size:14px;line-height:1.5;
+  background:radial-gradient(800px 400px at 10% 0,var(--glow),transparent 60%),radial-gradient(600px 400px at 90% 20%,var(--glow2),transparent 60%),radial-gradient(700px 500px at 50% 100%,var(--glow3),transparent 70%),var(--bg);min-height:100vh}
+.wrap{max-width:640px;margin:0 auto;padding:12px 14px 30px;zoom:.74}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.brand{font-weight:800;font-size:17px}.brand b{color:var(--gold)}
+.ctl{display:flex;gap:8px;align-items:center}
+.seg{display:flex;background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px}
+.curbar{display:flex;justify-content:center;margin-top:12px}
+.seg button{border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--gold);color:var(--gold-ink)}
+.theme,.settings-btn{width:34px;height:34px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-size:16px;cursor:pointer;display:grid;place-items:center}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:12px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.lbl{font-weight:800;font-size:13px;color:var(--muted)}
+.pill{background:var(--bg2);border-radius:999px;padding:3px 10px;font-size:12px;color:var(--muted);direction:ltr}
+.field{display:flex;align-items:center;gap:10px;margin-top:12px;background:var(--pill);border:1.5px solid var(--line);border-radius:999px;padding:6px 8px 6px 16px}
+.field:focus-within{border-color:var(--gold)}
+.field input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:15px;letter-spacing:.05em;padding:8px 0;outline:none;direction:ltr;text-align:left}
+.icon-btn{width:36px;height:36px;flex:none;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-size:15px;cursor:pointer}
+.shield{width:26px;height:26px;flex:none;color:var(--gold)}
+.status{min-height:20px;margin-top:8px;font-weight:700;font-size:13px}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
+.free{border:2px solid var(--ink);border-color:color-mix(in srgb,var(--ink) 80%,transparent);box-shadow:0 0 40px rgba(16,185,129,.08)}
+.free .head{display:flex;align-items:flex-start;gap:12px}
+.fico{width:40px;height:40px;flex:none;border-radius:999px;background:var(--green);color:#fff;font-weight:800;font-size:18px;display:grid;place-items:center}
+.free h3{margin:0;font-size:15px;line-height:1.3}
+.free p{margin:2px 0 0;color:var(--muted);font-size:12px}
+.badge{margin-inline-start:auto;flex:none;background:var(--gold);color:var(--gold-ink);font-weight:800;font-size:11px;border-radius:999px;padding:4px 10px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:12px;border:0;border-radius:999px;padding:11px;font:inherit;font-weight:800;font-size:14px;cursor:pointer;text-decoration:none}
+.btn.g{background:linear-gradient(90deg,var(--green),var(--green2));color:#fff;box-shadow:0 10px 26px rgba(16,185,129,.28)}
+.btn.y{background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--gold-ink)}
+.res{margin-top:10px;font-size:12px;color:var(--muted);background:var(--bg2);border-radius:14px;padding:10px 14px}
+.res b{display:block;font-size:14px;margin-bottom:2px}
+.div{display:flex;align-items:center;gap:12px;margin:22px 0 0;color:var(--gold);font-weight:800;font-size:13px}
+.div::before,.div::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5}
+.svc .price{font-size:16px;font-weight:800;color:var(--gold);line-height:1}
+.svc .price small{font-size:11px;font-weight:700;margin-inline-start:4px}
+.sico{width:44px;height:44px;border-radius:14px;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3);display:grid;place-items:center}
+.svc h3{margin:10px 0 2px;font-size:15px}
+.svc p{margin:0;color:var(--muted);font-size:12px}
+.svc.pro{border:2px solid var(--gold)}
+.steps{color:var(--muted);font-size:12px;margin:14px 0 0;padding-inline-start:20px}
+footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
+
+/* Modal / Settings Styles */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .2s ease}
+.modal-overlay.active{opacity:1;pointer-events:all}
+.modal{background:var(--bg);border:1px solid var(--line);border-radius:24px;padding:20px;width:90%;max-width:440px;box-shadow:0 20px 40px rgba(0,0,0,0.5)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.modal-title{font-size:16px;font-weight:800;color:var(--gold)}
+.modal-close{border:0;background:transparent;color:var(--muted);font-size:20px;cursor:pointer}
+.form-group{margin-bottom:14px}
+.form-group label{block;font-size:12px;font-weight:700;margin-bottom:6px;color:var(--muted)}
+.form-group input{width:100%;background:var(--pill);border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--ink);font:inherit;font-size:13px;outline:none}
+.form-group input:focus{border-color:var(--gold)}
+.api-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-inline-start:6px}
+.api-badge.linked{background:rgba(16,185,129,0.15);color:var(--ok)}
+.api-badge.unlinked{background:rgba(255,138,128,0.15);color:var(--bad)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><symbol id="sh" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.4 9-8 11-4.6-2-8-6-8-11V5l8-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+<div class="wrap">
+  <div class="top">
+    <div class="brand" id="brand-title">GSM <b>YASSER</b></div>
+    <div class="ctl">
+      <button class="settings-btn" id="open-settings" aria-label="الإعدادات">⚙️</button>
+      <button class="theme" id="theme" aria-label="theme">🌙</button>
+      <div class="seg" role="group" aria-label="language">
+        <button data-l="en" aria-pressed="false">EN</button>
+        <button data-l="fr" aria-pressed="false">Français</button>
+        <button data-l="ar" aria-pressed="true">العربية</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="curbar"><div class="seg cs" role="group" aria-label="currency"><button data-c="DZD" aria-pressed="true">DZD</button><button data-c="USD" aria-pressed="false">USD $</button><button data-c="EUR" aria-pressed="false">EUR €</button></div></div>
+
+  <section class="card">
+    <div class="row">
+      <span class="lbl" data-i="lbl">الرقم التسلسلي / IMEI</span>
+      <div>
+        <span id="api-status-badge" class="api-badge unlinked">غير مربوط ⚠️</span>
+        <span class="pill" id="cnt">0/15</span>
+      </div>
+    </div>
+    <div class="field">
+      <svg class="shield"><use href="#sh"/></svg>
+      <input id="imei" inputmode="numeric" autocomplete="off" maxlength="15" placeholder="352756084937521" aria-describedby="st">
+      <button class="icon-btn" id="paste" aria-label="paste">📋</button>
+    </div>
+    <div class="status" id="st" role="status" aria-live="polite"></div>
+  </section>
+
+  <section class="card free">
+    <div class="head">
+      <div class="fico">✓</div>
+      <div><h3 data-i="ft">تحقق مجاني من صيغة الرقم</h3><p data-i="fs">بدون واتساب · يفحص صحة الرقم فقط</p></div>
+      <span class="badge" data-i="fb">مجاني</span>
+    </div>
+    <button class="btn g" id="free" data-i="fbtn">تحقق الآن - 0 دج</button>
+    <div class="res" id="res" hidden></div>
+  </section>
+
+  <div class="div" data-i="prem">خدمات مميزة</div>
+
+  <section class="card svc"><div class="row"><div class="sico"><svg width="28" height="28" style="color:var(--gold)"><use href="#sh"/></svg></div><div class="price">400<small data-i="cur">دج</small></div></div>
+    <h3 data-i="s1">فحص قفل الشبكة</h3><p data-i="s1d">قفل المشغّل · الشبكة · حالة الشريحة</p><a class="btn y" data-svc="SIMLOCK" href="https://wa.me/213657241710?text=GSM%20YASSER%20-%20SIMLOCK" target="_blank" rel="noopener"><span data-i="order">اطلب عبر واتساب</span>&nbsp;↗</a></section>
+  <section class="card svc"><div class="row"><div class="sico"><svg width="28" height="28" style="color:var(--gold)"><use href="#sh"/></svg></div><div class="price">400<small data-i="cur">دج</small></div></div>
+    <h3 data-i="s2">فحص iCloud / Find My</h3><p data-i="s2d">قفل iCloud · حالة Find My iPhone</p><a class="btn y" data-svc="iCloud FMI" href="https://wa.me/213657241710?text=GSM%20YASSER%20-%20iCloud%20FMI" target="_blank" rel="noopener"><span data-i="order">اطلب عبر واتساب</span>&nbsp;↗</a></section>
+  <section class="card svc"><div class="row"><div class="sico"><svg width="28" height="28" style="color:var(--gold)"><use href="#sh"/></svg></div><div class="price">400<small data-i="cur">دج</small></div></div>
+    <h3 data-i="s3">فحص القائمة السوداء</h3><p data-i="s3d">مسروق · مفقود · محظور</p><a class="btn y" data-svc="Blacklist" href="https://wa.me/213657241710?text=GSM%20YASSER%20-%20Blacklist" target="_blank" rel="noopener"><span data-i="order">اطلب عبر واتساب</span>&nbsp;↗</a></section>
+  <section class="card svc pro"><div class="row"><div class="sico"><svg width="28" height="28" style="color:var(--gold)"><use href="#sh"/></svg></div><div class="price">800<small data-i="cur">دج</small></div></div>
+    <h3 data-i="s4">فحص FULL PRO شامل</h3><p data-i="s4d">الكل في تقرير PDF واحد</p><a class="btn y" data-svc="FULL PRO" href="https://wa.me/213657241710?text=GSM%20YASSER%20-%20FULL%20PRO" target="_blank" rel="noopener"><span data-i="order">اطلب عبر واتساب</span>&nbsp;↗</a></section>
+
+  <ol class="steps" data-steps><li>أدخل الـ IMEI واختر الخدمة.</li><li>أرسل الرسالة عبر واتساب.</li><li>نفحص الجهاز ونرسل لك تقرير PDF.</li></ol>
+  <footer data-i="foot">GSM YASSER · واتساب: 0657241710 · الخدمة لأجهزة iPhone فقط. لمعرفة الـ IMEI اتصل بـ *#06# على الهاتف.</footer>
+</div>
+
+<!-- Modal Settings -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">⚙️ إعدادات الخادم والـ API</div>
+      <button class="modal-close" id="close-settings">✕</button>
+    </div>
+    <form id="settings-form">
+      <div class="form-group">
+        <label for="cfg-api-key">مفتاح الـ API Key</label>
+        <input type="text" id="cfg-api-key" placeholder="أدخل API Key الخاص بك هنا..." style="direction:ltr; font-family:monospace;">
+      </div>
+      <div class="form-group">
+        <label for="cfg-api-url">رابط السيرفر (API URL)</label>
+        <input type="url" id="cfg-api-url" placeholder="https://dash.imei.info/api/v1/" style="direction:ltr;">
+      </div>
+      <div class="form-group">
+        <label for="cfg-brand">اسم الخدمة / العلامة التجارية</label>
+        <input type="text" id="cfg-brand" placeholder="GSM YASSER">
+      </div>
+      <button type="submit" class="btn y">حفظ الإعدادات</button>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+var NUM="213657241710";
+var DEFAULT_KEY = "303aec8a-3efa-41fd-91c0-b06840bd1046";
+var CONFIG = {
+  apiKey: localStorage.getItem("gsm_api_key") || DEFAULT_KEY,
+  apiUrl: localStorage.getItem("gsm_api_url") || "https://dash.imei.info/api/v1/",
+  brandName: localStorage.getItem("gsm_brand") || "GSM YASSER"
+};
+
+var modal = document.getElementById("settings-modal");
+var btnOpen = document.getElementById("open-settings");
+var btnClose = document.getElementById("close-settings");
+var settingsForm = document.getElementById("settings-form");
+var apiKeyInput = document.getElementById("cfg-api-key");
+var apiUrlInput = document.getElementById("cfg-api-url");
+var brandInput = document.getElementById("cfg-brand");
+var apiBadge = document.getElementById("api-status-badge");
+
+function updateConfigUI() {
+  apiKeyInput.value = CONFIG.apiKey;
+  apiUrlInput.value = CONFIG.apiUrl;
+  brandInput.value = CONFIG.brandName;
+  if(CONFIG.apiKey) {
+    apiBadge.textContent = "مربوط ✅";
+    apiBadge.className = "api-badge linked";
+  } else {
+    apiBadge.textContent = "غير مربوط ⚠️";
+    apiBadge.className = "api-badge unlinked";
+  }
+}
+updateConfigUI();
+
+btnOpen.onclick = function(){ modal.classList.add("active"); };
+btnClose.onclick = function(){ modal.classList.remove("active"); };
+modal.onclick = function(e){ if(e.target === modal) modal.classList.remove("active"); };
+
+settingsForm.onsubmit = function(e){
+  e.preventDefault();
+  CONFIG.apiKey = apiKeyInput.value.trim();
+  CONFIG.apiUrl = apiUrlInput.value.trim();
+  CONFIG.brandName = brandInput.value.trim() || "GSM YASSER";
+  
+  localStorage.setItem("gsm_api_key", CONFIG.apiKey);
+  localStorage.setItem("gsm_api_url", CONFIG.apiUrl);
+  localStorage.setItem("gsm_brand", CONFIG.brandName);
+  
+  updateConfigUI();
+  modal.classList.remove("active");
+};
+
+var T={
+ar:{lbl:"الرقم التسلسلي / IMEI",ft:"تحقق مجاني من صيغة الرقم",fs:"بدون واتساب · يفحص صحة الرقم فقط",fb:"مجاني",fbtn:"تحقق الآن - 0 دج",prem:"خدمات مميزة",cur:"دج",order:"اطلب عبر واتساب",
+ s1:"فحص قفل الشبكة",s1d:"قفل المشغّل · الشبكة · حالة الشريحة",s2:"فحص iCloud / Find My",s2d:"قفل iCloud · حالة Find My iPhone",s3:"فحص القائمة السوداء",s3d:"مسروق · مفقود · محظور",s4:"فحص FULL PRO شامل",s4d:"الكل في تقرير PDF واحد",
+ steps:["أدخل الـ IMEI واختر الخدمة.","أرسل الرسالة عبر واتساب.","نفحص الجهاز ونرسل لك تقرير PDF."],
+ foot:"GSM YASSER · واتساب: 0657241710 · الخدمة لأجهزة iPhone فقط. لمعرفة الـ IMEI اتصل بـ *#06# على الهاتف.",
+ more:"أكمل الـ 15 رقمًا",good:"صيغة الرقم صحيحة",badm:"الرقم غير صحيح، راجع الأرقام",need:"أدخل 15 رقمًا أولًا",
+ rt:"صيغة الرقم صحيحة",rd:"هذا فحص للصيغة فقط، وليس فحصًا للموديل أو القائمة السوداء أو iCloud. هذه تظهر في الفحص المدفوع."},
+fr:{lbl:"Numéro de série / IMEI",ft:"Vérification gratuite du format",fs:"Sans WhatsApp · vérifie seulement le numéro",fb:"GRATUIT",fbtn:"Vérifier - 0 DZD",prem:"Services premium",cur:"DZD",order:"Commander via WhatsApp",
+ s1:"Vérif SIMLOCK",s1d:"Verrou opérateur · réseau · SIM",s2:"Vérif iCloud / Find My",s2d:"Verrou iCloud · Find My iPhone",s3:"Vérif Blacklist",s3d:"Volé · perdu · bloqué",s4:"Vérif FULL PRO",s4d:"Tout dans un seul rapport PDF",
+ steps:["Entrez l'IMEI et choisissez le service.","Envoyez le message via WhatsApp.","Nous vérifions et envoyons un rapport PDF."],
+ foot:"GSM YASSER · WhatsApp : 0657241710 · iPhone uniquement. Pour voir l'IMEI, composez *#06#.",
+ more:"Complétez les 15 chiffres",good:"Format valide",badm:"Numéro invalide, vérifiez les chiffres",need:"Entrez d'abord 15 chiffres",
+ rt:"Format valide",rd:"Vérification du format uniquement, pas du modèle, de la blacklist ni d'iCloud. Ceux-ci sont dans le service payant."},
+en:{lbl:"Serial number / IMEI",ft:"Free format check",fs:"No WhatsApp · checks the number only",fb:"FREE",fbtn:"Check now - 0 DZD",prem:"Premium services",cur:"DZD",order:"Order on WhatsApp",
+ s1:"SIMLOCK check",s1d:"Carrier lock · network · SIM status",s2:"iCloud / Find My check",s2d:"iCloud lock · Find My iPhone",s3:"Blacklist check",s3d:"Stolen · lost · blocked",s4:"FULL PRO check",s4d:"Everything in one PDF report",
+ steps:["Enter the IMEI and pick a service.","Send the message on WhatsApp.","We run the check and send you a PDF report."],
+ foot:"GSM YASSER · WhatsApp: 0657241710 · iPhone only. To see your IMEI, dial *#06#.",
+ more:"Enter all 15 digits",good:"Valid format",badm:"Invalid number, check the digits",need:"Enter 15 digits first",
+ rt:"Valid format",rd:"This checks the format only, not model, blacklist or iCloud. Those are in the paid check."}
+};
+var TAC={"01194800":"iPhone 3GS","01203000":"iPhone 3GS","01215600":"iPhone 3GS","01216200":"iPhone 3GS","01216300":"iPhone 3GS","01242200":"iPhone 4","01243100":"iPhone 4","01253300":"iPhone 4","01254100":"iPhone 4","01275000":"iPhone 4","01283700":"iPhone 4","01294000":"iPhone 4s","01300600":"iPhone 4s","01303900":"iPhone 4s","01304000":"iPhone 4s","01304600":"iPhone 4s","01305100":"iPhone 4s","01305200":"iPhone 4s","01305300":"iPhone 4s","01306200":"iPhone 4s","01306400":"iPhone 4s","01306800":"iPhone 4s","01312600":"iPhone 4","01312700":"iPhone 4","01312800":"iPhone 4","01317900":"iPhone 4s","01318300":"iPhone 4s","01326300":"iPhone 4","01334500":"iPhone 5","01334600":"iPhone 5","01335000":"iPhone 5","01335100":"iPhone 5","01340300":"iPhone 5","01340400":"iPhone 5","01341100":"iPhone 5","01341400":"iPhone 5","01341700":"iPhone 5","01341800":"iPhone 5","01342000":"iPhone 5","01342100":"iPhone 5","01342200":"iPhone 5","01343800":"iPhone 5","01344100":"iPhone 5","01355100":"iPhone 5","01355600":"iPhone 5","01361900":"iPhone 5","01362500":"iPhone 5","01363100":"iPhone 5","01195200":"iPhone 3GS","01215400":"iPhone 3GS","35381208":"iPhone 7 Plus","35880505":"iPhone 5s","35539407":"iPhone 6","35539607":"iPhone 6","35332007":"iPhone 6","35332107":"iPhone 6","35331907":"iPhone 6","35331807":"iPhone 6","35676300":"iPhone 8","35915207":"iPhone 7 (A1778)","35656208":"iPhone 7 (A1778)","35655908":"iPhone 7 (A1778)","35655808":"iPhone 7 (A1778)","35656008":"iPhone 7 (A1778)","35532608":"iPhone 7 (A1778)","35531408":"iPhone 7 (A1778)","35533108":"iPhone 7 (A1778)","35655708":"iPhone 7 (A1778)","35531708":"iPhone 7 (A1778)","35656308":"iPhone 7 (A1778)","35655408":"iPhone 7 (A1778)","35655508":"iPhone 7 (A1778)","35655608":"iPhone 7 (A1778)","35532908":"iPhone 7 (A1778)","35531608":"iPhone 7 (A1778)","35532508":"iPhone 7 (A1778)","35298609":"iPhone 7 (A1778)","35920507":"iPhone 7 (A1778)","35531508":"iPhone 7 (A1778)","35532108":"iPhone 7 (A1778)","35531308":"iPhone 7 (A1778)","35920707":"iPhone 7 (A1778)","35384308":"iPhone 7 (A1778)","35533208":"iPhone 7 (A1778)","35532208":"iPhone 7 (A1778)","35920207":"iPhone 7 (A1778)","35532708":"iPhone 7 (A1778)","35533008":"iPhone 7 (A1778)","35531808":"iPhone 7 (A1778)","35920607":"iPhone 7 (A1778)","35532308":"iPhone 7 (A1778)","35531908":"iPhone 7 (A1778)","35384108":"iPhone 7 (A1778)","35380508":"iPhone 7 (A1778)","35384508":"iPhone 7 (A1778)","35532808":"iPhone 7 (A1778)","35532408":"iPhone 7 (A1778)","35921007":"iPhone 7 (A1778)","35921207":"iPhone 7 (A1778)","35920407":"iPhone 7 (A1778)","35532008":"iPhone 7 (A1778)","35298709":"iPhone 7 (A1778)","35921407":"iPhone 7 (A1778)","35380608":"iPhone 7 (A1778)","35384208":"iPhone 7 (A1778)","35298809":"iPhone 7 (A1778)","35298409":"iPhone 7 (A1778)","35380208":"iPhone 7 (A1778)","35920907":"iPhone 7 (A1778)","35921307":"iPhone 7 (A1778)","35298509":"iPhone 7 (A1778)","35384408":"iPhone 7 (A1778)","35380408":"iPhone 7 (A1778)","35380308":"iPhone 7 (A1778)","35382408":"iPhone 7 (A1660)","35582708":"iPhone 7 (A1660)","35583308":"iPhone 7 (A1660)","35582808":"iPhone 7 (A1660)","35382208":"iPhone 7 (A1660)","35583008":"iPhone 7 (A1660)","35582908":"iPhone 7 (A1660)","35583208":"iPhone 7 (A1660)","35382608":"iPhone 7 (A1660)","35582408":"iPhone 7 (A1660)","35530908":"iPhone 7 (A1660)","35582608":"iPhone 7 (A1660)","35582508":"iPhone 7 (A1660)","35382308":"iPhone 7 (A1660)","35306909":"iPhone 7 (A1778)","35382508":"iPhone 7 (A1660)","35482609":"iPhone 7 (A1778)","35583108":"iPhone 7 (A1660)","35482709":"iPhone 7 (A1778)","35531008":"iPhone 7 (A1660)","35531208":"iPhone 7 (A1660)","35531108":"iPhone 7 (A1660)","35530808":"iPhone 7 (A1660)","35307009":"iPhone 7 (A1778)","35307209":"iPhone 7 (A1778)","35482809":"iPhone 7 (A1778)","35307109":"iPhone 7 (A1778)","35945908":"iPhone 7 (A1660)","35946708":"iPhone 7 (A1660)","35946008":"iPhone 7 (A1660)","35307309":"iPhone 7 (A1778)","35307509":"iPhone 7 (A1778)","35946308":"iPhone 7 (A1660)","35307409":"iPhone 7 (A1778)","35534408":"iPhone 7 (A1660)","35916907":"iPhone 7 (A1660)","35946408":"iPhone 7 (A1660)","35946108":"iPhone 7 (A1660)","35946208":"iPhone 7 (A1660)","35946508":"iPhone 7 (A1660)","35946608":"iPhone 7 (A1660)","35534208":"iPhone 7 (A1660)","35534308":"iPhone 7 (A1660)","35945808":"iPhone 7 (A1660)","35912707":"iPhone 7 (A1660)","35534008":"iPhone 7 (A1660)","35916807":"iPhone 7 (A1660)","35916107":"iPhone 7 (A1660)","35916207":"iPhone 7 (A1660)","35916507":"iPhone 7 (A1660)","35916307":"iPhone 7 (A1660)","35917007":"iPhone 7 (A1660)","35916607":"iPhone 7 (A1660)","35916707":"iPhone 7 (A1660)","35534108":"iPhone 7 (A1660)","35916407":"iPhone 7 (A1660)","35918307":"iPhone 7 (A1779)","35383508":"iPhone 7 (A1779)","35918507":"iPhone 7 (A1779)","35915007":"iPhone 7 (A1779)","35918407":"iPhone 7 (A1779)","35918107":"iPhone 7 (A1779)","35383708":"iPhone 7 (A1779)","35383608":"iPhone 7 (A1779)","35918207":"iPhone 7 (A1779)","35377808":"iPhone 7 (A1778)","35533808":"iPhone 7 (A1779)","35533908":"iPhone 7 (A1779)","35533608":"iPhone 7 (A1779)","35533708":"iPhone 7 (A1779)","35533508":"iPhone 7 (A1779)","35915407":"iPhone 7 (A1778)","35584508":"iPhone 7 (A1779)","35585208":"iPhone 7 (A1779)","35584808":"iPhone 7 (A1779)","35584608":"iPhone 7 (A1779)","35383308":"iPhone 7 (A1778)","35584708":"iPhone 7 (A1779)","35584908":"iPhone 7 (A1779)","35585008":"iPhone 7 (A1779)","35585108":"iPhone 7 (A1779)","35533408":"iPhone 7 (A1778)","35585308":"iPhone 7 (A1779)","35584408":"iPhone 7 (A1779)","35530108":"iPhone 7 (A1778)","35533308":"iPhone 7 (A1778)","35491209":"iPhone 7 (A1660)","01243000":"iPhone 4","35727609":"iPhone XS Max","35925406":"iPhone 6","35299209":"iPhone 8","35667808":"iPhone 6","35656108":"iPhone 7","35380108":"iPhone 6s","35544207":"iPhone SE","35104463":"iPhone 13","35018398":"iPhone","35648710":"iPhone SE"};
+var L="ar",root=document.documentElement,inp=document.getElementById("imei"),st=document.getElementById("st"),cnt=document.getElementById("cnt"),res=document.getElementById("res");
+function luhn(s){if(!/^\d{15}$/.test(s))return false;var n=0;for(var i=0;i<15;i++){var d=+s[i];if((14-i)%2===1){d*=2;if(d>9)d-=9}n+=d}return n%10===0}
+function msg(x,bad){res.textContent="";var b=document.createElement("b");b.textContent=(bad?"⚠️ ":"")+x;res.appendChild(b);res.hidden=false;try{res.scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}}
+function wa(svc,imei){return "https://wa.me/"+NUM+"?text="+encodeURIComponent(CONFIG.brandName+" - "+svc+(imei?" - IMEI: "+imei:""))}
+function upd(){
+  var v=inp.value.replace(/\D/g,"");if(v!==inp.value)inp.value=v;
+  cnt.textContent=v.length+"/15";res.hidden=true;var t=T[L];
+  if(!v){st.textContent="";st.className="status"}
+  else if(v.length<15){st.textContent=t.more;st.className="status"}
+  else if(luhn(v)){st.textContent=t.good;st.className="status ok"}
+  else{st.textContent=t.badm;st.className="status bad"}
+  document.querySelectorAll("[data-svc]").forEach(function(a){a.href=wa(a.dataset.svc,v.length===15?v:"")});
+}
+function lang(l){
+  L=l;var t=T[l];root.lang=l;root.dir=l==="ar"?"rtl":"ltr";
+  document.querySelectorAll("[data-i]").forEach(function(e){e.textContent=t[e.dataset.i]});
+  document.querySelector("[data-steps]").innerHTML=t.steps.map(function(s){return "<li></li>"}).join("");
+  document.querySelectorAll("[data-steps] li").forEach(function(li,i){li.textContent=t.steps[i]});
+  document.querySelectorAll(".seg:not(.cs) button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.l===l)});money();
+  upd();
+}
+document.querySelectorAll(".seg:not(.cs) button").forEach(function(b){b.onclick=function(){lang(b.dataset.l)}});
+document.getElementById("free").onclick=function(){
+  var v=inp.value,t=T[L];
+  if(!/^\d{15}$/.test(v)){st.textContent=t.need;st.className="status bad";msg(t.need,1);return}
+  if(!luhn(v)){st.textContent=t.badm;st.className="status bad";msg(t.badm,1);return}
+  var m=TAC[v.slice(0,8)],X={ar:["الموديل: ","غير موجود في قاعدة TAC المجانية، وهذا لا يعني أن الجهاز مزوّر فالقاعدة ناقصة للموديلات الحديثة.","المصدر: Osmocom TAC DB (CC-BY-SA 3.0). لا تكشف القائمة السوداء أو iCloud، وهي في الفحص المدفوع."],fr:["Modèle : ","Absent de la base TAC gratuite, ce qui ne veut pas dire que l'appareil est faux : la base est incomplète pour les modèles récents.","Source : Osmocom TAC DB (CC-BY-SA 3.0). Elle ne montre pas la blacklist ni iCloud (service payant)."],en:["Model: ","Not in the free TAC database. This does not mean the device is fake; the database is incomplete for recent models.","Source: Osmocom TAC DB (CC-BY-SA 3.0). It does not show blacklist or iCloud status (paid check)."]}[L];
+res.innerHTML="<b></b><span></span>";res.firstChild.textContent=m?"✅ "+X[0]+m:"✅ "+t.rt;res.lastChild.textContent=(m?"":X[1]+" ")+X[2];res.hidden=false;try{res.scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}
+};
+document.getElementById("paste").onclick=function(){
+  try{navigator.clipboard.readText().then(function(x){inp.value=x.replace(/\D/g,"").slice(0,15);upd()}).catch(function(){inp.focus()})}catch(e){inp.focus()}
+};
+var th=document.getElementById("theme");
+th.onclick=function(){var d=root.dataset.theme==="dark";root.dataset.theme=d?"light":"dark";th.textContent=d?"☀️":"🌙"};
+root.dataset.theme="dark";
+var RATES={USD:133.7,EUR:153.2},SYM={USD:"$",EUR:"€"},C="DZD";
+document.querySelectorAll(".price").forEach(function(p){p.dataset.d=parseInt(p.textContent)});
+function money(){
+  document.querySelectorAll(".price").forEach(function(p){
+    var d=+p.dataset.d,v=C==="DZD"?d:C==="USD"?d*3/400:Math.round(d/RATES[C]*10)/10;
+    var cur=C==="DZD"?(L==="ar"?"دج":"DZD"):SYM[C];
+    p.textContent=v;
+    var s=document.createElement("small");s.textContent=cur;p.appendChild(s);
+  });
+  document.querySelectorAll(".cs button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.c===C)});
+}
+document.querySelectorAll(".cs button").forEach(function(b){b.onclick=function(){C=b.dataset.c;money()}});
+inp.addEventListener("input",upd);
+var CP={ar:["إن لم يفتح واتساب تلقائيًا، استخدم أحد الخيارات:","فتح تطبيق واتساب","نسخ الرسالة","نسخ الرقم","تم النسخ ✓"],fr:["Si WhatsApp ne s'ouvre pas, utilisez :","Ouvrir l'app WhatsApp","Copier le message","Copier le numéro","Copié ✓"],en:["If WhatsApp does not open, use one of these:","Open WhatsApp app","Copy message","Copy number","Copied ✓"]};
+function cpy(txt,k,label){
+  var ok=function(){k.textContent=label[4]};
+  try{navigator.clipboard.writeText(txt).then(ok).catch(function(){})}catch(x){}
+  var t=document.createElement("textarea");t.value=txt;t.style.cssText="position:fixed;opacity:0";document.body.appendChild(t);t.select();
+  try{if(document.execCommand("copy"))ok()}catch(x){}t.remove();
+}
+function mk(n,label,txt,c){var k=document.createElement("button");k.className="btn y";k.textContent=label;k.onclick=function(){cpy(txt,k,c)};n.appendChild(k)}
+document.querySelectorAll("[data-svc]").forEach(function(a){a.addEventListener("click",function(){
+  var txt=decodeURIComponent(a.href.split("text=")[1]||""),c=CP[L];
+  var n=a.nextElementSibling;if(!n||!n.classList.contains("res")){n=document.createElement("div");n.className="res";a.after(n)}
+  n.textContent="";
+  var b=document.createElement("b");b.textContent=c[0];n.appendChild(b);
+  var p=document.createElement("span");p.textContent=txt+" — 0657241710";n.appendChild(p);
+  var d=document.createElement("a");d.className="btn y";d.href="whatsapp://send?phone="+NUM+"&text="+encodeURIComponent(txt);d.textContent=c[1];n.appendChild(d);
+  mk(n,c[2],txt,c);mk(n,c[3],"+"+NUM,c);
+ })});
+lang("ar");
+})();
+</script>
+</body>
+</html>
