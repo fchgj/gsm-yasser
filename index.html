@@ -391,25 +391,28 @@
             }
         }
 
+        // دالة الفحص (يمكنك ربطها بـ API حقيقي لاحقاً)
         function checkImei() {
             const imei = document.getElementById('imeiInput').value.trim();
-            if(!imei) {
-                alert(currentLang === 'ar' ? 'يرجى إدخال رقم الـ IMEI أو السيريال أولاً' : 'Please enter IMEI or Serial first');
+            if(imei.length !== 15 || isNaN(imei)) {
+                alert(currentLang === 'ar' ? 'الرجاء إدخال رقم IMEI صالح يتكون من 15 رقماً' : 'Please enter a valid 15-digit IMEI');
                 return;
             }
             alert((currentLang === 'ar' ? 'جاري الفحص المجاني للآيفون رقم: ' : 'Checking iPhone IMEI: ') + imei);
         }
 
+        // توجيه الطلب إلى واتساب مع دمج رقم الـ IMEI المدخل تلقائياً
         function orderWhatsApp(serviceName) {
             const imei = document.getElementById('imeiInput').value.trim();
-            const phone = "213000000000"; // استبدل هذا برقم هاتفك مع الرمز الدولي
+            const phone = "213000000000"; // قم بتغيير هذا الرقم إلى رقم هاتفك مع الرمز الدولي
+            
             let msg = currentLang === 'ar' 
-                ? `مرحباً، أود طلب خدمة (${serviceName}) للآيفون. رقم الـ IMEI: ${imei || 'لم يتم إدخاله بعد'}`
-                : `Hello, I would like to order (${serviceName}) for iPhone. IMEI: ${imei || 'Not entered'}`;
+                ? `مرحباً، أود طلب خدمة (${serviceName}) للآيفون.\nرقم الـ IMEI: ${imei || 'لم يتم إدخاله'}`
+                : `Hello, I would like to order (${serviceName}) for iPhone.\nIMEI: ${imei || 'Not entered'}`;
             
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
     </script>
 </body>
-        </html>
+    </html>
     
