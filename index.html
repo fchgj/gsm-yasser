@@ -31,7 +31,7 @@
             --input-border: #ccd0d5;
             --btn-primary: #0084ff;
             --btn-primary-hover: #006dd6;
-            --accent-yellow: #e17055;
+            --accent-yellow: #d97706;
             --whatsapp-bg: #25d366;
             --whatsapp-hover: #1ebe5d;
             --whatsapp-text: #ffffff;
@@ -44,12 +44,12 @@
 
         /* Top Bar */
         .top-bar { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 10px 15px; border-radius: 12px; border: 1px solid var(--card-border); }
-        .lang-group, .currency-group { display: flex; gap: 5px; }
-        .badge-btn { background: var(--input-border); border: none; color: var(--text-color); padding: 6px 10px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: bold; }
-        .badge-btn.active { background: var(--accent-yellow); color: #000; }
+        .lang-group, .currency-group-bar { display: flex; gap: 5px; }
+        .badge-btn { background: var(--input-border); border: none; color: var(--text-color); padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: bold; }
+        .badge-btn.active { background: var(--accent-yellow) !important; color: #000 !important; }
         
         .icons-group { display: flex; gap: 8px; align-items: center; }
-        .icon-btn { background: var(--input-border); border: none; color: var(--text-color); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .icon-btn { background: var(--input-border); border: none; color: var(--text-color); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 
         .logo-area { text-align: center; }
         .logo-area h2 { color: var(--accent-yellow); font-size: 22px; letter-spacing: 1px; }
@@ -61,7 +61,6 @@
         
         .imei-input-box { background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; display: flex; align-items: center; padding: 0 12px; }
         .imei-input-box input { width: 100%; background: transparent; border: none; color: var(--text-color); padding: 14px 0; font-size: 16px; text-align: center; letter-spacing: 1px; outline: none; }
-        .paste-icon { color: var(--subtext-color); cursor: pointer; font-size: 16px; }
 
         /* Free Service Card */
         .free-service-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 15px; }
@@ -74,13 +73,16 @@
         .btn-action:hover { opacity: 0.9; }
         .btn-action:disabled { background: #64748b; cursor: not-allowed; }
 
-        /* Premium Services */
+        /* Premium Services & Clear Pricing Display */
         .section-title { text-align: center; font-size: 13px; color: var(--subtext-color); margin: 5px 0; font-weight: bold; }
         
         .paid-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 15px; position: relative; }
-        .price-tag { position: absolute; top: 15px; left: 15px; color: var(--accent-yellow); font-weight: bold; font-size: 15px; background: rgba(245, 158, 11, 0.1); padding: 4px 8px; border-radius: 8px; }
+        .price-tag { position: absolute; top: 12px; right: 15px; color: #000; background: var(--accent-yellow); font-weight: bold; font-size: 14px; padding: 4px 10px; border-radius: 8px; display: inline-block; }
+        [dir="rtl"] .price-tag { right: auto; left: 15px; }
         
-        .paid-title { font-size: 15px; font-weight: bold; margin-bottom: 4px; padding-right: 85px; }
+        .paid-title { font-size: 15px; font-weight: bold; margin-bottom: 4px; padding-right: 90px; }
+        [dir="rtl"] .paid-title { padding-right: 0; padding-left: 90px; }
+        
         .paid-desc { font-size: 12px; color: var(--subtext-color); margin-bottom: 12px; }
         
         .btn-whatsapp { background: var(--whatsapp-bg); color: var(--whatsapp-text); border: none; width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
@@ -99,16 +101,15 @@
 <body>
 
 <div class="main-container">
-    <!-- Top Bar -->
+    <!-- Top Bar: Languages & Theme -->
     <div class="top-bar">
         <div class="lang-group">
-            <button class="badge-btn" onclick="setLang('ar')" id="btnAr">العربية</button>
-            <button class="badge-btn" onclick="setLang('fr')" id="btnFr">Français</button>
-            <button class="badge-btn active" onclick="setLang('en')" id="btnEn">EN</button>
+            <button class="badge-btn" id="btnAr">العربية</button>
+            <button class="badge-btn" id="btnFr">Français</button>
+            <button class="badge-btn active" id="btnEn">EN</button>
         </div>
         <div class="icons-group">
-            <button class="icon-btn" onclick="toggleTheme()" id="themeIcon" title="Toggle Theme">🌙</button>
-            <button class="icon-btn" title="Settings">⚙️</button>
+            <button class="icon-btn" id="themeIcon" title="Toggle Light/Dark Theme">🌙</button>
         </div>
     </div>
 
@@ -116,14 +117,14 @@
         <h2 id="txtBrand">GSM YASSER</h2>
     </div>
 
-    <!-- Currency Bar -->
+    <!-- Currency Switcher Bar -->
     <div class="top-bar currency-group-bar" style="justify-content: center; gap: 10px;">
-        <button class="badge-btn" onclick="setCurrency('EUR')" id="currEur">€ EUR</button>
-        <button class="badge-btn" onclick="setCurrency('USD')" id="currUsd">$ USD</button>
-        <button class="badge-btn active" onclick="setCurrency('DZD')" id="currDzd">DZD</button>
+        <button class="badge-btn" id="currEur">€ EUR</button>
+        <button class="badge-btn" id="currUsd">$ USD</button>
+        <button class="badge-btn active" id="currDzd">DZD</button>
     </div>
 
-    <!-- IMEI Card -->
+    <!-- IMEI Input Card -->
     <div class="imei-card">
         <div class="imei-header">
             <span id="txtImeiLabel">Serial Number / IMEI</span>
@@ -131,7 +132,6 @@
         </div>
         <div class="imei-input-box">
             <input type="text" id="imeiInput" placeholder="35XXXXXXXXXXXXXXXXX" maxlength="15" autocomplete="off">
-            <span class="paste-icon" onclick="pasteImei()" title="Paste">📋</span>
         </div>
     </div>
 
@@ -142,7 +142,7 @@
             <span class="tag-free" id="txtFreeTag">Free</span>
         </div>
         <div class="service-desc" id="txtFreeDesc">No WhatsApp • Shows device specifications instantly</div>
-        <button id="searchBtn" class="btn-action" onclick="checkImei()">Check Now - 0 DZD</button>
+        <button id="searchBtn" class="btn-action">Check Now - 0 DZD</button>
         <div id="resultBox" class="result-box"></div>
     </div>
 
@@ -190,16 +190,17 @@
     </div>
 
     <div class="footer-note" id="txtFooter">
-        GSM YASSER • WhatsApp: 0657241710 • Exclusive for iPhone devices. To find IMEI dial *#06#.
+        GSM YASSER • WhatsApp: 0657241710 • Exclusive for iPhone devices.
     </div>
 </div>
 
 <script>
+    // 🔑 Replace with your personal key once provided
     const PERSONAL_API_KEY = ""; 
 
     let currentLang = 'en';
     let currentCurrency = 'DZD';
-    let isLocked = false; // Debounce protection
+    let isLocked = false; // Debounce Protection Lock
 
     const translations = {
         en: {
@@ -254,21 +255,20 @@
             proTitle: "فحص FULL PRO شامل",
             proDesc: "الكل في تقرير PDF واحد",
             waBtn: "اطلب عبر واتساب",
-            footer: "GSM YASSER • واتساب: 0657241710 • الخدمة للأجهزة iPhone فقط. لمعرفة الـ IMEI اتصل بـ *#06#."
+            footer: "GSM YASSER • واتساب: 0657241710 • الخدمة للأجهزة iPhone فقط."
         }
     };
 
-    function toggleTheme() {
-        const body = document.body;
-        const themeIcon = document.getElementById('themeIcon');
-        if (body.classList.contains('light-mode')) {
-            body.classList.remove('light-mode');
-            themeIcon.innerText = '🌙';
-        } else {
-            body.classList.add('light-mode');
-            themeIcon.innerText = '☀️';
-        }
-    }
+    // 1. Theme Switcher Event Listener
+    document.getElementById('themeIcon').addEventListener('click', function() {
+        document.body.classList.toggle('light-mode');
+        this.innerText = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+    });
+
+    // 2. Language Switcher Event Listeners
+    document.getElementById('btnAr').addEventListener('click', () => setLang('ar'));
+    document.getElementById('btnFr').addEventListener('click', () => setLang('fr'));
+    document.getElementById('btnEn').addEventListener('click', () => setLang('en'));
 
     function setLang(lang) {
         currentLang = lang;
@@ -303,6 +303,11 @@
         setCurrency(currentCurrency);
     }
 
+    // 3. Currency Switcher Event Listeners
+    document.getElementById('currEur').addEventListener('click', () => setCurrency('EUR'));
+    document.getElementById('currUsd').addEventListener('click', () => setCurrency('USD'));
+    document.getElementById('currDzd').addEventListener('click', () => setCurrency('DZD'));
+
     function setCurrency(curr) {
         currentCurrency = curr;
         document.querySelectorAll('.currency-group-bar .badge-btn').forEach(b => b.classList.remove('active'));
@@ -313,11 +318,11 @@
         let p1 = "400 DZD", p2 = "800 DZD", freeText = "Check Now - 0 DZD";
         if(curr === 'EUR') { 
             p1 = "2 €"; p2 = "4 €"; 
-            freeText = "Check Now - 0 €";
+            freeText = currentLang === 'ar' ? "تحقق الآن - 0 €" : (currentLang === 'fr' ? "Vérifier - 0 €" : "Check Now - 0 €");
         }
         if(curr === 'USD') { 
             p1 = "$2"; p2 = "$4"; 
-            freeText = "Check Now - 0 $";
+            freeText = currentLang === 'ar' ? "تحقق الآن - 0 $" : (currentLang === 'fr' ? "Vérifier - 0 $" : "Check Now - 0 $");
         }
         if(curr === 'DZD') {
             if(currentLang === 'ar') { p1 = "400 د.ج"; p2 = "800 د.ج"; freeText = "تحقق الآن - 0 د.ج"; }
@@ -325,6 +330,7 @@
             if(currentLang === 'en') { p1 = "400 DZD"; p2 = "800 DZD"; freeText = "Check Now - 0 DZD"; }
         }
 
+        // Updating Prices Clearly
         document.getElementById('price1').innerText = p1;
         document.getElementById('price2').innerText = p1;
         document.getElementById('price3').innerText = p1;
@@ -332,17 +338,11 @@
         document.getElementById('searchBtn').innerText = freeText;
     }
 
-    async function pasteImei() {
-        try {
-            const text = await navigator.clipboard.readText();
-            document.getElementById('imeiInput').value = text.trim();
-        } catch (err) {
-            alert('Please paste IMEI manually.');
-        }
-    }
+    // 4. Strict Filtering & Debounce Checking
+    document.getElementById('searchBtn').addEventListener('click', checkImei);
 
     async function checkImei() {
-        if (isLocked) return;
+        if (isLocked) return; // Debounce Lock Protection
 
         const imeiInput = document.getElementById('imeiInput');
         const searchBtn = document.getElementById('searchBtn');
@@ -355,10 +355,11 @@
             return;
         }
 
+        // Lock button (Debounce) to protect API resources
         isLocked = true;
         searchBtn.disabled = true;
         resultBox.style.display = 'block';
-        resultBox.innerHTML = '⏳ Checking IMEI and querying specifications...';
+        resultBox.innerHTML = '⏳ Checking IMEI specifications...';
 
         let apiUrl = `https://alpha.imeicheck.com/api/modelBrandName?imei=${imei}&format=json`;
         if (PERSONAL_API_KEY) {
@@ -372,7 +373,7 @@
             const brand = (data.brand || '').toLowerCase();
             const model = data.model || '';
 
-            // فلترة صارمة لحماية رصيد الـ API في حال لم يكن الجهاز آيفون
+            // Strict Apple/iPhone Filtering
             if (brand.includes('apple') || model.toLowerCase().includes('iphone')) {
                 resultBox.innerHTML = `
                     <div style="color: #10b981; font-weight: bold; margin-bottom: 8px;">✅ Free iPhone Check Successful:</div>
@@ -383,13 +384,5 @@
                     </table>
                 `;
             } else {
-                resultBox.innerHTML = `⚠️ <b>Notice:</b> This device belongs to (${data.brand || 'Unknown'}). GSM Yasser is exclusively dedicated to <b>iPhone</b> devices!`;
-            }
-        } catch (error) {
-            resultBox.innerHTML = `
-                <div style="color: #f59e0b; font-weight: bold;">🛠️ Tool Ready (Awaiting API Key):</div>
-                • Entered IMEI: <b>${imei}</b><br>
-                <span style="font-size: 11px; color: var(--subtext-color);">(Live results will appear once your personal API key is integrated)[span_0](start_span)[span_0](end_span).</span>
-            `;
-        } finally {
-            // حماية Debounce:
+                // Instant Warning for non-Apple devices to preserve API limits
+                resultBox.innerHTML = `⚠️ <b>Notice:</b> This device belongs to (${data.brand || 'Other Brand'}). GSM Yasser is exclusively dedicated to <b>iPhone</
