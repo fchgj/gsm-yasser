@@ -56,7 +56,6 @@
             gap: 15px;
         }
 
-        /* Top Controls Bar */
         .top-controls {
             display: flex;
             justify-content: space-between;
@@ -241,20 +240,16 @@
 
     <div class="main-container">
         
-        <!-- Top Controls Bar -->
         <div class="top-controls">
-            <!-- Language Switcher -->
             <div class="control-group">
                 <button class="ctrl-btn" id="langAr" onclick="setLanguage('ar')">AR</button>
                 <button class="ctrl-btn active" id="langEn" onclick="setLanguage('en')">EN</button>
             </div>
-            <!-- Currency Switcher -->
             <div class="control-group">
                 <button class="ctrl-btn active" onclick="setCurrency('DZD', this)">DZD</button>
                 <button class="ctrl-btn" onclick="setCurrency('USD', this)">USD</button>
                 <button class="ctrl-btn" onclick="setCurrency('EUR', this)">EUR</button>
             </div>
-            <!-- Theme Toggle -->
             <div class="control-group">
                 <button class="ctrl-btn" id="themeToggle" onclick="toggleTheme()">☀️ / 🌙</button>
             </div>
@@ -264,7 +259,6 @@
             <h1 id="siteTitle">GSM YASSER - iPhone Checker</h1>
         </div>
 
-        <!-- Free iPhone Check -->
         <div class="input-box">
             <label id="lblImei">iPhone Serial / IMEI Number</label>
             <div class="input-wrapper">
@@ -277,14 +271,12 @@
             </button>
         </div>
 
-        <!-- Testimonials Bar -->
         <div class="testimonials" id="testimonialText">
             ⭐ <span>Fast & Trusted Service</span> - Over 1,000+ iPhones Checked Successfully!
         </div>
 
         <div class="services-title" id="lblServices">iPhone Premium Services</div>
 
-        <!-- Service 1: Network Lock -->
         <div class="service-card">
             <div class="price-tag"><span class="price" data-dzd="400" data-usd="2" data-eur="1.8">400</span> <span class="curr">DZD</span></div>
             <div class="service-title" id="s1Title">Network Lock Check</div>
@@ -292,7 +284,6 @@
             <a href="#" class="btn-whatsapp" onclick="orderWhatsApp('Network Lock Check')"><span id="btnOrder1">Order via WhatsApp</span> ↗</a>
         </div>
 
-        <!-- Service 2: iCloud Check -->
         <div class="service-card">
             <div class="price-tag"><span class="price" data-dzd="400" data-usd="2" data-eur="1.8">400</span> <span class="curr">DZD</span></div>
             <div class="service-title" id="s2Title">iCloud / Find My Check</div>
@@ -300,7 +291,6 @@
             <a href="#" class="btn-whatsapp" onclick="orderWhatsApp('iCloud Check')"><span id="btnOrder2">Order via WhatsApp</span> ↗</a>
         </div>
 
-        <!-- Service 3: FULL PRO Report -->
         <div class="service-card" style="border-color: var(--accent-color);">
             <div class="price-tag"><span class="price" data-dzd="800" data-usd="4" data-eur="3.6">800</span> <span class="curr">DZD</span></div>
             <div class="service-title" id="s3Title">FULL PRO iPhone Report</div>
@@ -404,7 +394,6 @@
             document.getElementById('imeiInput').focus();
         }
 
-        // دالة الفحص المجاني المُحدثة (تعرض اسم الجهاز، الإصدار، التاريخ، وتوجيه لطلب الخدمة المدفوعة أدناه)
         async function checkImei() {
             const imei = document.getElementById('imeiInput').value.trim();
             const spinner = document.getElementById('loadingSpinner');
@@ -418,44 +407,29 @@
             spinner.style.display = 'block';
             btnText.style.display = 'none';
 
+            const currentDate = new Date().toLocaleDateString();
+            let modelName = 'Apple iPhone';
+            let osSpecs = 'iOS Supported';
+
             try {
                 const response = await fetch(`https://iuni.my.id/api/imei?imei=${imei}`);
                 const result = await response.json();
 
-                spinner.style.display = 'none';
-                btnText.style.display = 'inline';
-
-                const currentDate = new Date().toLocaleDateString();
-
                 if(result && result.status && result.data) {
-                    const info = result.data;
-                    const modelName = info.model || 'iPhone Device';
-                    const osSpecs = info.specs || 'iOS Supported';
-
-                    if (currentLang === 'ar') {
-                        alert(`📱 تم استلام الـ IMEI بنجاح:\n${imei}\n\n• اسم الجهاز: ${modelName}\n• إصدار / مواصفات: ${osSpecs}\n• تاريخ الفحص: ${currentDate}\n\nيرجى طلب الخدمات المدفوعة أدناه.`);
-                    } else {
-                        alert(`📱 IMEI Received Successfully:\n${imei}\n\n• Device Model: ${modelName}\n• Specs / Version: ${osSpecs}\n• Check Date: ${currentDate}\n\nPlease order the paid services below.`);
-                    }
-                } else {
-                    const currentDate = new Date().toLocaleDateString();
-                    if (currentLang === 'ar') {
-                        alert(`📱 تم استلام الـ IMEI بنجاح:\n${imei}\n\n• اسم الجهاز: Apple iPhone\n• إصدار / مواصفات: iOS Latest\n• تاريخ الفحص: ${currentDate}\n\nيرجى طلب الخدمات المدفوعة أدناه.`);
-                    } else {
-                        alert(`📱 IMEI Received Successfully:\n${imei}\n\n• Device Model: Apple iPhone\n• Specs / Version: iOS Latest\n• Check Date: ${currentDate}\n\nPlease order the paid services below.`);
-                    }
+                    if(result.data.model) modelName = result.data.model;
+                    if(result.data.specs) osSpecs = result.data.specs;
                 }
-
             } catch (error) {
-                spinner.style.display = 'none';
-                btnText.style.display = 'inline';
-                const currentDate = new Date().toLocaleDateString();
-                
-                if (currentLang === 'ar') {
-                    alert(`📱 تم استلام الـ IMEI بنجاح:\n${imei}\n\n• اسم الجهاز: Apple iPhone\n• إصدار / مواصفات: iOS Standard\n• تاريخ الفحص: ${currentDate}\n\nيرجى طلب الخدمات المدفوعة أدناه.`);
-                } else {
-                    alert(`📱 IMEI Received Successfully:\n${imei}\n\n• Device Model: Apple iPhone\n• Specs / Version: iOS Standard\n• Check Date: ${currentDate}\n\nPlease order the paid services below.`);
-                }
+                console.error('API fetch error', error);
+            }
+
+            spinner.style.display = 'none';
+            btnText.style.display = 'inline';
+
+            if (currentLang === 'ar') {
+                alert(`📱 تم استلام الـ IMEI بنجاح:\n${imei}\n\n• اسم الجهاز: ${modelName}\n• إصدار / مواصفات: ${osSpecs}\n• تاريخ الفحص: ${currentDate}\n\nيرجى طلب الخدمات المدفوعة أدناه.`);
+            } else {
+                alert(`📱 IMEI Received Successfully:\n${imei}\n\n• Device Model: ${modelName}\n• Specs / Version: ${osSpecs}\n• Check Date: ${currentDate}\n\nPlease order the paid services below.`);
             }
         }
 
@@ -471,5 +445,5 @@
         }
     </script>
 </body>
-        </html>
-                    
+                </html>
+    
