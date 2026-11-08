@@ -1,23 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl" id="htmlTag">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0d1117">
-    <title>GSM YASSER - Mobile Only</title>
+    <meta name="theme-color" content="#0d1117" id="themeColorMeta">
+    <title>GSM YASSER - iPhone IMEI Checker</title>
     
     <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+            --text-color: #ffffff;
+            --text-muted: #8b949e;
+            --accent-color: #eab308;
+            --btn-free: #10b981;
+            --btn-wa: #f59e0b;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --border-color: #d1d5db;
+            --text-color: #1f2937;
+            --text-muted: #6b7280;
+            --accent-color: #d97706;
+            --btn-free: #059669;
+            --btn-wa: #d97706;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             -webkit-user-select: text !important;
             user-select: text !important;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         body {
-            background-color: #0d1117;
-            color: #ffffff;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             font-family: system-ui, -apple-system, sans-serif;
             display: flex;
             justify-content: center;
@@ -25,7 +48,7 @@
             padding: 15px;
         }
 
-        /* شاشة الحظر الخاصة بالكمبيوتر */
+        /* شاشة حظر الكمبيوتر */
         #desktop-blocker {
             display: none;
             position: fixed;
@@ -33,7 +56,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #0d1117;
+            background-color: var(--bg-color);
             z-index: 99999;
             justify-content: center;
             align-items: center;
@@ -42,26 +65,23 @@
         }
 
         .blocker-box {
-            background: #161b22;
-            border: 1px solid #30363d;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             padding: 30px;
             border-radius: 15px;
             max-width: 400px;
         }
 
         .blocker-box h2 {
-            color: #eab308;
+            color: var(--accent-color);
             margin-bottom: 10px;
-            font-size: 1.3rem;
         }
 
         .blocker-box p {
-            color: #8b949e;
+            color: var(--text-muted);
             font-size: 0.95rem;
-            line-height: 1.5;
         }
 
-        /* حاوية الأداة العادية */
         .main-container {
             width: 100%;
             max-width: 480px;
@@ -70,20 +90,52 @@
             gap: 15px;
         }
 
+        /* شريط التحكم العلوي */
+        .top-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 10px;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 5px;
+        }
+
+        .ctrl-btn {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .ctrl-btn.active {
+            background: var(--accent-color);
+            color: #000;
+            font-weight: bold;
+            border-color: var(--accent-color);
+        }
+
         .header {
             text-align: center;
-            padding: 10px 0;
+            padding: 5px 0;
         }
 
         .header h1 {
-            color: #eab308;
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+            color: var(--accent-color);
+            font-size: 1.4rem;
         }
 
         .input-box {
-            background: #161b22;
-            border: 1px solid #30363d;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 15px;
         }
@@ -91,17 +143,17 @@
         .input-box label {
             display: block;
             font-size: 0.85rem;
-            color: #8b949e;
+            color: var(--text-muted);
             margin-bottom: 8px;
         }
 
         .input-box input {
             width: 100%;
             padding: 12px;
-            background: #0d1117;
-            border: 1px solid #30363d;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            color: #fff;
+            color: var(--text-color);
             text-align: center;
             font-size: 1rem;
             letter-spacing: 1px;
@@ -110,7 +162,7 @@
         .btn-check {
             width: 100%;
             padding: 14px;
-            background: #10b981;
+            background: var(--btn-free);
             border: none;
             border-radius: 8px;
             color: #fff;
@@ -122,20 +174,20 @@
 
         .services-title {
             text-align: center;
-            color: #eab308;
+            color: var(--accent-color);
             font-size: 1rem;
-            margin: 10px 0 5px;
+            margin: 5px 0;
         }
 
         .service-card {
-            background: #161b22;
-            border: 1px solid #30363d;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 15px;
         }
 
         .price-tag {
-            color: #eab308;
+            color: var(--accent-color);
             font-weight: bold;
             font-size: 0.9rem;
             margin-bottom: 4px;
@@ -149,7 +201,7 @@
 
         .service-desc {
             font-size: 0.75rem;
-            color: #8b949e;
+            color: var(--text-muted);
             margin-bottom: 12px;
         }
 
@@ -157,7 +209,7 @@
             display: block;
             width: 100%;
             padding: 12px;
-            background: #f59e0b;
+            background: var(--btn-wa);
             color: #000;
             text-align: center;
             text-decoration: none;
@@ -169,73 +221,195 @@
 </head>
 <body>
 
-    <!-- شاشة الحظر تظهر فقط للكمبيوتر -->
+    <!-- شاشة حظر الكمبيوتر -->
     <div id="desktop-blocker">
         <div class="blocker-box">
-            <h2>Access Denied</h2>
-            <p>This tool is designed exclusively for mobile devices. Please open the link using your smartphone.</p>
+            <h2 id="blockTitle">عذراً، الأداة مخصصة للهواتف</h2>
+            <p id="blockDesc">يرجى فتح الرابط من هاتفك الذكي حصراً.</p>
         </div>
     </div>
 
-    <!-- محتوى الأداة يظهر للهواتف فقط -->
     <div class="main-container">
+        
+        <!-- شريط التحكم العلوي -->
+        <div class="top-controls">
+            <!-- تبديل اللغة -->
+            <div class="control-group">
+                <button class="ctrl-btn active" id="langAr" onclick="setLanguage('ar')">AR</button>
+                <button class="ctrl-btn" id="langEn" onclick="setLanguage('en')">EN</button>
+            </div>
+            <!-- تبديل العملة -->
+            <div class="control-group">
+                <button class="ctrl-btn active" onclick="setCurrency('DZD', this)">DZD</button>
+                <button class="ctrl-btn" onclick="setCurrency('USD', this)">USD</button>
+                <button class="ctrl-btn" onclick="setCurrency('EUR', this)">EUR</button>
+            </div>
+            <!-- الوضع الداكن والفاتح -->
+            <div class="control-group">
+                <button class="ctrl-btn" id="themeToggle" onclick="toggleTheme()">☀️ / 🌙</button>
+            </div>
+        </div>
+
         <div class="header">
-            <h1>GSM YASSER</h1>
+            <h1 id="siteTitle">GSM YASSER - iPhone</h1>
         </div>
 
+        <!-- فحص مجاني للآيفون -->
         <div class="input-box">
-            <label>Serial Number / IMEI</label>
-            <input type="text" id="imeiInput" placeholder="Enter IMEI here">
-            <button class="btn-check" onclick="checkImei()">Check Now - 0 DZD</button>
+            <label id="lblImei">iPhone Serial / IMEI</label>
+            <input type="text" id="imeiInput" placeholder="Enter iPhone IMEI">
+            <button class="btn-check" id="btnFreeCheck" onclick="checkImei()">Free iPhone Check - 0</button>
         </div>
 
-        <div class="services-title">Premium Services</div>
+        <div class="services-title" id="lblServices">iPhone Premium Services</div>
 
+        <!-- خدمة 1: قفل الشبكة -->
         <div class="service-card">
-            <div class="price-tag">400 DZD</div>
-            <div class="service-title">Network Lock Check</div>
-            <div class="service-desc">Carrier Lock • Network • Sim Status</div>
-            <a href="https://wa.me/213000000000?text=I%20would%20like%20to%20order%20Network%20Lock%20Check" class="btn-whatsapp">Order via WhatsApp ↗</a>
+            <div class="price-tag"><span class="price" data-dzd="400" data-usd="2" data-eur="1.8">400</span> <span class="curr">DZD</span></div>
+            <div class="service-title" id="s1Title">Network Lock Check</div>
+            <div class="service-desc" id="s1Desc">Carrier • Sim Lock Status</div>
+            <a href="#" class="btn-whatsapp" onclick="orderWhatsApp('Network Lock Check')"><span id="btnOrder1">Order via WhatsApp</span> ↗</a>
         </div>
 
+        <!-- خدمة 2: آي كلاود -->
         <div class="service-card">
-            <div class="price-tag">400 DZD</div>
-            <div class="service-title">iCloud / Find My Check</div>
-            <div class="service-desc">iCloud Lock • Find My iPhone Status</div>
-            <a href="https://wa.me/213000000000?text=I%20would%20like%20to%20order%20iCloud%20Check" class="btn-whatsapp">Order via WhatsApp ↗</a>
+            <div class="price-tag"><span class="price" data-dzd="400" data-usd="2" data-eur="1.8">400</span> <span class="curr">DZD</span></div>
+            <div class="service-title" id="s2Title">iCloud / Find My Check</div>
+            <div class="service-desc" id="s2Desc">iCloud Lock • Lost/Clean Status</div>
+            <a href="#" class="btn-whatsapp" onclick="orderWhatsApp('iCloud Check')"><span id="btnOrder2">Order via WhatsApp</span> ↗</a>
         </div>
 
-        <div class="service-card">
-            <div class="price-tag">400 DZD</div>
-            <div class="service-title">Blacklist Check</div>
-            <div class="service-desc">Stolen • Lost • Blocked</div>
-            <a href="https://wa.me/213000000000?text=I%20would%20like%20to%20order%20Blacklist%20Check" class="btn-whatsapp">Order via WhatsApp ↗</a>
+        <!-- خدمة 3: الفحص الشامل المدفوع (Full Pro) -->
+        <div class="service-card" style="border-color: var(--accent-color);">
+            <div class="price-tag"><span class="price" data-dzd="800" data-usd="4" data-eur="3.6">800</span> <span class="curr">DZD</span></div>
+            <div class="service-title" id="s3Title">FULL PRO iPhone Report</div>
+            <div class="service-desc" id="s3Desc">Full details: Carrier, Warranty, Blacklist, iCloud, Country</div>
+            <a href="#" class="btn-whatsapp" onclick="orderWhatsApp('FULL PRO iPhone Report')"><span id="btnOrder3">Order via WhatsApp</span> ↗</a>
         </div>
+
     </div>
 
     <script>
-        // سكربت فحص نوع الجهاز وتفعيل الحظر للكمبيوتر
+        // التحقق من نوع الجهاز (منع الكمبيوتر)
         function checkDevice() {
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
             if (!isMobile) {
-                // إذا كان كمبيوتر، إظهار شاشة الحظر وإخفاء محتوى الأداة
                 document.getElementById('desktop-blocker').style.display = 'flex';
                 document.querySelector('.main-container').style.display = 'none';
             }
         }
-
-        // تشغيل الفحص فور تحميل الصفحة
         window.onload = checkDevice;
 
+        let currentLang = 'ar';
+        let currentCurrency = 'DZD';
+
+        const translations = {
+            ar: {
+                blockTitle: "عذراً، الأداة مخصصة للهواتف فقط",
+                blockDesc: "يرجى فتح الرابط من هاتفك الذكي للاستفادة من خدمات الأيفون.",
+                siteTitle: "GSM YASSER - فحص الآيفون",
+                lblImei: "رقم الـ IMEI أو السيريال الخاص بالآيفون",
+                btnFreeCheck: "فحص آيفون مجاني - 0",
+                lblServices: "خدمات الآيفون المدفوعة والشاملة",
+                s1Title: "فحص قفل الشبكة (Carrier)",
+                s1Desc: "معرفة الشبكة الأصلية وحالة القفل",
+                s2Title: "فحص iCloud / Find My",
+                s2Desc: "معرفة حالة قفل iCloud (نظيف أو مفقود)",
+                s3Title: "تقرير FULL PRO الشامل للآيفون",
+                s3Desc: "تقرير كامل يضم الضمان، الشبكة، القائمة السوداء، والآي كلاود",
+                btnOrder: "اطلب عبر واتساب"
+            },
+            en: {
+                blockTitle: "Access Denied - Mobile Only",
+                blockDesc: "Please open this link using your smartphone.",
+                siteTitle: "GSM YASSER - iPhone Checker",
+                lblImei: "iPhone Serial / IMEI Number",
+                btnFreeCheck: "Free iPhone Check - 0",
+                lblServices: "iPhone Premium Services",
+                s1Title: "Network Lock Check",
+                s1Desc: "Carrier & SIM Lock Status",
+                s2Title: "iCloud / Find My Check",
+                s2Desc: "iCloud Lock & Lost Mode Status",
+                s3Title: "FULL PRO iPhone Report",
+                s3Desc: "Complete report including Warranty, Carrier, Blacklist & iCloud",
+                btnOrder: "Order via WhatsApp"
+            }
+        };
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+            document.getElementById('htmlTag').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            
+            document.getElementById('langAr').classList.toggle('active', lang === 'ar');
+            document.getElementById('langEn').classList.toggle('active', lang === 'en');
+
+            const t = translations[lang];
+            document.getElementById('blockTitle').innerText = t.blockTitle;
+            document.getElementById('blockDesc').innerText = t.blockDesc;
+            document.getElementById('siteTitle').innerText = t.siteTitle;
+            document.getElementById('lblImei').innerText = t.lblImei;
+            document.getElementById('btnFreeCheck').innerText = t.btnFreeCheck + " " + currentCurrency;
+            document.getElementById('lblServices').innerText = t.lblServices;
+            document.getElementById('s1Title').innerText = t.s1Title;
+            document.getElementById('s1Desc').innerText = t.s1Desc;
+            document.getElementById('s2Title').innerText = t.s2Title;
+            document.getElementById('s2Desc').innerText = t.s2Desc;
+            document.getElementById('s3Title').innerText = t.s3Title;
+            document.getElementById('s3Desc').innerText = t.s3Desc;
+            
+            document.getElementById('btnOrder1').innerText = t.btnOrder;
+            document.getElementById('btnOrder2').innerText = t.btnOrder;
+            document.getElementById('btnOrder3').innerText = t.btnOrder;
+        }
+
+        function setCurrency(curr, btn) {
+            currentCurrency = curr;
+            document.querySelectorAll('.control-group')[1].querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('.price').forEach(el => {
+                el.innerText = el.getAttribute('data-' + curr.toLowerCase());
+            });
+            document.querySelectorAll('.curr').forEach(el => {
+                el.innerText = curr;
+            });
+            
+            const t = translations[currentLang];
+            document.getElementById('btnFreeCheck').innerText = t.btnFreeCheck + " " + curr;
+        }
+
+        function toggleTheme() {
+            const html = document.getElementById('htmlTag');
+            const currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                html.removeAttribute('data-theme');
+                document.getElementById('themeColorMeta').setAttribute('content', '#0d1117');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                document.getElementById('themeColorMeta').setAttribute('content', '#f3f4f6');
+            }
+        }
+
         function checkImei() {
-            const imei = document.getElementById('imeiInput').value;
+            const imei = document.getElementById('imeiInput').value.trim();
             if(!imei) {
-                alert('Please enter your IMEI number first');
+                alert(currentLang === 'ar' ? 'يرجى إدخال رقم الـ IMEI أو السيريال أولاً' : 'Please enter IMEI or Serial first');
                 return;
             }
-            alert('Checking IMEI: ' + imei);
+            alert((currentLang === 'ar' ? 'جاري الفحص المجاني للآيفون رقم: ' : 'Checking iPhone IMEI: ') + imei);
+        }
+
+        function orderWhatsApp(serviceName) {
+            const imei = document.getElementById('imeiInput').value.trim();
+            const phone = "213000000000"; // استبدل هذا برقم هاتفك مع الرمز الدولي
+            let msg = currentLang === 'ar' 
+                ? `مرحباً، أود طلب خدمة (${serviceName}) للآيفون. رقم الـ IMEI: ${imei || 'لم يتم إدخاله بعد'}`
+                : `Hello, I would like to order (${serviceName}) for iPhone. IMEI: ${imei || 'Not entered'}`;
+            
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
     </script>
 </body>
-</html>
+    </html>
+                    
