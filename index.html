@@ -260,7 +260,7 @@
 <body>
 
 <div class="container">
-    <!-- Header & Language / Theme Controls -->
+    <!-- Header -->
     <div class="header">
         <div style="display: flex; gap: 4px; align-items: center;">
             <div class="lang-group">
@@ -305,7 +305,7 @@
         <button class="btn-green" onclick="runFreeCheck()">تحقق الآن - <span class="val-free">0 د.ج</span></button>
     </div>
 
-    <!-- Detailed Free Results Box (فحص مجاني شامل لايفون) -->
+    <!-- Detailed Free Results Box -->
     <div class="card" id="resultCard" style="display:none;">
         <div class="card-header">
             <span style="color: var(--accent-green); font-weight: bold;">نتائج الفحص المجاني الشامل</span>
@@ -344,7 +344,7 @@
     <!-- Paid Services Header -->
     <div class="section-divider">خدمات مميزة</div>
 
-    <!-- Service 1: Network Lock -->
+    <!-- Service 1 -->
     <div class="card">
         <div style="display: flex; justify-content: space-between;">
             <div class="price-tag val-s1">400 د.ج</div>
@@ -355,7 +355,7 @@
         <a href="#" onclick="orderWhatsapp('فحص قفل الشبكة')" class="btn-yellow">اطلب عبر واتساب ↗</a>
     </div>
 
-    <!-- Service 2: iCloud / Find My -->
+    <!-- Service 2 -->
     <div class="card">
         <div style="display: flex; justify-content: space-between;">
             <div class="price-tag val-s2">400 د.ج</div>
@@ -366,7 +366,7 @@
         <a href="#" onclick="orderWhatsapp('فحص iCloud / Find My')" class="btn-yellow">اطلب عبر واتساب ↗</a>
     </div>
 
-    <!-- Service 3: Blacklist -->
+    <!-- Service 3 -->
     <div class="card">
         <div style="display: flex; justify-content: space-between;">
             <div class="price-tag val-s3">400 د.ج</div>
@@ -377,7 +377,7 @@
         <a href="#" onclick="orderWhatsapp('فحص القائمة السوداء')" class="btn-yellow">اطلب عبر واتساب ↗</a>
     </div>
 
-    <!-- Service 4: Full Pro Report -->
+    <!-- Service 4 -->
     <div class="card gold-border">
         <div style="display: flex; justify-content: space-between;">
             <div class="price-tag val-s4">800 د.ج</div>
@@ -388,18 +388,17 @@
         <a href="#" onclick="orderWhatsapp('فحص FULL PRO شامل')" class="btn-yellow">اطلب عبر واتساب ↗</a>
     </div>
 
-    <!-- Footer Instructions -->
+    <!-- Footer -->
     <div class="footer-info">
         1. أدخل الـ IMEI واختر الخدمة.<br>
         2. أرسل الرسالة عبر واتساب.<br>
         3. نفحص الجهاز ونرسل لك تقرير PDF.<br><br>
-        <strong>GSM YASSER</strong> • واتساب: 0657241710 • الخدمة لأجهزة iPhone فقط.<br>
-        لمعرفة الـ IMEI اتصل بـ #06#* على الهاتف.
+        <strong>GSM YASSER</strong> • واتساب: 0657241710 • الخدمة لأجهزة iPhone فقط.
     </div>
 </div>
 
 <script>
-    // قاعدة بيانات شاملة لأكواد TAC لأجهزة الآيفون
+    // قاعدة بيانات TAC موسعة تغطي مختلف أجهزة الآيفون
     const iphoneDb = {
         "35693803": { model: "iPhone 14 Pro Max", name: "Apple iPhone 14 Pro Max", date: "2022, September", specs: "6.7 inch LTPO 120Hz, Dynamic Island, A16 Bionic" },
         "35275608": { model: "iPhone 7", name: "Apple iPhone 7", date: "2016, September", specs: "4.7 inch, Apple A10 Fusion, 12MP Camera" },
@@ -414,14 +413,13 @@
         "35992316": { model: "iPhone 16 Pro Max", name: "Apple iPhone 16 Pro Max", date: "2024, September", specs: "6.9 inch Super Retina XDR, A18 Pro" }
     };
 
-    // أسعار الخدمات حسب العملة
     const prices = {
         DZD: { free: '0 د.ج', s1: '400 د.ج', s2: '400 د.ج', s3: '400 د.ج', s4: '800 د.ج' },
         USD: { free: '0 $', s1: '2.96 $', s2: '2.96 $', s3: '2.96 $', s4: '5.99 $' },
         EUR: { free: '0 €', s1: '2.75 €', s2: '2.75 €', s3: '2.75 €', s4: '5.50 €' }
     };
 
-    // خوارزمية التحقق من صحة الـ IMEI (Luhn Algorithm)
+    // التحقق من صحة الـ IMEI عبر خوارزمية Luhn
     function validateIMEI(imei) {
         imei = imei.trim();
         if (!/^\d{15}$/.test(imei)) return false;
@@ -437,13 +435,15 @@
         return sum % 10 === 0;
     }
 
-    // تنفيذ الفحص المجاني الشامل وعرض البيانات
+    // دالة تنفيذ الفحص المجاني الشامل وإظهار النتائج
     function runFreeCheck() {
-        const val = document.getElementById("imeiInput").value;
+        const val = document.getElementById("imeiInput").value.trim();
         if (!validateIMEI(val)) {
-            alert("رقم الـ IMEI غير صحيح! يجب أن يتكون من 15 رقماً.");
+            alert("رقم الـ IMEI غير صحيح أو لا يتكون من 15 رقماً!");
             return;
         }
+        
+        // استخراج أول 8 أرقام (TAC)
         const tac = val.substring(0, 8);
         const info = iphoneDb[tac] || {
             model: "iPhone (موديل غير مسجل بالذاكرة المحلية)",
@@ -452,7 +452,9 @@
             specs: "جهاز آيفون أصلي مرخص - التفاصيل الكاملة متاحة عبر الفحص المدفوع"
         };
 
-        document.getElementById("resultCard").style.display = "block";
+        // إظهار البطاقة وتعبئة البيانات
+        const resultCard = document.getElementById("resultCard");
+        resultCard.style.display = "block";
         document.getElementById("resModel").innerText = info.model;
         document.getElementById("resName").innerText = info.name;
         document.getElementById("resDate").innerText = info.date;
@@ -460,17 +462,15 @@
         document.getElementById("resSpecs").innerText = info.specs;
     }
 
-    // لصق الـ IMEI من الحافظة تلقائياً
     async function pasteIMEI() {
         try {
             const text = await navigator.clipboard.readText();
             document.getElementById("imeiInput").value = text.trim();
         } catch (err) {
-            alert("يرجى إعطاء الإذن للصق أو إدخال الرقم يدوياً.");
+            alert("يرجى إعطاء الإذن للصق الحافظة.");
         }
     }
 
-    // تبديل العملات وتحديث الأسعار
     function setCurrency(curr) {
         document.querySelectorAll('.curr-group .btn-pill').forEach(b => {
             b.classList.toggle('active', b.innerText.includes(curr));
@@ -483,7 +483,6 @@
         document.querySelector('.val-s4').innerText = p.s4;
     }
 
-    // تغيير لغة الواجهة والاتجاه
     function setLanguage(lang) {
         document.querySelectorAll('.lang-group .btn-pill').forEach(b => {
             b.classList.toggle('active', (lang === 'ar' && b.innerText === 'العربية') || (lang === 'fr' && b.innerText === 'Français') || (lang === 'en' && b.innerText === 'EN'));
@@ -491,14 +490,12 @@
         document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
     }
 
-    // إرسال الطلب عبر واتساب مع الـ IMEI والخدمة المختارة
     function orderWhatsapp(serviceName) {
         const imei = document.getElementById("imeiInput").value;
         const msg = encodeURIComponent(`مرحباً GSM YASSER، أريد طلب خدمة: (${serviceName}) لرقم الـ IMEI التالية: ${imei}`);
         window.open(`https://wa.me/213657241710?text=${msg}`, '_blank');
     }
 
-    // تبديل الوضع (داكن / فاتح)
     function toggleTheme() {
         document.body.classList.toggle("light-mode");
     }
