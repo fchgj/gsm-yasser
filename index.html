@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" id="htmlTag">
+<html lang="en" dir="ltr" id="htmlTag">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -56,7 +56,7 @@
             gap: 15px;
         }
 
-        /* شريط التحكم العلوي */
+        /* Top Controls Bar */
         .top-controls {
             display: flex;
             justify-content: space-between;
@@ -189,39 +189,39 @@
 
     <div class="main-container">
         
-        <!-- شريط التحكم العلوي -->
+        <!-- Top Controls Bar -->
         <div class="top-controls">
-            <!-- تبديل اللغة -->
+            <!-- Language Switcher -->
             <div class="control-group">
-                <button class="ctrl-btn active" id="langAr" onclick="setLanguage('ar')">AR</button>
-                <button class="ctrl-btn" id="langEn" onclick="setLanguage('en')">EN</button>
+                <button class="ctrl-btn" id="langAr" onclick="setLanguage('ar')">AR</button>
+                <button class="ctrl-btn active" id="langEn" onclick="setLanguage('en')">EN</button>
             </div>
-            <!-- تبديل العملة -->
+            <!-- Currency Switcher -->
             <div class="control-group">
                 <button class="ctrl-btn active" onclick="setCurrency('DZD', this)">DZD</button>
                 <button class="ctrl-btn" onclick="setCurrency('USD', this)">USD</button>
                 <button class="ctrl-btn" onclick="setCurrency('EUR', this)">EUR</button>
             </div>
-            <!-- الوضع الداكن والفاتح -->
+            <!-- Theme Toggle -->
             <div class="control-group">
                 <button class="ctrl-btn" id="themeToggle" onclick="toggleTheme()">☀️ / 🌙</button>
             </div>
         </div>
 
         <div class="header">
-            <h1 id="siteTitle">GSM YASSER - iPhone</h1>
+            <h1 id="siteTitle">GSM YASSER - iPhone Checker</h1>
         </div>
 
-        <!-- فحص مجاني للآيفون -->
+        <!-- Free iPhone Check -->
         <div class="input-box">
-            <label id="lblImei">iPhone Serial / IMEI</label>
+            <label id="lblImei">iPhone Serial / IMEI Number</label>
             <input type="text" id="imeiInput" placeholder="Enter iPhone IMEI">
             <button class="btn-check" id="btnFreeCheck" onclick="checkImei()">Free iPhone Check - 0</button>
         </div>
 
         <div class="services-title" id="lblServices">iPhone Premium Services</div>
 
-        <!-- خدمة 1: قفل الشبكة -->
+        <!-- Service 1: Network Lock -->
         <div class="service-card">
             <div class="price-tag"><span class="price" data-dzd="400" data-usd="2" data-eur="1.8">400</span> <span class="curr">DZD</span></div>
             <div class="service-title" id="s1Title">Network Lock Check</div>
@@ -229,7 +229,7 @@
             <a href="#" class="btn-whatsapp" onclick="orderWhatsApp('Network Lock Check')"><span id="btnOrder1">Order via WhatsApp</span> ↗</a>
         </div>
 
-        <!-- خدمة 2: آي كلاود -->
+        <!-- Service 2: iCloud Check -->
         <div class="service-card">
             <div class="price-tag"><span class="price" data-dzd="400" data-usd="2" data-eur="1.8">400</span> <span class="curr">DZD</span></div>
             <div class="service-title" id="s2Title">iCloud / Find My Check</div>
@@ -237,7 +237,7 @@
             <a href="#" class="btn-whatsapp" onclick="orderWhatsApp('iCloud Check')"><span id="btnOrder2">Order via WhatsApp</span> ↗</a>
         </div>
 
-        <!-- خدمة 3: الفحص الشامل المدفوع (Full Pro) -->
+        <!-- Service 3: FULL PRO Report -->
         <div class="service-card" style="border-color: var(--accent-color);">
             <div class="price-tag"><span class="price" data-dzd="800" data-usd="4" data-eur="3.6">800</span> <span class="curr">DZD</span></div>
             <div class="service-title" id="s3Title">FULL PRO iPhone Report</div>
@@ -248,7 +248,7 @@
     </div>
 
     <script>
-        let currentLang = 'ar';
+        let currentLang = 'en';
         let currentCurrency = 'DZD';
 
         const translations = {
@@ -349,7 +349,7 @@
 
         function orderWhatsApp(serviceName) {
             const imei = document.getElementById('imeiInput').value.trim();
-            const phone = "213000000000"; // استبدل هذا برقم هاتفك مع الرمز الدولي
+            const phone = "213000000000"; // Replace with your WhatsApp number including country code
             
             let msg = currentLang === 'ar' 
                 ? `مرحباً، أود طلب خدمة (${serviceName}) للآيفون.\nرقم الـ IMEI: ${imei || 'لم يتم إدخاله'}`
@@ -359,5 +359,5 @@
         }
     </script>
 </body>
-    </html>
-            
+                                                                                              </html>
+    
