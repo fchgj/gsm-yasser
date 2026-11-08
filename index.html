@@ -1,48 +1,188 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    
-    <!-- وسوم التجاوب مع شاشات الهواتف ومنع انكماش الموقع -->
+    <!-- Essential mobile responsiveness meta tag -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <!-- دمج لون شريط المتصفح العلوي مع الخلفية الداكنة للأداة -->
     <meta name="theme-color" content="#0d1117">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <title>GSM YASSER - فحص IMEI</title>
+    <title>GSM YASSER - IMEI Checker</title>
     
     <style>
-        /* تنسيقات أساسية لضمان ملء الشاشة وتجنب التداخل */
-        body {
+        /* السماح بتحديد ونسخ النصوص في كافة عناصر الصفحة */
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #0b0f19;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: #ffffff;
-            width: 100vw;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            -webkit-user-select: text !important;
+            user-select: text !important;
         }
 
-        .container {
+        body {
+            background-color: #0d1117;
+            color: #ffffff;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        .main-container {
             width: 100%;
-            max-width: 480px; /* العرض المثالي لشاشات الهواتف */
-            margin: 0 auto;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .header h1 {
+            color: #eab308;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .input-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .input-box label {
+            display: block;
+            font-size: 0.85rem;
+            color: #8b949e;
+            margin-bottom: 8px;
+        }
+
+        .input-box input {
+            width: 100%;
             padding: 12px;
-            box-sizing: border-box;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-check {
+            width: 100%;
+            padding: 14px;
+            background: #10b981;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        .services-title {
+            text-align: center;
+            color: #eab308;
+            font-size: 1rem;
+            margin: 10px 0 5px;
+        }
+
+        .service-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .price-tag {
+            color: #eab308;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        .service-title {
+            font-size: 1.05rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .service-desc {
+            font-size: 0.75rem;
+            color: #8b949e;
+            margin-bottom: 12px;
+        }
+
+        .btn-whatsapp {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #f59e0b;
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- ضع باقي محتوى أداتك وأزرارك هنا -->
-        <h1>GSM YASSER</h1>
-        <p>مرحباً بك، أداة الاستعلام عن الأجهزة جاهزة هنا.</p>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>GSM YASSER</h1>
+        </div>
+
+        <!-- Free Check Box -->
+        <div class="input-box">
+            <label>Serial Number / IMEI</label>
+            <input type="text" id="imeiInput" placeholder="Enter IMEI here">
+            <button class="btn-check" onclick="checkImei()">Check Now - 0 DZD</button>
+        </div>
+
+        <div class="services-title">Premium Services</div>
+
+        <!-- Service 1 -->
+        <div class="service-card">
+            <div class="price-tag">400 DZD</div>
+            <div class="service-title">Network Lock Check</div>
+            <div class="service-desc">Carrier Lock • Network • Sim Status</div>
+            <a href="https://wa.me/213000000000?text=I%20would%20like%20to%20order%20Network%20Lock%20Check" class="btn-whatsapp">Order via WhatsApp ↗</a>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card">
+            <div class="price-tag">400 DZD</div>
+            <div class="service-title">iCloud / Find My Check</div>
+            <div class="service-desc">iCloud Lock • Find My iPhone Status</div>
+            <a href="https://wa.me/213000000000?text=I%20would%20like%20to%20order%20iCloud%20Check" class="btn-whatsapp">Order via WhatsApp ↗</a>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card">
+            <div class="price-tag">400 DZD</div>
+            <div class="service-title">Blacklist Check</div>
+            <div class="service-desc">Stolen • Lost • Blocked</div>
+            <a href="https://wa.me/213000000000?text=I%20would%20like%20to%20order%20Blacklist%20Check" class="btn-whatsapp">Order via WhatsApp ↗</a>
+        </div>
     </div>
 
+    <script>
+        function checkImei() {
+            const imei = document.getElementById('imeiInput').value;
+            if(!imei) {
+                alert('Please enter your IMEI number first');
+                return;
+            }
+            alert('Checking IMEI: ' + imei);
+        }
+    </script>
 </body>
 </html>
