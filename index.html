@@ -73,11 +73,10 @@
         .btn-action:hover { opacity: 0.9; }
         .btn-action:disabled { background: #64748b; cursor: not-allowed; }
 
-        /* Premium Services & Clear Non-overlapping Pricing */
+        /* Premium Services */
         .section-title { text-align: center; font-size: 13px; color: var(--subtext-color); margin: 5px 0; font-weight: bold; }
         
         .paid-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 15px; display: flex; flex-direction: column; gap: 8px; }
-        
         .paid-card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
         .paid-title { font-size: 15px; font-weight: bold; }
         .price-tag { color: #000; background: var(--accent-yellow); font-weight: bold; font-size: 13px; padding: 4px 10px; border-radius: 8px; white-space: nowrap; }
@@ -265,61 +264,91 @@
         }
     };
 
-    // Theme Switcher
-    document.getElementById('themeIcon').addEventListener('click', function() {
-        document.body.classList.toggle('light-mode');
-        this.innerText = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
-    });
+    // Ensure DOM is fully loaded before binding events
+    document.addEventListener('DOMContentLoaded', () => {
+        // Theme Switcher
+        const themeIcon = document.getElementById('themeIcon');
+        if (themeIcon) {
+            themeIcon.addEventListener('click', () => {
+                document.body.classList.toggle('light-mode');
+                themeIcon.innerText = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+            });
+        }
 
-    // Language Switchers
-    document.getElementById('btnAr').addEventListener('click', () => setLang('ar'));
-    document.getElementById('btnFr').addEventListener('click', () => setLang('fr'));
-    document.getElementById('btnEn').addEventListener('click', () => setLang('en'));
+        // Language Switchers
+        const btnAr = document.getElementById('btnAr');
+        const btnFr = document.getElementById('btnFr');
+        const btnEn = document.getElementById('btnEn');
+
+        if(btnAr) btnAr.addEventListener('click', () => setLang('ar'));
+        if(btnFr) btnFr.addEventListener('click', () => setLang('fr'));
+        if(btnEn) btnEn.addEventListener('click', () => setLang('en'));
+
+        // Currency Switchers
+        const currEur = document.getElementById('currEur');
+        const currUsd = document.getElementById('currUsd');
+        const currDzd = document.getElementById('currDzd');
+
+        if(currEur) currEur.addEventListener('click', () => setCurrency('EUR'));
+        if(currUsd) currUsd.addEventListener('click', () => setCurrency('USD'));
+        if(currDzd) currDzd.addEventListener('click', () => setCurrency('DZD'));
+
+        // Search Button Event
+        const searchBtn = document.getElementById('searchBtn');
+        if(searchBtn) {
+            searchBtn.addEventListener('click', checkImei);
+        }
+    });
 
     function setLang(lang) {
         currentLang = lang;
-        document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-        document.getElementById('htmlRoot').setAttribute('lang', lang);
+        const htmlRoot = document.getElementById('htmlRoot');
+        if(htmlRoot) {
+            htmlRoot.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            htmlRoot.setAttribute('lang', lang);
+        }
         
         document.querySelectorAll('.lang-group .badge-btn').forEach(b => b.classList.remove('active'));
-        if(lang === 'ar') document.getElementById('btnAr').classList.add('active');
-        if(lang === 'fr') document.getElementById('btnFr').classList.add('active');
-        if(lang === 'en') document.getElementById('btnEn').classList.add('active');
+        if(lang === 'ar' && document.getElementById('btnAr')) document.getElementById('btnAr').classList.add('active');
+        if(lang === 'fr' && document.getElementById('btnFr')) document.getElementById('btnFr').classList.add('active');
+        if(lang === 'en' && document.getElementById('btnEn')) document.getElementById('btnEn').classList.add('active');
 
         const t = translations[lang];
-        document.getElementById('txtImeiLabel').innerText = t.imeiLabel;
-        document.getElementById('txtConnected').innerText = t.connected;
-        document.getElementById('txtFreeTitle').innerText = t.freeTitle;
-        document.getElementById('txtFreeTag').innerText = t.freeTag;
-        document.getElementById('txtFreeDesc').innerText = t.freeDesc;
-        document.getElementById('txtPaidHeader').innerText = t.paidHeader;
-        document.getElementById('netTitle').innerText = t.netTitle;
-        document.getElementById('netDesc').innerText = t.netDesc;
-        document.getElementById('icloudTitle').innerText = t.icloudTitle;
-        document.getElementById('icloudDesc').innerText = t.icloudDesc;
-        document.getElementById('blackTitle').innerText = t.blackTitle;
-        document.getElementById('blackDesc').innerText = t.blackDesc;
-        document.getElementById('proTitle').innerText = t.proTitle;
-        document.getElementById('proDesc').innerText = t.proDesc;
-        document.getElementById('txtFooter').innerText = t.footer;
+        if(!t) return;
+
+        safeSetText('txtImeiLabel', t.imeiLabel);
+        safeSetText('txtConnected', t.connected);
+        safeSetText('txtFreeTitle', t.freeTitle);
+        safeSetText('txtFreeTag', t.freeTag);
+        safeSetText('txtFreeDesc', t.freeDesc);
+        safeSetText('txtPaidHeader', t.paidHeader);
+        safeSetText('netTitle', t.netTitle);
+        safeSetText('netDesc', t.netDesc);
+        safeSetText('icloudTitle', t.icloudTitle);
+        safeSetText('icloudDesc', t.icloudDesc);
+        safeSetText('blackTitle', t.blackTitle);
+        safeSetText('blackDesc', t.blackDesc);
+        safeSetText('proTitle', t.proTitle);
+        safeSetText('proDesc', t.proDesc);
+        safeSetText('txtFooter', t.footer);
 
         for(let i=1; i<=4; i++) {
-            document.getElementById('whatsappBtn' + i).innerText = t.waBtn;
+            safeSetText('whatsappBtn' + i, t.waBtn);
         }
         setCurrency(currentCurrency);
     }
 
-    // Currency Switchers
-    document.getElementById('currEur').addEventListener('click', () => setCurrency('EUR'));
-    document.getElementById('currUsd').addEventListener('click', () => setCurrency('USD'));
-    document.getElementById('currDzd').addEventListener('click', () => setCurrency('DZD'));
+    function safeSetText(id, text) {
+        const el = document.getElementById(id);
+        if(el) el.innerText = text;
+    }
 
     function setCurrency(curr) {
         currentCurrency = curr;
         document.querySelectorAll('.currency-group-bar .badge-btn').forEach(b => b.classList.remove('active'));
-        if(curr === 'EUR') document.getElementById('currEur').classList.add('active');
-        if(curr === 'USD') document.getElementById('currUsd').classList.add('active');
-        if(curr === 'DZD') document.getElementById('currDzd').classList.add('active');
+        if(curr === 'EUR' && document.getElementById('currEur')) document.getElementById('currEur').classList.add('active');
+        if(curr === 'USD' && document.getElementById('currUsd')) document.getElementById('currUsd').classList.add('active');
+        if(curr === 'DZD' && document.getElementById('currDzd')) document.getElementById('currDzd').classList.add('active');
 
         let p1 = "400 DZD", p2 = "800 DZD", freeText = "Check Now - 0 DZD";
         if(curr === 'EUR') { 
@@ -336,22 +365,23 @@
             if(currentLang === 'en') { p1 = "400 DZD"; p2 = "800 DZD"; freeText = "Check Now - 0 DZD"; }
         }
 
-        document.getElementById('price1').innerText = p1;
-        document.getElementById('price2').innerText = p1;
-        document.getElementById('price3').innerText = p1;
-        document.getElementById('price4').innerText = p2;
-        document.getElementById('searchBtn').innerText = freeText;
+        safeSetText('price1', p1);
+        safeSetText('price2', p1);
+        safeSetText('price3', p1);
+        safeSetText('price4', p2);
+        safeSetText('searchBtn', freeText);
     }
 
-    // IMEI Lookup, Strict Filtering & Debounce
-    document.getElementById('searchBtn').addEventListener('click', checkImei);
-
+    // IMEI Lookup, Strict Filtering & Debounce Protection
     async function checkImei() {
         if (isLocked) return; // Debounce Lock Protection
 
         const imeiInput = document.getElementById('imeiInput');
         const searchBtn = document.getElementById('searchBtn');
         const resultBox = document.getElementById('resultBox');
+        
+        if(!imeiInput || !searchBtn || !resultBox) return;
+        
         const imei = imeiInput.value.trim();
 
         if (imei.length !== 15 || isNaN(imei)) {
@@ -360,7 +390,7 @@
             return;
         }
 
-        // Lock button (Debounce) to protect API resources[span_1](start_span)[span_1](end_span)
+        // Lock button (Debounce) to protect API resources[span_3](start_span)[span_3](end_span)
         isLocked = true;
         searchBtn.disabled = true;
         resultBox.style.display = 'block';
@@ -378,16 +408,6 @@
             const brand = (data.brand || '').toLowerCase();
             const model = data.model || '';
 
-            // Strict Apple/iPhone Filtering to protect available API request quotas[span_2](start_span)[span_2](end_span)
+            // Strict Apple/iPhone Filtering to protect available API request quotas[span_4](start_span)[span_4](end_span)
             if (brand.includes('apple') || model.toLowerCase().includes('iphone')) {
-                resultBox.innerHTML = `
-                    <div style="color: #10b981; font-weight: bold; margin-bottom: 8px;">✅ Free iPhone Check Successful:</div>
-                    <table class="result-table">
-                        <tr><td>Manufacturer:</td><td>Apple</td></tr>
-                        <tr><td>Device Model:</td><td>${model || 'iPhone'}</td></tr>
-                        <tr><td>IMEI Status:</td><td>Valid & Clean ✓</td></tr>
-                    </table>
-                `;
-            } else {
-                // Instant Warning for non-Apple devices to preserve API limits[span_3](start_span)[span_3](end_span)
-               
+                resultBox.innerHTML = 
