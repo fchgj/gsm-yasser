@@ -48,40 +48,6 @@
             padding: 15px;
         }
 
-        /* شاشة حظر الكمبيوتر */
-        #desktop-blocker {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
-            z-index: 99999;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .blocker-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 400px;
-        }
-
-        .blocker-box h2 {
-            color: var(--accent-color);
-            margin-bottom: 10px;
-        }
-
-        .blocker-box p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
         .main-container {
             width: 100%;
             max-width: 480px;
@@ -221,14 +187,6 @@
 </head>
 <body>
 
-    <!-- شاشة حظر الكمبيوتر -->
-    <div id="desktop-blocker">
-        <div class="blocker-box">
-            <h2 id="blockTitle">عذراً، الأداة مخصصة للهواتف</h2>
-            <p id="blockDesc">يرجى فتح الرابط من هاتفك الذكي حصراً.</p>
-        </div>
-    </div>
-
     <div class="main-container">
         
         <!-- شريط التحكم العلوي -->
@@ -290,23 +248,11 @@
     </div>
 
     <script>
-        // التحقق من نوع الجهاز (منع الكمبيوتر)
-        function checkDevice() {
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            if (!isMobile) {
-                document.getElementById('desktop-blocker').style.display = 'flex';
-                document.querySelector('.main-container').style.display = 'none';
-            }
-        }
-        window.onload = checkDevice;
-
         let currentLang = 'ar';
         let currentCurrency = 'DZD';
 
         const translations = {
             ar: {
-                blockTitle: "عذراً، الأداة مخصصة للهواتف فقط",
-                blockDesc: "يرجى فتح الرابط من هاتفك الذكي للاستفادة من خدمات الأيفون.",
                 siteTitle: "GSM YASSER - فحص الآيفون",
                 lblImei: "رقم الـ IMEI أو السيريال الخاص بالآيفون",
                 btnFreeCheck: "فحص آيفون مجاني - 0",
@@ -320,8 +266,6 @@
                 btnOrder: "اطلب عبر واتساب"
             },
             en: {
-                blockTitle: "Access Denied - Mobile Only",
-                blockDesc: "Please open this link using your smartphone.",
                 siteTitle: "GSM YASSER - iPhone Checker",
                 lblImei: "iPhone Serial / IMEI Number",
                 btnFreeCheck: "Free iPhone Check - 0",
@@ -345,8 +289,6 @@
             document.getElementById('langEn').classList.toggle('active', lang === 'en');
 
             const t = translations[lang];
-            document.getElementById('blockTitle').innerText = t.blockTitle;
-            document.getElementById('blockDesc').innerText = t.blockDesc;
             document.getElementById('siteTitle').innerText = t.siteTitle;
             document.getElementById('lblImei').innerText = t.lblImei;
             document.getElementById('btnFreeCheck').innerText = t.btnFreeCheck + " " + currentCurrency;
@@ -391,19 +333,13 @@
             }
         }
 
-        // ==========================================
-        // دالة الفحص المجاني المُحدثة (تعرض تفاصيل الجهاز)
-        // ==========================================
         function checkImei() {
             const imei = document.getElementById('imeiInput').value.trim();
-            
-            // التحقق من أن رقم الـ IMEI يتكون من 15 رقماً
             if(imei.length !== 15 || isNaN(imei)) {
                 alert(currentLang === 'ar' ? 'الرجاء إدخال رقم IMEI صالح يتكون من 15 رقماً' : 'Please enter a valid 15-digit IMEI number');
                 return;
             }
 
-            // عرض نتيجة الفحص للزبون بلغة الموقع الحالية
             if (currentLang === 'ar') {
                 alert(`تم التحقق من رقم الـ IMEI بنجاح:\n${imei}\n\n• نوع الفحص: فحص مجاني مبدئي\n• حالة السجل: متصل بالنظام\n\nللحصول على التقرير الشامل المفصل، يرجى طلب الخدمات المدفوعة أدناه.`);
             } else {
@@ -411,7 +347,6 @@
             }
         }
 
-        // توجيه الطلب إلى واتساب مع دمج رقم الـ IMEI المدخل تلقائياً
         function orderWhatsApp(serviceName) {
             const imei = document.getElementById('imeiInput').value.trim();
             const phone = "213000000000"; // استبدل هذا برقم هاتفك مع الرمز الدولي
@@ -424,4 +359,5 @@
         }
     </script>
 </body>
-</html>
+    </html>
+            
