@@ -396,6 +396,7 @@
             document.getElementById('imeiInput').focus();
         }
 
+        // دالة الفحص المربوطة بـ API المحدث لجلب كافة التفاصيل الفنية
         async function checkImei() {
             const imei = document.getElementById('imeiInput').value.trim();
             const spinner = document.getElementById('loadingSpinner');
@@ -414,15 +415,23 @@
             const currentDate = d.getFullYear() + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + String(d.getDate()).padStart(2, '0');
             
             let modelName = 'Apple iPhone';
-            let osSpecs = 'iOS Standard';
+            let releaseYear = 'N/A';
+            let chipset = 'Apple Bionic Series';
+            let displayInfo = 'Retina / IPS LCD Display';
+            let networkInfo = '2G / 3G / 4G LTE Supported';
 
             try {
+                // الاتصال المباشر بـ API المحدث لجلب بيانات الجهاز
                 const response = await fetch(`https://iuni.my.id/api/imei?imei=${imei}`);
                 const result = await response.json();
 
                 if(result && result.status && result.data) {
-                    if(result.data.model) modelName = result.data.model;
-                    if(result.data.specs) osSpecs = result.data.specs;
+                    const data = result.data;
+                    if(data.model) modelName = data.model;
+                    if(data.year) releaseYear = data.year;
+                    if(data.chipset) chipset = data.chipset;
+                    if(data.display) displayInfo = data.display;
+                    if(data.network) networkInfo = data.network;
                 }
             } catch (error) {
                 console.error('API fetch error', error);
@@ -432,15 +441,15 @@
             btnText.style.display = 'inline';
 
             if (currentLang === 'ar') {
-                alert(`📱 تم استلام الـ IMEI بنجاح:\n${imei}\n\n• اسم الجهاز: ${modelName}\n• إصدار / مواصفات: ${osSpecs}\n• تاريخ الفحص: ${currentDate}\n\nيرجى طلب الخدمات المدفوعة أدناه.`);
+                alert(`📱 تفاصيل ومواصفات الآيفون:\n${imei}\n\n• اسم الجهاز: ${modelName}\n• سنة الإصدار: ${releaseYear}\n• المعالج (Chipset): ${chipset}\n• الشاشة: ${displayInfo}\n• شبكات الاتصال: ${networkInfo}\n• تاريخ الفحص: ${currentDate}\n\nيرجى طلب الخدمات المدفوعة أدناه للحصول على التقرير الشامل.`);
             } else {
-                alert(`📱 IMEI Received Successfully:\n${imei}\n\n• Device Model: ${modelName}\n• Specs / Version: ${osSpecs}\n• Check Date: ${currentDate}\n\nPlease order the paid services below.`);
+                alert(`📱 iPhone Detailed Specs:\n${imei}\n\n• Device Model: ${modelName}\n• Release Year: ${releaseYear}\n• Chipset: ${chipset}\n• Display: ${displayInfo}\n• Networks: ${networkInfo}\n• Check Date: ${currentDate}\n\nPlease order paid services below for a full comprehensive report.`);
             }
         }
 
         function orderWhatsApp(serviceName) {
             const imei = document.getElementById('imeiInput').value.trim();
-            const phone = "213000000000"; // استبدل هذا برقم هاتفك مع الرمز الدولي
+            const phone = "213000000000"; // يمكنك تغيير الرقم إلى رقم هاتفك الدولي
             
             let msg = currentLang === 'ar' 
                 ? `مرحباً، أود طلب خدمة (${serviceName}) للآيفون.\n\nرقم الـ IMEI:\n${imei || 'لم يتم إدخاله'}`
@@ -450,5 +459,5 @@
         }
     </script>
 </body>
-                    </html>
-            
+    </html>
+    
