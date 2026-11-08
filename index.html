@@ -317,7 +317,8 @@
                 s3Title: "تقرير FULL PRO الشامل للآيفون",
                 s3Desc: "تقرير كامل يضم الضمان، الشبكة، القائمة السوداء، والآي كلاود",
                 btnOrder: "اطلب عبر واتساب",
-                testimonial: "⭐ خدمة سريعة وموثوقة - تم فحص أكثر من 1,000 آيفون بنجاح!"
+                testimonial: "⭐ خدمة سريعة وموثوقة - تم فحص أكثر من 1,000 آيفون بنجاح!",
+                alertError: "الرجاء إدخال رقم IMEI صالح يتكون من 15 رقماً"
             },
             en: {
                 siteTitle: "GSM YASSER - iPhone Checker",
@@ -331,7 +332,8 @@
                 s3Title: "FULL PRO iPhone Report",
                 s3Desc: "Complete report including Warranty, Carrier, Blacklist & iCloud",
                 btnOrder: "Order via WhatsApp",
-                testimonial: "⭐ Fast & Trusted Service - Over 1,000+ iPhones Checked Successfully!"
+                testimonial: "⭐ Fast & Trusted Service - Over 1,000+ iPhones Checked Successfully!",
+                alertError: "Please enter a valid 15-digit IMEI number"
             }
         };
 
@@ -398,18 +400,21 @@
             const imei = document.getElementById('imeiInput').value.trim();
             const spinner = document.getElementById('loadingSpinner');
             const btnText = document.getElementById('btnText');
+            const t = translations[currentLang];
             
             if(imei.length !== 15 || isNaN(imei)) {
-                alert(currentLang === 'ar' ? 'الرجاء إدخال رقم IMEI صالح يتكون من 15 رقماً' : 'Please enter a valid 15-digit IMEI number');
+                alert(t.alertError);
                 return;
             }
 
             spinner.style.display = 'block';
             btnText.style.display = 'none';
 
-            const currentDate = new Date().toLocaleDateString();
+            const d = new Date();
+            const currentDate = d.getFullYear() + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + String(d.getDate()).padStart(2, '0');
+            
             let modelName = 'Apple iPhone';
-            let osSpecs = 'iOS Supported';
+            let osSpecs = 'iOS Standard';
 
             try {
                 const response = await fetch(`https://iuni.my.id/api/imei?imei=${imei}`);
@@ -445,5 +450,5 @@
         }
     </script>
 </body>
-                </html>
-    
+                    </html>
+            
