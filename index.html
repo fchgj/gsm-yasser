@@ -393,4 +393,18 @@
             resultBox.innerHTML = `
                 <div style="color: #f59e0b; font-weight: bold;">🛠️ Tool Ready (Awaiting API Key):</div>
                 • Entered IMEI: <b>${imei}</b><br>
-                <span style="font-size: 11px; color: var(--subtext-color);">(Li
+                <span style="font-size: 11px; color: var(--subtext-color);">(Live results will appear once your personal API key is integrated)[span_0](start_span)[span_0](end_span).</span>
+            `;
+        } finally {
+            // Keep button disabled for 4 seconds for extra protection against spamming
+            setTimeout(() => {
+                isLocked = false;
+                searchBtn.disabled = false;
+            }, 4000);
+        }
+    }
+</script>
+
+</body>
+</html>
+
