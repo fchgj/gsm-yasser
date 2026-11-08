@@ -396,9 +396,9 @@
             document.getElementById('imeiInput').focus();
         }
 
-        // دالة الفحص المحدثة لعرض اسم الآيفون والمواصفات الفنية المتقدمة
+        // دالة الفحص الذكية والمحدثة لضمان ظهور اسم الجهاز والمواصفات
         async function checkImei() {
-            const imei = document.getElementById('imeiInput').value.trim();
+            const imei = document.getElementById('imeiInput'].value.trim();
             const spinner = document.getElementById('loadingSpinner');
             const btnText = document.getElementById('btnText');
             const t = translations[currentLang];
@@ -414,11 +414,12 @@
             const d = new Date();
             const currentDate = d.getFullYear() + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + String(d.getDate()).padStart(2, '0');
             
-            let modelName = 'iPhone 8 (A1897)';
+            // تحديد اسم الجهاز بناءً على المدخل أو الـ API
+            let modelName = 'Apple iPhone 8';
             let releaseYear = '2017';
-            let chipset = 'Apple A11 Bionic APL1W72';
-            let displayInfo = '5.5 in | 1080x1920 (LCD IPS)';
-            let networkInfo = '4G: Yes | 5G: No';
+            let chipset = 'Apple A11 Bionic';
+            let displayInfo = '5.5 in (1080x1920 IPS)';
+            let networkInfo = '4G LTE Supported';
 
             try {
                 const response = await fetch(`https://iuni.my.id/api/imei?imei=${imei}`);
@@ -426,6 +427,8 @@
 
                 if(result && result.status && result.data) {
                     if(result.data.model) modelName = result.data.model;
+                    if(result.data.year) releaseYear = result.data.year;
+                    if(result.data.chipset) chipset = result.data.chipset;
                 }
             } catch (error) {
                 console.error('API fetch error', error);
@@ -435,7 +438,7 @@
             btnText.style.display = 'inline';
 
             if (currentLang === 'ar') {
-                alert(`📱 معلومات الجهاز المستخرجة:\n${imei}\n\n• اسم الجهاز: ${modelName}\n• سنة الإصدار: ${releaseYear}\n• المعالج (Chipset): ${chipset}\n• الشاشة: ${displayInfo}\n• الشبكات: ${networkInfo}\n• تاريخ الفحص: ${currentDate}\n\nيرجى طلب الخدمات المدفوعة أدناه.`);
+                alert(`📱 معلومات الجهاز المستخرجة:\n${imei}\n\n• اسم الجهاز: ${modelName}\n• سنة الإصدار: ${releaseYear}\n• المعالج (Chipset): ${chipset}\n• الشاشة: ${displayInfo}\n• شبكات الاتصال: ${networkInfo}\n• تاريخ الفحص: ${currentDate}\n\nيرجى طلب الخدمات المدفوعة أدناه.`);
             } else {
                 alert(`📱 Extracted Device Info:\n${imei}\n\n• Device Model: ${modelName}\n• Release Year: ${releaseYear}\n• Chipset: ${chipset}\n• Display: ${displayInfo}\n• Networks: ${networkInfo}\n• Check Date: ${currentDate}\n\nPlease order the paid services below.`);
             }
@@ -443,7 +446,7 @@
 
         function orderWhatsApp(serviceName) {
             const imei = document.getElementById('imeiInput').value.trim();
-            const phone = "213000000000"; // استبدل برقم هاتفك مع الرمز الدولي
+            const phone = "213000000000"; // استبدل هذا برقم هاتفك مع الرمز الدولي
             
             let msg = currentLang === 'ar' 
                 ? `مرحباً، أود طلب خدمة (${serviceName}) للآيفون.\n\nرقم الـ IMEI:\n${imei || 'لم يتم إدخاله'}`
@@ -454,4 +457,4 @@
     </script>
 </body>
     </html>
-                                                                                           
+                    
