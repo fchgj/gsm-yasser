@@ -76,12 +76,10 @@
         /* Premium Services & Clear Non-overlapping Pricing */
         .section-title { text-align: center; font-size: 13px; color: var(--subtext-color); margin: 5px 0; font-weight: bold; }
         
-        .paid-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 15px; position: relative; display: flex; flex-direction: column; gap: 8px; }
+        .paid-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 15px; display: flex; flex-direction: column; gap: 8px; }
         
-        /* رأس البطاقة المدفوعة يضم العنوان والسعر لمنع أي تداخل نهائياً */
-        .paid-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-        .paid-title { font-size: 15px; font-weight: bold; line-height: 1.3; }
-        
+        .paid-card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .paid-title { font-size: 15px; font-weight: bold; }
         .price-tag { color: #000; background: var(--accent-yellow); font-weight: bold; font-size: 13px; padding: 4px 10px; border-radius: 8px; white-space: nowrap; }
         
         .paid-desc { font-size: 12px; color: var(--subtext-color); margin-bottom: 4px; }
@@ -102,7 +100,7 @@
 <body>
 
 <div class="main-container">
-    <!-- Top Bar: Languages & Theme -->
+    <!-- Top Bar -->
     <div class="top-bar">
         <div class="lang-group">
             <button class="badge-btn" id="btnAr">العربية</button>
@@ -152,7 +150,7 @@
 
     <!-- Service 1 -->
     <div class="paid-card">
-        <div class="paid-card-header">
+        <div class="paid-card-top">
             <div class="paid-title" id="netTitle">Network Lock Check</div>
             <div class="price-tag" id="price1">400 DZD</div>
         </div>
@@ -164,7 +162,7 @@
 
     <!-- Service 2 -->
     <div class="paid-card">
-        <div class="paid-card-header">
+        <div class="paid-card-top">
             <div class="paid-title" id="icloudTitle">iCloud / Find My Check</div>
             <div class="price-tag" id="price2">400 DZD</div>
         </div>
@@ -176,7 +174,7 @@
 
     <!-- Service 3 -->
     <div class="paid-card">
-        <div class="paid-card-header">
+        <div class="paid-card-top">
             <div class="paid-title" id="blackTitle">Blacklist Check</div>
             <div class="price-tag" id="price3">400 DZD</div>
         </div>
@@ -188,7 +186,7 @@
 
     <!-- Service 4 -->
     <div class="paid-card" style="border: 1px solid var(--accent-yellow);">
-        <div class="paid-card-header">
+        <div class="paid-card-top">
             <div class="paid-title" id="proTitle">Full PRO Report</div>
             <div class="price-tag" id="price4">800 DZD</div>
         </div>
@@ -345,7 +343,7 @@
         document.getElementById('searchBtn').innerText = freeText;
     }
 
-    // IMEI Lookup & Strict Filtering + Debounce
+    // IMEI Lookup, Strict Filtering & Debounce
     document.getElementById('searchBtn').addEventListener('click', checkImei);
 
     async function checkImei() {
@@ -362,7 +360,7 @@
             return;
         }
 
-        // Lock button (Debounce) to protect API resources[span_3](start_span)[span_3](end_span)
+        // Lock button (Debounce) to protect API resources[span_1](start_span)[span_1](end_span)
         isLocked = true;
         searchBtn.disabled = true;
         resultBox.style.display = 'block';
@@ -380,7 +378,7 @@
             const brand = (data.brand || '').toLowerCase();
             const model = data.model || '';
 
-            // Strict Apple/iPhone Filtering to protect available API request quotas[span_4](start_span)[span_4](end_span)
+            // Strict Apple/iPhone Filtering to protect available API request quotas[span_2](start_span)[span_2](end_span)
             if (brand.includes('apple') || model.toLowerCase().includes('iphone')) {
                 resultBox.innerHTML = `
                     <div style="color: #10b981; font-weight: bold; margin-bottom: 8px;">✅ Free iPhone Check Successful:</div>
@@ -389,4 +387,7 @@
                         <tr><td>Device Model:</td><td>${model || 'iPhone'}</td></tr>
                         <tr><td>IMEI Status:</td><td>Valid & Clean ✓</td></tr>
                     </table>
-           
+                `;
+            } else {
+                // Instant Warning for non-Apple devices to preserve API limits[span_3](start_span)[span_3](end_span)
+               
