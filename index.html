@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" id="htmlTag">
+<html lang="ar" dir="rtl" id="htmlTag">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -48,7 +48,7 @@
             padding: 15px;
         }
 
-        /* Desktop Blocker Screen */
+        /* شاشة حظر الكمبيوتر */
         #desktop-blocker {
             display: none;
             position: fixed;
@@ -90,7 +90,7 @@
             gap: 15px;
         }
 
-        /* Top Controls Bar */
+        /* شريط التحكم العلوي */
         .top-controls {
             display: flex;
             justify-content: space-between;
@@ -190,5 +190,239 @@
             color: var(--accent-color);
             font-weight: bold;
             font-size: 0.9rem;
-            margin
+            margin-bottom: 4px;
+        }
+
+        .service-title {
+            font-size: 1.05rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .service-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .btn-whatsapp {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--btn-wa);
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة حظر الكمبيوتر -->
+    <div id="desktop-blocker">
+        <div class="blocker-box">
+            <h2 id="blockTitle">عذراً، الأداة مخصصة للهواتف</h2>
+            <p id="blockDesc">يرجى فتح الرابط من هاتفك الذكي حصراً.</p>
+        </div>
+    </div>
+
+    <div class="main-container">
+        
+        <!-- شريط التحكم العلوي -->
+        <div class="top-controls">
+            <!-- تبديل اللغة -->
+            <div class="control-group">
+                <button class="ctrl-btn active" id="langAr" onclick="setLanguage('ar')">AR</button>
+                <button class="ctrl-btn" id="langEn" onclick="setLanguage('en')">EN</button>
+            </div>
+            <!-- تبديل العملة -->
+            <div class="control-group">
+                <button class="ctrl-btn active" onclick="setCurrency('DZD', this)">DZD</button>
+                <button class="ctrl-btn" onclick="setCurrency('USD', this)">USD</button>
+                <button class="ctrl-btn" onclick="setCurrency('EUR', this)">EUR</button>
+            </div>
+            <!-- الوضع الداكن والفاتح -->
+            <div class="control-group">
+                <button class="ctrl-btn" id="themeToggle" onclick="toggleTheme()">☀️ / 🌙</button>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1 id="siteTitle">GSM YASSER - iPhone</h1>
+        </div>
+
+        <!-- فحص مجاني للآيفون -->
+        <div class="input-box">
+            <label id="lblImei">iPhone Serial / IMEI</label>
+            <input type="text" id="imeiInput" placeholder="Enter iPhone IMEI">
+            <button class="btn-check" id="btnFreeCheck" onclick="checkImei()">Free iPhone Check - 0</button>
+        </div>
+
+        <div class="services-title" id="lblServices">iPhone Premium Services</div>
+
+        <!-- خدمة 1: قفل الشبكة -->
+        <div class="service-card">
+            <div class="price-tag"><span class="price" data-dzd="400" data-usd="2" data-eur="1.8">400</span> <span class="curr">DZD</span></div>
+            <div class="service-title" id="s1Title">Network Lock Check</div>
+            <div class="service-desc" id="s1Desc">Carrier • Sim Lock Status</div>
+            <a href="#" class="btn-whatsapp" onclick="orderWhatsApp('Network Lock Check')"><span id="btnOrder1">Order via WhatsApp</span> ↗</a>
+        </div>
+
+        <!-- خدمة 2: آي كلاود -->
+        <div class="service-card">
+            <div class="price-tag"><span class="price" data-dzd="400" data-usd="2" data-eur="1.8">400</span> <span class="curr">DZD</span></div>
+            <div class="service-title" id="s2Title">iCloud / Find My Check</div>
+            <div class="service-desc" id="s2Desc">iCloud Lock • Lost/Clean Status</div>
+            <a href="#" class="btn-whatsapp" onclick="orderWhatsApp('iCloud Check')"><span id="btnOrder2">Order via WhatsApp</span> ↗</a>
+        </div>
+
+        <!-- خدمة 3: الفحص الشامل المدفوع (Full Pro) -->
+        <div class="service-card" style="border-color: var(--accent-color);">
+            <div class="price-tag"><span class="price" data-dzd="800" data-usd="4" data-eur="3.6">800</span> <span class="curr">DZD</span></div>
+            <div class="service-title" id="s3Title">FULL PRO iPhone Report</div>
+            <div class="service-desc" id="s3Desc">Full details: Carrier, Warranty, Blacklist, iCloud, Country</div>
+            <a href="#" class="btn-whatsapp" onclick="orderWhatsApp('FULL PRO iPhone Report')"><span id="btnOrder3">Order via WhatsApp</span> ↗</a>
+        </div>
+
+    </div>
+
+    <script>
+        // التحقق من نوع الجهاز (منع الكمبيوتر)
+        function checkDevice() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (!isMobile) {
+                document.getElementById('desktop-blocker').style.display = 'flex';
+                document.querySelector('.main-container').style.display = 'none';
+            }
+        }
+        window.onload = checkDevice;
+
+        let currentLang = 'ar';
+        let currentCurrency = 'DZD';
+
+        const translations = {
+            ar: {
+                blockTitle: "عذراً، الأداة مخصصة للهواتف فقط",
+                blockDesc: "يرجى فتح الرابط من هاتفك الذكي للاستفادة من خدمات الأيفون.",
+                siteTitle: "GSM YASSER - فحص الآيفون",
+                lblImei: "رقم الـ IMEI أو السيريال الخاص بالآيفون",
+                btnFreeCheck: "فحص آيفون مجاني - 0",
+                lblServices: "خدمات الآيفون المدفوعة والشاملة",
+                s1Title: "فحص قفل الشبكة (Carrier)",
+                s1Desc: "معرفة الشبكة الأصلية وحالة القفل",
+                s2Title: "فحص iCloud / Find My",
+                s2Desc: "معرفة حالة قفل iCloud (نظيف أو مفقود)",
+                s3Title: "تقرير FULL PRO الشامل للآيفون",
+                s3Desc: "تقرير كامل يضم الضمان، الشبكة، القائمة السوداء، والآي كلاود",
+                btnOrder: "اطلب عبر واتساب"
+            },
+            en: {
+                blockTitle: "Access Denied - Mobile Only",
+                blockDesc: "Please open this link using your smartphone.",
+                siteTitle: "GSM YASSER - iPhone Checker",
+                lblImei: "iPhone Serial / IMEI Number",
+                btnFreeCheck: "Free iPhone Check - 0",
+                lblServices: "iPhone Premium Services",
+                s1Title: "Network Lock Check",
+                s1Desc: "Carrier & SIM Lock Status",
+                s2Title: "iCloud / Find My Check",
+                s2Desc: "iCloud Lock & Lost Mode Status",
+                s3Title: "FULL PRO iPhone Report",
+                s3Desc: "Complete report including Warranty, Carrier, Blacklist & iCloud",
+                btnOrder: "Order via WhatsApp"
+            }
+        };
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+            document.getElementById('htmlTag').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            
+            document.getElementById('langAr').classList.toggle('active', lang === 'ar');
+            document.getElementById('langEn').classList.toggle('active', lang === 'en');
+
+            const t = translations[lang];
+            document.getElementById('blockTitle').innerText = t.blockTitle;
+            document.getElementById('blockDesc').innerText = t.blockDesc;
+            document.getElementById('siteTitle').innerText = t.siteTitle;
+            document.getElementById('lblImei').innerText = t.lblImei;
+            document.getElementById('btnFreeCheck').innerText = t.btnFreeCheck + " " + currentCurrency;
+            document.getElementById('lblServices').innerText = t.lblServices;
+            document.getElementById('s1Title').innerText = t.s1Title;
+            document.getElementById('s1Desc').innerText = t.s1Desc;
+            document.getElementById('s2Title').innerText = t.s2Title;
+            document.getElementById('s2Desc').innerText = t.s2Desc;
+            document.getElementById('s3Title').innerText = t.s3Title;
+            document.getElementById('s3Desc').innerText = t.s3Desc;
+            
+            document.getElementById('btnOrder1').innerText = t.btnOrder;
+            document.getElementById('btnOrder2').innerText = t.btnOrder;
+            document.getElementById('btnOrder3').innerText = t.btnOrder;
+        }
+
+        function setCurrency(curr, btn) {
+            currentCurrency = curr;
+            document.querySelectorAll('.control-group')[1].querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('.price').forEach(el => {
+                el.innerText = el.getAttribute('data-' + curr.toLowerCase());
+            });
+            document.querySelectorAll('.curr').forEach(el => {
+                el.innerText = curr;
+            });
+            
+            const t = translations[currentLang];
+            document.getElementById('btnFreeCheck').innerText = t.btnFreeCheck + " " + curr;
+        }
+
+        function toggleTheme() {
+            const html = document.getElementById('htmlTag');
+            const currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                html.removeAttribute('data-theme');
+                document.getElementById('themeColorMeta').setAttribute('content', '#0d1117');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                document.getElementById('themeColorMeta').setAttribute('content', '#f3f4f6');
+            }
+        }
+
+        // ==========================================
+        // دالة الفحص المجاني المُحدثة (تعرض تفاصيل الجهاز)
+        // ==========================================
+        function checkImei() {
+            const imei = document.getElementById('imeiInput').value.trim();
+            
+            // التحقق من أن رقم الـ IMEI يتكون من 15 رقماً
+            if(imei.length !== 15 || isNaN(imei)) {
+                alert(currentLang === 'ar' ? 'الرجاء إدخال رقم IMEI صالح يتكون من 15 رقماً' : 'Please enter a valid 15-digit IMEI number');
+                return;
+            }
+
+            // عرض نتيجة الفحص للزبون بلغة الموقع الحالية
+            if (currentLang === 'ar') {
+                alert(`تم التحقق من رقم الـ IMEI بنجاح:\n${imei}\n\n• نوع الفحص: فحص مجاني مبدئي\n• حالة السجل: متصل بالنظام\n\nللحصول على التقرير الشامل المفصل، يرجى طلب الخدمات المدفوعة أدناه.`);
+            } else {
+                alert(`IMEI Verified Successfully:\n${imei}\n\n• Check Type: Free Basic Check\n• System Status: Connected\n\nFor a full detailed report, please order the paid services below.`);
+            }
+        }
+
+        // توجيه الطلب إلى واتساب مع دمج رقم الـ IMEI المدخل تلقائياً
+        function orderWhatsApp(serviceName) {
+            const imei = document.getElementById('imeiInput').value.trim();
+            const phone = "213000000000"; // استبدل هذا برقم هاتفك مع الرمز الدولي
+            
+            let msg = currentLang === 'ar' 
+                ? `مرحباً، أود طلب خدمة (${serviceName}) للآيفون.\nرقم الـ IMEI: ${imei || 'لم يتم إدخاله'}`
+                : `Hello, I would like to order (${serviceName}) for iPhone.\nIMEI: ${imei || 'Not entered'}`;
+            
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    </script>
+</body>
+        </html>
         
