@@ -2,13 +2,11 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <!-- Essential mobile responsiveness meta tag -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0d1117">
-    <title>GSM YASSER - IMEI Checker</title>
+    <title>GSM YASSER - Mobile Only</title>
     
     <style>
-        /* السماح بتحديد ونسخ النصوص في كافة عناصر الصفحة */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -27,6 +25,43 @@
             padding: 15px;
         }
 
+        /* شاشة الحظر الخاصة بالكمبيوتر */
+        #desktop-blocker {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0d1117;
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .blocker-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+        }
+
+        .blocker-box h2 {
+            color: #eab308;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .blocker-box p {
+            color: #8b949e;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* حاوية الأداة العادية */
         .main-container {
             width: 100%;
             max-width: 480px;
@@ -134,13 +169,20 @@
 </head>
 <body>
 
+    <!-- شاشة الحظر تظهر فقط للكمبيوتر -->
+    <div id="desktop-blocker">
+        <div class="blocker-box">
+            <h2>Access Denied</h2>
+            <p>This tool is designed exclusively for mobile devices. Please open the link using your smartphone.</p>
+        </div>
+    </div>
+
+    <!-- محتوى الأداة يظهر للهواتف فقط -->
     <div class="main-container">
-        <!-- Header -->
         <div class="header">
             <h1>GSM YASSER</h1>
         </div>
 
-        <!-- Free Check Box -->
         <div class="input-box">
             <label>Serial Number / IMEI</label>
             <input type="text" id="imeiInput" placeholder="Enter IMEI here">
@@ -149,7 +191,6 @@
 
         <div class="services-title">Premium Services</div>
 
-        <!-- Service 1 -->
         <div class="service-card">
             <div class="price-tag">400 DZD</div>
             <div class="service-title">Network Lock Check</div>
@@ -157,7 +198,6 @@
             <a href="https://wa.me/213000000000?text=I%20would%20like%20to%20order%20Network%20Lock%20Check" class="btn-whatsapp">Order via WhatsApp ↗</a>
         </div>
 
-        <!-- Service 2 -->
         <div class="service-card">
             <div class="price-tag">400 DZD</div>
             <div class="service-title">iCloud / Find My Check</div>
@@ -165,7 +205,6 @@
             <a href="https://wa.me/213000000000?text=I%20would%20like%20to%20order%20iCloud%20Check" class="btn-whatsapp">Order via WhatsApp ↗</a>
         </div>
 
-        <!-- Service 3 -->
         <div class="service-card">
             <div class="price-tag">400 DZD</div>
             <div class="service-title">Blacklist Check</div>
@@ -175,6 +214,20 @@
     </div>
 
     <script>
+        // سكربت فحص نوع الجهاز وتفعيل الحظر للكمبيوتر
+        function checkDevice() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (!isMobile) {
+                // إذا كان كمبيوتر، إظهار شاشة الحظر وإخفاء محتوى الأداة
+                document.getElementById('desktop-blocker').style.display = 'flex';
+                document.querySelector('.main-container').style.display = 'none';
+            }
+        }
+
+        // تشغيل الفحص فور تحميل الصفحة
+        window.onload = checkDevice;
+
         function checkImei() {
             const imei = document.getElementById('imeiInput').value;
             if(!imei) {
@@ -185,4 +238,5 @@
         }
     </script>
 </body>
-</html>
+                </html>
+    
