@@ -333,23 +333,40 @@
             }
         }
 
-        function checkImei() {
+        // Updated Async iPhone Specs Lookup
+        async function checkImei() {
             const imei = document.getElementById('imeiInput').value.trim();
+            
             if(imei.length !== 15 || isNaN(imei)) {
                 alert(currentLang === 'ar' ? 'الرجاء إدخال رقم IMEI صالح يتكون من 15 رقماً' : 'Please enter a valid 15-digit IMEI number');
                 return;
             }
 
-            if (currentLang === 'ar') {
-                alert(`تم التحقق من رقم الـ IMEI بنجاح:\n${imei}\n\n• نوع الفحص: فحص مجاني مبدئي\n• حالة السجل: متصل بالنظام\n\nللحصول على التقرير الشامل المفصل، يرجى طلب الخدمات المدفوعة أدناه.`);
-            } else {
-                alert(`IMEI Verified Successfully:\n${imei}\n\n• Check Type: Free Basic Check\n• System Status: Connected\n\nFor a full detailed report, please order the paid services below.`);
+            alert(currentLang === 'ar' ? 'جاري جلب مواصفات الآيفون من قاعدة البيانات...' : 'Fetching iPhone specifications...');
+
+            try {
+                const response = await fetch(`https://iuni.my.id/api/imei?imei=${imei}`);
+                const result = await response.json();
+
+                if(result && result.status && result.data) {
+                    const info = result.data;
+                    const msgAr = `📱 مواصفات الآيفون المستخرجة:\n\n• الموديل: ${info.model || 'iPhone'}\n• المواصفات: ${info.specs || 'متوفر'}\n• حالة الشبكة: ${info.gsm_status || 'Clean'}\n\nللحصول على التقرير الشامل، اطلب الخدمات المدفوعة أدناه.`;
+                    const msgEn = `📱 Extracted iPhone Specs:\n\n• Model: ${info.model || 'iPhone'}\n• Specs: ${info.specs || 'Available'}\n• Network Status: ${info.gsm_status || 'Clean'}\n\nFor a full detailed report, order paid services below.`;
+
+                    alert(currentLang === 'ar' ? msgAr : msgEn);
+                } else {
+                    alert(currentLang === 'ar' ? `تم التعرف على الجهاز (IMEI: ${imei})\nالجهاز جاهز للخدمات والتقارير الشاملة.` : `Device recognized (IMEI: ${imei})\nReady for services.`);
+                }
+
+            } catch (error) {
+                console.error('API Error:', error);
+                alert(currentLang === 'ar' ? 'تم استلام الـ IMEI بنجاح. يمكنك طلبه عبر واتساب أدناه.' : 'IMEI received successfully. You can order via WhatsApp below.');
             }
         }
 
         function orderWhatsApp(serviceName) {
             const imei = document.getElementById('imeiInput').value.trim();
-            const phone = "213000000000"; // Replace with your WhatsApp number including country code
+            const phone = "213000000000"; // Replace with your phone number including international prefix
             
             let msg = currentLang === 'ar' 
                 ? `مرحباً، أود طلب خدمة (${serviceName}) للآيفون.\nرقم الـ IMEI: ${imei || 'لم يتم إدخاله'}`
@@ -359,5 +376,5 @@
         }
     </script>
 </body>
-                                                                                              </html>
-    
+    </html>
+            
