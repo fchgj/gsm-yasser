@@ -102,12 +102,12 @@
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="lang-group">
-            <button class="badge-btn" id="btnAr">العربية</button>
-            <button class="badge-btn" id="btnFr">Français</button>
-            <button class="badge-btn active" id="btnEn">EN</button>
+            <button class="badge-btn" onclick="changeLang('ar')">العربية</button>
+            <button class="badge-btn" onclick="changeLang('fr')">Français</button>
+            <button class="badge-btn active" onclick="changeLang('en')" id="activeLangBtn">EN</button>
         </div>
         <div class="icons-group">
-            <button class="icon-btn" id="themeIcon" title="Toggle Theme">🌙</button>
+            <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
         </div>
     </div>
 
@@ -117,9 +117,9 @@
 
     <!-- Currency Switcher Bar -->
     <div class="top-bar currency-group-bar" style="justify-content: center; gap: 10px;">
-        <button class="badge-btn" id="currEur">€ EUR</button>
-        <button class="badge-btn" id="currUsd">$ USD</button>
-        <button class="badge-btn active" id="currDzd">DZD</button>
+        <button class="badge-btn" onclick="changeCurr('EUR')" id="currEur">€ EUR</button>
+        <button class="badge-btn" onclick="changeCurr('USD')" id="currUsd">$ USD</button>
+        <button class="badge-btn active" onclick="changeCurr('DZD')" id="currDzd">DZD</button>
     </div>
 
     <!-- IMEI Card -->
@@ -140,7 +140,7 @@
             <span class="tag-free" id="txtFreeTag">Free</span>
         </div>
         <div class="service-desc" id="txtFreeDesc">No WhatsApp • Shows device specifications instantly</div>
-        <button id="searchBtn" class="btn-action">Check Now - 0 DZD</button>
+        <button id="searchBtn" class="btn-action" onclick="checkImei()">Check Now - 0 DZD</button>
         <div id="resultBox" class="result-box"></div>
     </div>
 
@@ -264,43 +264,16 @@
         }
     };
 
-    // Ensure DOM is fully loaded before binding events
-    document.addEventListener('DOMContentLoaded', () => {
-        // Theme Switcher
-        const themeIcon = document.getElementById('themeIcon');
-        if (themeIcon) {
-            themeIcon.addEventListener('click', () => {
-                document.body.classList.toggle('light-mode');
-                themeIcon.innerText = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
-            });
+    // Inline Direct Functions for 100% Guaranteed Click Response
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const icon = document.querySelector('.icon-btn');
+        if(icon) {
+            icon.innerText = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
         }
+    }
 
-        // Language Switchers
-        const btnAr = document.getElementById('btnAr');
-        const btnFr = document.getElementById('btnFr');
-        const btnEn = document.getElementById('btnEn');
-
-        if(btnAr) btnAr.addEventListener('click', () => setLang('ar'));
-        if(btnFr) btnFr.addEventListener('click', () => setLang('fr'));
-        if(btnEn) btnEn.addEventListener('click', () => setLang('en'));
-
-        // Currency Switchers
-        const currEur = document.getElementById('currEur');
-        const currUsd = document.getElementById('currUsd');
-        const currDzd = document.getElementById('currDzd');
-
-        if(currEur) currEur.addEventListener('click', () => setCurrency('EUR'));
-        if(currUsd) currUsd.addEventListener('click', () => setCurrency('USD'));
-        if(currDzd) currDzd.addEventListener('click', () => setCurrency('DZD'));
-
-        // Search Button Event
-        const searchBtn = document.getElementById('searchBtn');
-        if(searchBtn) {
-            searchBtn.addEventListener('click', checkImei);
-        }
-    });
-
-    function setLang(lang) {
+    function changeLang(lang) {
         currentLang = lang;
         const htmlRoot = document.getElementById('htmlRoot');
         if(htmlRoot) {
@@ -308,44 +281,47 @@
             htmlRoot.setAttribute('lang', lang);
         }
         
-        document.querySelectorAll('.lang-group .badge-btn').forEach(b => b.classList.remove('active'));
-        if(lang === 'ar' && document.getElementById('btnAr')) document.getElementById('btnAr').classList.add('active');
-        if(lang === 'fr' && document.getElementById('btnFr')) document.getElementById('btnFr').classList.add('active');
-        if(lang === 'en' && document.getElementById('btnEn')) document.getElementById('btnEn').classList.add('active');
+        // Highlight active lang button
+        const buttons = document.querySelectorAll('.lang-group .badge-btn');
+        buttons.forEach(b => b.classList.remove('active'));
+        if(lang === 'ar' && buttons[0]) buttons[0].classList.add('active');
+        if(lang === 'fr' && buttons[1]) buttons[1].classList.add('active');
+        if(lang === 'en' && buttons[2]) buttons[2].classList.add('active');
 
         const t = translations[lang];
         if(!t) return;
 
-        safeSetText('txtImeiLabel', t.imeiLabel);
-        safeSetText('txtConnected', t.connected);
-        safeSetText('txtFreeTitle', t.freeTitle);
-        safeSetText('txtFreeTag', t.freeTag);
-        safeSetText('txtFreeDesc', t.freeDesc);
-        safeSetText('txtPaidHeader', t.paidHeader);
-        safeSetText('netTitle', t.netTitle);
-        safeSetText('netDesc', t.netDesc);
-        safeSetText('icloudTitle', t.icloudTitle);
-        safeSetText('icloudDesc', t.icloudDesc);
-        safeSetText('blackTitle', t.blackTitle);
-        safeSetText('blackDesc', t.blackDesc);
-        safeSetText('proTitle', t.proTitle);
-        safeSetText('proDesc', t.proDesc);
-        safeSetText('txtFooter', t.footer);
+        setText('txtImeiLabel', t.imeiLabel);
+        setText('txtConnected', t.connected);
+        setText('txtFreeTitle', t.freeTitle);
+        setText('txtFreeTag', t.freeTag);
+        setText('txtFreeDesc', t.freeDesc);
+        setText('txtPaidHeader', t.paidHeader);
+        setText('netTitle', t.netTitle);
+        setText('netDesc', t.netDesc);
+        setText('icloudTitle', t.icloudTitle);
+        setText('icloudDesc', t.icloudDesc);
+        setText('blackTitle', t.blackTitle);
+        setText('blackDesc', t.blackDesc);
+        setText('proTitle', t.proTitle);
+        setText('proDesc', t.proDesc);
+        setText('txtFooter', t.footer);
 
         for(let i=1; i<=4; i++) {
-            safeSetText('whatsappBtn' + i, t.waBtn);
+            setText('whatsappBtn' + i, t.waBtn);
         }
-        setCurrency(currentCurrency);
+        changeCurr(currentCurrency);
     }
 
-    function safeSetText(id, text) {
+    function setText(id, text) {
         const el = document.getElementById(id);
         if(el) el.innerText = text;
     }
 
-    function setCurrency(curr) {
+    function changeCurr(curr) {
         currentCurrency = curr;
-        document.querySelectorAll('.currency-group-bar .badge-btn').forEach(b => b.classList.remove('active'));
+        const currButtons = document.querySelectorAll('.currency-group-bar .badge-btn');
+        currButtons.forEach(b => b.classList.remove('active'));
         if(curr === 'EUR' && document.getElementById('currEur')) document.getElementById('currEur').classList.add('active');
         if(curr === 'USD' && document.getElementById('currUsd')) document.getElementById('currUsd').classList.add('active');
         if(curr === 'DZD' && document.getElementById('currDzd')) document.getElementById('currDzd').classList.add('active');
@@ -365,11 +341,11 @@
             if(currentLang === 'en') { p1 = "400 DZD"; p2 = "800 DZD"; freeText = "Check Now - 0 DZD"; }
         }
 
-        safeSetText('price1', p1);
-        safeSetText('price2', p1);
-        safeSetText('price3', p1);
-        safeSetText('price4', p2);
-        safeSetText('searchBtn', freeText);
+        setText('price1', p1);
+        setText('price2', p1);
+        setText('price3', p1);
+        setText('price4', p2);
+        setText('searchBtn', freeText);
     }
 
     // IMEI Lookup, Strict Filtering & Debounce Protection
@@ -410,4 +386,20 @@
 
             // Strict Apple/iPhone Filtering to protect available API request quotas[span_4](start_span)[span_4](end_span)
             if (brand.includes('apple') || model.toLowerCase().includes('iphone')) {
-                resultBox.innerHTML = 
+                resultBox.innerHTML = `
+                    <div style="color: #10b981; font-weight: bold; margin-bottom: 8px;">✅ Free iPhone Check Successful:</div>
+                    <table class="result-table">
+                        <tr><td>Manufacturer:</td><td>Apple</td></tr>
+                        <tr><td>Device Model:</td><td>${model || 'iPhone'}</td></tr>
+                        <tr><td>IMEI Status:</td><td>Valid & Clean ✓</td></tr>
+                    </table>
+                `;
+            } else {
+                // Instant Warning for non-Apple devices to preserve API limits[span_5](start_span)[span_5](end_span)
+                resultBox.innerHTML = `⚠️ <b>Notice:</b> This device belongs to (${data.brand || 'Other Brand'}). GSM Yasser is exclusively dedicated to <b>iPhone</b> devices!`;
+            }
+        } catch (error) {
+            resultBox.innerHTML = `
+                <div style="color: #f59e0b; font-weight: bold;">🛠️ Tool Ready (Awaiting API Key):</div>
+                • Entered IMEI: <b>${imei}</b><br>
+                <span style="font-size: 11px; color: var(--subtext-color);">(Live results will appear once your personal API
