@@ -21,7 +21,7 @@
             --whatsapp-text: #000000;
         }
 
-        [data-theme="light"] {
+        body.light-mode {
             --bg-color: #f0f2f5;
             --card-bg: #ffffff;
             --card-border: #ccd0d5;
@@ -31,7 +31,7 @@
             --input-border: #ccd0d5;
             --btn-primary: #0084ff;
             --btn-primary-hover: #006dd6;
-            --accent-yellow: #f59e0b;
+            --accent-yellow: #e17055;
             --whatsapp-bg: #25d366;
             --whatsapp-hover: #1ebe5d;
             --whatsapp-text: #ffffff;
@@ -79,11 +79,8 @@
         
         .paid-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 15px; position: relative; }
         .price-tag { position: absolute; top: 15px; left: 15px; color: var(--accent-yellow); font-weight: bold; font-size: 15px; background: rgba(245, 158, 11, 0.1); padding: 4px 8px; border-radius: 8px; }
-        [dir="rtl"] .price-tag { left: auto; right: 15px; }
         
         .paid-title { font-size: 15px; font-weight: bold; margin-bottom: 4px; padding-right: 85px; }
-        [dir="rtl"] .paid-title { padding-right: 0; padding-left: 85px; }
-        
         .paid-desc { font-size: 12px; color: var(--subtext-color); margin-bottom: 12px; }
         
         .btn-whatsapp { background: var(--whatsapp-bg); color: var(--whatsapp-text); border: none; width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
@@ -99,7 +96,7 @@
         .footer-note { text-align: center; font-size: 11px; color: var(--subtext-color); margin-top: 10px; line-height: 1.5; }
     </style>
 </head>
-<body data-theme="dark">
+<body>
 
 <div class="main-container">
     <!-- Top Bar -->
@@ -120,7 +117,7 @@
     </div>
 
     <!-- Currency Bar -->
-    <div class="top-bar" style="justify-content: center; gap: 10px;">
+    <div class="top-bar currency-group-bar" style="justify-content: center; gap: 10px;">
         <button class="badge-btn" onclick="setCurrency('EUR')" id="currEur">€ EUR</button>
         <button class="badge-btn" onclick="setCurrency('USD')" id="currUsd">$ USD</button>
         <button class="badge-btn active" onclick="setCurrency('DZD')" id="currDzd">DZD</button>
@@ -202,7 +199,7 @@
 
     let currentLang = 'en';
     let currentCurrency = 'DZD';
-    let isLocked = false; // Debounce lock protection
+    let isLocked = false; // Debounce protection
 
     const translations = {
         en: {
@@ -264,12 +261,12 @@
     function toggleTheme() {
         const body = document.body;
         const themeIcon = document.getElementById('themeIcon');
-        if (body.getAttribute('data-theme') === 'dark') {
-            body.setAttribute('data-theme', 'light');
-            themeIcon.innerText = '☀️';
-        } else {
-            body.setAttribute('data-theme', 'dark');
+        if (body.classList.contains('light-mode')) {
+            body.classList.remove('light-mode');
             themeIcon.innerText = '🌙';
+        } else {
+            body.classList.add('light-mode');
+            themeIcon.innerText = '☀️';
         }
     }
 
@@ -308,7 +305,7 @@
 
     function setCurrency(curr) {
         currentCurrency = curr;
-        document.querySelectorAll('.currency-group .badge-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.currency-group-bar .badge-btn').forEach(b => b.classList.remove('active'));
         if(curr === 'EUR') document.getElementById('currEur').classList.add('active');
         if(curr === 'USD') document.getElementById('currUsd').classList.add('active');
         if(curr === 'DZD') document.getElementById('currDzd').classList.add('active');
@@ -323,9 +320,9 @@
             freeText = "Check Now - 0 $";
         }
         if(curr === 'DZD') {
-            if(currentLang === 'ar') freeText = "تحقق الآن - 0 د.ج";
-            if(currentLang === 'fr') freeText = "Vérifier - 0 DZD";
-            if(currentLang === 'en') freeText = "Check Now - 0 DZD";
+            if(currentLang === 'ar') { p1 = "400 د.ج"; p2 = "800 د.ج"; freeText = "تحقق الآن - 0 د.ج"; }
+            if(currentLang === 'fr') { p1 = "400 DZD"; p2 = "800 DZD"; freeText = "Vérifier - 0 DZD"; }
+            if(currentLang === 'en') { p1 = "400 DZD"; p2 = "800 DZD"; freeText = "Check Now - 0 DZD"; }
         }
 
         document.getElementById('price1').innerText = p1;
@@ -345,7 +342,7 @@
     }
 
     async function checkImei() {
-        if (isLocked) return; // Prevent spamming / debounce protection
+        if (isLocked) return;
 
         const imeiInput = document.getElementById('imeiInput');
         const searchBtn = document.getElementById('searchBtn');
@@ -358,7 +355,6 @@
             return;
         }
 
-        // Lock button and activate debounce to protect API usage
         isLocked = true;
         searchBtn.disabled = true;
         resultBox.style.display = 'block';
@@ -376,7 +372,7 @@
             const brand = (data.brand || '').toLowerCase();
             const model = data.model || '';
 
-            // Strict Apple/iPhone filtering to protect available API request quotas
+            // فلترة صارمة لحماية رصيد الـ API في حال لم يكن الجهاز آيفون
             if (brand.includes('apple') || model.toLowerCase().includes('iphone')) {
                 resultBox.innerHTML = `
                     <div style="color: #10b981; font-weight: bold; margin-bottom: 8px;">✅ Free iPhone Check Successful:</div>
@@ -396,15 +392,4 @@
                 <span style="font-size: 11px; color: var(--subtext-color);">(Live results will appear once your personal API key is integrated)[span_0](start_span)[span_0](end_span).</span>
             `;
         } finally {
-            // Keep button disabled for 4 seconds for extra protection against spamming
-            setTimeout(() => {
-                isLocked = false;
-                searchBtn.disabled = false;
-            }, 4000);
-        }
-    }
-</script>
-
-</body>
-</html>
-
+            // حماية Debounce:
