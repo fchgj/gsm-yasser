@@ -211,7 +211,7 @@
 
 <div class="container">
   
-  <!-- الشريط العلوي -->
+  <!-- أزرار التحكم العليا -->
   <div class="top-controls">
     <div class="lang-group">
       <button class="top-btn" onclick="setLang('ar')" id="l-ar">العربية</button>
@@ -228,7 +228,7 @@
 
   <h1 id="txt-title">GSM YASSER SERVER</h1>
 
-  <!-- حقل الـ IMEI -->
+  <!-- حقل إدخال الـ IMEI -->
   <div class="imei-box">
     <div class="imei-header">
       <span id="txt-imei-label">Serial Number / IMEI</span>
@@ -237,12 +237,12 @@
     <input type="text" id="mainIMEI" class="imei-input-field" maxlength="15" placeholder="Enter 15-digit IMEI">
   </div>
 
-  <!-- الفحص المجاني -->
+  <!-- خيار الفحص المجاني -->
   <div class="free-box">
     <span class="free-tag" id="txt-free-badge">Free</span>
     <div class="free-title" id="txt-free-title">Free Detailed iPhone Check</div>
     <div class="free-desc" id="txt-free-desc">No WhatsApp • Shows device specifications instantly</div>
-    <button class="btn-green" onclick="runFreeCheck()" id="btn-free-action">Check Now</button>
+    <button class="btn-green" onclick="runFreeCheck()">Check Now</button>
     <div id="freeResult" style="margin-top:10px; font-size:12px; font-weight:bold;"></div>
   </div>
 
@@ -415,16 +415,16 @@
 
   function setLang(lang) {
     currentLang = lang;
-    ['ar', 'fr', 'en'].forEach(l => {
-      const el = document.getElementById('l-' + l);
+    ['ar', 'fr', 'en'].forEach(function(l) {
+      var el = document.getElementById('l-' + l);
       if(el) el.classList.remove('active');
     });
-    const activeBtn = document.getElementById('l-' + lang);
+    var activeBtn = document.getElementById('l-' + lang);
     if(activeBtn) activeBtn.classList.add('active');
     document.documentElement.lang = lang;
     document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
-    const t = translations[lang];
+    var t = translations[lang];
     document.getElementById('txt-title').innerText = t.title;
     document.getElementById('txt-imei-label').innerText = t.imeiLabel;
     document.getElementById('txt-free-badge').innerText = t.freeBadge;
@@ -445,20 +445,102 @@
 
   function setCurrency(cur) {
     currentCurrency = cur;
-    ['EUR', 'USD', 'DZD'].forEach(c => {
-      const el = document.getElementById('c-' + c.toLowerCase());
+    ['EUR', 'USD', 'DZD'].forEach(function(c) {
+      var el = document.getElementById('c-' + c.toLowerCase());
       if(el) el.classList.remove('active');
     });
-    const activeBtn = document.getElementById('c-' + cur.toLowerCase());
+    var activeBtn = document.getElementById('c-' + cur.toLowerCase());
     if(activeBtn) activeBtn.classList.add('active');
     
-    const prices1 = { DZD: "400 DZD", USD: "2 USD", EUR: "2 EUR" };
-    const prices2 = { DZD: "800 DZD", USD: "4 USD", EUR: "4 EUR" };
+    var prices1 = { DZD: "400 DZD", USD: "2 USD", EUR: "2 EUR" };
+    var prices2 = { DZD: "800 DZD", USD: "4 USD", EUR: "4 EUR" };
     document.getElementById('price1').innerText = prices1[cur];
     document.getElementById('price2').innerText = prices1[cur];
     document.getElementById('price3').innerText = prices2[cur];
   }
 
   function toggleTheme() {
-    const
-        
+    var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
+  }
+
+  function runFreeCheck() {
+    var imei = document.getElementById('mainIMEI').value.trim();
+    if (!/^\d{15}$/.test(imei)) {
+      alert("Please enter a valid 15-digit IMEI.");
+      return;
+    }
+    document.getElementById('freeResult').innerHTML = '<span style="color:var(--accent);">✅ Device Connected! Clean & Available.</span>';
+  }
+
+  function orderWhatsApp(serviceName) {
+    var imei = document.getElementById('mainIMEI').value.trim();
+    var phone = "213657241710";
+    var msg = "Hello GSM Yasser, I want to order \"" + serviceName + "\". IMEI: " + (imei || "Not provided");
+    window.open("https://wa.me/" + phone + "?text=" + encodeURIComponent(msg), '_blank');
+  }
+
+  var AdminPanel = (function() {
+    var PASSWORD = "wP5t5B3d.";
+    var reportData = null;
+    var $ = function(id) { return document.getElementById(id); };
+
+    function login() {
+      var pass = prompt("🔐 Enter Admin Password:");
+      if (pass === null) return;
+      if (pass !== PASSWORD) {
+        alert("❌ Incorrect Password!");
+        return;
+      }
+      $('gy-admin-section').style.display = "block";
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function logout() {
+      $('gy-admin-section').style.display = "none";
+      reportData = null;
+    }
+
+    function generatePDF() {
+      var imei = $('gy-imei').value.trim();
+      if (!/^\d{15}$/.test(imei)) {
+        alert("⚠️ IMEI must be exactly 15 digits.");
+        return;
+      }
+
+      var lang = $('gy-language').value;
+      var dict = {
+        en: { title: "iPhone Check Report", model: "Device Model", icloud: "iCloud / FMI", carrier: "Carrier", blacklist: "GSMA Blacklist", mdm: "MDM", date: "Date", notes: "Notes" },
+        ar: { title: "تقرير فحص آيفون رسمي", model: "موديل الجهاز", icloud: "آيكلاود / FMI", carrier: "الشبكة", blacklist: "القائمة السوداء GSMA", mdm: "إدارة MDM", date: "التاريخ", notes: "ملاحظات" },
+        fr: { title: "Rapport de vérification iPhone", model: "Modèle", icloud: "iCloud / FMI", carrier: "Opérateur", blacklist: "Liste noire GSMA", mdm: "MDM", date: "Date", notes: "Remarques" }
+      };
+
+      var t = dict[lang];
+      var data = {
+        imei: imei,
+        model: $('gy-model').value || "Not Checked",
+        icloud: $('gy-icloud').value,
+        carrier: $('gy-carrier').value,
+        blacklist: $('gy-blacklist').value,
+        mdm: $('gy-mdm').value,
+        date: new Date().toLocaleString(),
+        notes: $('gy-notes').value || "-"
+      };
+
+      var ref = "GYS-" + Date.now();
+      reportData = Object.assign({}, data, { ref: ref, phone: $('gy-phone').value.trim(), lang: lang });
+
+      var rows = [
+        [t.model, data.model],
+        [t.icloud, data.icloud],
+        [t.carrier, data.carrier],
+        [t.blacklist, data.blacklist],
+        [t.mdm, data.mdm],
+        [t.date, data.date],
+        [t.notes, data.notes]
+      ].map(function(item) {
+        return "<tr><th>" + item[0] + "</th><td>" + item[1] + "</td></tr>";
+      }).join("");
+
+      var rtl = lang === "ar";
+      var html = '<!DOCTYPE html><html lang="' + lang + '" dir="' + (rtl ? "rtl":"ltr") + '"><head><meta charset="UTF-8"><title>' + t.title + '</title><style>body { font-family: Arial, sans-serif; padding: 30px; color: #111; } h1 { color: #f59e0b; text-align: center; } table { width: 100%; border-collapse: collapse; margin-top: 20px; } th, td { border: 1px solid #ccc; padding: 10px; text-align: start; } th { background: #f1f5f9; width: 35%; } @media print { button { display: none; } }</style></head><body><h1>GSM YASSER Server</h1><h2 style="text-align:center;">' + t.title + '</h2><p><strong>Reference:</strong> ' + ref + ' | <strong>IMEI:</strong> ' + imei + '</p><table>' + rows + '</table><div style="text-align:center; margin-top:30px;"><button onclick="window.print()" style="padding:10px 20px; background:#f59e0b; color:#0b131e; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">Pri
