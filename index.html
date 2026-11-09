@@ -73,6 +73,7 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 
 <main class="container">
 
+  <!-- Top Controls -->
   <div class="top-controls">
     <div class="ctrl-group">
       <button type="button" class="ctrl-btn active" onclick="setLang('en')" id="l-en">EN</button>
@@ -89,191 +90,188 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
     </div>
   </div>
 
-<section class="card">
-  <h2 id="txtFreeTitle">FREE IMEI CHECK</h2>
-  <p class="small" id="txtFreeSub">Validate the 15-digit iPhone IMEI number and its checksum.</p>
+  <!-- Free IMEI Check -->
+  <section class="card">
+    <h2 id="txtFreeTitle">FREE IMEI CHECK</h2>
+    <p class="small" id="txtFreeSub">Validate the 15-digit iPhone IMEI number and its checksum.</p>
 
-  <label id="txtImeiLabel" for="imei">Enter iPhone IMEI Number</label>
-  <input id="imei" maxlength="15" inputmode="numeric" placeholder="Enter 15-digit IMEI">
+    <label id="txtImeiLabel" for="imei">Enter iPhone IMEI Number</label>
+    <input id="imei" maxlength="15" inputmode="numeric" placeholder="Enter 15-digit IMEI">
 
-  <button type="button" class="full" onclick="checkIMEI()" id="txtCheckBtn">CHECK IMEI</button>
-  <div id="imeiResult" class="result"></div>
-</section>
+    <button type="button" class="full" onclick="checkIMEI()" id="txtCheckBtn">CHECK IMEI</button>
+    <div id="imeiResult" class="result"></div>
+  </section>
 
-<section class="card">
-  <h2 id="txtServicesTitle">AVAILABLE SERVICES</h2>
-  <div class="grid">
+  <!-- Available Services -->
+  <section class="card">
+    <h2 id="txtServicesTitle">AVAILABLE SERVICES</h2>
+    <div class="grid">
+      <div class="service">
+        <h3 id="s1Name">Basic Check</h3>
+        <p id="s1Desc">IMEI format and checksum validation.</p>
+        <div class="price" id="p1">FREE</div>
+        <button type="button" class="full" onclick="chooseService('Basic Check')" id="s1Btn">SELECT</button>
+      </div>
+      <div class="service">
+        <h3 id="s2Name">iCloud / FMI Check</h3>
+        <p id="s2Desc">Manual iCloud and Find My iPhone status report.</p>
+        <div class="price" id="p2">400 DZD</div>
+        <button type="button" class="full" onclick="chooseService('iCloud / FMI Check')" id="s2Btn">ORDER NOW</button>
+      </div>
+      <div class="service">
+        <h3 id="s3Name">Carrier Check</h3>
+        <p id="s3Desc">Manual carrier and SIM lock status report.</p>
+        <div class="price" id="p3">400 DZD</div>
+        <button type="button" class="full" onclick="chooseService('Carrier Check')" id="s3Btn">ORDER NOW</button>
+      </div>
+      <div class="service">
+        <h3 id="s4Name">Blacklist GSMA</h3>
+        <p id="s4Desc">Blacklist status report based on available results.</p>
+        <div class="price" id="p4">400 DZD</div>
+        <button type="button" class="full" onclick="chooseService('Blacklist GSMA')" id="s4Btn">ORDER NOW</button>
+      </div>
+      <div class="service">
+        <h3 id="s5Name">Full PRO Report</h3>
+        <p id="s5Desc">Comprehensive report with available results.</p>
+        <div class="price" id="p5">800 DZD</div>
+        <button type="button" class="full" onclick="chooseService('Full PRO Report')" id="s5Btn">ORDER FULL REPORT</button>
+      </div>
+    </div>
+  </section>
 
-    <div class="service">
-      <h3 id="s1Name">Basic Check</h3>
-      <p id="s1Desc">IMEI format and checksum validation.</p>
-      <div class="price" id="p1">FREE</div>
-      <button type="button" class="full" onclick="chooseService('Basic Check')" id="s1Btn">SELECT</button>
+  <!-- Submit Order -->
+  <section class="card" id="orderSection">
+    <h2 id="txtOrderTitle">SUBMIT YOUR ORDER</h2>
+
+    <label id="txtLblName" for="customerName">Customer Name</label>
+    <input id="customerName" placeholder="Your name">
+
+    <label id="txtLblPhone" for="customerPhone">Customer WhatsApp</label>
+    <input id="customerPhone" inputmode="tel" placeholder="Example: 213XXXXXXXXX">
+
+    <label id="txtLblOrderImei" for="orderIMEI">IMEI Number</label>
+    <input id="orderIMEI" maxlength="15" inputmode="numeric" placeholder="Enter IMEI">
+
+    <label id="txtLblService" for="serviceType">Select Service</label>
+    <select id="serviceType">
+      <option>Basic Check</option>
+      <option>iCloud / FMI Check</option>
+      <option>Carrier Check</option>
+      <option>Blacklist GSMA</option>
+      <option>Full PRO Report</option>
+    </select>
+
+    <button type="button" class="full green" onclick="submitOrder()" id="txtSendOrderBtn">SEND ORDER VIA WHATSAPP</button>
+    <div id="orderResult" class="result"></div>
+  </section>
+
+  <!-- Administration Login -->
+  <section class="card">
+    <div class="row">
+      <h2 id="txtAdminTitle">ADMINISTRATION</h2>
+      <button type="button" class="gray" onclick="adminLogin()" id="txtAdminLoginBtn">ADMIN LOGIN</button>
+    </div>
+    <p class="small" id="txtAdminSub">Authorized administration access.</p>
+  </section>
+
+  <!-- Admin Panel Dashboard -->
+  <section class="card admin" id="adminPanel">
+    <div class="row">
+      <h2 id="txtDashTitle">ADMIN DASHBOARD</h2>
+      <button type="button" class="red" onclick="adminLogout()" id="txtLogoutBtn">LOG OUT</button>
     </div>
 
-    <div class="service">
-      <h3 id="s2Name">iCloud / FMI Check</h3>
-      <p id="s2Desc">Manual iCloud and Find My iPhone status report.</p>
-      <div class="price" id="p2">400 DZD</div>
-      <button type="button" class="full" onclick="chooseService('iCloud / FMI Check')" id="s2Btn">ORDER NOW</button>
+    <p class="small" id="txtDemoNote">Front-end demonstration only. Reports are stored in this browser.</p>
+    <hr>
+
+    <h3 id="txtManualTitle">MANUAL CHECK RESULTS</h3>
+
+    <label id="txtLblRef" for="reportRef">Report Reference</label>
+    <input id="reportRef" placeholder="GYS-2026-1001">
+
+    <label id="txtLblCustName" for="reportCustomer">Customer Name</label>
+    <input id="reportCustomer">
+
+    <label id="txtLblCustPhone" for="reportPhone">Customer WhatsApp</label>
+    <input id="reportPhone" inputmode="tel">
+
+    <label id="txtLblReportImei" for="reportIMEI">IMEI Number</label>
+    <input id="reportIMEI" maxlength="15" inputmode="numeric">
+
+    <label id="txtLblModel" for="reportModel">Device Model</label>
+    <input id="reportModel" placeholder="iPhone 14 Pro Max">
+
+    <label id="txtLblReportService" for="reportService">Service</label>
+    <select id="reportService">
+      <option>iCloud / FMI Check</option>
+      <option>Carrier Check</option>
+      <option>Blacklist GSMA</option>
+      <option>Full PRO Report</option>
+      <option>Basic Check</option>
+    </select>
+
+    <label id="txtLblIcloud" for="icloudStatus">iCloud / FMI Status</label>
+    <select id="icloudStatus">
+      <option value="Not Checked">Not Checked</option>
+      <option value="ON">ON</option>
+      <option value="OFF">OFF</option>
+    </select>
+
+    <label id="txtLblCarrier" for="carrierStatus">Carrier Status</label>
+    <select id="carrierStatus">
+      <option value="Not Checked">Not Checked</option>
+      <option value="Locked">Locked</option>
+      <option value="Unlocked">Unlocked</option>
+    </select>
+
+    <label id="txtLblBlacklist" for="blacklistStatus">Blacklist Status</label>
+    <select id="blacklistStatus">
+      <option value="Not Checked">Not Checked</option>
+      <option value="Clean">Clean</option>
+      <option value="Blacklisted">Blacklisted</option>
+    </select>
+
+    <label id="txtLblMdm" for="mdmStatus">MDM Status</label>
+    <select id="mdmStatus">
+      <option value="Not Checked">Not Checked</option>
+      <option value="ON">ON</option>
+      <option value="OFF">OFF</option>
+    </select>
+
+    <label id="txtLblNotes" for="reportNotes">Additional Notes</label>
+    <textarea id="reportNotes"></textarea>
+
+    <label id="txtLblLang" for="reportLanguage">Report Language</label>
+    <select id="reportLanguage">
+      <option value="en">English</option>
+      <option value="fr">French</option>
+      <option value="ar">Arabic</option>
+    </select>
+
+    <button type="button" class="full green" onclick="saveReport()" id="txtSaveReportBtn">SAVE AND GENERATE REPORT</button>
+    <div id="adminResult" class="result"></div>
+
+    <hr>
+
+    <div class="row">
+      <h3 id="txtSavedTitle">SAVED REPORTS</h3>
+      <button type="button" class="gray" onclick="showReports()" id="txtRefreshBtn">REFRESH</button>
     </div>
 
-    <div class="service">
-      <h3 id="s3Name">Carrier Check</h3>
-      <p id="s3Desc">Manual carrier and SIM lock status report.</p>
-      <div class="price" id="p3">400 DZD</div>
-      <button type="button" class="full" onclick="chooseService('Carrier Check')" id="s3Btn">ORDER NOW</button>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th id="thRef">REFERENCE</th>
+            <th id="thImei">IMEI</th>
+            <th id="thService">SERVICE</th>
+            <th id="thActions">ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody id="reportsList"></tbody>
+      </table>
     </div>
-
-    <div class="service">
-      <h3 id="s4Name">Blacklist GSMA</h3>
-      <p id="s4Desc">Blacklist status report based on available results.</p>
-      <div class="price" id="p4">400 DZD</div>
-      <button type="button" class="full" onclick="chooseService('Blacklist GSMA')" id="s4Btn">ORDER NOW</button>
-    </div>
-
-    <div class="service">
-      <h3 id="s5Name">Full PRO Report</h3>
-      <p id="s5Desc">Comprehensive report with available results.</p>
-      <div class="price" id="p5">800 DZD</div>
-      <button type="button" class="full" onclick="chooseService('Full PRO Report')" id="s5Btn">ORDER FULL REPORT</button>
-    </div>
-
-  </div>
-</section>
-
-<section class="card" id="orderSection">
-  <h2 id="txtOrderTitle">SUBMIT YOUR ORDER</h2>
-
-  <label id="txtLblName" for="customerName">Customer Name</label>
-  <input id="customerName" placeholder="Your name">
-
-  <label id="txtLblPhone" for="customerPhone">Customer WhatsApp</label>
-  <input id="customerPhone" inputmode="tel" placeholder="Example: 213XXXXXXXXX">
-
-  <label id="txtLblOrderImei" for="orderIMEI">IMEI Number</label>
-  <input id="orderIMEI" maxlength="15" inputmode="numeric" placeholder="Enter IMEI">
-
-  <label id="txtLblService" for="serviceType">Select Service</label>
-  <select id="serviceType">
-    <option>Basic Check</option>
-    <option>iCloud / FMI Check</option>
-    <option>Carrier Check</option>
-    <option>Blacklist GSMA</option>
-    <option>Full PRO Report</option>
-  </select>
-
-  <button type="button" class="full green" onclick="submitOrder()" id="txtSendOrderBtn">SEND ORDER VIA WHATSAPP</button>
-  <div id="orderResult" class="result"></div>
-</section>
-
-<section class="card">
-  <div class="row">
-    <h2 id="txtAdminTitle">ADMINISTRATION</h2>
-    <button type="button" class="gray" onclick="adminLogin()" id="txtAdminLoginBtn">ADMIN LOGIN</button>
-  </div>
-  <p class="small" id="txtAdminSub">Authorized administration access.</p>
-</section>
-
-<section class="card admin" id="adminPanel">
-
-  <div class="row">
-    <h2 id="txtDashTitle">ADMIN DASHBOARD</h2>
-    <button type="button" class="red" onclick="adminLogout()" id="txtLogoutBtn">LOG OUT</button>
-  </div>
-
-  <p class="small" id="txtDemoNote">Front-end demonstration only. Reports are stored in this browser.</p>
-  <hr>
-
-  <h3 id="txtManualTitle">MANUAL CHECK RESULTS</h3>
-
-  <label id="txtLblRef" for="reportRef">Report Reference</label>
-  <input id="reportRef" placeholder="GYS-2026-1001">
-
-  <label id="txtLblCustName" for="reportCustomer">Customer Name</label>
-  <input id="reportCustomer">
-
-  <label id="txtLblCustPhone" for="reportPhone">Customer WhatsApp</label>
-  <input id="reportPhone" inputmode="tel">
-
-  <label id="txtLblReportImei" for="reportIMEI">IMEI Number</label>
-  <input id="reportIMEI" maxlength="15" inputmode="numeric">
-
-  <label id="txtLblModel" for="reportModel">Device Model</label>
-  <input id="reportModel" placeholder="iPhone 14 Pro Max">
-
-  <label id="txtLblReportService" for="reportService">Service</label>
-  <select id="reportService">
-    <option>iCloud / FMI Check</option>
-    <option>Carrier Check</option>
-    <option>Blacklist GSMA</option>
-    <option>Full PRO Report</option>
-    <option>Basic Check</option>
-  </select>
-
-  <label id="txtLblIcloud" for="icloudStatus">iCloud / FMI Status</label>
-  <select id="icloudStatus">
-    <option value="Not Checked">Not Checked</option>
-    <option value="ON">ON</option>
-    <option value="OFF">OFF</option>
-  </select>
-
-  <label id="txtLblCarrier" for="carrierStatus">Carrier Status</label>
-  <select id="carrierStatus">
-    <option value="Not Checked">Not Checked</option>
-    <option value="Locked">Locked</option>
-    <option value="Unlocked">Unlocked</option>
-  </select>
-
-  <label id="txtLblBlacklist" for="blacklistStatus">Blacklist Status</label>
-  <select id="blacklistStatus">
-    <option value="Not Checked">Not Checked</option>
-    <option value="Clean">Clean</option>
-    <option value="Blacklisted">Blacklisted</option>
-  </select>
-
-  <label id="txtLblMdm" for="mdmStatus">MDM Status</label>
-  <select id="mdmStatus">
-    <option value="Not Checked">Not Checked</option>
-    <option value="ON">ON</option>
-    <option value="OFF">OFF</option>
-  </select>
-
-  <label id="txtLblNotes" for="reportNotes">Additional Notes</label>
-  <textarea id="reportNotes"></textarea>
-
-  <label id="txtLblLang" for="reportLanguage">Report Language</label>
-  <select id="reportLanguage">
-    <option value="en">English</option>
-    <option value="fr">French</option>
-    <option value="ar">Arabic</option>
-  </select>
-
-  <button type="button" class="full green" onclick="saveReport()" id="txtSaveReportBtn">SAVE AND GENERATE REPORT</button>
-  <div id="adminResult" class="result"></div>
-
-  <hr>
-
-  <div class="row">
-    <h3 id="txtSavedTitle">SAVED REPORTS</h3>
-    <button type="button" class="gray" onclick="showReports()" id="txtRefreshBtn">REFRESH</button>
-  </div>
-
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th id="thRef">REFERENCE</th>
-          <th id="thImei">IMEI</th>
-          <th id="thService">SERVICE</th>
-          <th id="thActions">ACTIONS</th>
-        </tr>
-      </thead>
-      <tbody id="reportsList"></tbody>
-    </table>
-  </div>
-
-</section>
+  </section>
 
 </main>
 
@@ -413,16 +411,10 @@ const i18n = {
   ar: {
     sub: "فحص آيفون احترافي والخدمات المحمولة",
     freeTitle: "فحص IMEI المجاني",
-    freeSub: "تحقق من رقم IMEI المكون من 15 رقماً ومن صحة المجموع الاختباري.",
+    freeSub: "تحقق من رقم IMEI الآيفون المكون من 15 رقماً ومن صحة المجموع الاختباري.",
     imeiLabel: "أدخل رقم IMEI الآيفون", checkBtn: "فحص الـ IMEI",
     servicesTitle: "الخدمات المتاحة",
     s1Name: "فحص أساسي", s1Desc: "تنسيق IMEI والتحقق من المجموع الاختباري.", s1Btn: "اختيار",
     s2Name: "فحص iCloud / FMI", s2Desc: "تقرير يدوي لحالة آيكلاود والبحث عن آيفون.", s2Btn: "اطلب الآن",
     s3Name: "فحص الشبكة والناقل", s3Desc: "تقرير يدوي لشركة الاتصالات وحالة القفل.", s3Btn: "اطلب الآن",
-    s4Name: "القائمة السوداء GSMA", s4Desc: "تقرير حالة القائمة السوداء.", s4Btn: "اطلب الآن",
-    s5Name: "تقرير PRO الشامل", s5Desc: "تقرير شامل مع نتائج الفحص المتاحة.", s5Btn: "اطلب التقرير الشامل",
-    orderTitle: "إرسال طلبك",
-    lblName: "اسم العميل", lblPhone: "واتساب العميل", lblOrderImei: "رقم IMEI", lblService: "اختر الخدمة",
-    sendOrderBtn: "إرسال الطلب عبر واتساب",
-    adminTitle: "الإدارة", adminLoginBtn: "تسجيل دخول المشرف", adminSub: "صلاحيات الوصول للإدارة المصرح لها.",
-    dashTitle:
+    s4Name: "القائمة السوداء GSMA", s4Desc:
