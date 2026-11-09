@@ -93,9 +93,9 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
   <!-- Free IMEI Check -->
   <section class="card">
     <h2 id="txtFreeTitle">FREE IMEI CHECK</h2>
-    <p class="small" id="txtFreeSub">Validate the 15-digit IMEI number and its checksum.</p>
+    <p class="small" id="txtFreeSub">Validate the 15-digit iPhone IMEI number and its checksum.</p>
 
-    <label id="txtImeiLabel" for="imei">Enter IMEI Number</label>
+    <label id="txtImeiLabel" for="imei">Enter iPhone IMEI Number</label>
     <input id="imei" maxlength="15" inputmode="numeric" placeholder="Enter 15-digit IMEI">
 
     <button type="button" class="full" id="btnCheckImei">CHECK IMEI</button>
@@ -288,7 +288,6 @@ let currentLang = "en";
 let currentCurrency = "DZD";
 let isAdmin = false;
 
-/* Helper Selectors */
 const $ = id => document.getElementById(id);
 
 function esc(s){
@@ -301,13 +300,12 @@ function showBox(id, html){ const el = $(id); el.innerHTML = html; el.style.disp
 function store(key, val){ try{ localStorage.setItem(key, val); return true; }catch(e){ return false; } }
 function load(key){ try{ return localStorage.getItem(key); }catch(e){ return null; } }
 
-/* Translations */
 const i18n = {
   en: {
     sub: "Professional iPhone Check & Mobile Services",
     freeTitle: "FREE IMEI CHECK",
-    freeSub: "Validate the 15-digit IMEI number and its checksum.",
-    imeiLabel: "Enter IMEI Number", checkBtn: "CHECK IMEI",
+    freeSub: "Validate the 15-digit iPhone IMEI number and its checksum.",
+    imeiLabel: "Enter iPhone IMEI Number", checkBtn: "CHECK IMEI",
     servicesTitle: "AVAILABLE SERVICES",
     s1Name: "Basic Check", s1Desc: "IMEI format and checksum validation.", s1Btn: "SELECT",
     s2Name: "iCloud / FMI Check", s2Desc: "Manual iCloud and Find My iPhone status report.", s2Btn: "ORDER NOW",
@@ -329,7 +327,7 @@ const i18n = {
     thRef: "REFERENCE", thImei: "IMEI", thService: "SERVICE", thActions: "ACTIONS",
     m: {
       imeiBad: "❌ IMEI must be exactly 15 digits.",
-      imeiOk: "✅ Valid IMEI (checksum correct).",
+      imeiOk: "✅ Valid iPhone IMEI (checksum correct).",
       imeiFail: "❌ Invalid IMEI (checksum failed).",
       tac: "TAC (device type code)", orderFill: "Please fill in name, WhatsApp number and a valid 15-digit IMEI.",
       orderBad: "Invalid IMEI checksum. Please check the number.",
@@ -342,7 +340,7 @@ const i18n = {
       view: "View", send: "WhatsApp", del: "Delete", copy: "Copy", copied: "Copied."
     },
     rep: {
-      title: "GSM YASSER SERVER — CHECK REPORT", ref: "Reference", date: "Date", cust: "Customer", phone: "WhatsApp",
+      title: "GSM YASSER SERVER — IPHONE CHECK REPORT", ref: "Reference", date: "Date", cust: "Customer", phone: "WhatsApp",
       imei: "IMEI", model: "Device Model", service: "Service", icloud: "iCloud / FMI", carrier: "Carrier",
       bl: "Blacklist", mdm: "MDM", notes: "Notes", foot: "Results are based on available data at the time of the check."
     }
@@ -350,8 +348,8 @@ const i18n = {
   fr: {
     sub: "Vérification professionnelle iPhone et services mobiles",
     freeTitle: "VÉRIFICATION IMEI GRATUITE",
-    freeSub: "Validez le numéro IMEI à 15 chiffres et sa somme de contrôle.",
-    imeiLabel: "Entrez le numéro IMEI", checkBtn: "VÉRIFIER L'IMEI",
+    freeSub: "Validez le numéro IMEI iPhone à 15 chiffres et sa somme de contrôle.",
+    imeiLabel: "Entrez le numéro IMEI iPhone", checkBtn: "VÉRIFIER L'IMEI",
     servicesTitle: "SERVICES DISPONIBLES",
     s1Name: "Vérification de base", s1Desc: "Format IMEI et validation de la somme de contrôle.", s1Btn: "SÉLECTIONNER",
     s2Name: "Vérification iCloud / FMI", s2Desc: "Rapport manuel iCloud et statut Find My iPhone.", s2Btn: "COMMANDER",
@@ -373,7 +371,7 @@ const i18n = {
     thRef: "RÉFÉRENCE", thImei: "IMEI", thService: "SERVICE", thActions: "ACTIONS",
     m: {
       imeiBad: "❌ L'IMEI doit contenir exactement 15 chiffres.",
-      imeiOk: "✅ IMEI valide (somme de contrôle correcte).",
+      imeiOk: "✅ IMEI iPhone valide (somme de contrôle correcte).",
       imeiFail: "❌ IMEI invalide (somme de contrôle incorrecte).",
       tac: "TAC (code type d'appareil)", orderFill: "Veuillez saisir le nom, le numéro WhatsApp et un IMEI valide de 15 chiffres.",
       orderBad: "Somme de contrôle IMEI invalide. Vérifiez le numéro.",
@@ -386,7 +384,7 @@ const i18n = {
       view: "Voir", send: "WhatsApp", del: "Supprimer", copy: "Copier", copied: "Copié."
     },
     rep: {
-      title: "GSM YASSER SERVER — RAPPORT DE VÉRIFICATION", ref: "Référence", date: "Date", cust: "Client", phone: "WhatsApp",
+      title: "GSM YASSER SERVER — RAPPORT DE VÉRIFICATION IPHONE", ref: "Référence", date: "Date", cust: "Client", phone: "WhatsApp",
       imei: "IMEI", model: "Modèle", service: "Service", icloud: "iCloud / FMI", carrier: "Opérateur",
       bl: "Liste noire", mdm: "MDM", notes: "Notes", foot: "Les résultats sont basés sur les données disponibles au moment de la vérification."
     }
@@ -394,8 +392,8 @@ const i18n = {
   ar: {
     sub: "فحص آيفون احترافي والخدمات المحمولة",
     freeTitle: "فحص IMEI المجاني",
-    freeSub: "تحقق من رقم IMEI المكون من 15 رقماً ومن صحة المجموع الاختباري.",
-    imeiLabel: "أدخل رقم الـ IMEI", checkBtn: "فحص الـ IMEI",
+    freeSub: "تحقق من رقم IMEI الآيفون المكون من 15 رقماً ومن صحة المجموع الاختباري.",
+    imeiLabel: "أدخل رقم IMEI الآيفون", checkBtn: "فحص الـ IMEI",
     servicesTitle: "الخدمات المتاحة",
     s1Name: "فحص أساسي", s1Desc: "تنسيق IMEI والتحقق من المجموع الاختباري.", s1Btn: "اختيار",
     s2Name: "فحص iCloud / FMI", s2Desc: "تقرير يدوي لحالة آيكلاود والبحث عن آيفون.", s2Btn: "اطلب الآن",
@@ -406,4 +404,4 @@ const i18n = {
     lblName: "اسم العميل", lblPhone: "واتساب العميل", lblOrderImei: "رقم IMEI", lblService: "اختر الخدمة",
     sendOrderBtn: "إرسال الطلب عبر واتساب",
     adminTitle: "الإدارة", adminLoginBtn: "تسجيل دخول المشرف", adminSub: "صلاحيات الوصول للإدارة المصرح لها.",
-    dashTitle: "لوحة تحكم المشرف", logoutBtn: "تسجيل خرو
+    dashTitle: "
