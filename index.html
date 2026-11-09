@@ -290,7 +290,7 @@
     </button>
   </div>
 
-  <!-- Admin Login Trigger (Without Password) -->
+  <!-- Admin Login Trigger -->
   <div style="text-align:center; margin-top:20px;">
     <button onclick="adminLogin()" style="background:none; border:none; color:var(--text-muted); font-size:11px; cursor:pointer; text-decoration:underline;">
       🔐 Admin Panel Login
@@ -431,109 +431,5 @@
     document.getElementById('txt-free-badge').innerText = t.freeBadge;
     document.getElementById('txt-free-title').innerText = t.freeTitle;
     document.getElementById('txt-free-desc').innerText = t.freeDesc;
-    document.getElementById('txt-services-title').innerText = t.servicesTitle;
-    document.getElementById('txt-s1-name').innerText = t.s1Name;
-    document.getElementById('txt-s1-desc').innerText = t.s1Desc;
-    document.getElementById('txt-s2-name').innerText = t.s2Name;
-    document.getElementById('txt-s2-desc').innerText = t.s2Desc;
-    document.getElementById('txt-s3-name').innerText = t.s3Name;
-    document.getElementById('txt-s3-desc').innerText = t.s3Desc;
-    document.getElementById('txt-order1').innerText = t.orderBtn;
-    document.getElementById('txt-order2').innerText = t.orderBtn;
-    document.getElementById('txt-order3').innerText = t.orderBtn;
-    document.getElementById('btn-free-action').innerText = t.freeBtn;
-  }
-
-  function setCurrency(cur) {
-    currentCurrency = cur;
-    ['EUR', 'USD', 'DZD'].forEach(function(c) {
-      var el = document.getElementById('c-' + c.toLowerCase());
-      if(el) el.classList.remove('active');
-    });
-    var activeBtn = document.getElementById('c-' + cur.toLowerCase());
-    if(activeBtn) activeBtn.classList.add('active');
-    
-    var prices1 = { DZD: "400 DZD", USD: "2 USD", EUR: "2 EUR" };
-    var prices2 = { DZD: "800 DZD", USD: "4 USD", EUR: "4 EUR" };
-    document.getElementById('price1').innerText = prices1[cur];
-    document.getElementById('price2').innerText = prices1[cur];
-    document.getElementById('price3').innerText = prices2[cur];
-  }
-
-  function toggleTheme() {
-    var isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
-  }
-
-  function runFreeCheck() {
-    var imei = document.getElementById('mainIMEI').value.trim();
-    if (!/^\d{15}$/.test(imei)) {
-      alert("Please enter a valid 15-digit IMEI.");
-      return;
-    }
-    document.getElementById('freeResult').innerHTML = '<span style="color:var(--accent);">✅ Device Connected! Clean & Available.</span>';
-  }
-
-  function orderWhatsApp(serviceName) {
-    var imei = document.getElementById('mainIMEI').value.trim();
-    var phone = "213657241710";
-    var msg = "Hello GSM Yasser, I want to order \"" + serviceName + "\". IMEI: " + (imei || "Not provided");
-    window.location.href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
-  }
-
-  function adminLogin() {
-    document.getElementById('gy-admin-section').style.display = "block";
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-  }
-
-  function adminLogout() {
-    document.getElementById('gy-admin-section').style.display = "none";
-    globalReportData = null;
-  }
-
-  function generatePDF() {
-    var imei = document.getElementById('gy-imei').value.trim();
-    if (!/^\d{15}$/.test(imei)) {
-      alert("⚠️ IMEI must be exactly 15 digits.");
-      return;
-    }
-
-    var lang = document.getElementById('gy-language').value;
-    var dict = {
-      en: { title: "iPhone Check Report", model: "Device Model", icloud: "iCloud / FMI", carrier: "Carrier", blacklist: "GSMA Blacklist", mdm: "MDM", date: "Date", notes: "Notes" },
-      ar: { title: "تقرير فحص آيفون رسمي", model: "موديل الجهاز", icloud: "آيكلاود / FMI", carrier: "الشبكة", blacklist: "القائمة السوداء GSMA", mdm: "إدارة MDM", date: "التاريخ", notes: "ملاحظات" },
-      fr: { title: "Rapport de vérification iPhone", model: "Modèle", icloud: "iCloud / FMI", carrier: "Opérateur", blacklist: "Liste noire GSMA", mdm: "MDM", date: "Date", notes: "Remarques" }
-    };
-
-    var t = dict[lang];
-    var data = {
-      imei: imei,
-      model: document.getElementById('gy-model').value || "Not Checked",
-      icloud: document.getElementById('gy-icloud').value,
-      carrier: document.getElementById('gy-carrier').value,
-      blacklist: document.getElementById('gy-blacklist').value,
-      mdm: document.getElementById('gy-mdm').value,
-      date: new Date().toLocaleString(),
-      notes: document.getElementById('gy-notes').value || "-"
-    };
-
-    var ref = "GYS-" + Date.now();
-    globalReportData = { ref: ref, imei: imei, phone: document.getElementById('gy-phone').value.trim() };
-
-    var rows = [
-      [t.model, data.model],
-      [t.icloud, data.icloud],
-      [t.carrier, data.carrier],
-      [t.blacklist, data.blacklist],
-      [t.mdm, data.mdm],
-      [t.date, data.date],
-      [t.notes, data.notes]
-    ].map(function(item) {
-      return "<tr><th>" + item[0] + "</th><td>" + item[1] + "</td></tr>";
-    }).join("");
-
-    var rtl = lang === "ar";
-    var html = '<!DOCTYPE html><html lang="' + lang + '" dir="' + (rtl ? "rtl":"ltr") + '"><head><meta charset="UTF-8"><title>' + t.title + '</title><style>body { font-family: Arial, sans-serif; padding: 30px; color: #111; } h1 { color: #f59e0b; text-align: center; } table { width: 100%; border-collapse: collapse; margin-top: 20px; } th, td { border: 1px solid #ccc; padding: 10px; text-align: start; } th { background: #f1f5f9; width: 35%; } @media print { button { display: none; } }</style></head><body><h1>GSM YASSER Server</h1><h2 style="text-align:center;">' + t.title + '</h2><p><strong>Reference:</strong> ' + ref + ' | <strong>IMEI:</strong> ' + imei + '</p><table>' + rows + '</table><div style="text-align:center; margin-top:30px;"><button onclick="window.print()" style="padding:10px 20px; background:#f59e0b; color:#0b131e; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">Print / Save PDF</button></div></body></html>';
-
-    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
-    var url = URL.createObjectURL(blo
+    document.getElementById('txt-services-
+  
