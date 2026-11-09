@@ -102,12 +102,12 @@
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="lang-group">
-            <button class="badge-btn" id="langAr">العربية</button>
-            <button class="badge-btn" id="langFr">Français</button>
-            <button class="badge-btn active" id="langEn">EN</button>
+            <button class="badge-btn" id="langAr" onclick="changeLanguage('ar')">العربية</button>
+            <button class="badge-btn" id="langFr" onclick="changeLanguage('fr')">Français</button>
+            <button class="badge-btn active" id="langEn" onclick="changeLanguage('en')">EN</button>
         </div>
         <div class="icons-group">
-            <button class="icon-btn" id="themeBtn" title="Toggle Theme">🌙</button>
+            <button class="icon-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
         </div>
     </div>
 
@@ -117,9 +117,9 @@
 
     <!-- Currency Switcher Bar -->
     <div class="top-bar currency-group-bar" style="justify-content: center; gap: 10px;">
-        <button class="badge-btn" id="currEur">€ EUR</button>
-        <button class="badge-btn" id="currUsd">$ USD</button>
-        <button class="badge-btn active" id="currDzd">DZD</button>
+        <button class="badge-btn" id="currEur" onclick="changeCurrency('EUR')">€ EUR</button>
+        <button class="badge-btn" id="currUsd" onclick="changeCurrency('USD')">$ USD</button>
+        <button class="badge-btn active" id="currDzd" onclick="changeCurrency('DZD')">DZD</button>
     </div>
 
     <!-- IMEI Card -->
@@ -140,7 +140,7 @@
             <span class="tag-free" id="txtFreeTag">Free</span>
         </div>
         <div class="service-desc" id="txtFreeDesc">No WhatsApp • Shows device specifications instantly</div>
-        <button id="searchBtn" class="btn-action">Check Now - 0 DZD</button>
+        <button id="searchBtn" class="btn-action" onclick="checkImei()">Check Now - 0 DZD</button>
         <div id="resultBox" class="result-box"></div>
     </div>
 
@@ -264,39 +264,26 @@
         }
     };
 
-    // Safe DOM Event Bindings
-    window.addEventListener('DOMContentLoaded', () => {
-        // Theme Switcher
-        document.getElementById('themeBtn').addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            const btn = document.getElementById('themeBtn');
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const btn = document.getElementById('themeBtn');
+        if(btn) {
             btn.innerText = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
-        });
-
-        // Language Switchers
-        document.getElementById('langAr').addEventListener('click', () => changeLanguage('ar'));
-        document.getElementById('langFr').addEventListener('click', () => changeLanguage('fr'));
-        document.getElementById('langEn').addEventListener('click', () => changeLanguage('en'));
-
-        // Currency Switchers
-        document.getElementById('currEur').addEventListener('click', () => changeCurrency('EUR'));
-        document.getElementById('currUsd').addEventListener('click', () => changeCurrency('USD'));
-        document.getElementById('currDzd').addEventListener('click', () => changeCurrency('DZD'));
-
-        // Search Button Click (Free Check)
-        document.getElementById('searchBtn').addEventListener('click', checkImei);
-    });
+        }
+    }
 
     function changeLanguage(lang) {
         currentLang = lang;
         const htmlRoot = document.getElementById('htmlRoot');
-        htmlRoot.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-        htmlRoot.setAttribute('lang', lang);
+        if(htmlRoot) {
+            htmlRoot.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            htmlRoot.setAttribute('lang', lang);
+        }
         
         document.querySelectorAll('.lang-group .badge-btn').forEach(b => b.classList.remove('active'));
-        if(lang === 'ar') document.getElementById('langAr').classList.add('active');
-        if(lang === 'fr') document.getElementById('langFr').classList.add('active');
-        if(lang === 'en') document.getElementById('langEn').classList.add('active');
+        if(lang === 'ar' && document.getElementById('langAr')) document.getElementById('langAr').classList.add('active');
+        if(lang === 'fr' && document.getElementById('langFr')) document.getElementById('langFr').classList.add('active');
+        if(lang === 'en' && document.getElementById('langEn')) document.getElementById('langEn').classList.add('active');
 
         const t = translations[lang];
         if(!t) return;
@@ -331,9 +318,9 @@
     function changeCurrency(curr) {
         currentCurrency = curr;
         document.querySelectorAll('.currency-group-bar .badge-btn').forEach(b => b.classList.remove('active'));
-        if(curr === 'EUR') document.getElementById('currEur').classList.add('active');
-        if(curr === 'USD') document.getElementById('currUsd').classList.add('active');
-        if(curr === 'DZD') document.getElementById('currDzd').classList.add('active');
+        if(curr === 'EUR' && document.getElementById('currEur')) document.getElementById('currEur').classList.add('active');
+        if(curr === 'USD' && document.getElementById('currUsd')) document.getElementById('currUsd').classList.add('active');
+        if(curr === 'DZD' && document.getElementById('currDzd')) document.getElementById('currDzd').classList.add('active');
 
         let p1 = "400 DZD", p2 = "800 DZD", freeText = "Check Now - 0 DZD";
         if(curr === 'EUR') { 
@@ -357,7 +344,7 @@
         setElemText('searchBtn', freeText);
     }
 
-    // IMEI Lookup with Strict Filtering and Debounce Protection
+    // IMEI Lookup, Strict Filtering & Debounce Protection
     async function checkImei() {
         if (isLocked) return; // Debounce Lock Protection
 
@@ -375,7 +362,7 @@
             return;
         }
 
-        // Lock button (Debounce) to protect API resources[span_2](start_span)[span_2](end_span)
+        // Lock button (Debounce) to protect API resources[span_3](start_span)[span_3](end_span)
         isLocked = true;
         searchBtn.disabled = true;
         resultBox.style.display = 'block';
@@ -393,7 +380,7 @@
             const brand = (data.brand || '').toLowerCase();
             const model = data.model || '';
 
-            // Strict Apple/iPhone Filtering to protect available API request quotas[span_3](start_span)[span_3](end_span)
+            // Strict Apple/iPhone Filtering to protect available API request quotas[span_4](start_span)[span_4](end_span)
             if (brand.includes('apple') || model.toLowerCase().includes('iphone')) {
                 resultBox.innerHTML = `
                     <div style="color: #10b981; font-weight: bold; margin-bottom: 8px;">✅ Free iPhone Check Successful:</div>
@@ -404,4 +391,11 @@
                     </table>
                 `;
             } else {
-                // Instant Warning for non-Apple devices to preserve API limits[span_4](start_span)[span_
+                // Instant Warning for non-Apple devices to preserve API limits[span_5](start_span)[span_5](end_span)
+                resultBox.innerHTML = `⚠️ <b>Notice:</b> This device belongs to (${data.brand || 'Other Brand'}). GSM Yasser is exclusively dedicated to <b>iPhone</b> devices!`;
+            }
+        } catch (error) {
+            resultBox.innerHTML = `
+                <div style="color: #f59e0b; font-weight: bold;">🛠️ Tool Ready (Awaiting API Key):</div>
+                • Entered IMEI: <b>${imei}</b><br>
+                <span style="font-siz
