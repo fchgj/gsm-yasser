@@ -211,7 +211,7 @@
 
 <div class="container">
   
-  <!-- أزرار التحكم العليا -->
+  <!-- Top Controls -->
   <div class="top-controls">
     <div class="lang-group">
       <button class="top-btn" onclick="setLang('ar')" id="l-ar">العربية</button>
@@ -228,7 +228,7 @@
 
   <h1 id="txt-title">GSM YASSER SERVER</h1>
 
-  <!-- حقل الـ IMEI -->
+  <!-- IMEI Box -->
   <div class="imei-box">
     <div class="imei-header">
       <span id="txt-imei-label">Serial Number / IMEI</span>
@@ -237,18 +237,18 @@
     <input type="text" id="mainIMEI" class="imei-input-field" maxlength="15" placeholder="Enter 15-digit IMEI">
   </div>
 
-  <!-- الفحص المجاني -->
+  <!-- Free Detailed Check -->
   <div class="free-box">
     <span class="free-tag" id="txt-free-badge">Free</span>
     <div class="free-title" id="txt-free-title">Free Detailed iPhone Check</div>
     <div class="free-desc" id="txt-free-desc">No WhatsApp • Shows device specifications instantly</div>
-    <button class="btn-green" onclick="runFreeCheck()">Check Now</button>
+    <button class="btn-green" onclick="runFreeCheck()" id="btn-free-action">Check Now</button>
     <div id="freeResult" style="margin-top:10px; font-size:12px; font-weight:bold;"></div>
   </div>
 
   <div class="section-title" id="txt-services-title">Premium Services</div>
 
-  <!-- الخدمة 1 -->
+  <!-- Service 1 -->
   <div class="service-card">
     <div class="service-row">
       <div>
@@ -262,7 +262,7 @@
     </button>
   </div>
 
-  <!-- الخدمة 2 -->
+  <!-- Service 2 -->
   <div class="service-card">
     <div class="service-row">
       <div>
@@ -276,7 +276,7 @@
     </button>
   </div>
 
-  <!-- الخدمة 3: فحص شامل مدفوع -->
+  <!-- Service 3: Comprehensive Paid Check -->
   <div class="service-card">
     <div class="service-row">
       <div>
@@ -290,14 +290,14 @@
     </button>
   </div>
 
-  <!-- زر لوحة الإدارة -->
+  <!-- Admin Login Trigger -->
   <div style="text-align:center; margin-top:20px;">
     <button onclick="adminLogin()" style="background:none; border:none; color:var(--text-muted); font-size:11px; cursor:pointer; text-decoration:underline;">
       🔐 Admin Panel Login
     </button>
   </div>
 
-  <!-- لوحة الإدارة السرية -->
+  <!-- Secret Admin Panel -->
   <section id="gy-admin-section">
     <h3 style="color:var(--primary); text-align:center; font-size:15px; margin-bottom:5px;">Admin Paid Report Panel</h3>
     <p style="text-align:center; color:var(--text-muted); font-size:11px; margin-bottom:15px;">إدخال نتائج الفحص المدفوع يدوياً وإصدار التقارير</p>
@@ -540,4 +540,4 @@
     }).join("");
 
     var rtl = lang === "ar";
-    var html = '<!DOCTYPE html><html lang="' + lang + '" dir="' + (rtl ? "rtl":"ltr") + '"><head><meta charset="UTF-8"><title>' + t.title + '</title><style>body { font-family: Arial, sans-serif; padding: 30px; color: #111; } h1 { color: #f59e0b; text-align: center; } table { width: 100%; border-collapse: collapse; margin-top: 20px; } th, td { border: 1px solid #ccc; padding: 10px; text-align: start; } th { background: #f1f5f9; width: 35%; } @media print { button { display: none; } }</style></head><body><h1>GSM YASSER Server</h1><h2 style="text-align:center;">' + t.title + '</h2><p><strong>Reference:</strong> ' + ref + ' | <strong>IMEI:</strong> ' + imei + '</p><table>' + rows + '</table><div style="text-align:center; margin-top:30px;"><button onclick="window.print()" style="padding:10px 20px; background:#f59e0b; color:#0b131e; border:none; border-radius:6px; font-weight:bold; cursor:pointe
+    var html = '<!DOCTYPE html><html lang="' + lang + '" dir="' + (rtl ? "rtl":"ltr") + '"><head><meta charset="UTF-8"><title>' + t.title + '</title><style>body { font-family: Arial, sans-serif; padding: 30px; color: #111; } h1 { color: #f59e0b; text-align: center; } table { width: 100%; border-collapse: collapse; margin-top: 20px; } th, td { border: 1px solid #ccc; padding: 10px; text-align: start; } th { background: #f1f5f9; width: 35%; } @media print { button { display: none; } }</style></head><body><h1>GSM YASSER Server</h1><h2 style="text-align:center;">' + t.title + '</h2><p><strong>Reference:</strong> ' + ref + ' | <strong>IMEI:</strong> ' + imei + '</p><table>' + rows + '</table><div style="text-align:center; margin-top:30px;"><button onclick="window.print()" style="padding:10px 20px; background:#f59e0b; color:#0b131e; border:none; border-radius:6px;
