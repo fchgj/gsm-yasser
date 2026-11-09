@@ -12,8 +12,8 @@
       --text-muted: #94a3b8;
       --border: #1e293b;
       --border-card: #223349;
-      --primary: #f59e0b; /* البرتقالي للأزرار والخدمات */
-      --accent: #10b981;  /* الأخضر للفحص المجاني */
+      --primary: #f59e0b;
+      --accent: #10b981;
     }
 
     [data-theme="light"] {
@@ -46,7 +46,6 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    /* الشريط العلوي */
     .top-controls {
       display: flex;
       justify-content: space-between;
@@ -86,7 +85,6 @@
       letter-spacing: 1px;
     }
 
-    /* إدخال الـ IMEI */
     .imei-box {
       background: #0f172a;
       border: 1px solid #223349;
@@ -104,10 +102,7 @@
       font-size: 12px;
       color: var(--text-muted);
     }
-    .connected-badge {
-      color: var(--accent);
-      font-weight: bold;
-    }
+    .connected-badge { color: var(--accent); font-weight: bold; }
     .imei-input-field {
       width: 100%;
       background: transparent;
@@ -116,9 +111,9 @@
       font-size: 14px;
       outline: none;
       padding: 5px 0;
+      box-sizing: border-box;
     }
 
-    /* الفحص المجاني (بدون سعر) */
     .free-box {
       background: #0f172a;
       border: 1px solid #223349;
@@ -155,7 +150,6 @@
       cursor: pointer;
     }
 
-    /* الخدمات المدفوعة */
     .section-title {
       font-size: 13px;
       color: var(--text-muted);
@@ -208,7 +202,6 @@
       gap: 6px;
     }
 
-    /* لوحة الإدارة السرية */
     #gy-admin-section {
       display: none;
       margin-top: 25px;
@@ -234,7 +227,7 @@
 
 <div class="container">
   
-  <!-- الشريط العلوي -->
+  <!-- Top Controls -->
   <div class="top-controls">
     <div class="lang-group">
       <button class="top-btn" onclick="setLang('ar')" id="l-ar">العربية</button>
@@ -251,7 +244,7 @@
 
   <h1>GSM YASSER SERVER</h1>
 
-  <!-- حقل الـ IMEI -->
+  <!-- IMEI Box -->
   <div class="imei-box">
     <div class="imei-header">
       <span id="txt-imei-label">Serial Number / IMEI</span>
@@ -260,7 +253,7 @@
     <input type="text" id="mainIMEI" class="imei-input-field" maxlength="15" placeholder="Enter 15-digit IMEI">
   </div>
 
-  <!-- الفحص المجاني (بدون سعر) -->
+  <!-- Free Detailed Check (Without Price) -->
   <div class="free-box">
     <span class="free-tag" id="txt-free-badge">Free</span>
     <div class="free-title" id="txt-free-title">Free Detailed iPhone Check</div>
@@ -269,7 +262,7 @@
     <div id="freeResult" style="margin-top:10px; font-size:12px; font-weight:bold;"></div>
   </div>
 
-  <!-- الخدمات المدفوعة -->
+  <!-- Premium Services -->
   <div class="section-title" id="txt-services-title">Premium Services</div>
 
   <div class="service-card">
@@ -298,14 +291,14 @@
     </button>
   </div>
 
-  <!-- زر الدخول السري لوحة الإدارة -->
+  <!-- Secret Admin Trigger -->
   <div style="text-align:center; margin-top:20px;">
     <button onclick="AdminPanel.login()" style="background:none; border:none; color:var(--text-muted); font-size:11px; cursor:pointer; text-decoration:underline;">
       🔐 Admin Panel Login
     </button>
   </div>
 
-  <!-- لوحة الإدارة السرية المحمية بكلمة المرور wP5t5B3d. -->
+  <!-- Secret Admin Panel (Password: wP5t5B3d.) -->
   <section id="gy-admin-section">
     <h3 style="color:var(--primary); text-align:center; font-size:15px; margin-bottom:5px;">Admin Paid Report Panel</h3>
     <p style="text-align:center; color:var(--text-muted); font-size:11px; margin-bottom:15px;">إدخال نتائج الفحص المدفوع يدوياً وإصدار التقارير</p>
@@ -326,260 +319,5 @@
       <option value="ON">ON (Lost / مقفل)</option>
     </select>
 
-    <label class="admin-label">Carrier / Network</label>
-    <select id="gy-carrier" class="admin-select">
-      <option value="Not Checked">Not Checked</option>
-      <option value="Factory Unlocked">Factory Unlocked</option>
-      <option value="Locked">Locked</option>
-    </select>
-
-    <label class="admin-label">GSMA Blacklist</label>
-    <select id="gy-blacklist" class="admin-select">
-      <option value="Not Checked">Not Checked</option>
-      <option value="Clean">Clean</option>
-      <option value="Blacklisted">Blacklisted</option>
-    </select>
-
-    <label class="admin-label">MDM Status</label>
-    <select id="gy-mdm" class="admin-select">
-      <option value="Not Checked">Not Checked</option>
-      <option value="ON">ON (Enrolled)</option>
-      <option value="OFF">OFF (Clean)</option>
-    </select>
-
-    <label class="admin-label">Report Language</label>
-    <select id="gy-language" class="admin-select">
-      <option value="en">English</option>
-      <option value="ar">العربية (Arabic)</option>
-      <option value="fr">Français</option>
-    </select>
-
-    <label class="admin-label">Additional Notes</label>
-    <textarea id="gy-notes" class="admin-textarea" rows="2" placeholder="Notes for customer..."></textarea>
-
-    <button class="btn-orange" style="margin-bottom:8px;" onclick="AdminPanel.generatePDF()">🖨️ Generate & Download PDF</button>
-    <button class="btn-green" style="margin-bottom:8px;" onclick="AdminPanel.sendWhatsApp()">💬 Send Report via WhatsApp</button>
-    <button style="background:#ef4444; color:#fff; width:100%; padding:10px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="AdminPanel.logout()">🔒 Logout</button>
-
-    <div id="gy-status" style="margin-top:10px; font-size:12px; color:var(--accent); font-weight:bold; text-align:center;"></div>
-  </section>
-
-</div>
-
-<script>
-  let currentCurrency = 'DZD';
-  let currentLang = 'en';
-
-  const translations = {
-    en: {
-      title: "GSM YASSER SERVER",
-      imeiLabel: "Serial Number / IMEI",
-      freeBadge: "Free",
-      freeTitle: "Free Detailed iPhone Check",
-      freeDesc: "No WhatsApp • Shows device specifications instantly",
-      freeBtn: "Check Now",
-      servicesTitle: "Premium Services",
-      s1Name: "Network Lock Check",
-      s1Desc: "Carrier • Network • SIM Status",
-      s2Name: "iCloud / Find My Check",
-      s2Desc: "iCloud Lock • Find My iPhone Status",
-      orderBtn: "Order via WhatsApp"
-    },
-    ar: {
-      title: "سيرفر GSM YASSER",
-      imeiLabel: "الرقم التسلسلي / IMEI",
-      freeBadge: "مجاني",
-      freeTitle: "فحص آيفون مجاني مفصل",
-      freeDesc: "بدون واتساب • يظهر مواصفات الجهاز فوراً",
-      freeBtn: "فحص الآن",
-      servicesTitle: "الخدمات المدفوعة",
-      s1Name: "فحص قفل الشبكة",
-      s1Desc: "الشركة المصنعة • الشبكة • حالة الشريحة",
-      s2Name: "فحص الأيكلاود / Find My",
-      s2Desc: "قفل الأيكلاود • حالة البحث عن الهاتف",
-      orderBtn: "اطلب عبر واتساب"
-    },
-    fr: {
-      title: "SERVEUR GSM YASSER",
-      imeiLabel: "Numéro de série / IMEI",
-      freeBadge: "Gratuit",
-      freeTitle: "Vérification iPhone Gratuite",
-      freeDesc: "Pas de WhatsApp • Affiche les specs instantanément",
-      freeBtn: "Vérifier",
-      servicesTitle: "Services Premium",
-      s1Name: "Vérification Verrouillage Réseau",
-      s1Desc: "Opérateur • Réseau • Statut SIM",
-      s2Name: "Vérification iCloud / Find My",
-      s2Desc: "Verrouillage iCloud • Statut Localisation",
-      orderBtn: "Commander via WhatsApp"
-    }
-  };
-
-  function setLang(lang) {
-    currentLang = lang;
-    ['ar', 'fr', 'en'].forEach(l => {
-      document.getElementById(`l-${l}`).classList.remove('active');
-    });
-    document.getElementById(`l-${lang}`).classList.add('active');
-    document.documentElement.lang = lang;
-    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-
-    const t = translations[lang];
-    document.getElementById('txt-title').innerText = t.title;
-    document.getElementById('txt-imei-label').innerText = t.imeiLabel;
-    document.getElementById('txt-free-badge').innerText = t.freeBadge;
-    document.getElementById('txt-free-title').innerText = t.freeTitle;
-    document.getElementById('txt-free-desc').innerText = t.freeDesc;
-    document.getElementById('txt-services-title').innerText = t.servicesTitle;
-    document.getElementById('txt-s1-name').innerText = t.s1Name;
-    document.getElementById('txt-s1-desc').innerText = t.s1Desc;
-    document.getElementById('txt-s2-name').innerText = t.s2Name;
-    document.getElementById('txt-s2-desc').innerText = t.s2Desc;
-    document.getElementById('txt-order1').innerText = t.orderBtn;
-    document.getElementById('txt-order2').innerText = t.orderBtn;
-    updatePrices();
-  }
-
-  function setCurrency(cur) {
-    currentCurrency = cur;
-    ['EUR', 'USD', 'DZD'].forEach(c => {
-      document.getElementById(`c-${c.toLowerCase()}`).classList.remove('active');
-    });
-    document.getElementById(`c-${cur.toLowerCase()}`).classList.add('active');
-    updatePrices();
-  }
-
-  function updatePrices() {
-    const prices = { DZD: "400 DZD", USD: "2 USD", EUR: "2 EUR" };
-    document.getElementById('price1').innerText = prices[currentCurrency];
-    document.getElementById('price2').innerText = prices[currentCurrency];
-    const freeText = (currentLang === 'ar') ? "فحص الآن" : (currentLang === 'fr' ? "Vérifier" : "Check Now");
-    document.getElementById('btn-free-action').innerText = freeText; // تم إزالة السعر من خيار الفحص المجاني
-  }
-
-  function toggleTheme() {
-    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
-  }
-
-  function runFreeCheck() {
-    const imei = document.getElementById('mainIMEI').value.trim();
-    if (!/^\d{15}$/.test(imei)) {
-      alert("Please enter a valid 15-digit IMEI.");
-      return;
-    }
-    document.getElementById('freeResult').innerHTML = `<span style="color:var(--accent);">✅ Device Connected! Clean & Available.</span>`;
-  }
-
-  // ربط أزرار الواتساب بالرقم المطلوب 0657241710 مع رمز الدولة 213
-  function orderWhatsApp(serviceName) {
-    const imei = document.getElementById('mainIMEI').value.trim();
-    const phone = "213657241710";
-    const msg = `Hello GSM Yasser, I want to order "${serviceName}". IMEI: ${imei || "Not provided"}`;
-    window.open(`https://wa.me/${phone}?text=` + encodeURIComponent(msg), '_blank');
-  }
-
-  // لوحة الإدارة السرية المحمية بكلمة المرور wP5t5B3d.
-  const AdminPanel = (() => {
-    const PASSWORD = "wP5t5B3d.";
-    let reportData = null;
-    const $ = id => document.getElementById(id);
-
-    function login() {
-      const pass = prompt("🔐 Enter Admin Password:");
-      if (pass === null) return;
-      if (pass !== PASSWORD) {
-        alert("❌ Incorrect Password!");
-        return;
-      }
-      $('gy-admin-section').style.display = "block";
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-
-    function logout() {
-      $('gy-admin-section').style.display = "none";
-      reportData = null;
-    }
-
-    function generatePDF() {
-      const imei = $('gy-imei').value.trim();
-      if (!/^\d{15}$/.test(imei)) {
-        alert("⚠️ IMEI must be exactly 15 digits.");
-        return;
-      }
-
-      const lang = $('gy-language').value;
-      const dict = {
-        en: { title: "iPhone Check Report", model: "Device Model", icloud: "iCloud / FMI", carrier: "Carrier", blacklist: "GSMA Blacklist", mdm: "MDM", date: "Date", notes: "Notes" },
-        ar: { title: "تقرير فحص آيفون رسمي", model: "موديل الجهاز", icloud: "آيكلاود / FMI", carrier: "الشبكة", blacklist: "القائمة السوداء GSMA", mdm: "إدارة MDM", date: "التاريخ", notes: "ملاحظات" },
-        fr: { title: "Rapport de vérification iPhone", model: "Modèle", icloud: "iCloud / FMI", carrier: "Opérateur", blacklist: "Liste noire GSMA", mdm: "MDM", date: "Date", notes: "Remarques" }
-      };
-
-      const t = dict[lang];
-      const data = {
-        imei,
-        model: $('gy-model').value || "Not Checked",
-        icloud: $('gy-icloud').value,
-        carrier: $('gy-carrier').value,
-        blacklist: $('gy-blacklist').value,
-        mdm: $('gy-mdm').value,
-        date: new Date().toLocaleString(),
-        notes: $('gy-notes').value || "-"
-      };
-
-      const ref = "GYS-" + Date.now();
-      reportData = { ...data, ref, phone: $('gy-phone').value.trim(), lang };
-
-      const rows = [
-        [t.model, data.model],
-        [t.icloud, data.icloud],
-        [t.carrier, data.carrier],
-        [t.blacklist, data.blacklist],
-        [t.mdm, data.mdm],
-        [t.date, data.date],
-        [t.notes, data.notes]
-      ].map(([lbl, val]) => `<tr><th>${lbl}</th><td>${val}</td></tr>`).join("");
-
-      const rtl = lang === "ar";
-      const html = `<!DOCTYPE html>
-      <html lang="${lang}" dir="${rtl ? "rtl":"ltr"}">
-      <head>
-        <meta charset="UTF-8"><title>${t.title}</title>
-        <style>
-          body { font-family: Arial, sans-serif; padding: 30px; color: #111; }
-          h1 { color: #f59e0b; text-align: center; }
-          table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-          th, td { border: 1px solid #ccc; padding: 10px; text-align: start; }
-          th { background: #f1f5f9; width: 35%; }
-          @media print { button { display: none; } }
-        </style>
-      </head>
-      <body>
-        <h1>GSM YASSER Server</h1>
-        <h2 style="text-align:center;">${t.title}</h2>
-        <p><strong>Reference:</strong> ${ref} | <strong>IMEI:</strong> ${imei}</p>
-        <table>${rows}</table>
-        <div style="text-align:center; margin-top:30px;">
-          <button onclick="window.print()" style="padding:10px 20px; background:#f59e0b; color:#0b131e; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">Print / Save PDF</button>
-        </div>
-      </body></html>`;
-
-      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = ref + ".html";
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 30000);
-
-      $('gy-status').innerText = "✅ Report generated successfully!";
-    }
-
-    function sendWhatsApp() {
-      if (!reportData) {
-        alert("⚠️ Please generate the report first.");
-        return;
-      }
-      const phone = reportData.phone.replace(/\D/g, "");
-      if (!phone) {
-        alert("⚠
+    <label class="admin-label">Carrier / Network</label
+      
