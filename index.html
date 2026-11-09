@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +17,18 @@
   --blue:#1479ef;
   --green:#16a875;
   --red:#e34d4d;
+  --primary:#f59e0b;
+}
+[data-theme="light"]{
+  --bg:#f1f5f9;
+  --card:#ffffff;
+  --input:#f8fafc;
+  --border:#cbd5e1;
+  --text:#0f172a;
+  --muted:#64748b;
+  --blue:#f59e0b;
+  --green:#10b981;
+  --red:#ef4444;
 }
 *{box-sizing:border-box}
 body{
@@ -25,6 +36,7 @@ body{
   background:var(--bg);
   color:var(--text);
   font-family:Arial,sans-serif;
+  transition: background 0.3s, color 0.3s;
 }
 header{
   background:#101d2c;
@@ -32,10 +44,36 @@ header{
   text-align:center;
   border-bottom:1px solid var(--border);
 }
+[data-theme="light"] header{background:#e2e8f0}
 .logo{font-size:26px;font-weight:900;letter-spacing:1px}
 .logo span{color:#2993ff}
 header p{color:var(--muted);font-size:13px}
 .container{max-width:1000px;margin:25px auto;padding:0 15px}
+.top-controls{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.ctrl-group{display:flex;gap:5px;flex-wrap:wrap}
+.ctrl-btn{
+  background:#1a293d;
+  color:var(--muted);
+  border:1px solid var(--border);
+  padding:6px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:11px;
+  font-weight:bold;
+}
+[data-theme="light"] .ctrl-btn{background:#e2e8f0;color:#334155}
+.ctrl-btn.active{
+  background:var(--primary);
+  color:#0b1420;
+  border-color:var(--primary);
+}
 .card{
   background:var(--card);
   border:1px solid var(--border);
@@ -57,7 +95,7 @@ input,select,textarea{
   background:var(--input);
   border:1px solid var(--border);
   border-radius:8px;
-  color:white;
+  color:var(--text);
   font-size:14px;
   outline:none;
 }
@@ -87,6 +125,7 @@ button.red{background:var(--red)}
   border:1px solid var(--border);
   border-radius:10px;
 }
+[data-theme="light"] .service{background:#f8fafc}
 .service p{color:var(--muted);font-size:13px;line-height:1.5}
 .price{color:#62b1ff;font-weight:bold}
 .result{
@@ -98,6 +137,7 @@ button.red{background:var(--red)}
   margin-top:14px;
   line-height:1.7;
 }
+[data-theme="light"] .result{background:#f1f5f9}
 .good{color:#32d69b}
 .bad{color:#ff7777}
 .small{font-size:12px;color:var(--muted)}
@@ -119,575 +159,6 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 
 <header>
   <div class="logo">GSM YASSER <span>SERVER</span></div>
-  <p>Professional iPhone Check & Mobile Services</p>
-</header>
-
-<main class="container">
-
-<section class="card">
-  <h2>FREE IMEI CHECK</h2>
-  <p class="small">Validate your 15-digit IMEI number.</p>
-
-  <label>Enter IMEI Number</label>
-  <input id="imei" maxlength="15" inputmode="numeric"
-         placeholder="Enter 15-digit IMEI">
-
-  <button class="full" onclick="checkIMEI()">CHECK IMEI</button>
-  <div id="imeiResult" class="result"></div>
-</section>
-
-<section class="card">
-  <h2>AVAILABLE SERVICES</h2>
-
-  <div class="grid">
-
-    <div class="service">
-      <h3>Basic Check</h3>
-      <p>IMEI format and checksum validation.</p>
-      <div class="price">FREE</div>
-      <button class="full" onclick="chooseService('Basic Check')">SELECT</button>
-    </div>
-
-    <div class="service">
-      <h3>iCloud / FMI Check</h3>
-      <p>Manual iCloud and Find My iPhone status report.</p>
-      <div class="price">400 DZD</div>
-      <button class="full" onclick="chooseService('iCloud / FMI Check')">ORDER NOW</button>
-    </div>
-
-    <div class="service">
-      <h3>Carrier Check</h3>
-      <p>Manual carrier and SIM lock status report.</p>
-      <div class="price">400 DZD</div>
-      <button class="full" onclick="chooseService('Carrier Check')">ORDER NOW</button>
-    </div>
-
-    <div class="service">
-      <h3>Blacklist GSMA</h3>
-      <p>Blacklist status report based on available results.</p>
-      <div class="price">400 DZD</div>
-      <button class="full" onclick="chooseService('Blacklist GSMA')">ORDER NOW</button>
-    </div>
-
-    <div class="service">
-      <h3>Full PRO Report</h3>
-      <p>Comprehensive report with available check results.</p>
-      <div class="price">800 DZD</div>
-      <button class="full" onclick="chooseService('Full PRO Report')">ORDER FULL REPORT</button>
-    </div>
-
-  </div>
-</section>
-
-<section class="card" id="orderSection">
-  <h2>SUBMIT YOUR ORDER</h2>
-
-  <label>Customer Name</label>
-  <input id="customerName" placeholder="Your name">
-
-  <label>Customer WhatsApp</label>
-  <input id="customerPhone" placeholder="Example: 213XXXXXXXXX">
-
-  <label>IMEI Number</label>
-  <input id="orderIMEI" maxlength="15" inputmode="numeric"
-         placeholder="Enter IMEI">
-
-  <label>Select Service</label>
-  <select id="serviceType">
-    <option>Basic Check</option>
-    <option>iCloud / FMI Check</option>
-    <option>Carrier Check</option>
-    <option>Blacklist GSMA</option>
-    <option>Full PRO Report</option>
-  </select>
-
-  <button class="full green" onclick="submitOrder()">SEND ORDER VIA WHATSAPP</button>
-  <div id="orderResult" class="result"></div>
-</section>
-
-<section class="card">
-  <div class="row">
-    <h2>ADMINISTRATION</h2>
-    <button class="gray" onclick="adminLogin()">ADMIN LOGIN</button>
-  </div>
-  <p class="small">Authorized administration access.</p>
-</section>
-
-<section class="card admin" id="adminPanel">
-
-  <div class="row">
-    <h2>ADMIN DASHBOARD</h2>
-    <button class="red" onclick="adminLogout()">LOG OUT</button>
-  </div>
-
-  <hr>
-
-  <h3>MANUAL CHECK RESULTS</h3>
-
-  <label>Report Reference</label>
-  <input id="reportRef" placeholder="GYS-2026-1001">
-
-  <label>Customer Name</label>
-  <input id="reportCustomer">
-
-  <label>Customer WhatsApp</label>
-  <input id="reportPhone">
-
-  <label>IMEI Number</label>
-  <input id="reportIMEI" maxlength="15">
-
-  <label>Device Model</label>
-  <input id="reportModel" placeholder="iPhone 14 Pro Max">
-
-  <label>Service</label>
-  <select id="reportService">
-    <option>iCloud / FMI Check</option>
-    <option>Carrier Check</option>
-    <option>Blacklist GSMA</option>
-    <option>Full PRO Report</option>
-    <option>Basic Check</option>
-  </select>
-
-  <label>iCloud / FMI Status</label>
-  <select id="icloudStatus">
-    <option>Not Checked</option>
-    <option>ON</option>
-    <option>OFF</option>
-  </select>
-
-  <label>Carrier Status</label>
-  <select id="carrierStatus">
-    <option>Not Checked</option>
-    <option>Locked</option>
-    <option>Unlocked</option>
-  </select>
-
-  <label>Blacklist Status</label>
-  <select id="blacklistStatus">
-    <option>Not Checked</option>
-    <option>Clean</option>
-    <option>Blacklisted</option>
-  </select>
-
-  <label>MDM Status</label>
-  <select id="mdmStatus">
-    <option>Not Checked</option>
-    <option>ON</option>
-    <option>OFF</option>
-  </select>
-
-  <label>Additional Notes</label>
-  <textarea id="reportNotes"></textarea>
-
-  <label>Report Language</label>
-  <select id="reportLanguage">
-    <option value="en">English</option>
-    <option value="fr">French</option>
-    <option value="ar">Arabic</option>
-  </select>
-
-  <button class="full green" onclick="saveReport()">SAVE AND GENERATE REPORT</button>
-  <div id="adminResult" class="result"></div>
-
-  <hr>
-
-  <div class="row">
-    <h3>SAVED REPORTS</h3>
-    <button class="gray" onclick="showReports()">REFRESH</button>
-  </div>
-
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>REFERENCE</th>
-          <th>IMEI</th>
-          <th>SERVICE</th>
-          <th>ACTIONS</th>
-        </tr>
-      </thead>
-      <tbody id="reportsList"></tbody>
-    </table>
-  </div>
-
-</section>
-
-</main>
-
-<footer>
-  GSM YASSER SERVER © 2026 — All Rights Reserved
-</footer>
-
-<script>
-"use strict";
-
-/* BUSINESS CONFIGURATION */
-const WHATSAPP_NUMBER = "213657241710";
-const ADMIN_PASSWORD = "wP5t5B3d";
-const STORAGE_KEY = "gsm_yasser_reports_v2";
-
-/* IMEI CHECKSUM */
-function isValidIMEI(imei){
-  if(!/^\d{15}$/.test(imei)) return false;
-
-  let sum=0;
-
-  for(let i=0;i<15;i++){
-    let digit=Number(imei[i]);
-
-    if(i%2===1){
-      digit*=2;
-      if(digit>9) digit-=9;
-    }
-
-    sum+=digit;
-  }
-
-  return sum%10===0;
-}
-
-function checkIMEI(){
-  const imei=document.getElementById("imei").value.trim();
-  const result=document.getElementById("imeiResult");
-
-  result.style.display="block";
-
-  if(!isValidIMEI(imei)){
-    result.innerHTML='<span class="bad">INVALID IMEI</span><br>Please enter a valid 15-digit IMEI.';
-    return;
-  }
-
-  result.innerHTML=
-    '<span class="good">VALID IMEI FORMAT</span><br>'+
-    'IMEI: '+escapeHTML(imei)+
-    '<br><span class="small">Checksum validation only. No Apple, iCloud, Carrier or GSMA database lookup is performed.</span>';
-}
-
-/* SERVICE SELECTION */
-function chooseService(service){
-  document.getElementById("serviceType").value=service;
-
-  const imei=document.getElementById("imei").value.trim();
-  if(isValidIMEI(imei)){
-    document.getElementById("orderIMEI").value=imei;
-  }
-
-  document.getElementById("orderSection").scrollIntoView({behavior:"smooth"});
-}
-
-/* WHATSAPP ORDER */
-function submitOrder(){
-  const name=document.getElementById("customerName").value.trim();
-  const phone=normalizePhone(document.getElementById("customerPhone").value);
-  const imei=document.getElementById("orderIMEI").value.trim();
-  const service=document.getElementById("serviceType").value;
-  const result=document.getElementById("orderResult");
-
-  result.style.display="block";
-
-  if(!name || !phone || !isValidIMEI(imei)){
-    result.innerHTML='<span class="bad">Please complete all fields with a valid IMEI.</span>';
-    return;
-  }
-
-  const reference=createReference();
-
-  const message=
-`GSM YASSER SERVER - NEW ORDER
-
-Reference: ${reference}
-Customer: ${name}
-WhatsApp: ${phone}
-IMEI: ${imei}
-Service: ${service}
-
-Please confirm my order.`;
-
-  result.innerHTML='<span class="good">Order prepared successfully.</span><br>Reference: '+escapeHTML(reference);
-
-  openWhatsApp(WHATSAPP_NUMBER,message);
-}
-
-/* ADMIN ACCESS */
-function adminLogin(){
-  const password=prompt("Enter Admin Password:");
-
-  if(password===null) return;
-
-  if(password===ADMIN_PASSWORD){
-    document.getElementById("adminPanel").style.display="block";
-    showReports();
-    document.getElementById("adminPanel").scrollIntoView({behavior:"smooth"});
-  }else{
-    alert("Incorrect password.");
-  }
-}
-
-function adminLogout(){
-  document.getElementById("adminPanel").style.display="none";
-}
-
-/* REPORT STORAGE */
-function getReports(){
-  try{
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
-  }catch(e){
-    return [];
-  }
-}
-
-function storeReports(reports){
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(reports));
-}
-
-/* SAVE REPORT */
-function saveReport(){
-  const imei=document.getElementById("reportIMEI").value.trim();
-
-  if(!isValidIMEI(imei)){
-    alert("Invalid IMEI. Please enter a valid 15-digit IMEI.");
-    return;
-  }
-
-  const report={
-    ref:document.getElementById("reportRef").value.trim()||createReference(),
-    customer:document.getElementById("reportCustomer").value.trim(),
-    phone:normalizePhone(document.getElementById("reportPhone").value),
-    imei:imei,
-    model:document.getElementById("reportModel").value.trim()||"Not Specified",
-    service:document.getElementById("reportService").value,
-    icloud:document.getElementById("icloudStatus").value,
-    carrier:document.getElementById("carrierStatus").value,
-    blacklist:document.getElementById("blacklistStatus").value,
-    mdm:document.getElementById("mdmStatus").value,
-    notes:document.getElementById("reportNotes").value.trim(),
-    language:document.getElementById("reportLanguage").value,
-    date:new Date().toISOString()
-  };
-
-  const reports=getReports();
-  reports.unshift(report);
-
-  try{
-    storeReports(reports);
-  }catch(e){
-    alert("Could not save report. Browser storage is unavailable.");
-    return;
-  }
-
-  document.getElementById("adminResult").style.display="block";
-  document.getElementById("adminResult").innerHTML=
-    '<span class="good">REPORT SAVED SUCCESSFULLY</span><br>'+
-    'Reference: '+escapeHTML(report.ref);
-
-  showReports();
-  generatePDF(report);
-}
-
-/* REPORT LIST */
-function showReports(){
-  const list=document.getElementById("reportsList");
-  const reports=getReports();
-
-  list.innerHTML="";
-
-  if(!reports.length){
-    list.innerHTML='<tr><td colspan="4">No reports saved.</td></tr>';
-    return;
-  }
-
-  reports.forEach((report,index)=>{
-    const tr=document.createElement("tr");
-
-    const ref=document.createElement("td");
-    ref.textContent=report.ref;
-
-    const imei=document.createElement("td");
-    imei.textContent=report.imei;
-
-    const service=document.createElement("td");
-    service.textContent=report.service;
-
-    const actions=document.createElement("td");
-
-    const pdf=document.createElement("button");
-    pdf.textContent="PDF";
-    pdf.onclick=()=>generatePDF(report);
-
-    const whatsapp=document.createElement("button");
-    whatsapp.textContent="SEND";
-    whatsapp.className="green";
-    whatsapp.style.marginLeft="5px";
-    whatsapp.onclick=()=>sendReport(report);
-
-    const del=document.createElement("button");
-    del.textContent="DELETE";
-    del.className="red";
-    del.style.marginLeft="5px";
-    del.onclick=()=>deleteReport(index);
-
-    actions.append(pdf,whatsapp,del);
-    tr.append(ref,imei,service,actions);
-    list.appendChild(tr);
-  });
-}
-
-/* DELETE REPORT */
-function deleteReport(index){
-  if(!confirm("Delete this report?")) return;
-
-  const reports=getReports();
-  reports.splice(index,1);
-  storeReports(reports);
-  showReports();
-}
-
-/* REPORT LANGUAGES */
-const words={
-  en:{
-    title:"iPhone Check Report",ref:"Reference",customer:"Customer",
-    imei:"IMEI",model:"Device Model",service:"Service",
-    icloud:"iCloud / FMI",carrier:"Carrier",blacklist:"Blacklist GSMA",
-    mdm:"MDM Status",notes:"Additional Notes",date:"Report Date",
-    disclaimer:"Results were entered manually and depend on the source used. GSM YASSER SERVER is not affiliated with Apple or GSMA."
-  },
-  fr:{
-    title:"Rapport de vérification iPhone",ref:"Référence",customer:"Client",
-    imei:"IMEI",model:"Modèle",service:"Service",
-    icloud:"iCloud / FMI",carrier:"Opérateur",blacklist:"Liste noire GSMA",
-    mdm:"Statut MDM",notes:"Notes",date:"Date du rapport",
-    disclaimer:"Les résultats ont été saisis manuellement et dépendent de la source utilisée. GSM YASSER SERVER n'est affilié ni à Apple ni à GSMA."
-  },
-  ar:{
-    title:"تقرير فحص الآيفون",ref:"رقم التقرير",customer:"العميل",
-    imei:"رقم IMEI",model:"طراز الجهاز",service:"الخدمة",
-    icloud:"حالة iCloud / FMI",carrier:"حالة الشبكة",
-    blacklist:"القائمة السوداء GSMA",mdm:"حالة MDM",
-    notes:"ملاحظات إضافية",date:"تاريخ التقرير",
-    disclaimer:"تم إدخال النتائج يدوياً وتعتمد على المصدر المستخدم. لا توجد تبعية رسمية بين GSM YASSER SERVER وApple أو GSMA."
-  }
-};
-
-/* PDF REPORT */
-function generatePDF(report){
-  const t=words[report.language]||words.en;
-  const direction=report.language==="ar"?"rtl":"ltr";
-  const date=new Date(report.date).toLocaleString();
-
-  const rows=[
-    [t.ref,report.ref],
-    [t.customer,report.customer||"-"],
-    [t.imei,report.imei],
-    [t.model,report.model],
-    [t.service,report.service],
-    [t.icloud,report.icloud],
-    [t.carrier,report.carrier],
-    [t.blacklist,report.blacklist],
-    [t.mdm,report.mdm],
-    [t.notes,report.notes||"-"],
-    [t.date,date]
-  ];
-
-  const htmlRows=rows.map(row=>
-    `<tr><th>${escapeHTML(row[0])}</th><td>${escapeHTML(row[1])}</td></tr>`
-  ).join("");
-
-  const win=window.open("","_blank");
-
-  if(!win){
-    alert("Please allow pop-ups to create the PDF report.");
-    return;
-  }
-
-  win.document.open();
-  win.document.write(`
-    <!DOCTYPE html>
-    <html lang="${report.language}" dir="${direction}">
-    <head>
-    <meta charset="UTF-8">
-    <title>${escapeHTML(t.title)}</title>
-    <style>
-      body{font-family:Arial,sans-serif;margin:35px;color:#172536;direction:${direction}}
-      .head{background:#10243a;color:white;padding:25px;text-align:center}
-      table{width:100%;border-collapse:collapse;margin-top:25px}
-      th,td{border:1px solid #d5dfe8;padding:12px;text-align:start}
-      th{background:#edf3f8;width:35%}
-      .notice{margin-top:25px;padding:14px;background:#f0f3f6;font-size:12px;line-height:1.7}
-      .footer{text-align:center;margin-top:25px;font-size:12px}
-    </style>
-    </head>
-    <body>
-      <div class="head">
-        <h1>GSM YASSER SERVER</h1>
-        <h3>${escapeHTML(t.title)}</h3>
-      </div>
-      <table>${htmlRows}</table>
-      <div class="notice">${escapeHTML(t.disclaimer)}</div>
-      <div class="footer">GSM YASSER SERVER | Professional Mobile Services</div>
-      <p><button onclick="window.print()">PRINT / SAVE PDF</button></p>
-    </body>
-    </html>
-  `);
-  win.document.close();
-  setTimeout(()=>{try{win.focus();win.print();}catch(e){}},700);
-}
-
-/* SEND REPORT */
-function sendReport(report){
-  if(!report.phone){
-    alert("Customer WhatsApp number is missing.");
-    return;
-  }
-
-  const message=
-`GSM YASSER SERVER - CHECK REPORT
-
-Reference: ${report.ref}
-IMEI: ${report.imei}
-Model: ${report.model}
-Service: ${report.service}
-iCloud / FMI: ${report.icloud}
-Carrier: ${report.carrier}
-Blacklist GSMA: ${report.blacklist}
-MDM: ${report.mdm}
-Notes: ${report.notes||"-"}
-
-Thank you for choosing GSM YASSER SERVER.`;
-
-  openWhatsApp(report.phone,message);
-}
-
-/* UTILITIES */
-function normalizePhone(phone){
-  let value=String(phone||"").replace(/\D/g,"");
-  if(value.startsWith("00")) value=value.slice(2);
-  if(value.startsWith("0")) value="213"+value.slice(1);
-  return value;
-}
-
-function createReference(){
-  const d=new Date();
-  const date=d.getFullYear()+
-    String(d.getMonth()+1).padStart(2,"0")+
-    String(d.getDate()).padStart(2,"0");
-  return "GYS-"+date+"-"+Math.floor(1000+Math.random()*9000);
-}
-
-function openWhatsApp(number,message){
-  const url="https://wa.me/"+
-    String(number).replace(/\D/g,"")+
-    "?text="+encodeURIComponent(message);
-
-  window.open(url,"_blank","noopener");
-}
-
-function escapeHTML(value){
-  return String(value??"").replace(/[&<>"']/g,c=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  })[c]);
-}
-</script>
-
-</body>
-  </html>
-      
+  <p id="headerSub">Professional iPhone Check & Mobile Services</p>
+</
+  
