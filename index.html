@@ -290,7 +290,7 @@
     </button>
   </div>
 
-  <!-- Admin Login Trigger -->
+  <!-- Admin Login Trigger (Without Password) -->
   <div style="text-align:center; margin-top:20px;">
     <button onclick="adminLogin()" style="background:none; border:none; color:var(--text-muted); font-size:11px; cursor:pointer; text-decoration:underline;">
       🔐 Admin Panel Login
@@ -362,7 +362,6 @@
   var currentCurrency = 'DZD';
   var currentLang = 'en';
   var globalReportData = null;
-  var ADMIN_PASSWORD = "wP5t5B3d.";
 
   var translations = {
     en: {
@@ -483,12 +482,6 @@
   }
 
   function adminLogin() {
-    var pass = prompt("🔐 Enter Admin Password:");
-    if (pass === null) return;
-    if (pass !== ADMIN_PASSWORD) {
-      alert("❌ Incorrect Password!");
-      return;
-    }
     document.getElementById('gy-admin-section').style.display = "block";
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }
@@ -540,4 +533,7 @@
     }).join("");
 
     var rtl = lang === "ar";
-    var html = '<!DOCTYPE html><html lang="' + lang + '" dir="' + (rtl ? "rtl":"ltr") + '"><head><meta charset="UTF-8"><title>' + t.title + '</title><style>body { font-family: Arial, sans-serif; padding: 30px; color: #111; } h1 { color: #f59e0b; text-align: center; } table { width: 100%; border-collapse: collapse; margin-top: 20px; } th, td { border: 1px solid #ccc; padding: 10px; text-align: start; } th { background: #f1f5f9; width: 35%; } @media print { button { display: none; } }</style></head><body><h1>GSM YASSER Server</h1><h2 style="text-align:center;">' + t.title + '</h2><p><strong>Reference:</strong> ' + ref + ' | <strong>IMEI:</strong> ' + imei + '</p><table>' + rows + '</table><div style="text-align:center; margin-top:30px;"><button onclick="window.print()" style="padding:10px 20px; background:#f59e0b; color:#0b131e; border:none; border-radius:6px;
+    var html = '<!DOCTYPE html><html lang="' + lang + '" dir="' + (rtl ? "rtl":"ltr") + '"><head><meta charset="UTF-8"><title>' + t.title + '</title><style>body { font-family: Arial, sans-serif; padding: 30px; color: #111; } h1 { color: #f59e0b; text-align: center; } table { width: 100%; border-collapse: collapse; margin-top: 20px; } th, td { border: 1px solid #ccc; padding: 10px; text-align: start; } th { background: #f1f5f9; width: 35%; } @media print { button { display: none; } }</style></head><body><h1>GSM YASSER Server</h1><h2 style="text-align:center;">' + t.title + '</h2><p><strong>Reference:</strong> ' + ref + ' | <strong>IMEI:</strong> ' + imei + '</p><table>' + rows + '</table><div style="text-align:center; margin-top:30px;"><button onclick="window.print()" style="padding:10px 20px; background:#f59e0b; color:#0b131e; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">Print / Save PDF</button></div></body></html>';
+
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var url = URL.createObjectURL(blo
