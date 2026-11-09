@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GSM Yasser Server - Official IMEI Checker & Services</title>
+  <title>GSM Yasser Server - Official IMEI Checker</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -46,7 +46,6 @@
       border: 1px solid var(--border);
     }
 
-    /* شريط العلوي: اللغات، العملات، الثيم */
     .top-bar {
       display: flex;
       justify-content: space-between;
@@ -58,7 +57,7 @@
       padding-bottom: 15px;
     }
 
-    .lang-btns button, .currency-btns button, .theme-btn {
+    .currency-btns button, .theme-btn {
       background: var(--border);
       color: var(--text);
       border: none;
@@ -68,7 +67,7 @@
       font-weight: bold;
       font-size: 13px;
     }
-    .lang-btns button.active, .currency-btns button.active {
+    .currency-btns button.active {
       background: var(--primary);
       color: #fff;
     }
@@ -80,7 +79,6 @@
       font-size: 24px;
     }
 
-    /* حقول الفحص */
     .section-box {
       background: rgba(255,255,255,0.03);
       border: 1px solid var(--border);
@@ -148,15 +146,10 @@
 </head>
 <body>
 
-<div class="container" id="mainContainer">
+<div class="container">
   
-  <!-- شريط التحكم العلوي -->
+  <!-- Top Bar: Currency & Theme -->
   <div class="top-bar">
-    <div class="lang-btns">
-      <button onclick="setLanguage('en')" id="btn-en" class="active">EN</button>
-      <button onclick="setLanguage('ar')" id="btn-ar">العربية</button>
-      <button onclick="setLanguage('fr')" id="btn-fr">Français</button>
-    </div>
     <div class="currency-btns">
       <button onclick="setCurrency('EUR')">€ EUR</button>
       <button onclick="setCurrency('USD')">$ USD</button>
@@ -165,35 +158,35 @@
     <button class="theme-btn" onclick="toggleTheme()">🌓 Theme</button>
   </div>
 
-  <h1 id="txt-title">GSM YASSER SERVER</h1>
+  <h1>GSM YASSER SERVER</h1>
 
-  <!-- صندوق إدخال الـ IMEI الموحد -->
+  <!-- Unified IMEI Input Box -->
   <div class="section-box">
-    <label id="lbl-imei-input">Serial Number / IMEI</label>
+    <label>Serial Number / IMEI</label>
     <div style="display:flex; gap:8px;">
       <input type="text" id="mainIMEI" maxlength="15" placeholder="Enter 15-digit IMEI" style="margin-bottom:0;">
       <span style="background:var(--accent); color:#fff; padding:0 12px; border-radius:8px; display:flex; align-items:center; font-size:12px; font-weight:bold;">Connected ✓</span>
     </div>
   </div>
 
-  <!-- الفحص المجاني -->
+  <!-- Free Detailed Check -->
   <div class="section-box">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-      <h3 id="txt-free-title" style="margin:0 0 5px; font-size:16px;">Free Detailed iPhone Check</h3>
+      <h3 style="margin:0 0 5px; font-size:16px;">Free Detailed iPhone Check</h3>
       <span style="background:var(--accent); color:#fff; padding:2px 8px; border-radius:4px; font-size:11px;">Free</span>
     </div>
-    <p id="txt-free-desc" style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">No WhatsApp • Shows device specifications instantly</p>
+    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">No WhatsApp • Shows device specifications instantly</p>
     <button class="btn" onclick="runFreeCheck()" id="btn-free-action">Check Now - 0 DZD</button>
     <div id="freeResultBox" style="margin-top:12px; font-size:13px; font-weight:bold;"></div>
   </div>
 
-  <!-- الخدمات المدفوعة -->
-  <h3 id="txt-premium-title" style="font-size:16px; margin-bottom:12px;">Premium Services</h3>
+  <!-- Premium Services -->
+  <h3 style="font-size:16px; margin-bottom:12px;">Premium Services</h3>
   
   <div class="service-card">
     <div class="service-info">
-      <h4 id="txt-srv1-name">Network Lock Check</h4>
-      <p id="txt-srv1-desc">Carrier • Network • SIM Status</p>
+      <h4>Network Lock Check</h4>
+      <p>Carrier • Network • SIM Status</p>
     </div>
     <div>
       <div class="price-tag" id="price1">400 DZD</div>
@@ -203,8 +196,8 @@
 
   <div class="service-card">
     <div class="service-info">
-      <h4 id="txt-srv2-name">iCloud / Find My Check</h4>
-      <p id="txt-srv2-desc">iCloud Lock • Find My iPhone Status</p>
+      <h4>iCloud / Find My Check</h4>
+      <p>iCloud Lock • Find My iPhone Status</p>
     </div>
     <div>
       <div class="price-tag" id="price2">400 DZD</div>
@@ -212,64 +205,64 @@
     </div>
   </div>
 
-  <!-- زر الدخول للوحة الإدارة السرية -->
+  <!-- Secret Admin Trigger Button -->
   <div style="text-align:center; margin-top:25px;">
     <button type="button" onclick="GYAdmin.login()" style="background:transparent; color:var(--text-muted); border:1px dashed var(--border); padding:8px 16px; border-radius:8px; cursor:pointer; font-size:12px;">
       🔐 Admin Panel Login
     </button>
   </div>
 
-  <!-- لوحة الإدارة السرية (المحمية بكلمة المرور) -->
+  <!-- Secret Admin Panel (Protected by Password) -->
   <section id="gy-admin-section">
     <h3 style="color:var(--primary); text-align:center;">Paid Report & Admin Panel</h3>
-    <p style="text-align:center; color:var(--text-muted); font-size:12px;">إدخال نتائج الفحص المدفوع يدوياً وإصدار التقارير الرسمية</p>
+    <p style="text-align:center; color:var(--text-muted); font-size:12px;">Manually enter paid check results and generate official reports</p>
 
-    <label>Customer WhatsApp (رقم واتساب العميل)</label>
+    <label>Customer WhatsApp</label>
     <input id="gy-phone" type="tel" placeholder="2137xxxxxxxx">
 
     <label>IMEI (15 Digits)</label>
     <input id="gy-imei" maxlength="15" inputmode="numeric" placeholder="15-digit IMEI">
 
-    <label>Device Model (موديل الجهاز)</label>
+    <label>Device Model</label>
     <input id="gy-model" placeholder="iPhone 14 Pro Max">
 
     <label>iCloud / FMI Status</label>
     <select id="gy-icloud">
       <option value="Not Checked">Not Checked</option>
-      <option value="OFF">OFF (Clean / نظيف)</option>
-      <option value="ON">ON (Lost / مقفل)</option>
+      <option value="OFF">OFF (Clean)</option>
+      <option value="ON">ON (Lost / Locked)</option>
     </select>
 
     <label>Carrier / Network</label>
     <select id="gy-carrier">
       <option value="Not Checked">Not Checked</option>
-      <option value="Factory Unlocked">Factory Unlocked (مفتوح رسمي)</option>
-      <option value="Locked">Locked (مقفل شبكة)</option>
+      <option value="Factory Unlocked">Factory Unlocked</option>
+      <option value="Locked">Locked</option>
     </select>
 
     <label>GSMA Blacklist</label>
     <select id="gy-blacklist">
       <option value="Not Checked">Not Checked</option>
-      <option value="Clean">Clean (نظيف)</option>
-      <option value="Blacklisted">Blacklisted (مسروق / ضائع)</option>
+      <option value="Clean">Clean</option>
+      <option value="Blacklisted">Blacklisted</option>
     </select>
 
     <label>MDM Status</label>
     <select id="gy-mdm">
       <option value="Not Checked">Not Checked</option>
-      <option value="ON">ON (Enrolled / مقيّد)</option>
-      <option value="OFF">OFF (Clean / خالي)</option>
+      <option value="ON">ON (Enrolled)</option>
+      <option value="OFF">OFF (Clean)</option>
     </select>
 
-    <label>Report Language (لغة التقرير)</label>
+    <label>Report Language</label>
     <select id="gy-language">
       <option value="en">English</option>
       <option value="ar">العربية (Arabic)</option>
       <option value="fr">Français</option>
     </select>
 
-    <label>Additional Notes (ملاحظات إضافية)</label>
-    <textarea id="gy-notes" rows="3" placeholder="ملاحظات أو تفاصيل الدفع للعميل..."></textarea>
+    <label>Additional Notes</label>
+    <textarea id="gy-notes" rows="3" placeholder="Optional notes for customer..."></textarea>
 
     <button type="button" class="btn" onclick="GYAdmin.generatePDF()">🖨️ Generate & Download PDF Report</button>
     <button type="button" class="btn btn-whatsapp" onclick="GYAdmin.sendWhatsApp()">💬 Send via WhatsApp</button>
@@ -281,82 +274,14 @@
 </div>
 
 <script>
-  // نصوص اللغات الثلاث
-  const translations = {
-    en: {
-      title: "GSM YASSER SERVER",
-      imeiLabel: "Serial Number / IMEI",
-      imeiPlaceholder: "Enter 15-digit IMEI",
-      freeTitle: "Free Detailed iPhone Check",
-      freeDesc: "No WhatsApp • Shows device specifications instantly",
-      freeBtn: "Check Now",
-      premiumTitle: "Premium Services",
-      srv1Name: "Network Lock Check",
-      srv1Desc: "Carrier • Network • SIM Status",
-      srv2Name: "iCloud / Find My Check",
-      srv2Desc: "iCloud Lock • Find My iPhone Status",
-      orderBtn: "Order WhatsApp"
-    },
-    ar: {
-      title: "سيرفر GSM YASSER",
-      imeiLabel: "الرقم التسلسلي / IMEI",
-      imeiPlaceholder: "أدخل 15 رقماً للـ IMEI",
-      freeTitle: "فحص آيفون مجاني مفصل",
-      freeDesc: "بدون واتساب • يظهر مواصفات الجهاز فوراً",
-      freeBtn: "فحص الآن",
-      premiumTitle: "الخدمات المدفوعة",
-      srv1Name: "فحص قفل الشبكة",
-      srv1Desc: "الشركة المصنعة • الشبكة • حالة الشريحة",
-      srv2Name: "فحص الأيكلاود / Find My",
-      srv2Desc: "قفل الأيكلاود • حالة البحث عن الهاتف",
-      orderBtn: "اطلب عبر واتساب"
-    },
-    fr: {
-      title: "SERVEUR GSM YASSER",
-      imeiLabel: "Numéro de série / IMEI",
-      imeiPlaceholder: "Entrez l'IMEI à 15 chiffres",
-      freeTitle: "Vérification iPhone Gratuite",
-      freeDesc: "Pas de WhatsApp • Affiche les specs instantanément",
-      freeBtn: "Vérifier maintenant",
-      premiumTitle: "Services Premium",
-      srv1Name: "Vérification Verrouillage Réseau",
-      srv1Desc: "Opérateur • Réseau • Statut SIM",
-      srv2Name: "Vérification iCloud / Find My",
-      srv2Desc: "Verrouillage iCloud • Statut Localisation",
-      orderBtn: "Commander WhatsApp"
-    }
-  };
-
-  let currentLang = 'en';
   let currentCurrency = 'DZD';
-
-  function setLanguage(lang) {
-    currentLang = lang;
-    ['en', 'ar', 'fr'].forEach(l => document.getElementById(`btn-${l}`).classList.remove('active'));
-    document.getElementById(`btn-${lang}`).classList.add('active');
-    document.documentElement.lang = lang;
-    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-
-    const t = translations[lang];
-    document.getElementById('txt-title').innerText = t.title;
-    document.getElementById('lbl-imei-input').innerText = t.imeiLabel;
-    document.getElementById('mainIMEI').placeholder = t.imeiPlaceholder;
-    document.getElementById('txt-free-title').innerText = t.freeTitle;
-    document.getElementById('txt-free-desc').innerText = t.freeDesc;
-    document.getElementById('txt-free-action').innerText = t.freeBtn + " - 0 " + currentCurrency;
-    document.getElementById('txt-premium-title').innerText = t.premiumTitle;
-    document.getElementById('txt-srv1-name').innerText = t.srv1Name;
-    document.getElementById('txt-srv1-desc').innerText = t.srv1Desc;
-    document.getElementById('txt-srv2-name').innerText = t.srv2Name;
-    document.getElementById('txt-srv2-desc').innerText = t.srv2Desc;
-  }
 
   function setCurrency(cur) {
     currentCurrency = cur;
     const prices = { DZD: "400 DZD", USD: "2 USD", EUR: "2 EUR" };
     document.getElementById('price1').innerText = prices[cur];
     document.getElementById('price2').innerText = prices[cur];
-    document.getElementById('txt-free-action').innerText = (translations[currentLang].freeBtn) + " - 0 " + cur;
+    document.getElementById('btn-free-action').innerText = "Check Now - 0 " + cur;
   }
 
   function toggleTheme() {
@@ -375,12 +300,11 @@
 
   function orderService(serviceName) {
     const imei = document.getElementById('mainIMEI').value.trim();
-    const phone = "213657241710"; // رقم واتساب الخاص بك
+    const phone = "213657241710"; 
     const msg = `Hello GSM Yasser, I want to order "${serviceName}". IMEI: ${imei || "Not provided"}`;
     window.open(`https://wa.me/${phone}?text=` + encodeURIComponent(msg), '_blank');
   }
 
-  // لوحة الإدارة السرية
   const GYAdmin = (() => {
     const SECRET_PASSWORD = "wP5t5B3d.";
     let report = null;
@@ -510,5 +434,5 @@
 </script>
 
 </body>
-  </html>
-  
+    </html>
+        
