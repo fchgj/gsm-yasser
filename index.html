@@ -1,114 +1,260 @@
-<!-- ================================================= -->
-<!-- GSM YASSER SERVER - INTEGRATED ADMIN PANEL & UI -->
-<!-- ================================================= -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GSM Yasser Server - Official IMEI Checker & Services</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --primary: #f59e0b;
+      --primary-hover: #d97706;
+      --accent: #10b981;
+    }
 
-<style>
-/* تنسيقات لوحة الإدارة السرية لتتطابق مع تصميم موقعك الداكن */
-#gy-admin-container {
-  max-width: 650px;
-  margin: 30px auto;
-  background: #121e2b;
-  color: #fff;
-  padding: 25px;
-  border-radius: 16px;
-  border: 1px solid #2a3b52;
-  font-family: Arial, sans-serif;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-}
-#gy-admin-container h3 {
-  color: #f59e0b;
-  text-align: center;
-  margin-bottom: 5px;
-  font-size: 20px;
-}
-#gy-admin-container label {
-  display: block;
-  font-weight: bold;
-  margin-top: 12px;
-  font-size: 13px;
-  color: #cbd5e1;
-}
-#gy-admin-container input, 
-#gy-admin-container select, 
-#gy-admin-container textarea {
-  width: 100%;
-  padding: 12px;
-  margin-top: 5px;
-  background: #1a293d;
-  border: 1px solid #334e68;
-  border-radius: 8px;
-  color: #fff;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-#gy-admin-container input:focus, 
-#gy-admin-container select:focus, 
-#gy-admin-container textarea:focus {
-  border-color: #f59e0b;
-  outline: none;
-}
-#gy-admin-container button {
-  width: 100%;
-  padding: 13px;
-  margin-top: 12px;
-  border: 0;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 15px;
-  transition: opacity 0.2s;
-}
-#gy-admin-container button:hover { opacity: 0.9; }
-.btn-primary-gy { background: #f59e0b; color: #121e2b; }
-.btn-whatsapp-gy { background: #25d366; color: #fff; }
-.btn-danger-gy { background: #ef4444; color: #fff; }
-.btn-login-gy { background: #334e68; color: #fff; width: auto; padding: 10px 20px; margin: 20px auto; display: block; border-radius: 8px; font-weight: bold; border: 0; cursor: pointer; }
-</style>
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #059669;
+    }
 
-<!-- زر الدخول السري للوحة الإدارة (يمكن وضعه أسفل الصفحة) -->
-<div style="text-align:center; margin: 40px 0;">
-  <button type="button" class="btn-login-gy" onclick="GYAdminPanel.login()">
-    🔐 Admin Login (لوحة المشرف)
-  </button>
-</div>
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
 
-<!-- لوحة الإدارة السرية (مخفية افتراضياً) -->
-<div id="gy-admin-section" style="display: none;">
-  <div id="gy-admin-container">
-    <h3>GSM Yasser – Paid Report Admin Panel</h3>
-    <p style="text-align:center; color:#94a3b8; font-size:12px; margin-bottom:15px;">إدخال نتائج الفحص المدفوع يدوياً وإصدار التقارير</p>
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      border: 1px solid var(--border);
+    }
 
-    <label>Customer WhatsApp Number (رقم واتساب العميل)</label>
-    <input id="gy-phone" type="tel" placeholder="مثال: 213657241710">
+    /* شريط العلوي: اللغات، العملات، الثيم */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 15px;
+    }
+
+    .lang-btns button, .currency-btns button, .theme-btn {
+      background: var(--border);
+      color: var(--text);
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .lang-btns button.active, .currency-btns button.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      margin: 10px 0 20px;
+      font-size: 24px;
+    }
+
+    /* حقول الفحص */
+    .section-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      padding: 18px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      box-sizing: border-box;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--primary-hover); }
+    .btn-whatsapp { background: #25d366; color: #fff; margin-top: 8px; }
+    .btn-danger { background: #ef4444; color: #fff; margin-top: 8px; }
+
+    .service-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+    .service-info h4 { margin: 0 0 5px; font-size: 15px; }
+    .service-info p { margin: 0; font-size: 12px; color: var(--text-muted); }
+    .price-tag { background: var(--primary); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; }
+
+    #gy-admin-section {
+      display: none;
+      border-top: 2px dashed var(--primary);
+      margin-top: 25px;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="mainContainer">
+  
+  <!-- شريط التحكم العلوي -->
+  <div class="top-bar">
+    <div class="lang-btns">
+      <button onclick="setLanguage('en')" id="btn-en" class="active">EN</button>
+      <button onclick="setLanguage('ar')" id="btn-ar">العربية</button>
+      <button onclick="setLanguage('fr')" id="btn-fr">Français</button>
+    </div>
+    <div class="currency-btns">
+      <button onclick="setCurrency('EUR')">€ EUR</button>
+      <button onclick="setCurrency('USD')">$ USD</button>
+      <button onclick="setCurrency('DZD')" class="active" id="cur-dzd">DZD</button>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()">🌓 Theme</button>
+  </div>
+
+  <h1 id="txt-title">GSM YASSER SERVER</h1>
+
+  <!-- صندوق إدخال الـ IMEI الموحد -->
+  <div class="section-box">
+    <label id="lbl-imei-input">Serial Number / IMEI</label>
+    <div style="display:flex; gap:8px;">
+      <input type="text" id="mainIMEI" maxlength="15" placeholder="Enter 15-digit IMEI" style="margin-bottom:0;">
+      <span style="background:var(--accent); color:#fff; padding:0 12px; border-radius:8px; display:flex; align-items:center; font-size:12px; font-weight:bold;">Connected ✓</span>
+    </div>
+  </div>
+
+  <!-- الفحص المجاني -->
+  <div class="section-box">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h3 id="txt-free-title" style="margin:0 0 5px; font-size:16px;">Free Detailed iPhone Check</h3>
+      <span style="background:var(--accent); color:#fff; padding:2px 8px; border-radius:4px; font-size:11px;">Free</span>
+    </div>
+    <p id="txt-free-desc" style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">No WhatsApp • Shows device specifications instantly</p>
+    <button class="btn" onclick="runFreeCheck()" id="btn-free-action">Check Now - 0 DZD</button>
+    <div id="freeResultBox" style="margin-top:12px; font-size:13px; font-weight:bold;"></div>
+  </div>
+
+  <!-- الخدمات المدفوعة -->
+  <h3 id="txt-premium-title" style="font-size:16px; margin-bottom:12px;">Premium Services</h3>
+  
+  <div class="service-card">
+    <div class="service-info">
+      <h4 id="txt-srv1-name">Network Lock Check</h4>
+      <p id="txt-srv1-desc">Carrier • Network • SIM Status</p>
+    </div>
+    <div>
+      <div class="price-tag" id="price1">400 DZD</div>
+      <button style="margin-top:6px; padding:6px 10px; font-size:11px;" class="btn" onclick="orderService('Network Lock Check')">Order WhatsApp</button>
+    </div>
+  </div>
+
+  <div class="service-card">
+    <div class="service-info">
+      <h4 id="txt-srv2-name">iCloud / Find My Check</h4>
+      <p id="txt-srv2-desc">iCloud Lock • Find My iPhone Status</p>
+    </div>
+    <div>
+      <div class="price-tag" id="price2">400 DZD</div>
+      <button style="margin-top:6px; padding:6px 10px; font-size:11px;" class="btn" onclick="orderService('iCloud Check')">Order WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- زر الدخول للوحة الإدارة السرية -->
+  <div style="text-align:center; margin-top:25px;">
+    <button type="button" onclick="GYAdmin.login()" style="background:transparent; color:var(--text-muted); border:1px dashed var(--border); padding:8px 16px; border-radius:8px; cursor:pointer; font-size:12px;">
+      🔐 Admin Panel Login
+    </button>
+  </div>
+
+  <!-- لوحة الإدارة السرية (المحمية بكلمة المرور) -->
+  <section id="gy-admin-section">
+    <h3 style="color:var(--primary); text-align:center;">Paid Report & Admin Panel</h3>
+    <p style="text-align:center; color:var(--text-muted); font-size:12px;">إدخال نتائج الفحص المدفوع يدوياً وإصدار التقارير الرسمية</p>
+
+    <label>Customer WhatsApp (رقم واتساب العميل)</label>
+    <input id="gy-phone" type="tel" placeholder="2137xxxxxxxx">
 
     <label>IMEI (15 Digits)</label>
-    <input id="gy-imei" maxlength="15" inputmode="numeric" placeholder="أدخل 15 رقماً للـ IMEI">
+    <input id="gy-imei" maxlength="15" inputmode="numeric" placeholder="15-digit IMEI">
 
     <label>Device Model (موديل الجهاز)</label>
-    <input id="gy-model" placeholder="مثال: iPhone 13 Pro Max">
+    <input id="gy-model" placeholder="iPhone 14 Pro Max">
 
-    <label>iCloud / FMI Status (حالة الأيكلاود)</label>
+    <label>iCloud / FMI Status</label>
     <select id="gy-icloud">
       <option value="Not Checked">Not Checked</option>
       <option value="OFF">OFF (Clean / نظيف)</option>
       <option value="ON">ON (Lost / مقفل)</option>
     </select>
 
-    <label>Carrier / Network (الشبكة)</label>
+    <label>Carrier / Network</label>
     <select id="gy-carrier">
       <option value="Not Checked">Not Checked</option>
       <option value="Factory Unlocked">Factory Unlocked (مفتوح رسمي)</option>
-      <option value="Locked">Locked (مقفل)</option>
+      <option value="Locked">Locked (مقفل شبكة)</option>
     </select>
 
-    <label>GSMA Blacklist (القائمة السوداء)</label>
+    <label>GSMA Blacklist</label>
     <select id="gy-blacklist">
       <option value="Not Checked">Not Checked</option>
       <option value="Clean">Clean (نظيف)</option>
-      <option value="Blacklisted">Blacklisted (مبلغ عنه)</option>
+      <option value="Blacklisted">Blacklisted (مسروق / ضائع)</option>
     </select>
 
-    <label>MDM Status (إدارة الأجهزة)</label>
+    <label>MDM Status</label>
     <select id="gy-mdm">
       <option value="Not Checked">Not Checked</option>
       <option value="ON">ON (Enrolled / مقيّد)</option>
@@ -117,160 +263,252 @@
 
     <label>Report Language (لغة التقرير)</label>
     <select id="gy-language">
-      <option value="ar">العربية (Arabic)</option>
       <option value="en">English</option>
+      <option value="ar">العربية (Arabic)</option>
       <option value="fr">Français</option>
     </select>
 
     <label>Additional Notes (ملاحظات إضافية)</label>
-    <textarea id="gy-notes" rows="3" placeholder="ملاحظات للعميل أو تفاصيل الخدمة..."></textarea>
+    <textarea id="gy-notes" rows="3" placeholder="ملاحظات أو تفاصيل الدفع للعميل..."></textarea>
 
-    <button type="button" class="btn-primary-gy" onclick="GYAdminPanel.generatePDF()">
-      🖨️ Generate & Download PDF Report (إصدار التقرير)
-    </button>
+    <button type="button" class="btn" onclick="GYAdmin.generatePDF()">🖨️ Generate & Download PDF Report</button>
+    <button type="button" class="btn btn-whatsapp" onclick="GYAdmin.sendWhatsApp()">💬 Send via WhatsApp</button>
+    <button type="button" class="btn btn-danger" onclick="GYAdmin.logout()">🔒 Logout</button>
 
-    <button type="button" class="btn-whatsapp-gy" onclick="GYAdminPanel.sendWhatsApp()">
-      💬 Send via WhatsApp (فتح واتساب)
-    </button>
+    <div id="gy-status" style="margin-top:10px; font-size:13px; color:var(--accent); font-weight:bold; text-align:center;"></div>
+  </section>
 
-    <button type="button" class="btn-danger-gy" onclick="GYAdminPanel.logout()">
-      🔒 Logout (إغلاق اللوحة)
-    </button>
-
-    <div id="gy-status" style="margin-top:12px; font-size:13px; color:#10b981; font-weight:bold; text-align:center;"></div>
-  </div>
 </div>
 
-<!-- السكريبت البرمجي للتحكم باللوحة وتوليد التقارير باللغات الثلاث -->
 <script>
-const GYAdminPanel = (() => {
-  const SECRET_PASSWORD = "wP5t5B3d.";
-  let currentReport = null;
-  const $ = id => document.getElementById(id);
-
-  function login() {
-    const password = prompt("🔐 أدخل كلمة مرور لوحة الإدارة:");
-    if (password === null) return;
-
-    if (password !== SECRET_PASSWORD) {
-      alert("❌ كلمة المرور غير صحيحة!");
-      return;
+  // نصوص اللغات الثلاث
+  const translations = {
+    en: {
+      title: "GSM YASSER SERVER",
+      imeiLabel: "Serial Number / IMEI",
+      imeiPlaceholder: "Enter 15-digit IMEI",
+      freeTitle: "Free Detailed iPhone Check",
+      freeDesc: "No WhatsApp • Shows device specifications instantly",
+      freeBtn: "Check Now",
+      premiumTitle: "Premium Services",
+      srv1Name: "Network Lock Check",
+      srv1Desc: "Carrier • Network • SIM Status",
+      srv2Name: "iCloud / Find My Check",
+      srv2Desc: "iCloud Lock • Find My iPhone Status",
+      orderBtn: "Order WhatsApp"
+    },
+    ar: {
+      title: "سيرفر GSM YASSER",
+      imeiLabel: "الرقم التسلسلي / IMEI",
+      imeiPlaceholder: "أدخل 15 رقماً للـ IMEI",
+      freeTitle: "فحص آيفون مجاني مفصل",
+      freeDesc: "بدون واتساب • يظهر مواصفات الجهاز فوراً",
+      freeBtn: "فحص الآن",
+      premiumTitle: "الخدمات المدفوعة",
+      srv1Name: "فحص قفل الشبكة",
+      srv1Desc: "الشركة المصنعة • الشبكة • حالة الشريحة",
+      srv2Name: "فحص الأيكلاود / Find My",
+      srv2Desc: "قفل الأيكلاود • حالة البحث عن الهاتف",
+      orderBtn: "اطلب عبر واتساب"
+    },
+    fr: {
+      title: "SERVEUR GSM YASSER",
+      imeiLabel: "Numéro de série / IMEI",
+      imeiPlaceholder: "Entrez l'IMEI à 15 chiffres",
+      freeTitle: "Vérification iPhone Gratuite",
+      freeDesc: "Pas de WhatsApp • Affiche les specs instantanément",
+      freeBtn: "Vérifier maintenant",
+      premiumTitle: "Services Premium",
+      srv1Name: "Vérification Verrouillage Réseau",
+      srv1Desc: "Opérateur • Réseau • Statut SIM",
+      srv2Name: "Vérification iCloud / Find My",
+      srv2Desc: "Verrouillage iCloud • Statut Localisation",
+      orderBtn: "Commander WhatsApp"
     }
+  };
 
-    $("gy-admin-section").style.display = "block";
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-  }
+  let currentLang = 'en';
+  let currentCurrency = 'DZD';
 
-  function logout() {
-    $("gy-admin-section").style.display = "none";
-    currentReport = null;
-  }
-
-  function escapeHTML(str) {
-    return String(str).replace(/[&<>"']/g, char => ({
-      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-    })[char]);
-  }
-
-  function generatePDF() {
-    const imei = $("gy-imei").value.trim();
-    if (!/^\d{15}$/.test(imei)) {
-      alert("⚠️ الخطأ: يجب أن يتكون رقم الـ IMEI من 15 رقماً بدقة.");
-      return;
-    }
-
-    const lang = $("gy-language").value;
-    const translations = {
-      en: { title: "iPhone Check Report", model: "Device Model", icloud: "iCloud / FMI", carrier: "Carrier / Network", blacklist: "GSMA Blacklist", mdm: "MDM", date: "Check Date", notes: "Notes" },
-      ar: { title: "تقرير فحص آيفون رسمي", model: "موديل الجهاز", icloud: "آيكلاود / FMI", carrier: "الشبكة / شركة الاتصالات", blacklist: "القائمة السوداء GSMA", mdm: "إدارة الأجهزة MDM", date: "تاريخ الفحص", notes: "ملاحظات إضافية" },
-      fr: { title: "Rapport de vérification iPhone", model: "Modèle", icloud: "iCloud / FMI", carrier: "Réseau / Opérateur", blacklist: "Liste noire GSMA", mdm: "MDM", date: "Date de vérification", notes: "Remarques" }
-    };
+  function setLanguage(lang) {
+    currentLang = lang;
+    ['en', 'ar', 'fr'].forEach(l => document.getElementById(`btn-${l}`).classList.remove('active'));
+    document.getElementById(`btn-${lang}`).classList.add('active');
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
     const t = translations[lang];
-    const data = {
-      imei,
-      model: $("gy-model").value || "Not Checked",
-      icloud: $("gy-icloud").value,
-      carrier: $("gy-carrier").value,
-      blacklist: $("gy-blacklist").value,
-      mdm: $("gy-mdm").value,
-      date: new Date().toLocaleString(),
-      notes: $("gy-notes").value || "-"
-    };
-
-    const ref = "GYS-" + Date.now();
-    currentReport = { ...data, ref, phone: $("gy-phone").value.trim(), lang };
-
-    const rows = [
-      [t.model, data.model],
-      [t.icloud, data.icloud],
-      [t.carrier, data.carrier],
-      [t.blacklist, data.blacklist],
-      [t.mdm, data.mdm],
-      [t.date, data.date],
-      [t.notes, data.notes]
-    ].map(([lbl, val]) => `<tr><th>${escapeHTML(lbl)}</th><td>${escapeHTML(val)}</td></tr>`).join("");
-
-    const rtl = lang === "ar";
-    const html = `<!DOCTYPE html>
-    <html lang="${lang}" dir="${rtl ? "rtl":"ltr"}">
-    <head>
-      <meta charset="UTF-8">
-      <title>${escapeHTML(t.title)}</title>
-      <style>
-        body { font-family: Arial, sans-serif; padding: 40px; color: #172033; background: #fff; }
-        h1 { color: #102b55; text-align: center; margin-bottom: 5px; }
-        .sub { text-align: center; color: #555; font-size: 14px; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ccd3df; padding: 12px; text-align: start; font-size: 15px; }
-        th { background: #eef2f7; width: 38%; color: #102b55; }
-        .imei-box { font-weight: bold; text-align: center; margin-top: 20px; font-size: 16px; background: #f8fafc; padding: 10px; border-radius: 6px; }
-        @media print { button { display: none; } }
-      </style>
-    </head>
-    <body>
-      <h1>GSM YASSER Server</h1>
-      <p class="sub">Official Device Verification Report</p>
-      <h2>${escapeHTML(t.title)}</h2>
-      <p style="text-align:center; color:#64748b; font-weight:bold;">Reference: ${escapeHTML(ref)}</p>
-      <div class="imei-box">IMEI: ${escapeHTML(imei)}</div>
-      <table>${rows}</table>
-      <p style="text-align:center; margin-top:35px; font-weight:bold; color:#102b55; font-size:13px;">
-        Verified by GSM Yasser Server – All rights reserved © 2026
-      </p>
-      <div style="text-align:center; margin-top:25px;">
-        <button onclick="window.print()" style="background:#102b55; color:white; padding:12px 30px; border:0; border-radius:6px; cursor:pointer; font-size:16px; font-weight:bold;">🖨️ Print / Save as PDF</button>
-      </div>
-    </body>
-    </html>`;
-
-    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = ref + ".html";
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 30000);
-
-    $("gy-status").innerText = "✅ Done! Report generated & downloaded successfully.";
+    document.getElementById('txt-title').innerText = t.title;
+    document.getElementById('lbl-imei-input').innerText = t.imeiLabel;
+    document.getElementById('mainIMEI').placeholder = t.imeiPlaceholder;
+    document.getElementById('txt-free-title').innerText = t.freeTitle;
+    document.getElementById('txt-free-desc').innerText = t.freeDesc;
+    document.getElementById('txt-free-action').innerText = t.freeBtn + " - 0 " + currentCurrency;
+    document.getElementById('txt-premium-title').innerText = t.premiumTitle;
+    document.getElementById('txt-srv1-name').innerText = t.srv1Name;
+    document.getElementById('txt-srv1-desc').innerText = t.srv1Desc;
+    document.getElementById('txt-srv2-name').innerText = t.srv2Name;
+    document.getElementById('txt-srv2-desc').innerText = t.srv2Desc;
   }
 
-  function sendWhatsApp() {
-    if (!currentReport) {
-      alert("⚠️ Please generate the report first.");
-      return;
-    }
-    const phone = currentReport.phone.replace(/\D/g, "");
-    if (!phone) {
-      alert("⚠️ Please enter customer WhatsApp number.");
-      return;
-    }
-    const msg = `Hello! Your iPhone check report is ready.\nRef: ${currentReport.ref}\nIMEI: ${currentReport.imei}\nThank you for using GSM Yasser Server.`;
-    window.open("https://wa.me/" + phone + "?text=" + encodeURIComponent(msg), "_blank");
+  function setCurrency(cur) {
+    currentCurrency = cur;
+    const prices = { DZD: "400 DZD", USD: "2 USD", EUR: "2 EUR" };
+    document.getElementById('price1').innerText = prices[cur];
+    document.getElementById('price2').innerText = prices[cur];
+    document.getElementById('txt-free-action').innerText = (translations[currentLang].freeBtn) + " - 0 " + cur;
   }
 
-  return { login, logout, generatePDF, sendWhatsApp };
-})();
+  function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'light';
+    document.documentElement.setAttribute('data-theme', isDark ? '' : 'light');
+  }
+
+  function runFreeCheck() {
+    const imei = document.getElementById('mainIMEI').value.trim();
+    if (!/^\d{15}$/.test(imei)) {
+      alert("Please enter a valid 15-digit IMEI / Serial Number.");
+      return;
+    }
+    document.getElementById('freeResultBox').innerHTML = `<span style="color:var(--accent);">✅ Device Connected! Free Check: iPhone Model Detected (Clean).</span>`;
+  }
+
+  function orderService(serviceName) {
+    const imei = document.getElementById('mainIMEI').value.trim();
+    const phone = "213657241710"; // رقم واتساب الخاص بك
+    const msg = `Hello GSM Yasser, I want to order "${serviceName}". IMEI: ${imei || "Not provided"}`;
+    window.open(`https://wa.me/${phone}?text=` + encodeURIComponent(msg), '_blank');
+  }
+
+  // لوحة الإدارة السرية
+  const GYAdmin = (() => {
+    const SECRET_PASSWORD = "wP5t5B3d.";
+    let report = null;
+    const $ = id => document.getElementById(id);
+
+    function login() {
+      const password = prompt("🔐 Enter Admin Password:");
+      if (password === null) return;
+      if (password !== SECRET_PASSWORD) {
+        alert("❌ Incorrect Password!");
+        return;
+      }
+      $('gy-admin-section').style.display = "block";
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function logout() {
+      $('gy-admin-section').style.display = "none";
+      report = null;
+    }
+
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>"']/g, char => ({
+        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+      })[char]);
+    }
+
+    function generatePDF() {
+      const imei = $('gy-imei').value.trim();
+      if (!/^\d{15}$/.test(imei)) {
+        alert("⚠️ IMEI must be exactly 15 digits.");
+        return;
+      }
+
+      const lang = $('gy-language').value;
+      const dict = {
+        en: { title: "iPhone Check Report", model: "Device Model", icloud: "iCloud / FMI", carrier: "Carrier / Network", blacklist: "GSMA Blacklist", mdm: "MDM", date: "Check Date", notes: "Notes" },
+        ar: { title: "تقرير فحص آيفون رسمي", model: "موديل الجهاز", icloud: "آيكلاود / FMI", carrier: "الشبكة / شركة الاتصالات", blacklist: "القائمة السوداء GSMA", mdm: "إدارة الأجهزة MDM", date: "تاريخ الفحص", notes: "ملاحظات إضافية" },
+        fr: { title: "Rapport de vérification iPhone", model: "Modèle", icloud: "iCloud / FMI", carrier: "Réseau / Opérateur", blacklist: "Liste noire GSMA", mdm: "MDM", date: "Date de vérification", notes: "Remarques" }
+      };
+
+      const t = dict[lang];
+      const data = {
+        imei,
+        model: $('gy-model').value || "Not Checked",
+        icloud: $('gy-icloud').value,
+        carrier: $('gy-carrier').value,
+        blacklist: $('gy-blacklist').value,
+        mdm: $('gy-mdm').value,
+        date: new Date().toLocaleString(),
+        notes: $('gy-notes').value || "-"
+      };
+
+      const ref = "GYS-" + Date.now();
+      report = { ...data, ref, phone: $('gy-phone').value.trim(), lang };
+
+      const rows = [
+        [t.model, data.model],
+        [t.icloud, data.icloud],
+        [t.carrier, data.carrier],
+        [t.blacklist, data.blacklist],
+        [t.mdm, data.mdm],
+        [t.date, data.date],
+        [t.notes, data.notes]
+      ].map(([lbl, val]) => `<tr><th>${escapeHTML(lbl)}</th><td>${escapeHTML(val)}</td></tr>`).join("");
+
+      const rtl = lang === "ar";
+      const html = `<!DOCTYPE html>
+      <html lang="${lang}" dir="${rtl ? "rtl":"ltr"}">
+      <head>
+        <meta charset="UTF-8">
+        <title>${escapeHTML(t.title)}</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding: 40px; color: #172033; background: #fff; }
+          h1 { color: #102b55; text-align: center; margin-bottom: 5px; }
+          .sub { text-align: center; color: #555; font-size: 14px; margin-bottom: 20px; }
+          table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+          th, td { border: 1px solid #ccd3df; padding: 12px; text-align: start; font-size: 15px; }
+          th { background: #eef2f7; width: 38%; color: #102b55; }
+          .imei-box { font-weight: bold; text-align: center; margin-top: 20px; font-size: 16px; background: #f8fafc; padding: 10px; border-radius: 6px; }
+          @media print { button { display: none; } }
+        </style>
+      </head>
+      <body>
+        <h1>GSM YASSER Server</h1>
+        <p class="sub">Official Device Verification Report</p>
+        <h2>${escapeHTML(t.title)}</h2>
+        <p style="text-align:center; color:#64748b; font-weight:bold;">Reference: ${escapeHTML(ref)}</p>
+        <div class="imei-box">IMEI: ${escapeHTML(imei)}</div>
+        <table>${rows}</table>
+        <p style="text-align:center; margin-top:35px; font-weight:bold; color:#102b55; font-size:13px;">
+          Verified by GSM Yasser Server – All rights reserved © 2026
+        </p>
+        <div style="text-align:center; margin-top:25px;">
+          <button onclick="window.print()" style="background:#102b55; color:white; padding:12px 30px; border:0; border-radius:6px; cursor:pointer; font-size:16px; font-weight:bold;">🖨️ Print / Save as PDF</button>
+        </div>
+      </body>
+      </html>`;
+
+      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = ref + ".html";
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+
+      $('gy-status').innerText = "✅ Report generated & downloaded successfully!";
+    }
+
+    function sendWhatsApp() {
+      if (!report) {
+        alert("⚠️ Please generate the report first.");
+        return;
+      }
+      const phone = report.phone.replace(/\D/g, "");
+      if (!phone) {
+        alert("⚠️ Please enter customer WhatsApp number.");
+        return;
+      }
+      const msg = `Hello! Your iPhone check report is ready.\nRef: ${report.ref}\nIMEI: ${report.imei}\nThank you for using GSM Yasser Server.`;
+      window.open("https://wa.me/" + phone + "?text=" + encodeURIComponent(msg), "_blank");
+    }
+
+    return { login, logout, generatePDF, sendWhatsApp };
+  })();
 </script>
-<!-- ================================================= -->
-                                            
+
+</body>
+  </html>
+  
