@@ -213,16 +213,16 @@
   
   <div class="top-controls">
     <div class="lang-group">
-      <button class="top-btn" onclick="setLang('ar')" id="l-ar">العربية</button>
-      <button class="top-btn" onclick="setLang('fr')" id="l-fr">Français</button>
-      <button class="top-btn active" onclick="setLang('en')" id="l-en">EN</button>
+      <button class="top-btn" id="l-ar">العربية</button>
+      <button class="top-btn" id="l-fr">Français</button>
+      <button class="top-btn active" id="l-en">EN</button>
     </div>
     <div class="currency-group">
-      <button class="top-btn" onclick="setCurrency('EUR')" id="c-eur">€ EUR</button>
-      <button class="top-btn" onclick="setCurrency('USD')" id="c-usd">$ USD</button>
-      <button class="top-btn active" onclick="setCurrency('DZD')" id="c-dzd">DZD</button>
+      <button class="top-btn" id="c-eur">€ EUR</button>
+      <button class="top-btn" id="c-usd">$ USD</button>
+      <button class="top-btn active" id="c-dzd">DZD</button>
     </div>
-    <button class="top-btn" onclick="toggleTheme()">🌓</button>
+    <button class="top-btn" id="btn-theme-toggle">🌓</button>
   </div>
 
   <h1 id="txt-title">GSM YASSER SERVER</h1>
@@ -239,7 +239,7 @@
     <span class="free-tag" id="txt-free-badge">Free</span>
     <div class="free-title" id="txt-free-title">Free Detailed iPhone Check</div>
     <div class="free-desc" id="txt-free-desc">No WhatsApp • Shows device specifications instantly</div>
-    <button class="btn-green" onclick="runFreeCheck()" id="btn-free-action">Check Now</button>
+    <button class="btn-green" id="btn-free-action">Check Now</button>
     <div id="freeResult" style="margin-top:10px; font-size:12px; font-weight:bold;"></div>
   </div>
 
@@ -254,147 +254,5 @@
       </div>
       <span class="price-badge" id="price1">400 DZD</span>
     </div>
-    <button class="btn-orange" onclick="orderWhatsApp('Network Lock Check')">
-      💬 <span id="txt-order1">Order via WhatsApp</span>
-    </button>
-  </div>
-
-  <!-- Service 2 -->
-  <div class="service-card">
-    <div class="service-row">
-      <div>
-        <p class="service-name" id="txt-s2-name">iCloud / Find My Check</p>
-        <p class="service-sub" id="txt-s2-desc">iCloud Lock • Find My iPhone Status</p>
-      </div>
-      <span class="price-badge" id="price2">400 DZD</span>
-    </div>
-    <button class="btn-orange" onclick="orderWhatsApp('iCloud / Find My Check')">
-      💬 <span id="txt-order2">Order via WhatsApp</span>
-    </button>
-  </div>
-
-  <!-- Service 3: Comprehensive Paid Check -->
-  <div class="service-card">
-    <div class="service-row">
-      <div>
-        <p class="service-name" id="txt-s3-name">Comprehensive Paid Check</p>
-        <p class="service-sub" id="txt-s3-desc">Full Report • iCloud • Carrier • Blacklist • MDM</p>
-      </div>
-      <span class="price-badge" id="price3">800 DZD</span>
-    </div>
-    <button class="btn-orange" onclick="orderWhatsApp('Comprehensive Paid Check')">
-      💬 <span id="txt-order3">Order via WhatsApp</span>
-    </button>
-  </div>
-
-  <div style="text-align:center; margin-top:20px;">
-    <button onclick="AdminPanel.login()" style="background:none; border:none; color:var(--text-muted); font-size:11px; cursor:pointer; text-decoration:underline;">
-      🔐 Admin Panel Login
-    </button>
-  </div>
-
-  <section id="gy-admin-section">
-    <h3 style="color:var(--primary); text-align:center; font-size:15px; margin-bottom:5px;">Admin Paid Report Panel</h3>
-    <p style="text-align:center; color:var(--text-muted); font-size:11px; margin-bottom:15px;">إدخال نتائج الفحص المدفوع يدوياً وإصدار التقارير</p>
-
-    <label class="admin-label">Customer WhatsApp Number</label>
-    <input id="gy-phone" class="admin-input" type="tel" placeholder="213657241710">
-
-    <label class="admin-label">IMEI (15 Digits)</label>
-    <input id="gy-imei" class="admin-input" maxlength="15" placeholder="15-digit IMEI">
-
-    <label class="admin-label">Device Model</label>
-    <input id="gy-model" class="admin-input" placeholder="iPhone 14 Pro Max">
-
-    <label class="admin-label">iCloud / FMI Status</label>
-    <select id="gy-icloud" class="admin-select">
-      <option value="Not Checked">Not Checked</option>
-      <option value="OFF">OFF (Clean / نظيف)</option>
-      <option value="ON">ON (Lost / مقفل)</option>
-    </select>
-
-    <label class="admin-label">Carrier / Network</label>
-    <select id="gy-carrier" class="admin-select">
-      <option value="Not Checked">Not Checked</option>
-      <option value="Factory Unlocked">Factory Unlocked</option>
-      <option value="Locked">Locked</option>
-    </select>
-
-    <label class="admin-label">GSMA Blacklist</label>
-    <select id="gy-blacklist" class="admin-select">
-      <option value="Not Checked">Not Checked</option>
-      <option value="Clean">Clean</option>
-      <option value="Blacklisted">Blacklisted</option>
-    </select>
-
-    <label class="admin-label">MDM Status</label>
-    <select id="gy-mdm" class="admin-select">
-      <option value="Not Checked">Not Checked</option>
-      <option value="ON">ON (Enrolled)</option>
-      <option value="OFF">OFF (Clean)</option>
-    </select>
-
-    <label class="admin-label">Report Language</label>
-    <select id="gy-language" class="admin-select">
-      <option value="en">English</option>
-      <option value="ar">العربية (Arabic)</option>
-      <option value="fr">Français</option>
-    </select>
-
-    <label class="admin-label">Additional Notes</label>
-    <textarea id="gy-notes" class="admin-textarea" rows="2" placeholder="Notes for customer..."></textarea>
-
-    <button class="btn-orange" style="margin-bottom:8px;" onclick="AdminPanel.generatePDF()">🖨️ Generate & Download PDF</button>
-    <button class="btn-green" style="margin-bottom:8px;" onclick="AdminPanel.sendWhatsApp()">💬 Send Report via WhatsApp</button>
-    <button style="background:#ef4444; color:#fff; width:100%; padding:10px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="AdminPanel.logout()">🔒 Logout</button>
-
-    <div id="gy-status" style="margin-top:10px; font-size:12px; color:var(--accent); font-weight:bold; text-align:center;"></div>
-  </section>
-
-</div>
-
-<script>
-  let currentCurrency = 'DZD';
-  let currentLang = 'en';
-
-  const translations = {
-    en: {
-      title: "GSM YASSER SERVER",
-      imeiLabel: "Serial Number / IMEI",
-      freeBadge: "Free",
-      freeTitle: "Free Detailed iPhone Check",
-      freeDesc: "No WhatsApp • Shows device specifications instantly",
-      freeBtn: "Check Now",
-      servicesTitle: "Premium Services",
-      s1Name: "Network Lock Check",
-      s1Desc: "Carrier • Network • SIM Status",
-      s2Name: "iCloud / Find My Check",
-      s2Desc: "iCloud Lock • Find My iPhone Status",
-      s3Name: "Comprehensive Paid Check",
-      s3Desc: "Full Report • iCloud • Carrier • Blacklist • MDM",
-      orderBtn: "Order via WhatsApp"
-    },
-    ar: {
-      title: "سيرفر GSM YASSER",
-      imeiLabel: "الرقم التسلسلي / IMEI",
-      freeBadge: "مجاني",
-      freeTitle: "فحص آيفون مجاني مفصل",
-      freeDesc: "بدون واتساب • يظهر مواصفات الجهاز فوراً",
-      freeBtn: "فحص الآن",
-      servicesTitle: "الخدمات المدفوعة",
-      s1Name: "فحص قفل الشبكة",
-      s1Desc: "الشركة المصنعة • الشبكة • حالة الشريحة",
-      s2Name: "فحص الأيكلاود / Find My",
-      s2Desc: "قفل الأيكلاود • حالة البحث عن الهاتف",
-      s3Name: "فحص شامل مدفوع",
-      s3Desc: "تقرير كامل • أيكلاود • شبكة • بلاكليست • MDM",
-      orderBtn: "اطلب عبر واتساب"
-    },
-    fr: {
-      title: "SERVEUR GSM YASSER",
-      imeiLabel: "Numéro de série / IMEI",
-      freeBadge: "Gratuit",
-      freeTitle: "Vérification iPhone Gratuite",
-      freeDesc: "Pas de WhatsApp • Affiche les specs instantanément",
-      freeBtn: "
-      
+    <button class="btn-orange
+  
