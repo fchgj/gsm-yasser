@@ -411,7 +411,7 @@ const i18n = {
   },
   fr: {
     sub: "Vérification professionnelle iPhone et services mobiles",
-    freeTitle: "VÉRIFICATION IMEI GRATUite",
+    freeTitle: "VÉRIFICATION IMEI GRATUITE",
     freeSub: "Validez votre numéro IMEI à 15 chiffres et affichez les spécifications.",
     imeiLabel: "Entrez le numéro IMEI",
     checkBtn: "VÉRIFIER L'IMEI",
@@ -420,112 +420,5 @@ const i18n = {
     s2Name: "Vérification iCloud / FMI", s2Desc: "Rapport manuel iCloud et statut Find My iPhone.", s2Btn: "COMMANDER",
     s3Name: "Vérification Opérateur", s3Desc: "Rapport manuel de l'opérateur et verrouillage SIM.", s3Btn: "COMMANDER",
     s4Name: "Liste Noire GSMA", s4Desc: "Rapport de statut sur la liste noire.", s4Btn: "COMMANDER",
-    s5Name: "Rapport PRO Complet", s5Desc: "Rapport complet avec les résultats disponibles.", s5Btn: "COMMANDER LE RAPPORT",
-    orderTitle: "SOUMETTRE VOTRE COMMANDE",
-    lblName: "Nom du client", lblPhone: "WhatsApp du client", lblOrderImei: "Numéro IMEI", lblService: "Sélectionner le service",
-    sendOrderBtn: "ENVOYER LA COMMANDE VIA WHATSAPP",
-    adminTitle: "ADMINISTRATION", adminLoginBtn: "CONNEXION ADMIN", adminSub: "Accès autorisé à l'administration.",
-    dashTitle: "TABLEAU DE BORD", logoutBtn: "DÉCONNEXION", manualTitle: "RÉSULTATS DE VÉRIFICATION MANUELLE",
-    lblRef: "Référence du rapport", lblCustName: "Nom du client", lblCustPhone: "WhatsApp du client",
-    lblReportImei: "Numéro IMEI", lblModel: "Modèle de l'appareil", lblReportService: "Service",
-    lblIcloud: "Statut iCloud / FMI", lblCarrier: "Statut Opérateur", lblBlacklist: "Statut Liste Noire",
-    lblMdm: "Statut MDM", lblNotes: "Notes additionnelles", lblLang: "Langue du rapport",
-    saveReportBtn: "ENREGISTRER ET GÉNÉRER LE RAPPORT", savedTitle: "RAPPORTS ENREGISTRÉS", refreshBtn: "ACTUALISER",
-    thRef: "RÉFÉRENCE", thImei: "IMEI", thService: "SERVICE", thActions: "ACTIONS"
-  },
-  ar: {
-    sub: "فحص آيفون احترافي والخدمات المحمولة",
-    freeTitle: "فحص IMEI المجاني",
-    freeSub: "تحقق من رقم الـ IMEI المكون من 15 رقماً واعراض مواصفات الجهاز.",
-    imeiLabel: "أدخل رقم الـ IMEI",
-    checkBtn: "فحص الـ IMEI",
-    servicesTitle: "الخدمات المتاحة",
-    s1Name: "فحص أساسي", s1Desc: "تنسيق IMEI والتحقق من المجموع.", s1Btn: "اختيار",
-    s2Name: "فحص iCloud / FMI", s2Desc: "تقرير يدوي لحالة أيكلاود والبحث عن آيفون.", s2Btn: "اطلب الآن",
-    s3Name: "فحص الشبكة والناقل", s3Desc: "تقرير يدوي لشركة الاتصالات وحالة القفل.", s3Btn: "اطلب الآن",
-    s4Name: "القائمة السوداء GSMA", s4Desc: "تقرير حالة القائمة السوداء.", s4Btn: "اطلب الآن",
-    s5Name: "تقرير PRO الشامل", s5Desc: "تقرير شامل مع نتائج الفحص المتاحة.", s5Btn: "اطلب التقرير الشامل",
-    orderTitle: "إرسال طلبك",
-    lblName: "اسم العميل", lblPhone: "واتساب العميل", lblOrderImei: "رقم IMEI", lblService: "اختر الخدمة",
-    sendOrderBtn: "إرسال الطلب عبر واتساب",
-    adminTitle: "الإدارة", adminLoginBtn: "تسجيل دخول المشرف", adminSub: "صلاحيات الوصول للإدارة المصرح لها.",
-    dashTitle: "لوحة تحكم المشرف", logoutBtn: "تسجيل خروج", manualTitle: "نتائج الفحص اليدوي",
-    lblRef: "رقم مرجع التقرير", lblCustName: "اسم العميل", lblCustPhone: "واتساب العميل",
-    lblReportImei: "رقم IMEI", lblModel: "طراز الجهاز", lblReportService: "الخدمة",
-    lblIcloud: "حالة iCloud / FMI", lblCarrier: "حالة الشبكة", lblBlacklist: "حالة القائمة السوداء",
-    lblMdm: "حالة MDM", lblNotes: "ملاحظات إضافية", lblLang: "لغة التقرير",
-    saveReportBtn: "حفظ وإنشاء التقرير", savedTitle: "التقارير المحفوظة", refreshBtn: "تحديث",
-    thRef: "المرجع", thImei: "IMEI", thService: "الخدمة", thActions: "الإجراءات"
-  }
-};
-
-/* PRICING */
-const prices = {
-  DZD: { free: "FREE", s2: "400 DZD", s3: "400 DZD", s4: "400 DZD", s5: "800 DZD" },
-  USD: { free: "FREE", s2: "2 USD", s3: "2 USD", s4: "2 USD", s5: "4 USD" },
-  EUR: { free: "FREE", s2: "2 EUR", s3: "2 EUR", s4: "2 EUR", s5: "4 EUR" }
-};
-
-/* LANGUAGE SWITCHER */
-function setLang(lang) {
-  currentLang = lang;
-  ['en','fr','ar'].forEach(l => {
-    document.getElementById('l-' + l).classList.remove('active');
-  });
-  document.getElementById('l-' + lang).classList.add('active');
-  document.documentElement.lang = lang;
-  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-
-  const t = i18n[lang];
-  document.getElementById('headerSub').textContent = t.sub;
-  document.getElementById('txtFreeTitle').textContent = t.freeTitle;
-  document.getElementById('txtFreeSub').textContent = t.freeSub;
-  document.getElementById('txtImeiLabel').textContent = t.imeiLabel;
-  document.getElementById('txtCheckBtn').textContent = t.checkBtn;
-  document.getElementById('txtServicesTitle').textContent = t.servicesTitle;
+    s5Name: "Rapport PRO Complet", s5Desc: "Rapport complet avec les résultats disponibles.",
   
-  document.getElementById('s1Name').textContent = t.s1Name;
-  document.getElementById('s1Desc').textContent = t.s1Desc;
-  document.getElementById('s1Btn').textContent = t.s1Btn;
-  
-  document.getElementById('s2Name').textContent = t.s2Name;
-  document.getElementById('s2Desc').textContent = t.s2Desc;
-  document.getElementById('s2Btn').textContent = t.s2Btn;
-  
-  document.getElementById('s3Name').textContent = t.s3Name;
-  document.getElementById('s3Desc').textContent = t.s3Desc;
-  document.getElementById('s3Btn').textContent = t.s3Btn;
-  
-  document.getElementById('s4Name').textContent = t.s4Name;
-  document.getElementById('s4Desc').textContent = t.s4Desc;
-  document.getElementById('s4Btn').textContent = t.s4Btn;
-  
-  document.getElementById('s5Name').textContent = t.s5Name;
-  document.getElementById('s5Desc').textContent = t.s5Desc;
-  document.getElementById('s5Btn').textContent = t.s5Btn;
-  
-  document.getElementById('txtOrderTitle').textContent = t.orderTitle;
-  document.getElementById('txtLblName').textContent = t.lblName;
-  document.getElementById('txtLblPhone').textContent = t.lblPhone;
-  document.getElementById('txtLblOrderImei').textContent = t.lblOrderImei;
-  document.getElementById('txtLblService').textContent = t.lblService;
-  document.getElementById('txtSendOrderBtn').textContent = t.sendOrderBtn;
-  
-  document.getElementById('txtAdminTitle').textContent = t.adminTitle;
-  document.getElementById('txtAdminLoginBtn').textContent = t.adminLoginBtn;
-  document.getElementById('txtAdminSub').textContent = t.adminSub;
-  
-  document.getElementById('txtDashTitle').textContent = t.dashTitle;
-  document.getElementById('txtLogoutBtn').textContent = t.logoutBtn;
-  document.getElementById('txtManualTitle').textContent = t.manualTitle;
-  document.getElementById('txtLblRef').textContent = t.lblRef;
-  document.getElementById('txtLblCustName').textContent = t.lblCustName;
-  document.getElementById('txtLblCustPhone').textContent = t.lblCustPhone;
-  document.getElementById('txtLblReportImei').textContent = t.lblReportImei;
-  document.getElementById('txtLblModel').textContent = t.lblModel;
-  document.getElementById('txtLblReportService').textContent = t.lblReportService;
-  document.getElementById('txtLblIcloud').textContent = t.lblIcloud;
-  document.getElementById('txtLblCarrier').textContent = t.lblCarrier;
-  document.getElementById('txtLblBlacklist').textContent = t.lblBlacklist;
-  document.getElementById('txtLblMdm').textContent = t.lblMdm;
-  document.getElementById('txtLblNotes').textContent = t.lblNo
