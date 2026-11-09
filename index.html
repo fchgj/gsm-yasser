@@ -12,7 +12,7 @@
       --text-muted: #94a3b8;
       --border: #1e293b;
       --border-card: #223349;
-      --primary: #f59e0b; /* البرتقالي الخاص بالأزرار */
+      --primary: #f59e0b; /* البرتقالي للأزرار والخدمات */
       --accent: #10b981;  /* الأخضر للفحص المجاني */
     }
 
@@ -46,7 +46,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    /* الشريط العلوي (اللغات، العملات، الثيم) */
+    /* الشريط العلوي */
     .top-controls {
       display: flex;
       justify-content: space-between;
@@ -86,7 +86,7 @@
       letter-spacing: 1px;
     }
 
-    /* حقل الـ IMEI الرئيسي */
+    /* إدخال الـ IMEI */
     .imei-box {
       background: #0f172a;
       border: 1px solid #223349;
@@ -118,7 +118,7 @@
       padding: 5px 0;
     }
 
-    /* صندوق الفحص المجاني */
+    /* الفحص المجاني (بدون سعر) */
     .free-box {
       background: #0f172a;
       border: 1px solid #223349;
@@ -155,7 +155,7 @@
       cursor: pointer;
     }
 
-    /* قسم الخدمات المدفوعة */
+    /* الخدمات المدفوعة */
     .section-title {
       font-size: 13px;
       color: var(--text-muted);
@@ -249,23 +249,23 @@
     <button class="top-btn" onclick="toggleTheme()">🌓</button>
   </div>
 
-  <h1 id="txt-title">GSM YASSER SERVER</h1>
+  <h1>GSM YASSER SERVER</h1>
 
-  <!-- إدخال الـ IMEI -->
+  <!-- حقل الـ IMEI -->
   <div class="imei-box">
     <div class="imei-header">
       <span id="txt-imei-label">Serial Number / IMEI</span>
       <span class="connected-badge">Connected ✓</span>
     </div>
-    <input type="text" id="mainIMEI" class="imei-input-field" maxlength="15" placeholder="35XXXXXXXXXXXXXXXXX">
+    <input type="text" id="mainIMEI" class="imei-input-field" maxlength="15" placeholder="Enter 15-digit IMEI">
   </div>
 
-  <!-- الفحص المجاني -->
+  <!-- الفحص المجاني (بدون سعر) -->
   <div class="free-box">
     <span class="free-tag" id="txt-free-badge">Free</span>
     <div class="free-title" id="txt-free-title">Free Detailed iPhone Check</div>
     <div class="free-desc" id="txt-free-desc">No WhatsApp • Shows device specifications instantly</div>
-    <button class="btn-green" onclick="runFreeCheck()" id="btn-free-action">Check Now - 400 DZD</button>
+    <button class="btn-green" onclick="runFreeCheck()" id="btn-free-action">Check Now</button>
     <div id="freeResult" style="margin-top:10px; font-size:12px; font-weight:bold;"></div>
   </div>
 
@@ -305,7 +305,7 @@
     </button>
   </div>
 
-  <!-- لوحة الإدارة السرية (محمية بكلمة المرور wP5t5B3d.) -->
+  <!-- لوحة الإدارة السرية المحمية بكلمة المرور wP5t5B3d. -->
   <section id="gy-admin-section">
     <h3 style="color:var(--primary); text-align:center; font-size:15px; margin-bottom:5px;">Admin Paid Report Panel</h3>
     <p style="text-align:center; color:var(--text-muted); font-size:11px; margin-bottom:15px;">إدخال نتائج الفحص المدفوع يدوياً وإصدار التقارير</p>
@@ -454,7 +454,7 @@
     document.getElementById('price1').innerText = prices[currentCurrency];
     document.getElementById('price2').innerText = prices[currentCurrency];
     const freeText = (currentLang === 'ar') ? "فحص الآن" : (currentLang === 'fr' ? "Vérifier" : "Check Now");
-    document.getElementById('btn-free-action').innerText = `${freeText} - ${prices[currentCurrency]}`;
+    document.getElementById('btn-free-action').innerText = freeText; // تم إزالة السعر من خيار الفحص المجاني
   }
 
   function toggleTheme() {
@@ -471,7 +471,7 @@
     document.getElementById('freeResult').innerHTML = `<span style="color:var(--accent);">✅ Device Connected! Clean & Available.</span>`;
   }
 
-  // ربط أزرار الواتساب بالرقم المطلوب 0657241710 (مع رمز الدولة الجزائرية 213)
+  // ربط أزرار الواتساب بالرقم المطلوب 0657241710 مع رمز الدولة 213
   function orderWhatsApp(serviceName) {
     const imei = document.getElementById('mainIMEI').value.trim();
     const phone = "213657241710";
@@ -580,4 +580,6 @@
         alert("⚠️ Please generate the report first.");
         return;
       }
-      const phone = reportData.phone.replac
+      const phone = reportData.phone.replace(/\D/g, "");
+      if (!phone) {
+        alert("⚠
