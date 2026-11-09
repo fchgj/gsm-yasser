@@ -278,79 +278,12 @@
 
   function setCurrency(cur) {
     currentCurrency = cur;
-    ['EUR', 'USD', 'DZD'].forEach(c => document.getElementById(`cur-${c.toLowerCase()}`).classList.remove('active'));
-    document.getElementById(`cur-${cur.toLowerCase()}`).classList.add('active');
+    ['EUR', 'USD', 'DZD'].forEach(c => {
+      const el = document.getElementById(`cur-${c.toLowerCase()}`);
+      if(el) el.classList.remove('active');
+    });
+    const activeEl = document.getElementById(`cur-${cur.toLowerCase()}`);
+    if(activeEl) activeEl.classList.add('active');
 
-    const prices = { DZD: "400 DZD", USD: "2 USD", EUR: "2 EUR" };
-    document.getElementById('price1').innerText = prices[cur];
-    document.getElementById('price2').innerText = prices[cur];
-    document.getElementById('btn-free-action').innerText = "Check Now - " + prices[cur];
-  }
-
-  function toggleTheme() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'light';
-    document.documentElement.setAttribute('data-theme', isDark ? '' : 'light');
-  }
-
-  function runFreeCheck() {
-    const imei = document.getElementById('mainIMEI').value.trim();
-    if (!/^\d{15}$/.test(imei)) {
-      alert("Please enter a valid 15-digit IMEI / Serial Number.");
-      return;
-    }
-    document.getElementById('freeResultBox').innerHTML = `<span style="color:var(--accent);">✅ Device Connected! Free Check: iPhone Model Detected (Clean).</span>`;
-  }
-
-  function orderService(serviceName) {
-    const imei = document.getElementById('mainIMEI').value.trim();
-    const phone = "213657241710"; 
-    const msg = `Hello GSM Yasser, I want to order "${serviceName}". IMEI: ${imei || "Not provided"}`;
-    window.open(`https://wa.me/${phone}?text=` + encodeURIComponent(msg), '_blank');
-  }
-
-  const GYAdmin = (() => {
-    const SECRET_PASSWORD = "wP5t5B3d.";
-    let report = null;
-    const $ = id => document.getElementById(id);
-
-    function login() {
-      const password = prompt("🔐 Enter Admin Password:");
-      if (password === null) return;
-      if (password !== SECRET_PASSWORD) {
-        alert("❌ Incorrect Password!");
-        return;
-      }
-      $('gy-admin-section').style.display = "block";
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-
-    function logout() {
-      $('gy-admin-section').style.display = "none";
-      report = null;
-    }
-
-    function escapeHTML(str) {
-      return String(str).replace(/[&<>"']/g, char => ({
-        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-      })[char]);
-    }
-
-    function generatePDF() {
-      const imei = $('gy-imei').value.trim();
-      if (!/^\d{15}$/.test(imei)) {
-        alert("⚠️ IMEI must be exactly 15 digits.");
-        return;
-      }
-
-      const lang = $('gy-language').value;
-      const dict = {
-        en: { title: "iPhone Check Report", model: "Device Model", icloud: "iCloud / FMI", carrier: "Carrier / Network", blacklist: "GSMA Blacklist", mdm: "MDM", date: "Check Date", notes: "Notes" },
-        ar: { title: "تقرير فحص آيفون رسمي", model: "موديل الجهاز", icloud: "آيكلاود / FMI", carrier: "الشبكة / شركة الاتصالات", blacklist: "القائمة السوداء GSMA", mdm: "إدارة الأجهزة MDM", date: "تاريخ الفحص", notes: "ملاحظات إضافية" },
-        fr: { title: "Rapport de vérification iPhone", model: "Modèle", icloud: "iCloud / FMI", carrier: "Réseau / Opérateur", blacklist: "Liste noire GSMA", mdm: "MDM", date: "Date de vérification", notes: "Remarques" }
-      };
-
-      const t = dict[lang];
-      const data = {
-        imei,
-        model
-  
+    const prices = { DZD: "400
+      
