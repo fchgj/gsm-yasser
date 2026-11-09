@@ -151,8 +151,8 @@
   <!-- Top Bar: Currency & Theme -->
   <div class="top-bar">
     <div class="currency-btns">
-      <button onclick="setCurrency('EUR')">€ EUR</button>
-      <button onclick="setCurrency('USD')">$ USD</button>
+      <button onclick="setCurrency('EUR')" id="cur-eur">€ EUR</button>
+      <button onclick="setCurrency('USD')" id="cur-usd">$ USD</button>
       <button onclick="setCurrency('DZD')" class="active" id="cur-dzd">DZD</button>
     </div>
     <button class="theme-btn" onclick="toggleTheme()">🌓 Theme</button>
@@ -176,7 +176,7 @@
       <span style="background:var(--accent); color:#fff; padding:2px 8px; border-radius:4px; font-size:11px;">Free</span>
     </div>
     <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">No WhatsApp • Shows device specifications instantly</p>
-    <button class="btn" onclick="runFreeCheck()" id="btn-free-action">Check Now - 0 DZD</button>
+    <button class="btn" onclick="runFreeCheck()" id="btn-free-action">Check Now - 400 DZD</button>
     <div id="freeResultBox" style="margin-top:12px; font-size:13px; font-weight:bold;"></div>
   </div>
 
@@ -278,10 +278,13 @@
 
   function setCurrency(cur) {
     currentCurrency = cur;
+    ['EUR', 'USD', 'DZD'].forEach(c => document.getElementById(`cur-${c.toLowerCase()}`).classList.remove('active'));
+    document.getElementById(`cur-${cur.toLowerCase()}`).classList.add('active');
+
     const prices = { DZD: "400 DZD", USD: "2 USD", EUR: "2 EUR" };
     document.getElementById('price1').innerText = prices[cur];
     document.getElementById('price2').innerText = prices[cur];
-    document.getElementById('btn-free-action').innerText = "Check Now - 0 " + cur;
+    document.getElementById('btn-free-action').innerText = "Check Now - " + prices[cur];
   }
 
   function toggleTheme() {
@@ -349,90 +352,5 @@
       const t = dict[lang];
       const data = {
         imei,
-        model: $('gy-model').value || "Not Checked",
-        icloud: $('gy-icloud').value,
-        carrier: $('gy-carrier').value,
-        blacklist: $('gy-blacklist').value,
-        mdm: $('gy-mdm').value,
-        date: new Date().toLocaleString(),
-        notes: $('gy-notes').value || "-"
-      };
-
-      const ref = "GYS-" + Date.now();
-      report = { ...data, ref, phone: $('gy-phone').value.trim(), lang };
-
-      const rows = [
-        [t.model, data.model],
-        [t.icloud, data.icloud],
-        [t.carrier, data.carrier],
-        [t.blacklist, data.blacklist],
-        [t.mdm, data.mdm],
-        [t.date, data.date],
-        [t.notes, data.notes]
-      ].map(([lbl, val]) => `<tr><th>${escapeHTML(lbl)}</th><td>${escapeHTML(val)}</td></tr>`).join("");
-
-      const rtl = lang === "ar";
-      const html = `<!DOCTYPE html>
-      <html lang="${lang}" dir="${rtl ? "rtl":"ltr"}">
-      <head>
-        <meta charset="UTF-8">
-        <title>${escapeHTML(t.title)}</title>
-        <style>
-          body { font-family: Arial, sans-serif; padding: 40px; color: #172033; background: #fff; }
-          h1 { color: #102b55; text-align: center; margin-bottom: 5px; }
-          .sub { text-align: center; color: #555; font-size: 14px; margin-bottom: 20px; }
-          table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-          th, td { border: 1px solid #ccd3df; padding: 12px; text-align: start; font-size: 15px; }
-          th { background: #eef2f7; width: 38%; color: #102b55; }
-          .imei-box { font-weight: bold; text-align: center; margin-top: 20px; font-size: 16px; background: #f8fafc; padding: 10px; border-radius: 6px; }
-          @media print { button { display: none; } }
-        </style>
-      </head>
-      <body>
-        <h1>GSM YASSER Server</h1>
-        <p class="sub">Official Device Verification Report</p>
-        <h2>${escapeHTML(t.title)}</h2>
-        <p style="text-align:center; color:#64748b; font-weight:bold;">Reference: ${escapeHTML(ref)}</p>
-        <div class="imei-box">IMEI: ${escapeHTML(imei)}</div>
-        <table>${rows}</table>
-        <p style="text-align:center; margin-top:35px; font-weight:bold; color:#102b55; font-size:13px;">
-          Verified by GSM Yasser Server – All rights reserved © 2026
-        </p>
-        <div style="text-align:center; margin-top:25px;">
-          <button onclick="window.print()" style="background:#102b55; color:white; padding:12px 30px; border:0; border-radius:6px; cursor:pointer; font-size:16px; font-weight:bold;">🖨️ Print / Save as PDF</button>
-        </div>
-      </body>
-      </html>`;
-
-      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = ref + ".html";
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 30000);
-
-      $('gy-status').innerText = "✅ Report generated & downloaded successfully!";
-    }
-
-    function sendWhatsApp() {
-      if (!report) {
-        alert("⚠️ Please generate the report first.");
-        return;
-      }
-      const phone = report.phone.replace(/\D/g, "");
-      if (!phone) {
-        alert("⚠️ Please enter customer WhatsApp number.");
-        return;
-      }
-      const msg = `Hello! Your iPhone check report is ready.\nRef: ${report.ref}\nIMEI: ${report.imei}\nThank you for using GSM Yasser Server.`;
-      window.open("https://wa.me/" + phone + "?text=" + encodeURIComponent(msg), "_blank");
-    }
-
-    return { login, logout, generatePDF, sendWhatsApp };
-  })();
-</script>
-
-</body>
-    </html>
-        
+        model
+  
