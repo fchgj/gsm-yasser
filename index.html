@@ -225,7 +225,7 @@
     <button class="top-btn" onclick="toggleTheme()">🌓</button>
   </div>
 
-  <h1>GSM YASSER SERVER</h1>
+  <h1 id="txt-title">GSM YASSER SERVER</h1>
 
   <div class="imei-box">
     <div class="imei-header">
@@ -273,7 +273,7 @@
     </button>
   </div>
 
-  <!-- Service 3: Comprehensive Paid Check (New) -->
+  <!-- Service 3: Comprehensive Paid Check -->
   <div class="service-card">
     <div class="service-row">
       <div>
@@ -308,5 +308,93 @@
 
     <label class="admin-label">iCloud / FMI Status</label>
     <select id="gy-icloud" class="admin-select">
-      <option value="Not Checked">Not
+      <option value="Not Checked">Not Checked</option>
+      <option value="OFF">OFF (Clean / نظيف)</option>
+      <option value="ON">ON (Lost / مقفل)</option>
+    </select>
+
+    <label class="admin-label">Carrier / Network</label>
+    <select id="gy-carrier" class="admin-select">
+      <option value="Not Checked">Not Checked</option>
+      <option value="Factory Unlocked">Factory Unlocked</option>
+      <option value="Locked">Locked</option>
+    </select>
+
+    <label class="admin-label">GSMA Blacklist</label>
+    <select id="gy-blacklist" class="admin-select">
+      <option value="Not Checked">Not Checked</option>
+      <option value="Clean">Clean</option>
+      <option value="Blacklisted">Blacklisted</option>
+    </select>
+
+    <label class="admin-label">MDM Status</label>
+    <select id="gy-mdm" class="admin-select">
+      <option value="Not Checked">Not Checked</option>
+      <option value="ON">ON (Enrolled)</option>
+      <option value="OFF">OFF (Clean)</option>
+    </select>
+
+    <label class="admin-label">Report Language</label>
+    <select id="gy-language" class="admin-select">
+      <option value="en">English</option>
+      <option value="ar">العربية (Arabic)</option>
+      <option value="fr">Français</option>
+    </select>
+
+    <label class="admin-label">Additional Notes</label>
+    <textarea id="gy-notes" class="admin-textarea" rows="2" placeholder="Notes for customer..."></textarea>
+
+    <button class="btn-orange" style="margin-bottom:8px;" onclick="AdminPanel.generatePDF()">🖨️ Generate & Download PDF</button>
+    <button class="btn-green" style="margin-bottom:8px;" onclick="AdminPanel.sendWhatsApp()">💬 Send Report via WhatsApp</button>
+    <button style="background:#ef4444; color:#fff; width:100%; padding:10px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="AdminPanel.logout()">🔒 Logout</button>
+
+    <div id="gy-status" style="margin-top:10px; font-size:12px; color:var(--accent); font-weight:bold; text-align:center;"></div>
+  </section>
+
+</div>
+
+<script>
+  let currentCurrency = 'DZD';
+  let currentLang = 'en';
+
+  const translations = {
+    en: {
+      title: "GSM YASSER SERVER",
+      imeiLabel: "Serial Number / IMEI",
+      freeBadge: "Free",
+      freeTitle: "Free Detailed iPhone Check",
+      freeDesc: "No WhatsApp • Shows device specifications instantly",
+      freeBtn: "Check Now",
+      servicesTitle: "Premium Services",
+      s1Name: "Network Lock Check",
+      s1Desc: "Carrier • Network • SIM Status",
+      s2Name: "iCloud / Find My Check",
+      s2Desc: "iCloud Lock • Find My iPhone Status",
+      s3Name: "Comprehensive Paid Check",
+      s3Desc: "Full Report • iCloud • Carrier • Blacklist • MDM",
+      orderBtn: "Order via WhatsApp"
+    },
+    ar: {
+      title: "سيرفر GSM YASSER",
+      imeiLabel: "الرقم التسلسلي / IMEI",
+      freeBadge: "مجاني",
+      freeTitle: "فحص آيفون مجاني مفصل",
+      freeDesc: "بدون واتساب • يظهر مواصفات الجهاز فوراً",
+      freeBtn: "فحص الآن",
+      servicesTitle: "الخدمات المدفوعة",
+      s1Name: "فحص قفل الشبكة",
+      s1Desc: "الشركة المصنعة • الشبكة • حالة الشريحة",
+      s2Name: "فحص الأيكلاود / Find My",
+      s2Desc: "قفل الأيكلاود • حالة البحث عن الهاتف",
+      s3Name: "فحص شامل مدفوع",
+      s3Desc: "تقرير كامل • أيكلاود • شبكة • بلاكليست • MDM",
+      orderBtn: "اطلب عبر واتساب"
+    },
+    fr: {
+      title: "SERVEUR GSM YASSER",
+      imeiLabel: "Numéro de série / IMEI",
+      freeBadge: "Gratuit",
+      freeTitle: "Vérification iPhone Gratuite",
+      freeDesc: "Pas de WhatsApp • Affiche les specs instantanément",
+      freeBtn: "
       
