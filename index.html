@@ -15,7 +15,6 @@
       --primary: #f59e0b;
       --accent: #10b981;
     }
-
     [data-theme="light"] {
       --bg: #f1f5f9;
       --card-bg: #ffffff;
@@ -26,7 +25,6 @@
       --primary: #f59e0b;
       --accent: #10b981;
     }
-
     body {
       font-family: Arial, sans-serif;
       background: var(--bg);
@@ -35,7 +33,6 @@
       padding: 15px;
       transition: background 0.3s, color 0.3s;
     }
-
     .container {
       max-width: 450px;
       margin: 0 auto;
@@ -45,7 +42,6 @@
       border: 1px solid var(--border-card);
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
-
     .top-controls {
       display: flex;
       justify-content: space-between;
@@ -76,7 +72,6 @@
       color: #0b131e;
       border-color: var(--primary);
     }
-
     h1 {
       text-align: center;
       color: var(--primary);
@@ -84,7 +79,6 @@
       margin: 10px 0 15px;
       letter-spacing: 1px;
     }
-
     .imei-box {
       background: #0f172a;
       border: 1px solid #223349;
@@ -93,7 +87,6 @@
       margin-bottom: 15px;
     }
     [data-theme="light"] .imei-box { background: #f8fafc; }
-    
     .imei-header {
       display: flex;
       justify-content: space-between;
@@ -113,7 +106,6 @@
       padding: 5px 0;
       box-sizing: border-box;
     }
-
     .free-box {
       background: #0f172a;
       border: 1px solid #223349;
@@ -123,7 +115,6 @@
       position: relative;
     }
     [data-theme="light"] .free-box { background: #f8fafc; }
-
     .free-tag {
       position: absolute;
       top: 15px;
@@ -137,7 +128,6 @@
     }
     .free-title { font-size: 14px; font-weight: bold; margin: 0 0 4px; }
     .free-desc { font-size: 11px; color: var(--text-muted); margin: 0 0 12px; }
-
     .btn-green {
       background: var(--accent);
       color: #fff;
@@ -149,14 +139,12 @@
       font-size: 14px;
       cursor: pointer;
     }
-
     .section-title {
       font-size: 13px;
       color: var(--text-muted);
       margin-bottom: 10px;
       font-weight: bold;
     }
-
     .service-card {
       background: #0f172a;
       border: 1px solid #223349;
@@ -168,7 +156,6 @@
       gap: 10px;
     }
     [data-theme="light"] .service-card { background: #f8fafc; }
-
     .service-row {
       display: flex;
       justify-content: space-between;
@@ -176,7 +163,6 @@
     }
     .service-name { font-size: 13px; font-weight: bold; margin: 0; }
     .service-sub { font-size: 11px; color: var(--text-muted); margin: 3px 0 0; }
-    
     .price-badge {
       background: var(--primary);
       color: #0b131e;
@@ -185,7 +171,6 @@
       border-radius: 6px;
       font-weight: bold;
     }
-
     .btn-orange {
       background: var(--primary);
       color: #0b131e;
@@ -201,7 +186,6 @@
       justify-content: center;
       gap: 6px;
     }
-
     #gy-admin-section {
       display: none;
       margin-top: 25px;
@@ -227,7 +211,6 @@
 
 <div class="container">
   
-  <!-- Top Controls -->
   <div class="top-controls">
     <div class="lang-group">
       <button class="top-btn" onclick="setLang('ar')" id="l-ar">العربية</button>
@@ -244,7 +227,6 @@
 
   <h1>GSM YASSER SERVER</h1>
 
-  <!-- IMEI Box -->
   <div class="imei-box">
     <div class="imei-header">
       <span id="txt-imei-label">Serial Number / IMEI</span>
@@ -253,7 +235,6 @@
     <input type="text" id="mainIMEI" class="imei-input-field" maxlength="15" placeholder="Enter 15-digit IMEI">
   </div>
 
-  <!-- Free Detailed Check (Without Price) -->
   <div class="free-box">
     <span class="free-tag" id="txt-free-badge">Free</span>
     <div class="free-title" id="txt-free-title">Free Detailed iPhone Check</div>
@@ -262,7 +243,6 @@
     <div id="freeResult" style="margin-top:10px; font-size:12px; font-weight:bold;"></div>
   </div>
 
-  <!-- Premium Services -->
   <div class="section-title" id="txt-services-title">Premium Services</div>
 
   <div class="service-card">
@@ -291,14 +271,12 @@
     </button>
   </div>
 
-  <!-- Secret Admin Trigger -->
   <div style="text-align:center; margin-top:20px;">
     <button onclick="AdminPanel.login()" style="background:none; border:none; color:var(--text-muted); font-size:11px; cursor:pointer; text-decoration:underline;">
       🔐 Admin Panel Login
     </button>
   </div>
 
-  <!-- Secret Admin Panel (Password: wP5t5B3d.) -->
   <section id="gy-admin-section">
     <h3 style="color:var(--primary); text-align:center; font-size:15px; margin-bottom:5px;">Admin Paid Report Panel</h3>
     <p style="text-align:center; color:var(--text-muted); font-size:11px; margin-bottom:15px;">إدخال نتائج الفحص المدفوع يدوياً وإصدار التقارير</p>
@@ -319,5 +297,137 @@
       <option value="ON">ON (Lost / مقفل)</option>
     </select>
 
-    <label class="admin-label">Carrier / Network</label
-      
+    <label class="admin-label">Carrier / Network</label>
+    <select id="gy-carrier" class="admin-select">
+      <option value="Not Checked">Not Checked</option>
+      <option value="Factory Unlocked">Factory Unlocked</option>
+      <option value="Locked">Locked</option>
+    </select>
+
+    <label class="admin-label">GSMA Blacklist</label>
+    <select id="gy-blacklist" class="admin-select">
+      <option value="Not Checked">Not Checked</option>
+      <option value="Clean">Clean</option>
+      <option value="Blacklisted">Blacklisted</option>
+    </select>
+
+    <label class="admin-label">MDM Status</label>
+    <select id="gy-mdm" class="admin-select">
+      <option value="Not Checked">Not Checked</option>
+      <option value="ON">ON (Enrolled)</option>
+      <option value="OFF">OFF (Clean)</option>
+    </select>
+
+    <label class="admin-label">Report Language</label>
+    <select id="gy-language" class="admin-select">
+      <option value="en">English</option>
+      <option value="ar">العربية (Arabic)</option>
+      <option value="fr">Français</option>
+    </select>
+
+    <label class="admin-label">Additional Notes</label>
+    <textarea id="gy-notes" class="admin-textarea" rows="2" placeholder="Notes for customer..."></textarea>
+
+    <button class="btn-orange" style="margin-bottom:8px;" onclick="AdminPanel.generatePDF()">🖨️ Generate & Download PDF</button>
+    <button class="btn-green" style="margin-bottom:8px;" onclick="AdminPanel.sendWhatsApp()">💬 Send Report via WhatsApp</button>
+    <button style="background:#ef4444; color:#fff; width:100%; padding:10px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="AdminPanel.logout()">🔒 Logout</button>
+
+    <div id="gy-status" style="margin-top:10px; font-size:12px; color:var(--accent); font-weight:bold; text-align:center;"></div>
+  </section>
+
+</div>
+
+<script>
+  let currentCurrency = 'DZD';
+  let currentLang = 'en';
+
+  const translations = {
+    en: {
+      title: "GSM YASSER SERVER",
+      imeiLabel: "Serial Number / IMEI",
+      freeBadge: "Free",
+      freeTitle: "Free Detailed iPhone Check",
+      freeDesc: "No WhatsApp • Shows device specifications instantly",
+      freeBtn: "Check Now",
+      servicesTitle: "Premium Services",
+      s1Name: "Network Lock Check",
+      s1Desc: "Carrier • Network • SIM Status",
+      s2Name: "iCloud / Find My Check",
+      s2Desc: "iCloud Lock • Find My iPhone Status",
+      orderBtn: "Order via WhatsApp"
+    },
+    ar: {
+      title: "سيرفر GSM YASSER",
+      imeiLabel: "الرقم التسلسلي / IMEI",
+      freeBadge: "مجاني",
+      freeTitle: "فحص آيفون مجاني مفصل",
+      freeDesc: "بدون واتساب • يظهر مواصفات الجهاز فوراً",
+      freeBtn: "فحص الآن",
+      servicesTitle: "الخدمات المدفوعة",
+      s1Name: "فحص قفل الشبكة",
+      s1Desc: "الشركة المصنعة • الشبكة • حالة الشريحة",
+      s2Name: "فحص الأيكلاود / Find My",
+      s2Desc: "قفل الأيكلاود • حالة البحث عن الهاتف",
+      orderBtn: "اطلب عبر واتساب"
+    },
+    fr: {
+      title: "SERVEUR GSM YASSER",
+      imeiLabel: "Numéro de série / IMEI",
+      freeBadge: "Gratuit",
+      freeTitle: "Vérification iPhone Gratuite",
+      freeDesc: "Pas de WhatsApp • Affiche les specs instantanément",
+      freeBtn: "Vérifier",
+      servicesTitle: "Services Premium",
+      s1Name: "Vérification Verrouillage Réseau",
+      s1Desc: "Opérateur • Réseau • Statut SIM",
+      s2Name: "Vérification iCloud / Find My",
+      s2Desc: "Verrouillage iCloud • Statut Localisation",
+      orderBtn: "Commander via WhatsApp"
+    }
+  };
+
+  function setLang(lang) {
+    currentLang = lang;
+    ['ar', 'fr', 'en'].forEach(l => {
+      document.getElementById(`l-${l}`).classList.remove('active');
+    });
+    document.getElementById(`l-${lang}`).classList.add('active');
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+    const t = translations[lang];
+    document.getElementById('txt-title').innerText = t.title;
+    document.getElementById('txt-imei-label').innerText = t.imeiLabel;
+    document.getElementById('txt-free-badge').innerText = t.freeBadge;
+    document.getElementById('txt-free-title').innerText = t.freeTitle;
+    document.getElementById('txt-free-desc').innerText = t.freeDesc;
+    document.getElementById('txt-services-title').innerText = t.servicesTitle;
+    document.getElementById('txt-s1-name').innerText = t.s1Name;
+    document.getElementById('txt-s1-desc').innerText = t.s1Desc;
+    document.getElementById('txt-s2-name').innerText = t.s2Name;
+    document.getElementById('txt-s2-desc').innerText = t.s2Desc;
+    document.getElementById('txt-order1').innerText = t.orderBtn;
+    document.getElementById('txt-order2').innerText = t.orderBtn;
+    document.getElementById('btn-free-action').innerText = t.freeBtn;
+  }
+
+  function setCurrency(cur) {
+    currentCurrency = cur;
+    ['EUR', 'USD', 'DZD'].forEach(c => {
+      document.getElementById(`c-${c.toLowerCase()}`).classList.remove('active');
+    });
+    document.getElementById(`c-${cur.toLowerCase()}`).classList.add('active');
+    
+    const prices = { DZD: "400 DZD", USD: "2 USD", EUR: "2 EUR" };
+    document.getElementById('price1').innerText = prices[cur];
+    document.getElementById('price2').innerText = prices[cur];
+  }
+
+  function toggleTheme() {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
+  }
+
+  function runFreeCheck() {
+    const imei = document.getElementById('mainIMEI').value.trim();
+  
