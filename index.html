@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -23,26 +23,26 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['Tajawal', 'sans-serif']
+                        sans: ['Inter', 'sans-serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Tajawal', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
         button, select, input { touch-action: manipulation; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-slate-950 text-slate-100" id="body-container">
 
     <!-- Toast Notification -->
-    <div id="toast-container" class="fixed top-5 left-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
     <!-- Header -->
     <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3 space-x-reverse">
+            <div class="flex items-center space-x-3">
                 <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-gold to-yellow-200 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg">
                     <i class="fa-solid fa-mobile-screen-button"></i>
                 </div>
@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <!-- Controls: Language, Currency, Theme -->
+            <!-- Controls: Currency, Theme -->
             <div class="flex items-center gap-2 sm:gap-3">
                 <select id="currency-select" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm font-medium focus:outline-none focus:border-brand-gold cursor-pointer">
                     <option value="DZD">DZD (دج)</option>
@@ -60,13 +60,7 @@
                     <option value="EUR">EUR (€)</option>
                 </select>
 
-                <select id="lang-select" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm font-medium focus:outline-none focus:border-brand-gold cursor-pointer">
-                    <option value="ar">العربية</option>
-                    <option value="en">English</option>
-                    <option value="fr">Français</option>
-                </select>
-
-                <button type="button" id="btn-toggle-theme" class="bg-slate-800 hover:bg-slate-700 text-brand-gold border border-slate-700 p-2 rounded-lg text-sm transition cursor-pointer" title="تبديل المظهر">
+                <button type="button" id="btn-toggle-theme" class="bg-slate-800 hover:bg-slate-700 text-brand-gold border border-slate-700 p-2 rounded-lg text-sm transition cursor-pointer" title="Toggle Theme">
                     <i class="fa-solid fa-moon" id="theme-icon"></i>
                 </button>
             </div>
@@ -78,14 +72,14 @@
 
         <!-- IMEI Check Section -->
         <section class="rounded-3xl bg-slate-900 border border-slate-800 p-6 sm:p-10 shadow-2xl text-center relative overflow-hidden">
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-3">تحقق من حالة هاتفك iPhone برقم الـ IMEI</h2>
-            <p class="text-slate-400 text-sm mb-6 max-w-xl mx-auto">أدخل رقم الـ IMEI المكون من 15 خانة للتحقق من صحة التسلسل وصلاحية الجهاز مجاناً قبل تقديم الطلب.</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-3">Check iPhone Status via IMEI</h2>
+            <p class="text-slate-400 text-sm mb-6 max-w-xl mx-auto">Enter the 15-digit IMEI number to check device validity and status for free before submitting an order.</p>
             <div class="max-w-xl mx-auto relative">
-                <input type="text" id="imei-input" maxlength="15" placeholder="أدخل رقم الـ IMEI (15 رقم)" 
+                <input type="text" id="imei-input" maxlength="15" placeholder="Enter 15-digit IMEI..." 
                     class="w-full bg-slate-950 text-white placeholder-slate-500 rounded-2xl px-5 py-4 text-lg font-mono border-2 border-slate-800 focus:border-brand-gold focus:outline-none text-center"
                 />
-                <button type="button" id="btn-validate-imei" class="mt-3 sm:mt-0 sm:absolute sm:left-2 sm:top-2 sm:bottom-2 bg-brand-gold hover:bg-brand-goldHover text-slate-950 font-bold px-6 py-2.5 rounded-xl transition cursor-pointer shadow-md">
-                    فحص الآن
+                <button type="button" id="btn-validate-imei" class="mt-3 sm:mt-0 sm:absolute sm:right-2 sm:top-2 sm:bottom-2 bg-brand-gold hover:bg-brand-goldHover text-slate-950 font-bold px-6 py-2.5 rounded-xl transition cursor-pointer shadow-md">
+                    Check Now
                 </button>
             </div>
             <div id="imei-validation-result" class="mt-4 hidden p-4 rounded-xl border text-sm font-medium max-w-xl mx-auto"></div>
@@ -95,18 +89,18 @@
         <section class="space-y-6">
             <h3 class="text-2xl font-bold text-white flex items-center gap-2">
                 <i class="fa-solid fa-list-check text-brand-gold"></i>
-                <span>الخدمات المتاحة والأسعار</span>
+                <span>Available Services & Pricing</span>
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Service 1 -->
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-brand-gold/50 transition duration-300">
                     <div>
                         <h4 class="text-lg font-bold text-white mb-2">Basic Info Check</h4>
-                        <p class="text-xs text-slate-400 mb-4">فحص المعلومات الأساسية للجهاز والموديل.</p>
-                        <div class="text-2xl font-extrabold text-brand-gold mb-4 price-tag" data-dzd="0" data-usd="0" data-eur="0">مجاناً</div>
+                        <p class="text-xs text-slate-400 mb-4">Check basic device info and model details.</p>
+                        <div class="text-2xl font-extrabold text-brand-gold mb-4 price-tag" data-dzd="0" data-usd="0" data-eur="0">Free</div>
                     </div>
                     <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-slate-950 font-semibold text-sm transition cursor-pointer flex items-center justify-center gap-2" data-service="Basic Info Check">
-                        <i class="fa-solid fa-cart-shopping"></i> <span>طلب الخدمة</span>
+                        <i class="fa-solid fa-cart-shopping"></i> <span>Order Service</span>
                     </button>
                 </div>
 
@@ -114,11 +108,11 @@
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-brand-gold/50 transition duration-300">
                     <div>
                         <h4 class="text-lg font-bold text-white mb-2">iCloud / FMI Check</h4>
-                        <p class="text-xs text-slate-400 mb-4">التحقق من حالة العثور على الـ iPhone (ON/OFF).</p>
+                        <p class="text-xs text-slate-400 mb-4">Check Find My iPhone status (ON / OFF).</p>
                         <div class="text-2xl font-extrabold text-brand-gold mb-4 price-tag" data-dzd="400" data-usd="2" data-eur="1.8">400 DZD</div>
                     </div>
                     <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-slate-950 font-semibold text-sm transition cursor-pointer flex items-center justify-center gap-2" data-service="iCloud / FMI Status Check">
-                        <i class="fa-solid fa-cart-shopping"></i> <span>طلب الخدمة</span>
+                        <i class="fa-solid fa-cart-shopping"></i> <span>Order Service</span>
                     </button>
                 </div>
 
@@ -126,14 +120,45 @@
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-brand-gold/50 transition duration-300">
                     <div>
                         <h4 class="text-lg font-bold text-white mb-2">Carrier & SIM Lock</h4>
-                        <p class="text-xs text-slate-400 mb-4">معرفة الشبكة الأصلية وهل الجهاز مقفل.</p>
+                        <p class="text-xs text-slate-400 mb-4">Check original carrier and network lock status.</p>
                         <div class="text-2xl font-extrabold text-brand-gold mb-4 price-tag" data-dzd="400" data-usd="2" data-eur="1.8">400 DZD</div>
                     </div>
                     <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-slate-950 font-semibold text-sm transition cursor-pointer flex items-center justify-center gap-2" data-service="Carrier & SIM Lock Check">
-                        <i class="fa-solid fa-cart-shopping"></i> <span>طلب الخدمة</span>
+                        <i class="fa-solid fa-cart-shopping"></i> <span>Order Service</span>
                     </button>
                 </div>
 
                 <!-- Service 4 -->
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-brand-gold/50
-                    
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-brand-gold/50 transition duration-300 relative">
+                    <span class="absolute top-4 right-4 bg-brand-gold text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">PRO</span>
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-2">Full PRO Report</h4>
+                        <p class="text-xs text-slate-400 mb-4">Comprehensive report (FMI, Blacklist, Carrier, Warranty).</p>
+                        <div class="text-2xl font-extrabold text-brand-gold mb-4 price-tag" data-dzd="800" data-usd="4" data-eur="3.6">800 DZD</div>
+                    </div>
+                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl bg-brand-gold text-slate-950 hover:bg-brand-goldHover font-bold text-sm transition cursor-pointer flex items-center justify-center gap-2 shadow-md" data-service="Full PRO Report">
+                        <i class="fa-solid fa-cart-shopping"></i> <span>Order Service</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Form Section -->
+        <section id="order-section" class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl">
+            <div class="max-w-3xl mx-auto space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-paper-plane text-brand-cyan"></i>
+                        <span>Submit New Service Order</span>
+                    </h3>
+                    <span id="selected-price-tag" class="text-lg font-bold text-brand-gold bg-slate-950 px-3 py-1 rounded-xl border border-slate-800">0 DZD</span>
+                </div>
+
+                <form id="order-form" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Requested Service</label>
+                        <select id="order-service" class="w-full bg-slate-950 text-white border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-brand-cyan focus:outline-none cursor-pointer">
+                            <option value="Basic Info Check" data-price="0">Basic Info Check (Free)</option>
+                            <option value="iCloud / FMI Status Check" data-price="400">iCloud / FMI Status Check (400 DZD)</option>
+                            <option value="Carrier & SIM Lock Check" data-price="
+    
