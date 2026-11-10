@@ -8,11 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Font (Tajawal & Inter) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -26,272 +24,139 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['Tajawal', 'Inter', 'sans-serif']
+                        sans: ['Tajawal', 'sans-serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        body {
-            background-color: #0b0f19;
-            color: #e2e8f0;
-            font-family: 'Tajawal', 'Inter', sans-serif;
-        }
-        .glow-gold {
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
-        }
-        .glow-cyan {
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.25);
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0b0f19;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1f2d4d;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #D4AF37;
-        }
+        body { background-color: #0b0f19; color: #e2e8f0; font-family: 'Tajawal', sans-serif; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-brand-gold selection:text-black">
+<body class="min-h-screen flex flex-col justify-between">
 
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed top-5 left-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
-    <!-- Header Navigation -->
+    <!-- Header -->
     <header class="border-b border-brand-borderBg bg-brand-cardBg/80 backdrop-blur-md sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Logo & Brand Name -->
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3 space-x-reverse">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-gold to-yellow-200 flex items-center justify-center text-black font-bold text-xl shadow-lg shadow-yellow-500/10">
-                    <i class="fa-solid fa-mobile-screen-button text-2xl"></i>
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-gold to-yellow-200 flex items-center justify-center text-black font-bold text-xl">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-brand-gold via-yellow-200 to-white bg-clip-text text-transparent">
-                        GSM YASSER SERVER
-                    </h1>
-                    <p class="text-xs text-gray-400 tracking-wider font-sans" data-i18n="tagline">Professional iPhone Check & Mobile Services</p>
+                    <h1 class="text-xl font-bold text-white">GSM YASSER SERVER</h1>
+                    <p class="text-xs text-gray-400">Professional iPhone Check & Mobile Services</p>
                 </div>
             </div>
-
-            <!-- Nav Controls & Language Switcher -->
-            <div class="flex items-center gap-3">
-                <div class="relative inline-block text-left">
-                    <select id="lang-select" class="bg-gray-900 text-gray-200 border border-brand-borderBg rounded-lg px-3 py-1.5 text-sm font-medium focus:outline-none focus:border-brand-gold cursor-pointer">
-                        <option value="ar">العربية (AR)</option>
-                        <option value="en">English (EN)</option>
-                        <option value="fr">Français (FR)</option>
-                    </select>
-                </div>
-                <a href="#admin-panel" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-3.5 py-1.5 rounded-lg border border-gray-700 text-sm flex items-center gap-2 transition duration-200">
-                    <i class="fa-solid fa-user-shield text-brand-cyan"></i>
-                    <span class="hidden sm:inline" data-i18n="adminPanel">لوحة التحكم</span>
-                </a>
-            </div>
+            <a href="#admin-panel" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-3.5 py-1.5 rounded-lg border border-gray-700 text-sm flex items-center gap-2">
+                <i class="fa-solid fa-user-shield text-brand-cyan"></i>
+                <span>لوحة التحكم</span>
+            </a>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow space-y-12">
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow space-y-12 w-full">
 
-        <!-- Hero & Free IMEI Check Section -->
-        <section class="relative rounded-3xl bg-gradient-to-b from-brand-cardBg to-gray-950 border border-brand-borderBg p-6 sm:p-10 shadow-2xl overflow-hidden">
-            <div class="absolute -top-24 -left-24 w-72 h-72 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-brand-cyan/10 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div class="text-center max-w-3xl mx-auto space-y-4">
-                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-gold/10 text-brand-gold border border-brand-gold/20">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <span data-i18n="instantCheck">فحص فوري وآمن لجميع أجهزة الأيفون</span>
-                </span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-white" data-i18n="heroTitle">
-                    تحقق من حالة هاتفك iPhone برقم الـ IMEI
-                </h2>
-                <p class="text-gray-400 text-sm sm:text-base leading-relaxed" data-i18n="heroDesc">
-                    أدخل رقم الـ IMEI المكون من 15 خانة للتحقق من صحة التسلسل وصلاحية الجهاز مجاناً قبل تقديم الطلب.
-                </p>
-
-                <!-- IMEI Checker Input Form -->
-                <div class="pt-4 max-w-xl mx-auto">
-                    <div class="relative">
-                        <input type="text" id="imei-input" maxlength="15" placeholder="أدخل رقم الـ IMEI (15 رقم)" 
-                            class="w-full bg-gray-900/90 text-white placeholder-gray-500 rounded-2xl px-5 py-4 pl-12 text-lg sm:text-xl font-mono border-2 border-brand-borderBg focus:border-brand-gold focus:outline-none transition duration-200 tracking-wider text-center"
-                        />
-                        <button id="btn-validate-imei" class="mt-4 sm:mt-0 sm:absolute left-2 top-2 bottom-2 bg-gradient-to-r from-brand-gold to-yellow-500 hover:from-yellow-400 hover:to-brand-gold text-black font-bold px-6 py-2.5 sm:py-0 rounded-xl transition duration-200 flex items-center justify-center gap-2 w-full sm:w-auto shadow-md cursor-pointer">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <span data-i18n="checkBtn">فحص الآن</span>
-                        </button>
-                    </div>
-                    
-                    <!-- IMEI Status Result Display -->
-                    <div id="imei-validation-result" class="mt-4 hidden p-4 rounded-xl border text-sm font-medium transition duration-300">
-                        <!-- Dynamic Status Populated by JS -->
-                    </div>
-                </div>
+        <!-- IMEI Check Section -->
+        <section class="rounded-3xl bg-brand-cardBg border border-brand-borderBg p-6 sm:p-10 shadow-2xl text-center">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-3">تحقق من حالة هاتفك iPhone برقم الـ IMEI</h2>
+            <p class="text-gray-400 text-sm mb-6">أدخل رقم الـ IMEI المكون من 15 خانة للتحقق من صحة التسلسل مجاناً.</p>
+            <div class="max-w-xl mx-auto relative">
+                <input type="text" id="imei-input" maxlength="15" placeholder="أدخل رقم الـ IMEI (15 رقم)" 
+                    class="w-full bg-gray-900 text-white placeholder-gray-500 rounded-2xl px-5 py-4 text-lg font-mono border-2 border-brand-borderBg focus:border-brand-gold focus:outline-none text-center"
+                />
+                <button id="btn-validate-imei" class="mt-3 w-full sm:w-auto sm:absolute sm:left-2 sm:top-2 sm:bottom-2 bg-brand-gold hover:bg-brand-goldHover text-black font-bold px-6 rounded-xl transition cursor-pointer">
+                    فحص الآن
+                </button>
             </div>
+            <div id="imei-validation-result" class="mt-4 hidden p-4 rounded-xl border text-sm font-medium"></div>
         </section>
 
-        <!-- Services & Pricing Section -->
+        <!-- Services Section -->
         <section class="space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2 border-b border-brand-borderBg pb-4">
-                <div>
-                    <h3 class="text-2xl font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-brand-gold"></i>
-                        <span data-i18n="servicesTitle">الخدمات المتاحة والأسعار</span>
-                    </h3>
-                    <p class="text-gray-400 text-sm" data-i18n="servicesSub">اختر الخدمة المناسبة لفحص أو فك حظر جهازك بالأفضلية</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="services-grid">
-                <!-- Service 1 -->
-                <div class="bg-brand-cardBg border border-brand-borderBg rounded-2xl p-6 flex flex-col justify-between hover:border-brand-gold/50 transition duration-300 relative group">
-                    <div class="space-y-3">
-                        <div class="w-10 h-10 rounded-lg bg-green-500/10 text-green-400 flex items-center justify-center text-lg font-bold">
-                            <i class="fa-solid fa-circle-check"></i>
-                        </div>
-                        <h4 class="text-lg font-bold text-white">Basic Info Check</h4>
-                        <p class="text-xs text-gray-400">فحص المعلومات الأساسية للجهاز والطراز والموديل.</p>
-                        <div class="text-2xl font-extrabold text-brand-gold">مجاناً <span class="text-xs font-normal text-gray-400">/ Free</span></div>
+            <h3 class="text-2xl font-bold text-white">الخدمات المتاحة والأسعار</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-brand-cardBg border border-brand-borderBg rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-2">Basic Info Check</h4>
+                        <p class="text-xs text-gray-400 mb-4">فحص المعلومات الأساسية للجهاز.</p>
+                        <div class="text-xl font-extrabold text-brand-gold mb-4">مجاناً</div>
                     </div>
-                    <button onclick="selectServiceForOrder('Basic Info Check', 0)" class="mt-6 w-full py-2.5 px-4 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-black font-semibold text-sm transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span data-i18n="orderNow">طلب الخدمة</span>
-                    </button>
+                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black font-semibold text-sm transition cursor-pointer" data-service="Basic Info Check" data-price="0">طلب الخدمة</button>
                 </div>
 
-                <!-- Service 2 -->
-                <div class="bg-brand-cardBg border border-brand-borderBg rounded-2xl p-6 flex flex-col justify-between hover:border-brand-gold/50 transition duration-300 relative group">
-                    <div class="space-y-3">
-                        <div class="w-10 h-10 rounded-lg bg-red-500/10 text-red-400 flex items-center justify-center text-lg font-bold">
-                            <i class="fa-solid fa-lock"></i>
-                        </div>
-                        <h4 class="text-lg font-bold text-white">iCloud / FMI Status Check</h4>
-                        <p class="text-xs text-gray-400">التحقق من حالة العثور على الـ iPhone (ON / OFF).</p>
-                        <div class="text-2xl font-extrabold text-brand-gold">400 <span class="text-sm font-normal text-gray-300">DZD</span></div>
+                <div class="bg-brand-cardBg border border-brand-borderBg rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-2">iCloud / FMI Check</h4>
+                        <p class="text-xs text-gray-400 mb-4">التحقق من حالة العثور على الـ iPhone.</p>
+                        <div class="text-xl font-extrabold text-brand-gold mb-4">400 DZD</div>
                     </div>
-                    <button onclick="selectServiceForOrder('iCloud / FMI Status Check', 400)" class="mt-6 w-full py-2.5 px-4 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-black font-semibold text-sm transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span data-i18n="orderNow">طلب الخدمة</span>
-                    </button>
+                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black font-semibold text-sm transition cursor-pointer" data-service="iCloud / FMI Status Check" data-price="400">طلب الخدمة</button>
                 </div>
 
-                <!-- Service 3 -->
-                <div class="bg-brand-cardBg border border-brand-borderBg rounded-2xl p-6 flex flex-col justify-between hover:border-brand-gold/50 transition duration-300 relative group">
-                    <div class="space-y-3">
-                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg font-bold">
-                            <i class="fa-solid fa-signal"></i>
-                        </div>
-                        <h4 class="text-lg font-bold text-white">Carrier & SIM Lock</h4>
-                        <p class="text-xs text-gray-400">معرفة الشبكة الأصلية وهل الجهاز مقفل على مشغّل.</p>
-                        <div class="text-2xl font-extrabold text-brand-gold">400 <span class="text-sm font-normal text-gray-300">DZD</span></div>
+                <div class="bg-brand-cardBg border border-brand-borderBg rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-2">Carrier & SIM Lock</h4>
+                        <p class="text-xs text-gray-400 mb-4">معرفة الشبكة الأصلية المقفل عليها.</p>
+                        <div class="text-xl font-extrabold text-brand-gold mb-4">400 DZD</div>
                     </div>
-                    <button onclick="selectServiceForOrder('Carrier & SIM Lock Check', 400)" class="mt-6 w-full py-2.5 px-4 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-black font-semibold text-sm transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span data-i18n="orderNow">طلب الخدمة</span>
-                    </button>
+                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-black font-semibold text-sm transition cursor-pointer" data-service="Carrier & SIM Lock Check" data-price="400">طلب الخدمة</button>
                 </div>
 
-                <!-- Service 4 -->
-                <div class="bg-brand-cardBg border border-brand-borderBg rounded-2xl p-6 flex flex-col justify-between hover:border-brand-gold/50 transition duration-300 relative group">
-                    <div class="space-y-3">
-                        <span class="absolute top-4 left-4 bg-brand-gold text-black text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Most Popular</span>
-                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg font-bold">
-                            <i class="fa-solid fa-file-invoice"></i>
-                        </div>
-                        <h4 class="text-lg font-bold text-white">Full PRO Report</h4>
-                        <p class="text-xs text-gray-400">تقرير شامل (FMI, Blacklist GSMA, Carrier, Warranty).</p>
-                        <div class="text-2xl font-extrabold text-brand-gold">800 <span class="text-sm font-normal text-gray-300">DZD</span></div>
+                <div class="bg-brand-cardBg border border-brand-borderBg rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-2">Full PRO Report</h4>
+                        <p class="text-xs text-gray-400 mb-4">تقرير شامل لجميع تفاصيل الجهاز.</p>
+                        <div class="text-xl font-extrabold text-brand-gold mb-4">800 DZD</div>
                     </div>
-                    <button onclick="selectServiceForOrder('Full PRO Report', 800)" class="mt-6 w-full py-2.5 px-4 rounded-xl bg-brand-gold text-black hover:bg-brand-goldHover font-bold text-sm transition duration-200 flex items-center justify-center gap-2 shadow-lg shadow-yellow-500/10 cursor-pointer">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span data-i18n="orderNow">طلب الخدمة</span>
-                    </button>
+                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl bg-brand-gold text-black hover:bg-brand-goldHover font-bold text-sm transition cursor-pointer" data-service="Full PRO Report" data-price="800">طلب الخدمة</button>
                 </div>
             </div>
         </section>
 
         <!-- Order Form Section -->
-        <section id="order-section" class="bg-brand-cardBg border border-brand-borderBg rounded-3xl p-6 sm:p-8 shadow-xl">
+        <section id="order-section" class="bg-brand-cardBg border border-brand-borderBg rounded-3xl p-6 sm:p-8">
             <div class="max-w-3xl mx-auto space-y-6">
-                <div class="border-b border-brand-borderBg pb-4 flex items-center justify-between">
-                    <div>
-                        <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-paper-plane text-brand-cyan"></i>
-                            <span data-i18n="orderFormTitle">تقديم طلب فحص جديد</span>
-                        </h3>
-                        <p class="text-xs text-gray-400" data-i18n="orderFormSub">قم بتعبئة البيانات التالية وسيتم الرد عليك في أقرب وقت</p>
-                    </div>
-                    <span id="selected-price-tag" class="text-lg font-bold text-brand-gold bg-gray-900 px-3 py-1 rounded-xl border border-brand-gold/30">
-                        0 DZD
-                    </span>
+                <div class="flex justify-between items-center border-b border-brand-borderBg pb-4">
+                    <h3 class="text-xl font-bold text-white">تقديم طلب فحص جديد</h3>
+                    <span id="selected-price-tag" class="text-lg font-bold text-brand-gold bg-gray-900 px-3 py-1 rounded-xl">0 DZD</span>
                 </div>
 
                 <form id="order-form" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-300 mb-1.5" data-i18n="labelService">الخدمة المطلوبة</label>
-                        <select id="order-service" class="w-full bg-gray-900 text-white border border-brand-borderBg rounded-xl px-4 py-3 focus:border-brand-cyan focus:outline-none text-sm cursor-pointer">
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">الخدمة المطلوبة</label>
+                        <select id="order-service" class="w-full bg-gray-900 text-white border border-brand-borderBg rounded-xl px-4 py-3 text-sm">
                             <option value="Basic Info Check" data-price="0">Basic Info Check (مجاناً)</option>
                             <option value="iCloud / FMI Status Check" data-price="400">iCloud / FMI Status Check (400 DZD)</option>
                             <option value="Carrier & SIM Lock Check" data-price="400">Carrier & SIM Lock Check (400 DZD)</option>
-                            <option value="Blacklist GSMA Check" data-price="400">Blacklist GSMA Check (400 DZD)</option>
                             <option value="Full PRO Report" data-price="800">Full PRO Report (800 DZD)</option>
                         </select>
                     </div>
-
                     <div>
-                        <label class="block text-xs font-semibold text-gray-300 mb-1.5" data-i18n="labelIMEI">رقم الـ IMEI الخاص بالجهاز</label>
-                        <input type="text" id="order-imei" maxlength="15" required placeholder="أدخل 15 رقم للـ IMEI" 
-                            class="w-full bg-gray-900 text-white placeholder-gray-500 border border-brand-borderBg rounded-xl px-4 py-3 font-mono text-sm focus:border-brand-cyan focus:outline-none"
-                        />
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">رقم الـ IMEI</label>
+                        <input type="text" id="order-imei" maxlength="15" required placeholder="أدخل 15 رقم" class="w-full bg-gray-900 text-white border border-brand-borderBg rounded-xl px-4 py-3 font-mono text-sm">
                     </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-300 mb-1.5" data-i18n="labelContactMethod">طريقة التوصل بالتقرير</label>
-                            <select id="order-channel" class="w-full bg-gray-900 text-white border border-brand-borderBg rounded-xl px-4 py-3 focus:border-brand-cyan focus:outline-none text-sm cursor-pointer">
-                                <option value="WhatsApp">WhatsApp (واتساب)</option>
-                                <option value="Telegram">Telegram (تليجرام)</option>
-                                <option value="Email">Email (البريد الإلكتروني)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-300 mb-1.5" data-i18n="labelContactInfo">معلومات التواصل (رقم الهاتف / الحساب / البريد)</label>
-                            <input type="text" id="order-contact" required placeholder="+213 6XX XX XX XX" 
-                                class="w-full bg-gray-900 text-white placeholder-gray-500 border border-brand-borderBg rounded-xl px-4 py-3 text-sm focus:border-brand-cyan focus:outline-none"
-                            />
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-300 mb-1.5" data-i18n="labelNotes">ملاحظات إضافية (اختياري)</label>
-                        <textarea id="order-notes" rows="2" placeholder="أي تفاصيل خاصة بالجهاز..." class="w-full bg-gray-900 text-white placeholder-gray-500 border border-brand-borderBg rounded-xl px-4 py-2.5 text-sm focus:border-brand-cyan focus:outline-none"></textarea>
-                    </div>
-
-                    <button type="submit" id="btn-submit-order" class="w-full bg-gradient-to-r from-brand-cyan to-blue-600 hover:from-blue-500 hover:to-brand-cyan text-gray-950 font-bold py-3.5 rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2 cursor-pointer">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        <span data-i18n="btnSubmitOrder">إرسال الطلب الآن</span>
-                    </button>
+                    <button type="submit" class="w-full bg-brand-cyan text-gray-950 font-bold py-3.5 rounded-xl transition cursor-pointer">إرسال الطلب الآن</button>
                 </form>
             </div>
         </section>
 
-        <!-- Admin Panel & Generated Reports Table -->
+        <!-- Admin Panel -->
         <section id="admin-panel" class="bg-brand-cardBg border border-brand-borderBg rounded-3xl p-6 sm:p-8 space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-brand-borderBg pb-4">
-                <div>
-                    <h3 class="text-2xl font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-toolbox text-brand-gold"></i>
-                        <span data-i18n="adminHeader">لوحة المشرف وسجل التقارير</span>
-                    </h3>
-                    <p class="text-xs text-gray-400" data-i18n="adminSub">إضافة نتيجة فحص وتنظيم التقارير المحفوظة</p>
-                </div>
-                <button id="btn-toggle-add-report" class="bg-gray-800 hover:bg-gray-700 text-brand-gold border border-brand-gold/30 px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 transition duration-200 cursor-pointer">
-                    <i class="fa-solid fa-
+            <div class="flex justify-between items-center border-b border-brand-borderBg pb-4">
+                <h3 class="text-xl font-bold text-white">لوحة المشرف وسجل التقارير</h3>
+                <button type="button" id="btn-toggle-add-report" class="bg-gray-800 hover:bg-gray-700 text-brand-gold px-4 py-2 rounded-xl text-sm font-semibold cursor-pointer">إضافة تقرير جديد</button>
+            </div>
+
+            <div id="add-report-card" class="bg-gray-900 border border-brand-borderBg rounded-2xl p-5 hidden space-y-4">
+                <form id="admin-report-form" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <input type="text" id="rep-ref" required placeholder="المرجع (مثل: GSM-101)" class="bg-gray-950 text-white border border-brand-borderBg rounded-lg px-3 py-2 text-sm">
+                    <input type="text" id="rep-imei" maxlength="15" required placeholder="رقم الـ IMEI (15 رقم)" class="bg-gray-950 text-white font-mono border border-brand-borderBg rounded-lg px-3 py-2 text-sm">
+                    <select id="rep-service" class="bg-gray-950 text-white border border-brand-borderBg rounded-lg px-3 py-2 text-sm">
+                        <option value="Full PRO Report">Full PRO Report</option>
+                        <option value="iCloud / FMI Check
+                        
