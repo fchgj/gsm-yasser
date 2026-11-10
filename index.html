@@ -7,842 +7,404 @@
 <title>GSM YASSER SERVER</title>
 
 <style>
-:root {
-  --bg:#0b1420;
-  --panel:#121f2e;
-  --panel2:#182a3c;
-  --text:#f4f7fb;
-  --muted:#9aabba;
-  --blue:#1677e8;
-  --blue2:#0958b5;
-  --green:#16a36a;
-  --red:#e34b55;
-  --border:#26394d;
+:root{
+  --bg:#0b1420;--card:#142235;--input:#0c1827;--border:#293d54;
+  --text:#f5f8fc;--muted:#a4b2c2;--blue:#1479ef;--green:#16a875;
+  --red:#e34d4d;--primary:#f59e0b;
 }
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.6;
+[data-theme="light"]{
+  --bg:#f1f5f9;--card:#ffffff;--input:#f8fafc;--border:#cbd5e1;
+  --text:#0f172a;--muted:#64748b;--blue:#f59e0b;--green:#10b981;--red:#ef4444;
 }
-body.light {
-  --bg:#f1f5f9;
-  --panel:#ffffff;
-  --panel2:#e8eef5;
-  --text:#172536;
-  --muted:#64748b;
-  --border:#d5dee8;
-}
-header {
-  background:var(--panel);
-  border-bottom:1px solid var(--border);
-  padding:18px 5%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:12px;
-}
-.brand { font-size:21px;font-weight:bold;letter-spacing:1px; }
-.brand span { color:#36a0ff; }
-nav { display:flex;gap:9px;flex-wrap:wrap; align-items:center; }
-button,select,input,textarea { font:inherit; }
-button {
-  border:0;
-  background:var(--blue);
-  color:white;
-  padding:11px 16px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
-}
-button:hover { background:var(--blue2); }
-button:disabled { opacity:.5;cursor:not-allowed; }
-button.secondary { background:#34485e; }
-button.danger { background:var(--red); }
-button.success { background:var(--green); }
-.currency-select {
-  background: var(--panel2);
-  color: var(--text);
-  border: 1px solid var(--border);
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-.container { max-width:1100px;margin:auto;padding:25px 16px; }
-.hero {
-  text-align:center;
-  padding:45px 15px;
-  background:linear-gradient(135deg,#102c4b,#101a2b);
-  border-radius:15px;
-  margin-bottom:25px;
-}
-.hero h1 { font-size:32px;margin:0 0 10px; }
-.hero p { color:#c4d6e8; }
-.section-title { margin:30px 0 15px;font-size:22px; }
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:15px;
-}
-.card {
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:20px;
-}
-.card h3 { margin-top:0; }
-.price { font-size:24px;font-weight:bold;color:#36a0ff; }
-.muted { color:var(--muted);font-size:14px; }
-.field { margin:13px 0; }
-label { display:block;margin-bottom:6px;font-weight:bold; }
-input,select,textarea {
-  width:100%;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:8px;
-  background:var(--panel2);
-  color:var(--text);
-  outline:none;
-}
-textarea { min-height:90px;resize:vertical; }
-input:focus,select:focus,textarea:focus {
-  border-color:var(--blue);
-}
-.result {
-  margin-top:15px;
-  padding:15px;
-  border-radius:9px;
-  background:var(--panel2);
-  display:none;
-  overflow-wrap:anywhere;
-}
-.result.show { display:block; }
-.actions { display:flex;gap:8px;flex-wrap:wrap;margin-top:12px; }
-.hidden { display:none !important; }
-.report-item {
-  padding:14px;
-  margin:10px 0;
-  background:var(--panel2);
-  border-radius:8px;
-  border:1px solid var(--border);
-}
-/* Floating WhatsApp Button */
-.whatsapp-float {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background-color: #25d366;
-  color: white;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  text-align: center;
-  font-size: 30px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-.whatsapp-float:hover {
-  transform: scale(1.1);
-  background-color: #20ba5a;
-}
-footer {
-  text-align:center;
-  padding:25px;
-  color:var(--muted);
-  border-top:1px solid var(--border);
-  margin-top:35px;
-}
-hr { border:0;border-top:1px solid var(--border);margin:22px 0; }
-.small { font-size:12px;color:var(--muted); }
-@media(max-width:600px) {
-  header { justify-content:center;text-align:center; }
-  .hero h1 { font-size:25px; }
-  .container { padding:16px 12px; }
-}
-@media print {
-  body { background:white!important;color:black!important; }
-  header,nav,footer,.no-print,#adminPanel { display:none!important; }
-  .card,.report-item { background:white!important;color:black!important;border:1px solid #ccc; }
-  #printArea { display:block!important; }
-}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;transition:background .3s,color .3s}
+header{background:#101d2c;padding:25px 15px;text-align:center;border-bottom:1px solid var(--border)}
+[data-theme="light"] header{background:#e2e8f0}
+.logo{font-size:26px;font-weight:900;letter-spacing:1px}
+.logo span{color:#2993ff}
+header p{color:var(--muted);font-size:13px}
+.container{max-width:1000px;margin:25px auto;padding:0 15px}
+.top-controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.ctrl-group{display:flex;gap:5px;flex-wrap:wrap}
+.ctrl-btn{background:#1a293d;color:var(--muted);border:1px solid var(--border);padding:6px 10px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:bold}
+[data-theme="light"] .ctrl-btn{background:#e2e8f0;color:#334155}
+.ctrl-btn.active{background:var(--primary);color:#0b1420;border-color:var(--primary)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:20px;margin-bottom:18px}
+h2{font-size:19px;margin:0 0 15px}
+h3{font-size:16px}
+label{display:block;color:var(--muted);font-size:13px;margin:12px 0 7px}
+input,select,textarea{width:100%;padding:13px;background:var(--input);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none}
+textarea{min-height:80px}
+button{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:12px 16px;font-weight:bold;cursor:pointer}
+button:hover{opacity:.88}
+button.full{width:100%;margin-top:14px}
+button.green{background:var(--green)}
+button.gray{background:#40536a}
+button.red{background:var(--red)}
+button.mini{padding:6px 10px;font-size:12px;margin:2px}
+.ctrl-btn:hover{opacity:.88}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}
+.service{background:#192b40;padding:16px;border:1px solid var(--border);border-radius:10px}
+[data-theme="light"] .service{background:#f8fafc}
+.service p{color:var(--muted);font-size:13px;line-height:1.5}
+.price{color:#62b1ff;font-weight:bold}
+.result{display:none;background:#0c1c2c;border:1px solid var(--border);padding:14px;border-radius:8px;margin-top:14px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+[data-theme="light"] .result{background:#f1f5f9}
+.good{color:#32d69b}
+.bad{color:#ff7777}
+.small{font-size:12px;color:var(--muted)}
+.admin{display:none}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:580px;font-size:13px}
+th,td{padding:11px;border-bottom:1px solid var(--border);text-align:left}
+[dir="rtl"] th,[dir="rtl"] td{text-align:right}
+th{color:#73baff}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+@media(max-width:600px){.logo{font-size:21px}.card{padding:15px}}
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="brand">GSM <span>YASSER</span> SERVER</div>
-  <nav>
-    <select id="currencySelect" class="currency-select" aria-label="Select Currency">
-      <option value="DZD">DZD</option>
-      <option value="USD">USD ($)</option>
-      <option value="EUR">EUR (€)</option>
-    </select>
-    <button class="secondary" id="themeBtn">Light / Dark</button>
-    <button class="secondary" id="homeBtn">Home</button>
-    <button class="secondary" id="adminBtn">Admin</button>
-  </nav>
+  <div class="logo">GSM YASSER <span>SERVER</span></div>
+  <p id="headerSub">Professional iPhone Check &amp; Mobile Services</p>
 </header>
 
 <main class="container">
 
-  <section class="hero">
-    <h1>GSM YASSER SERVER</h1>
-    <p>Professional Mobile Services & iPhone IMEI Check</p>
-    <button id="startBtn">Start IMEI Check</button>
-  </section>
-
-  <h2 class="section-title">FREE IMEI CHECK</h2>
-
-  <section class="card" id="checkSection">
-    <div class="field">
-      <label for="imei">Enter iPhone IMEI (15 digits)</label>
-      <input id="imei" type="text" inputmode="numeric"
-             maxlength="15" placeholder="Example: 352756084937521">
+  <div class="top-controls">
+    <div class="ctrl-group">
+      <button type="button" class="ctrl-btn active" onclick="setLang('en')" id="l-en">EN</button>
+      <button type="button" class="ctrl-btn" onclick="setLang('fr')" id="l-fr">Français</button>
+      <button type="button" class="ctrl-btn" onclick="setLang('ar')" id="l-ar">العربية</button>
     </div>
-    <button id="checkBtn">Check IMEI</button>
-    <div id="imeiResult" class="result" aria-live="polite"></div>
-    <p class="small">
-      This free check validates the IMEI format and checksum only.
-      It does not query Apple's servers or verify iCloud, carrier or blacklist status.
-    </p>
-  </section>
+    <div class="ctrl-group">
+      <button type="button" class="ctrl-btn active" onclick="setCurrency('DZD')" id="c-DZD">DZD</button>
+      <button type="button" class="ctrl-btn" onclick="setCurrency('USD')" id="c-USD">USD</button>
+      <button type="button" class="ctrl-btn" onclick="setCurrency('EUR')" id="c-EUR">EUR</button>
+    </div>
+    <div>
+      <button type="button" class="ctrl-btn" onclick="toggleTheme()">🌓 Theme</button>
+    </div>
+  </div>
 
-  <h2 class="section-title">AVAILABLE SERVICES</h2>
+<section class="card">
+  <h2 id="txtFreeTitle">FREE IMEI CHECK</h2>
+  <p class="small" id="txtFreeSub">Validate the 15-digit IMEI number and its checksum.</p>
 
-  <section class="grid" id="services">
+  <label id="txtImeiLabel" for="imei">Enter IMEI Number</label>
+  <input id="imei" maxlength="15" inputmode="numeric" placeholder="Enter 15-digit IMEI">
 
-    <article class="card">
-      <h3>Basic Check</h3>
-      <p class="muted">Basic IMEI validation</p>
-      <div class="price" id="price-basic">FREE</div>
-      <button class="chooseBtn" data-service="Basic Check">Select Service</button>
-    </article>
+  <button type="button" class="full" onclick="checkIMEI()" id="txtCheckBtn">CHECK IMEI</button>
+  <div id="imeiResult" class="result"></div>
+</section>
 
-    <article class="card">
-      <h3>iCloud / FMI Check</h3>
-      <p class="muted">Manual paid report</p>
-      <div class="price" data-base="400" id="price-icloud">400 DZD</div>
-      <button class="chooseBtn" data-service="iCloud / FMI Check">Select Service</button>
-    </article>
+<section class="card">
+  <h2 id="txtServicesTitle">AVAILABLE SERVICES</h2>
+  <div class="grid">
 
-    <article class="card">
-      <h3>Carrier Check</h3>
-      <p class="muted">Manual paid report</p>
-      <div class="price" data-base="400" id="price-carrier">400 DZD</div>
-      <button class="chooseBtn" data-service="Carrier Check">Select Service</button>
-    </article>
-
-    <article class="card">
-      <h3>Blacklist GSMA</h3>
-      <p class="muted">Manual paid report</p>
-      <div class="price" data-base="400" id="price-blacklist">400 DZD</div>
-      <button class="chooseBtn" data-service="Blacklist GSMA">Select Service</button>
-    </article>
-
-    <article class="card">
-      <h3>Full PRO Report</h3>
-      <p class="muted">Comprehensive manual report</p>
-      <div class="price" data-base="800" id="price-pro">800 DZD</div>
-      <button class="chooseBtn" data-service="Full PRO Report">Select Service</button>
-    </article>
-
-  </section>
-
-  <h2 class="section-title" id="orderTitle">ORDER A SERVICE</h2>
-
-  <section class="card" id="orderSection">
-    <div class="field">
-      <label for="customerName">Customer Name</label>
-      <input id="customerName" placeholder="Enter your name">
+    <div class="service">
+      <h3 id="s1Name">Basic Check</h3>
+      <p id="s1Desc">IMEI format and checksum validation.</p>
+      <div class="price" id="p1">FREE</div>
+      <button type="button" class="full" onclick="chooseService('Basic Check')" id="s1Btn">SELECT</button>
     </div>
 
-    <div class="field">
-      <label for="customerPhone">Your WhatsApp Number</label>
-      <input id="customerPhone" type="tel" placeholder="Your phone number">
+    <div class="service">
+      <h3 id="s2Name">iCloud / FMI Check</h3>
+      <p id="s2Desc">Manual iCloud and Find My iPhone status report.</p>
+      <div class="price" id="p2">400 DZD</div>
+      <button type="button" class="full" onclick="chooseService('iCloud / FMI Check')" id="s2Btn">ORDER NOW</button>
     </div>
 
-    <div class="field">
-      <label for="orderIMEI">IMEI Number</label>
-      <input id="orderIMEI" maxlength="15" inputmode="numeric"
-             placeholder="Enter 15 digit IMEI">
+    <div class="service">
+      <h3 id="s3Name">Carrier Check</h3>
+      <p id="s3Desc">Manual carrier and SIM lock status report.</p>
+      <div class="price" id="p3">400 DZD</div>
+      <button type="button" class="full" onclick="chooseService('Carrier Check')" id="s3Btn">ORDER NOW</button>
     </div>
 
-    <div class="field">
-      <label for="serviceType">Select Service</label>
-      <select id="serviceType">
-        <option value="">Choose a service</option>
-        <option>Basic Check</option>
-        <option>iCloud / FMI Check</option>
-        <option>Carrier Check</option>
-        <option>Blacklist GSMA</option>
-        <option>Full PRO Report</option>
-      </select>
+    <div class="service">
+      <h3 id="s4Name">Blacklist GSMA</h3>
+      <p id="s4Desc">Blacklist status report based on available results.</p>
+      <div class="price" id="p4">400 DZD</div>
+      <button type="button" class="full" onclick="chooseService('Blacklist GSMA')" id="s4Btn">ORDER NOW</button>
     </div>
 
-    <button id="orderBtn" class="success">Send Order via WhatsApp</button>
-    <div id="orderResult" class="result" aria-live="polite"></div>
-  </section>
-
-  <section id="adminPanel" class="hidden">
-    <h2 class="section-title">ADMIN DASHBOARD</h2>
-
-    <div class="card">
-      <h3>Manual Report Entry</h3>
-      <p class="small">
-        Reports are saved in this browser only. This demo dashboard is not a secure
-        server-side administration system.
-      </p>
-
-      <div class="field">
-        <label for="reportRef">Reference Number</label>
-        <input id="reportRef" placeholder="GY-1001">
-      </div>
-
-      <div class="field">
-        <label for="reportCustomer">Customer Name</label>
-        <input id="reportCustomer">
-      </div>
-
-      <div class="field">
-        <label for="reportPhone">Customer WhatsApp</label>
-        <input id="reportPhone">
-      </div>
-
-      <div class="field">
-        <label for="reportIMEI">IMEI</label>
-        <input id="reportIMEI" maxlength="15">
-      </div>
-
-      <div class="field">
-        <label for="reportModel">Device Model</label>
-        <input id="reportModel" placeholder="iPhone 13 Pro">
-      </div>
-
-      <div class="field">
-        <label for="reportService">Service</label>
-        <select id="reportService">
-          <option>Basic Check</option>
-          <option>iCloud / FMI Check</option>
-          <option>Carrier Check</option>
-          <option>Blacklist GSMA</option>
-          <option>Full PRO Report</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="icloudStatus">iCloud / FMI Status</label>
-        <select id="icloudStatus">
-          <option>Not Checked</option>
-          <option>ON</option>
-          <option>OFF</option>
-          <option>Unknown</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="carrierStatus">Carrier Status</label>
-        <select id="carrierStatus">
-          <option>Not Checked</option>
-          <option>Unlocked</option>
-          <option>Locked</option>
-          <option>Unknown</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="blacklistStatus">Blacklist Status</label>
-        <select id="blacklistStatus">
-          <option>Not Checked</option>
-          <option>Clean</option>
-          <option>Blacklisted</option>
-          <option>Unknown</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="mdmStatus">MDM Status</label>
-        <select id="mdmStatus">
-          <option>Not Checked</option>
-          <option>ON</option>
-          <option>OFF</option>
-          <option>Unknown</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="reportNotes">Additional Notes</label>
-        <textarea id="reportNotes" placeholder="Enter report notes"></textarea>
-      </div>
-
-      <div class="actions">
-        <button id="saveReportBtn" class="success">Save Report</button>
-        <button id="showReportsBtn" class="secondary">Show Reports</button>
-        <button id="logoutBtn" class="danger">Logout</button>
-      </div>
-      <div id="adminMessage" class="result" aria-live="polite"></div>
+    <div class="service">
+      <h3 id="s5Name">Full PRO Report</h3>
+      <p id="s5Desc">Comprehensive report with available results.</p>
+      <div class="price" id="p5">800 DZD</div>
+      <button type="button" class="full" onclick="chooseService('Full PRO Report')" id="s5Btn">ORDER FULL REPORT</button>
     </div>
 
-    <h3 class="section-title">SAVED REPORTS</h3>
-    <div id="reportsList"></div>
-  </section>
+  </div>
+</section>
 
-  <section id="printArea" class="hidden"></section>
+<section class="card" id="orderSection">
+  <h2 id="txtOrderTitle">SUBMIT YOUR ORDER</h2>
+
+  <label id="txtLblName" for="customerName">Customer Name</label>
+  <input id="customerName" placeholder="Your name">
+
+  <label id="txtLblPhone" for="customerPhone">Customer WhatsApp</label>
+  <input id="customerPhone" inputmode="tel" placeholder="Example: 213XXXXXXXXX">
+
+  <label id="txtLblOrderImei" for="orderIMEI">IMEI Number</label>
+  <input id="orderIMEI" maxlength="15" inputmode="numeric" placeholder="Enter IMEI">
+
+  <label id="txtLblService" for="serviceType">Select Service</label>
+  <select id="serviceType">
+    <option>Basic Check</option>
+    <option>iCloud / FMI Check</option>
+    <option>Carrier Check</option>
+    <option>Blacklist GSMA</option>
+    <option>Full PRO Report</option>
+  </select>
+
+  <button type="button" class="full green" onclick="submitOrder()" id="txtSendOrderBtn">SEND ORDER VIA WHATSAPP</button>
+  <div id="orderResult" class="result"></div>
+</section>
+
+<section class="card">
+  <div class="row">
+    <h2 id="txtAdminTitle">ADMINISTRATION</h2>
+    <button type="button" class="gray" onclick="adminLogin()" id="txtAdminLoginBtn">ADMIN LOGIN</button>
+  </div>
+  <p class="small" id="txtAdminSub">Authorized administration access.</p>
+</section>
+
+<section class="card admin" id="adminPanel">
+
+  <div class="row">
+    <h2 id="txtDashTitle">ADMIN DASHBOARD</h2>
+    <button type="button" class="red" onclick="adminLogout()" id="txtLogoutBtn">LOG OUT</button>
+  </div>
+
+  <p class="small" id="txtDemoNote">Front-end demonstration only. Reports are stored in this browser. This is not secure server-side authentication or cloud storage.</p>
+  <hr>
+
+  <h3 id="txtManualTitle">MANUAL CHECK RESULTS</h3>
+
+  <label id="txtLblRef" for="reportRef">Report Reference</label>
+  <input id="reportRef" placeholder="GYS-2026-1001">
+
+  <label id="txtLblCustName" for="reportCustomer">Customer Name</label>
+  <input id="reportCustomer">
+
+  <label id="txtLblCustPhone" for="reportPhone">Customer WhatsApp</label>
+  <input id="reportPhone" inputmode="tel">
+
+  <label id="txtLblReportImei" for="reportIMEI">IMEI Number</label>
+  <input id="reportIMEI" maxlength="15" inputmode="numeric">
+
+  <label id="txtLblModel" for="reportModel">Device Model</label>
+  <input id="reportModel" placeholder="iPhone 14 Pro Max">
+
+  <label id="txtLblReportService" for="reportService">Service</label>
+  <select id="reportService">
+    <option>iCloud / FMI Check</option>
+    <option>Carrier Check</option>
+    <option>Blacklist GSMA</option>
+    <option>Full PRO Report</option>
+    <option>Basic Check</option>
+  </select>
+
+  <label id="txtLblIcloud" for="icloudStatus">iCloud / FMI Status</label>
+  <select id="icloudStatus">
+    <option value="Not Checked">Not Checked</option>
+    <option value="ON">ON</option>
+    <option value="OFF">OFF</option>
+  </select>
+
+  <label id="txtLblCarrier" for="carrierStatus">Carrier Status</label>
+  <select id="carrierStatus">
+    <option value="Not Checked">Not Checked</option>
+    <option value="Locked">Locked</option>
+    <option value="Unlocked">Unlocked</option>
+  </select>
+
+  <label id="txtLblBlacklist" for="blacklistStatus">Blacklist Status</label>
+  <select id="blacklistStatus">
+    <option value="Not Checked">Not Checked</option>
+    <option value="Clean">Clean</option>
+    <option value="Blacklisted">Blacklisted</option>
+  </select>
+
+  <label id="txtLblMdm" for="mdmStatus">MDM Status</label>
+  <select id="mdmStatus">
+    <option value="Not Checked">Not Checked</option>
+    <option value="ON">ON</option>
+    <option value="OFF">OFF</option>
+  </select>
+
+  <label id="txtLblNotes" for="reportNotes">Additional Notes</label>
+  <textarea id="reportNotes"></textarea>
+
+  <label id="txtLblLang" for="reportLanguage">Report Language</label>
+  <select id="reportLanguage">
+    <option value="en">English</option>
+    <option value="fr">French</option>
+    <option value="ar">Arabic</option>
+  </select>
+
+  <button type="button" class="full green" onclick="saveReport()" id="txtSaveReportBtn">SAVE AND GENERATE REPORT</button>
+  <div id="adminResult" class="result"></div>
+
+  <hr>
+
+  <div class="row">
+    <h3 id="txtSavedTitle">SAVED REPORTS</h3>
+    <button type="button" class="gray" onclick="showReports()" id="txtRefreshBtn">REFRESH</button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th id="thRef">REFERENCE</th>
+          <th id="thImei">IMEI</th>
+          <th id="thService">SERVICE</th>
+          <th id="thActions">ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody id="reportsList"></tbody>
+    </table>
+  </div>
+
+</section>
 
 </main>
 
-<!-- Floating WhatsApp Button -->
-<a href="https://wa.me/213657241710?text=Hello%20GSM%20YASSER%20SERVER,%20I%20want%20to%20inquire%20about%20your%20services." target="_blank" class="whatsapp-float" aria-label="Contact via WhatsApp">
-  <svg style="width:34px;height:34px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.46-.9-4.77-2.57-6.49-1.67-1.72-3.9-2.68-6.34-2.68m0 1.83c2.04 0 3.96.79 5.4 2.23 1.45 1.44 2.24 3.37 2.24 5.41 0 4.22-3.44 7.66-7.66 7.66-1.35 0-2.67-.36-3.83-1.04l-.27-.16-2.84.75.76-2.77-.18-.28c-.77-1.22-1.18-2.64-1.18-4.09 0-4.22 3.44-7.66 7.66-7.66m-4.14 2.1c-.22 0-.44.08-.62.26-.35.35-.91.91-.91 2.19 0 1.28.93 2.51 1.06 2.69.13.18 1.82 2.82 4.47 3.95.63.27 1.12.43 1.5.55.63.2 1.2.17 1.65.1.5-.08 1.55-.63 1.77-1.24.22-.61.22-1.13.15-1.24-.07-.11-.27-.18-.57-.33s-1.77-.87-2.05-.97c-.28-.1-.48-.15-.68.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07-.3-.15-1.27-.47-2.42-1.49-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.62-1.5-.85-2.05-.22-.53-.45-.46-.62-.47l-.53-.01z"/></svg>
-</a>
-
-<footer>
-  <strong>GSM YASSER SERVER</strong>
-  <p>Professional Mobile Services</p>
-  <p class="small">© <span id="year"></span> GSM YASSER SERVER. All rights reserved.</p>
-</footer>
+<footer>GSM YASSER SERVER © 2026 — All Rights Reserved</footer>
 
 <script>
 "use strict";
 
-/* BUSINESS SETTINGS */
-const WHATSAPP_NUMBER = "213657241710";[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)
-const REPORTS_KEY = "gsm_yasser_reports_v3";
-const ADMIN_PIN_KEY = "gsm_yasser_admin_pin_v1";
+const WHATSAPP_NUMBER = "213657241710";
+const STORAGE_KEY = "gsm_yasser_reports_v3";
+const PASS_KEY = "gsm_yasser_admin_hash_v1";
 
-/* CURRENCY CONVERSION RATES (Approximate relative to DZD) */
-const rates = {
-  DZD: { symbol: "DZD", rate: 1 },
-  USD: { symbol: "$", rate: 0.0074 },
-  EUR: { symbol: "€", rate: 0.0068 }
-};
+let currentLang = "en";
+let currentCurrency = "DZD";
+let isAdmin = false;
 
-/* HELPERS */
+/* ---------- helpers ---------- */
 const $ = id => document.getElementById(id);
 
-function showMessage(element, message, isError = false) {
-  element.textContent = message;
-  element.classList.add("show");
-  element.style.border = isError
-    ? "1px solid #e34b55"
-    : "1px solid #16a36a";
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
 }
+function setText(id, text){ const el = $(id); if (el && text !== undefined) el.textContent = text; }
+function showBox(id, html){ const el = $(id); el.innerHTML = html; el.style.display = "block"; }
+function store(key, val){ try{ localStorage.setItem(key, val); return true; }catch(e){ return false; } }
+function load(key){ try{ return localStorage.getItem(key); }catch(e){ return null; } }
 
-function cleanText(value) {
-  return String(value || "").trim();
-}
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  })[char]);
-}
-
-function getReports() {
-  try {
-    const data = JSON.parse(localStorage.getItem(REPORTS_KEY) || "[]");
-    return Array.isArray(data) ? data : [];
-  } catch (error) {
-    return [];
-  }
-}
-
-function saveReports(reports) {
-  localStorage.setItem(REPORTS_KEY, JSON.stringify(reports));
-}
-
-function openWhatsApp(message) {
-  const url = "https://wa.me/" + WHATSAPP_NUMBER +
-    "?text=" + encodeURIComponent(message);
-  window.open(url, "_blank", "noopener,noreferrer");
-}
-
-/* UPDATE PRICES BASED ON CURRENCY */
-function updateCurrency() {
-  const currency = $("currencySelect").value;
-  const config = rates[currency];
-
-  document.querySelectorAll(".price[data-base]").forEach(el => {
-    const baseVal = parseFloat(el.getAttribute("data-base"));
-    const converted = Math.round(baseVal * config.rate);
-    if (currency === "DZD") {
-      el.textContent = converted + " DZD";
-    } else {
-      el.textContent = config.symbol + converted;
+/* ---------- translations ---------- */
+const i18n = {
+  en: {
+    sub: "Professional iPhone Check & Mobile Services",
+    freeTitle: "FREE IMEI CHECK",
+    freeSub: "Validate the 15-digit IMEI number and its checksum.",
+    imeiLabel: "Enter IMEI Number", checkBtn: "CHECK IMEI",
+    servicesTitle: "AVAILABLE SERVICES",
+    s1Name: "Basic Check", s1Desc: "IMEI format and checksum validation.", s1Btn: "SELECT",
+    s2Name: "iCloud / FMI Check", s2Desc: "Manual iCloud and Find My iPhone status report.", s2Btn: "ORDER NOW",
+    s3Name: "Carrier Check", s3Desc: "Manual carrier and SIM lock status report.", s3Btn: "ORDER NOW",
+    s4Name: "Blacklist GSMA", s4Desc: "Blacklist status report based on available results.", s4Btn: "ORDER NOW",
+    s5Name: "Full PRO Report", s5Desc: "Comprehensive report with available results.", s5Btn: "ORDER FULL REPORT",
+    orderTitle: "SUBMIT YOUR ORDER",
+    lblName: "Customer Name", lblPhone: "Customer WhatsApp", lblOrderImei: "IMEI Number", lblService: "Select Service",
+    sendOrderBtn: "SEND ORDER VIA WHATSAPP",
+    adminTitle: "ADMINISTRATION", adminLoginBtn: "ADMIN LOGIN", adminSub: "Authorized administration access.",
+    dashTitle: "ADMIN DASHBOARD", logoutBtn: "LOG OUT",
+    demoNote: "Front-end demonstration only. Reports are stored in this browser. This is not secure server-side authentication or cloud storage.",
+    manualTitle: "MANUAL CHECK RESULTS",
+    lblRef: "Report Reference", lblCustName: "Customer Name", lblCustPhone: "Customer WhatsApp",
+    lblReportImei: "IMEI Number", lblModel: "Device Model", lblReportService: "Service",
+    lblIcloud: "iCloud / FMI Status", lblCarrier: "Carrier Status", lblBlacklist: "Blacklist Status",
+    lblMdm: "MDM Status", lblNotes: "Additional Notes", lblLang: "Report Language",
+    saveReportBtn: "SAVE AND GENERATE REPORT", savedTitle: "SAVED REPORTS", refreshBtn: "REFRESH",
+    thRef: "REFERENCE", thImei: "IMEI", thService: "SERVICE", thActions: "ACTIONS",
+    m: {
+      imeiBad: "❌ IMEI must be exactly 15 digits.",
+      imeiOk: "✅ Valid IMEI (checksum correct).",
+      imeiFail: "❌ Invalid IMEI (checksum failed).",
+      tac: "TAC (device type code)", orderFill: "Please fill in name, WhatsApp number and a valid 15-digit IMEI.",
+      orderBad: "Invalid IMEI checksum. Please check the number.",
+      orderOpen: "Opening WhatsApp...",
+      pwNew: "First use: create an admin password (min 6 characters):",
+      pwShort: "Password too short.", pwAsk: "Enter admin password:", pwWrong: "Wrong password.",
+      pwSaved: "Admin password saved in this browser.", pwNoCrypto: "This browser cannot secure the password (HTTPS required).",
+      needLogin: "Admin login required.", fillReport: "Please fill in the reference and a 15-digit IMEI.",
+      saved: "Report saved.", none: "No reports saved yet.", confirmDel: "Delete this report?",
+      view: "View", send: "WhatsApp", del: "Delete", copy: "Copy", copied: "Copied."
+    },
+    rep: {
+      title: "GSM YASSER SERVER — CHECK REPORT", ref: "Reference", date: "Date", cust: "Customer", phone: "WhatsApp",
+      imei: "IMEI", model: "Device Model", service: "Service", icloud: "iCloud / FMI", carrier: "Carrier",
+      bl: "Blacklist", mdm: "MDM", notes: "Notes", foot: "Results are based on available data at the time of the check."
     }
-  });
-}
-
-/* IMEI VALIDATION */
-function validateIMEI(value) {
-  const imei = cleanText(value);
-
-  if (!/^\d{15}$/.test(imei)) {
-    return { valid:false, message:"IMEI must contain exactly 15 digits." };
-  }
-
-  let sum = 0;
-
-  for (let i = 0; i < imei.length; i++) {
-    let digit = Number(imei[i]);
-
-    if (i % 2 === 1) {
-      digit *= 2;
-      if (digit > 9) digit -= 9;
+  },
+  fr: {
+    sub: "Vérification professionnelle iPhone et services mobiles",
+    freeTitle: "VÉRIFICATION IMEI GRATUITE",
+    freeSub: "Validez le numéro IMEI à 15 chiffres et sa somme de contrôle.",
+    imeiLabel: "Entrez le numéro IMEI", checkBtn: "VÉRIFIER L'IMEI",
+    servicesTitle: "SERVICES DISPONIBLES",
+    s1Name: "Vérification de base", s1Desc: "Format IMEI et validation de la somme de contrôle.", s1Btn: "SÉLECTIONNER",
+    s2Name: "Vérification iCloud / FMI", s2Desc: "Rapport manuel iCloud et statut Find My iPhone.", s2Btn: "COMMANDER",
+    s3Name: "Vérification Opérateur", s3Desc: "Rapport manuel de l'opérateur et verrouillage SIM.", s3Btn: "COMMANDER",
+    s4Name: "Liste Noire GSMA", s4Desc: "Rapport de statut sur la liste noire.", s4Btn: "COMMANDER",
+    s5Name: "Rapport PRO Complet", s5Desc: "Rapport complet avec les résultats disponibles.", s5Btn: "COMMANDER LE RAPPORT",
+    orderTitle: "SOUMETTRE VOTRE COMMANDE",
+    lblName: "Nom du client", lblPhone: "WhatsApp du client", lblOrderImei: "Numéro IMEI", lblService: "Sélectionner le service",
+    sendOrderBtn: "ENVOYER LA COMMANDE VIA WHATSAPP",
+    adminTitle: "ADMINISTRATION", adminLoginBtn: "CONNEXION ADMIN", adminSub: "Accès autorisé à l'administration.",
+    dashTitle: "TABLEAU DE BORD", logoutBtn: "DÉCONNEXION",
+    demoNote: "Démonstration front-end uniquement. Les rapports sont stockés dans ce navigateur. Ce n'est pas une authentification serveur sécurisée ni un stockage cloud.",
+    manualTitle: "RÉSULTATS DE VÉRIFICATION MANUELLE",
+    lblRef: "Référence du rapport", lblCustName: "Nom du client", lblCustPhone: "WhatsApp du client",
+    lblReportImei: "Numéro IMEI", lblModel: "Modèle de l'appareil", lblReportService: "Service",
+    lblIcloud: "Statut iCloud / FMI", lblCarrier: "Statut Opérateur", lblBlacklist: "Statut Liste Noire",
+    lblMdm: "Statut MDM", lblNotes: "Notes additionnelles", lblLang: "Langue du rapport",
+    saveReportBtn: "ENREGISTRER ET GÉNÉRER LE RAPPORT", savedTitle: "RAPPORTS ENREGISTRÉS", refreshBtn: "ACTUALISER",
+    thRef: "RÉFÉRENCE", thImei: "IMEI", thService: "SERVICE", thActions: "ACTIONS",
+    m: {
+      imeiBad: "❌ L'IMEI doit contenir exactement 15 chiffres.",
+      imeiOk: "✅ IMEI valide (somme de contrôle correcte).",
+      imeiFail: "❌ IMEI invalide (somme de contrôle incorrecte).",
+      tac: "TAC (code type d'appareil)", orderFill: "Veuillez saisir le nom, le numéro WhatsApp et un IMEI valide de 15 chiffres.",
+      orderBad: "Somme de contrôle IMEI invalide. Vérifiez le numéro.",
+      orderOpen: "Ouverture de WhatsApp...",
+      pwNew: "Première utilisation : créez un mot de passe admin (6 caractères min.) :",
+      pwShort: "Mot de passe trop court.", pwAsk: "Entrez le mot de passe admin :", pwWrong: "Mot de passe incorrect.",
+      pwSaved: "Mot de passe admin enregistré dans ce navigateur.", pwNoCrypto: "Ce navigateur ne peut pas sécuriser le mot de passe (HTTPS requis).",
+      needLogin: "Connexion admin requise.", fillReport: "Veuillez saisir la référence et un IMEI de 15 chiffres.",
+      saved: "Rapport enregistré.", none: "Aucun rapport enregistré.", confirmDel: "Supprimer ce rapport ?",
+      view: "Voir", send: "WhatsApp", del: "Supprimer", copy: "Copier", copied: "Copié."
+    },
+    rep: {
+      title: "GSM YASSER SERVER — RAPPORT DE VÉRIFICATION", ref: "Référence", date: "Date", cust: "Client", phone: "WhatsApp",
+      imei: "IMEI", model: "Modèle", service: "Service", icloud: "iCloud / FMI", carrier: "Opérateur",
+      bl: "Liste noire", mdm: "MDM", notes: "Notes", foot: "Les résultats sont basés sur les données disponibles au moment de la vérification."
     }
-
-    sum += digit;
-  }
-
-  if (sum % 10 !== 0) {
-    return { valid:false, message:"Invalid IMEI checksum (Luhn)." };
-  }
-
-  return { valid:true, message:"IMEI format and checksum are valid." };
-}
-
-/* FREE IMEI CHECK */
-function checkIMEI() {
-  const value = cleanText($("imei").value);
-  const result = validateIMEI(value);
-
-  if (!result.valid) {
-    showMessage($("imeiResult"), result.message, true);
-    return;
-  }
-
-  showMessage(
-    $("imeiResult"),
-    "IMEI: " + value +
-    "\nFormat: Valid" +
-    "\nChecksum: Valid" +
-    "\nApple device details: Not verified" +
-    "\niCloud / FMI: Not checked" +
-    "\nCarrier: Not checked" +
-    "\nGSMA Blacklist: Not checked"
-  );
-
-  $("orderIMEI").value = value;
-}
-
-/* SERVICE SELECTION */
-function chooseService(service) {
-  $("serviceType").value = service;
-  $("orderTitle").scrollIntoView({ behavior:"smooth", block:"start" });
-}
-
-document.querySelectorAll(".chooseBtn").forEach(button => {
-  button.addEventListener("click", () => {
-    chooseService(button.dataset.service);
-  });
-});
-
-/* ORDER SUBMISSION */
-function submitOrder() {
-  const name = cleanText($("customerName").value);
-  const phone = cleanText($("customerPhone").value);
-  const imei = cleanText($("orderIMEI").value);
-  const service = $("serviceType").value;
-  const currency = $("currencySelect").value;
-
-  if (!name || !phone || !imei || !service) {
-    showMessage($("orderResult"),
-      "Please complete all fields before sending.", true);
-    return;
-  }
-
-  const validation = validateIMEI(imei);
-
-  if (!validation.valid) {
-    showMessage($("orderResult"), validation.message, true);
-    return;
-  }
-
-  const message =
-    "Hello GSM YASSER SERVER\n\n" +
-    "New Service Order\n" +
-    "Customer: " + name + "\n" +
-    "Customer WhatsApp: " + phone + "\n" +
-    "IMEI: " + imei + "\n" +
-    "Service: " + service + "\n" +
-    "Preferred Currency: " + currency + "\n\n" +
-    "Please confirm my order.";
-
-  showMessage($("orderResult"), "Opening WhatsApp...");
-  openWhatsApp(message);
-}
-
-/* ADMIN LOGIN */
-function adminLogin() {
-  let storedPin = localStorage.getItem(ADMIN_PIN_KEY);
-
-  if (!storedPin) {
-    const firstPin = prompt("Create a demo admin PIN for this browser:");
-
-    if (!firstPin || firstPin.length < 4) {
-      alert("PIN must contain at least 4 characters.");
-      return;
-    }
-
-    const confirmPin = prompt("Confirm your demo admin PIN:");
-
-    if (firstPin !== confirmPin) {
-      alert("PIN confirmation does not match.");
-      return;
-    }
-
-    localStorage.setItem(ADMIN_PIN_KEY, firstPin);
-    storedPin = firstPin;
-    alert("Demo PIN created.");
-  } else {
-    const enteredPin = prompt("Enter admin PIN:");
-
-    if (enteredPin !== storedPin) {
-      alert("Incorrect PIN.");
-      return;
-    }
-  }
-
-  $("adminPanel").classList.remove("hidden");
-  $("adminPanel").scrollIntoView({ behavior:"smooth" });
-  showReports();
-}
-
-function adminLogout() {
-  $("adminPanel").classList.add("hidden");
-}
-
-/* SAVE REPORT */
-function saveReport() {
-  const imei = cleanText($("reportIMEI").value);
-  const validation = validateIMEI(imei);
-
-  if (!imei || !validation.valid) {
-    showMessage($("adminMessage"),
-      validation.message || "Enter a valid IMEI.", true);
-    return;
-  }
-
-  const report = {
-    id: Date.now().toString(),
-    ref: cleanText($("reportRef").value) ||
-      "GY-" + Date.now().toString().slice(-6),
-    customer: cleanText($("reportCustomer").value),
-    phone: cleanText($("reportPhone").value),
-    imei: imei,
-    model: cleanText($("reportModel").value),
-    service: $("reportService").value,
-    icloud: $("icloudStatus").value,
-    carrier: $("carrierStatus").value,
-    blacklist: $("blacklistStatus").value,
-    mdm: $("mdmStatus").value,
-    notes: cleanText($("reportNotes").value),
-    date: new Date().toLocaleString()
-  };
-
-  try {
-    const reports = getReports();
-    reports.unshift(report);
-    saveReports(reports);
-
-    showMessage($("adminMessage"),
-      "Report saved successfully in this browser.");
-
-    showReports();
-  } catch (error) {
-    showMessage($("adminMessage"),
-      "Unable to save report. Browser storage may be full.", true);
-  }
-}
-
-/* REPORT DISPLAY */
-function showReports() {
-  const reports = getReports();
-  const list = $("reportsList");
-
-  list.innerHTML = "";
-
-  if (!reports.length) {
-    list.textContent = "No saved reports.";
-    return;
-  }
-
-  reports.forEach(report => {
-    const item = document.createElement("div");
-    item.className = "report-item";
-
-    const heading = document.createElement("h3");
-    heading.textContent = report.ref + " — " + report.imei;
-
-    const details = document.createElement("p");
-    details.textContent =
-      "Customer: " + (report.customer || "-") +
-      " | Service: " + report.service +
-      " | Date: " + report.date;
-
-    const actions = document.createElement("div");
-    actions.className = "actions";
-
-    const viewButton = document.createElement("button");
-    viewButton.textContent = "View / Print";
-    viewButton.addEventListener("click", () => printReport(report.id));
-
-    const sendButton = document.createElement("button");
-    sendButton.textContent = "Send WhatsApp";
-    sendButton.className = "success";
-    sendButton.addEventListener("click", () => sendReportWhatsApp(report.id));
-
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.className = "danger";
-    deleteButton.addEventListener("click", () => deleteReport(report.id));
-
-    actions.append(viewButton, sendButton, deleteButton);
-    item.append(heading, details, actions);
-    list.appendChild(item);
-  });
-}
-
-function findReport(id) {
-  return getReports().find(report => report.id === id);
-}
-
-function makeReportHTML(report) {
-  const fields = [
-    ["Reference", report.ref],
-    ["Customer", report.customer],
-    ["IMEI", report.imei],
-    ["Device Model", report.model],
-    ["Service", report.service],
-    ["iCloud / FMI", report.icloud],
-    ["Carrier", report.carrier],
-    ["GSMA Blacklist", report.blacklist],
-    ["MDM", report.mdm],
-    ["Notes", report.notes],
-    ["Date", report.date]
-  ];
-
-  return `
-    <div style="font-family:Arial,sans-serif;padding:20px;color:#111">
-      <h1 style="color:#075db2">GSM YASSER SERVER</h1>
-      <h2>iPhone Service Report</h2>
-      <hr>
-      ${fields.map(([label,value]) => `
-        <p><strong>${escapeHTML(label)}:</strong>
-        ${escapeHTML(value || "-")}</p>
-      `).join("")}
-      <hr>
-      <p>Thank you for choosing GSM YASSER SERVER.</p>
-    </div>
-  `;
-}
-
-function printReport(id) {
-  const report = findReport(id);
-  if (!report) return;
-
-  $("printArea").innerHTML = makeReportHTML(report);
-  $("printArea").classList.remove("hidden");
-  window.print();
-  $("printArea").classList.add("hidden");
-}
-
-function sendReportWhatsApp(id) {
-  const report = findReport(id);
-  if (!report) return;
-
-  const message =
-    "GSM YASSER SERVER\n" +
-    "iPhone Service Report\n\n" +
-    "Reference: " + report.ref + "\n" +
-    "Customer: " + (report.customer || "-") + "\n" +
-    "IMEI: " + report.imei + "\n" +
-    "Model: " + (report.model || "-") + "\n" +
-    "Service: " + report.service + "\n" +
-    "iCloud / FMI: " + report.icloud + "\n" +
-    "Carrier: " + report.carrier + "\n" +
-    "GSMA Blacklist: " + report.blacklist + "\n" +
-    "MDM: " + report.mdm + "\n" +
-    "Notes: " + (report.notes || "-") + "\n\n" +
-    "Date: " + report.date;
-
-  openWhatsApp(message);
-}
-
-function deleteReport(id) {
-  if (!confirm("Are you sure you want to delete this report?")) {
-    return;
-  }
-
-  const updated = getReports().filter(report => report.id !== id);
-  saveReports(updated);
-  showReports();
-}
-
-function toggleTheme() {
-  document.body.classList.toggle("light");
-  localStorage.setItem(
-    "gsm_yasser_theme",
-    document.body.classList.contains("light") ? "light" : "dark"
-  );
-}
-
-function initialize() {
-  $("year").textContent = new Date().getFullYear();
-
-  if (localStorage.getItem("gsm_yasser_theme") === "light") {
-    document.body.classList.add("light");
-  }
-
-  $("checkBtn").addEventListener("click", checkIMEI);
-  $("orderBtn").addEventListener("click", submitOrder);
-  $("adminBtn").addEventListener("click", adminLogin);
-  $("logoutBtn").addEventListener("click", adminLogout);
-  $("saveReportBtn").addEventListener("click", saveReport);
-  $("showReportsBtn").addEventListener("click", showReports);
-  $("themeBtn").addEventListener("click", toggleTheme);
-  $("currencySelect").addEventListener("change", updateCurrency);
-
-  $("homeBtn").addEventListener("click", () => {
-    window.scrollTo({ top:0, behavior:"smooth" });
-  });
-
-  $("startBtn").addEventListener("click", () => {
-    $("checkSection").scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
-    $("imei").focus();
-  });
-
-  $("imei").addEventListener("input", event => {
-    event.target.value = event.target.value.replace(/\D/g, "").slice(0,15);
-  });
-
-  $("orderIMEI").addEventListener("input", event => {
-    event.target.value = event.target.value.replace(/\D/g, "").slice(0,15);
-  });
-
-  $("reportIMEI").addEventListener("input", event => {
-    event.target.value = event.target.value.replace(/\D/g, "").slice(0,15);
-  });
-}
-
-initialize();
-</script>
-
-</body>
-</html>
+  },
+  ar: {
+    sub: "فحص آيفون احترافي والخدمات المحمولة",
+    freeTitle: "فحص IMEI المجاني",
+    freeSub: "تحقق من رقم IMEI المكون من 15 رقماً ومن صحة المجموع الاختباري.",
+    imeiLabel: "أدخل رقم الـ IMEI", checkBtn: "فحص الـ IMEI",
+    servicesTitle: "الخدمات المتاحة",
+    s1Name: "فحص أساسي", s1Desc: "تنسيق IMEI والتحقق من المجموع الاختباري.", s1Btn: "اختيار",
+    s2Name: "فحص iCloud / FMI", s2Desc: "تقرير يدوي لحالة آيكلاود والبحث عن آيفون.", s2Btn: "اطلب الآن",
+    s3Name: "فحص الشبكة والناقل", s3Desc: "تقرير يدوي لشركة الاتصالات وحالة القفل.", s3Btn: "اطلب الآن",
+    s4Name: "القائمة السوداء GSMA", s4Desc: "تقرير حالة القائمة السوداء.", s4Btn: "اطلب الآن",
+    s5Name: "تقرير PRO الشامل", s5Desc: "تقرير شامل مع نتائج الفحص المتاحة.", s5Btn: "اطلب التقرير الشامل",
+    orderTitle: "إرسال طلبك",
+    lblName: "اسم العميل", lblPhone:
+    
