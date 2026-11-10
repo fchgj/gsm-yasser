@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b1420">
 <title>GSM YASSER SERVER</title>
-
 <style>
 :root{
   --bg:#0b1420;--card:#142235;--input:#0c1827;--border:#293d54;
@@ -22,7 +21,7 @@ header{background:#101d2c;padding:25px 15px;text-align:center;border-bottom:1px 
 [data-theme="light"] header{background:#e2e8f0}
 .logo{font-size:26px;font-weight:900;letter-spacing:1px}
 .logo span{color:#2993ff}
-header p{color:var(--muted);font-size:13px}
+header p{color:var(--muted);font-size:13px;margin:5px 0 0}
 .container{max-width:1000px;margin:25px auto;padding:0 15px}
 .top-controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px}
 .ctrl-group{display:flex;gap:5px;flex-wrap:wrap}
@@ -35,14 +34,13 @@ h3{font-size:16px}
 label{display:block;color:var(--muted);font-size:13px;margin:12px 0 7px}
 input,select,textarea{width:100%;padding:13px;background:var(--input);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none}
 textarea{min-height:80px}
-button{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:12px 16px;font-weight:bold;cursor:pointer}
+button{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:12px 16px;font-weight:bold;cursor:pointer;transition:0.2s}
 button:hover{opacity:.88}
 button.full{width:100%;margin-top:14px}
 button.green{background:var(--green)}
 button.gray{background:#40536a}
 button.red{background:var(--red)}
 button.mini{padding:6px 10px;font-size:12px;margin:2px}
-.ctrl-btn:hover{opacity:.88}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}
 .service{background:#192b40;padding:16px;border:1px solid var(--border);border-radius:10px}
 [data-theme="light"] .service{background:#f8fafc}
@@ -64,7 +62,6 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 @media(max-width:600px){.logo{font-size:21px}.card{padding:15px}}
 </style>
 </head>
-
 <body>
 
 <header>
@@ -93,10 +90,8 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 <section class="card">
   <h2 id="txtFreeTitle">FREE IMEI CHECK</h2>
   <p class="small" id="txtFreeSub">Validate the 15-digit IMEI number and its checksum.</p>
-
   <label id="txtImeiLabel" for="imei">Enter IMEI Number</label>
   <input id="imei" maxlength="15" inputmode="numeric" placeholder="Enter 15-digit IMEI">
-
   <button type="button" class="full" onclick="checkIMEI()" id="txtCheckBtn">CHECK IMEI</button>
   <div id="imeiResult" class="result"></div>
 </section>
@@ -104,57 +99,47 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 <section class="card">
   <h2 id="txtServicesTitle">AVAILABLE SERVICES</h2>
   <div class="grid">
-
     <div class="service">
       <h3 id="s1Name">Basic Check</h3>
       <p id="s1Desc">IMEI format and checksum validation.</p>
       <div class="price" id="p1">FREE</div>
       <button type="button" class="full" onclick="chooseService('Basic Check')" id="s1Btn">SELECT</button>
     </div>
-
     <div class="service">
       <h3 id="s2Name">iCloud / FMI Check</h3>
       <p id="s2Desc">Manual iCloud and Find My iPhone status report.</p>
       <div class="price" id="p2">400 DZD</div>
       <button type="button" class="full" onclick="chooseService('iCloud / FMI Check')" id="s2Btn">ORDER NOW</button>
     </div>
-
     <div class="service">
       <h3 id="s3Name">Carrier Check</h3>
       <p id="s3Desc">Manual carrier and SIM lock status report.</p>
       <div class="price" id="p3">400 DZD</div>
       <button type="button" class="full" onclick="chooseService('Carrier Check')" id="s3Btn">ORDER NOW</button>
     </div>
-
     <div class="service">
       <h3 id="s4Name">Blacklist GSMA</h3>
       <p id="s4Desc">Blacklist status report based on available results.</p>
       <div class="price" id="p4">400 DZD</div>
       <button type="button" class="full" onclick="chooseService('Blacklist GSMA')" id="s4Btn">ORDER NOW</button>
     </div>
-
     <div class="service">
       <h3 id="s5Name">Full PRO Report</h3>
       <p id="s5Desc">Comprehensive report with available results.</p>
       <div class="price" id="p5">800 DZD</div>
       <button type="button" class="full" onclick="chooseService('Full PRO Report')" id="s5Btn">ORDER FULL REPORT</button>
     </div>
-
   </div>
 </section>
 
 <section class="card" id="orderSection">
   <h2 id="txtOrderTitle">SUBMIT YOUR ORDER</h2>
-
   <label id="txtLblName" for="customerName">Customer Name</label>
   <input id="customerName" placeholder="Your name">
-
   <label id="txtLblPhone" for="customerPhone">Customer WhatsApp</label>
   <input id="customerPhone" inputmode="tel" placeholder="Example: 213XXXXXXXXX">
-
   <label id="txtLblOrderImei" for="orderIMEI">IMEI Number</label>
   <input id="orderIMEI" maxlength="15" inputmode="numeric" placeholder="Enter IMEI">
-
   <label id="txtLblService" for="serviceType">Select Service</label>
   <select id="serviceType">
     <option>Basic Check</option>
@@ -163,7 +148,6 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
     <option>Blacklist GSMA</option>
     <option>Full PRO Report</option>
   </select>
-
   <button type="button" class="full green" onclick="submitOrder()" id="txtSendOrderBtn">SEND ORDER VIA WHATSAPP</button>
   <div id="orderResult" class="result"></div>
 </section>
@@ -177,32 +161,23 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 </section>
 
 <section class="card admin" id="adminPanel">
-
   <div class="row">
     <h2 id="txtDashTitle">ADMIN DASHBOARD</h2>
     <button type="button" class="red" onclick="adminLogout()" id="txtLogoutBtn">LOG OUT</button>
   </div>
-
   <p class="small" id="txtDemoNote">Front-end demonstration only. Reports are stored in this browser. This is not secure server-side authentication or cloud storage.</p>
   <hr>
-
   <h3 id="txtManualTitle">MANUAL CHECK RESULTS</h3>
-
   <label id="txtLblRef" for="reportRef">Report Reference</label>
   <input id="reportRef" placeholder="GYS-2026-1001">
-
   <label id="txtLblCustName" for="reportCustomer">Customer Name</label>
   <input id="reportCustomer">
-
   <label id="txtLblCustPhone" for="reportPhone">Customer WhatsApp</label>
   <input id="reportPhone" inputmode="tel">
-
   <label id="txtLblReportImei" for="reportIMEI">IMEI Number</label>
   <input id="reportIMEI" maxlength="15" inputmode="numeric">
-
   <label id="txtLblModel" for="reportModel">Device Model</label>
   <input id="reportModel" placeholder="iPhone 14 Pro Max">
-
   <label id="txtLblReportService" for="reportService">Service</label>
   <select id="reportService">
     <option>iCloud / FMI Check</option>
@@ -211,55 +186,45 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
     <option>Full PRO Report</option>
     <option>Basic Check</option>
   </select>
-
   <label id="txtLblIcloud" for="icloudStatus">iCloud / FMI Status</label>
   <select id="icloudStatus">
     <option value="Not Checked">Not Checked</option>
     <option value="ON">ON</option>
     <option value="OFF">OFF</option>
   </select>
-
   <label id="txtLblCarrier" for="carrierStatus">Carrier Status</label>
   <select id="carrierStatus">
     <option value="Not Checked">Not Checked</option>
     <option value="Locked">Locked</option>
     <option value="Unlocked">Unlocked</option>
   </select>
-
   <label id="txtLblBlacklist" for="blacklistStatus">Blacklist Status</label>
   <select id="blacklistStatus">
     <option value="Not Checked">Not Checked</option>
     <option value="Clean">Clean</option>
     <option value="Blacklisted">Blacklisted</option>
   </select>
-
   <label id="txtLblMdm" for="mdmStatus">MDM Status</label>
   <select id="mdmStatus">
     <option value="Not Checked">Not Checked</option>
     <option value="ON">ON</option>
     <option value="OFF">OFF</option>
   </select>
-
   <label id="txtLblNotes" for="reportNotes">Additional Notes</label>
   <textarea id="reportNotes"></textarea>
-
   <label id="txtLblLang" for="reportLanguage">Report Language</label>
   <select id="reportLanguage">
     <option value="en">English</option>
     <option value="fr">French</option>
     <option value="ar">Arabic</option>
   </select>
-
   <button type="button" class="full green" onclick="saveReport()" id="txtSaveReportBtn">SAVE AND GENERATE REPORT</button>
   <div id="adminResult" class="result"></div>
-
   <hr>
-
   <div class="row">
     <h3 id="txtSavedTitle">SAVED REPORTS</h3>
     <button type="button" class="gray" onclick="showReports()" id="txtRefreshBtn">REFRESH</button>
   </div>
-
   <div class="table-wrap">
     <table>
       <thead>
@@ -273,9 +238,7 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
       <tbody id="reportsList"></tbody>
     </table>
   </div>
-
 </section>
-
 </main>
 
 <footer>GSM YASSER SERVER © 2026 — All Rights Reserved</footer>
@@ -291,25 +254,19 @@ let currentLang = "en";
 let currentCurrency = "DZD";
 let isAdmin = false;
 
-/* ---------- helpers ---------- */
+/* ---------- Helpers ---------- */
 const $ = id => document.getElementById(id);
-
-function esc(s){
-  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[c]));
-}
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
 function setText(id, text){ const el = $(id); if (el && text !== undefined) el.textContent = text; }
 function showBox(id, html){ const el = $(id); el.innerHTML = html; el.style.display = "block"; }
 function store(key, val){ try{ localStorage.setItem(key, val); return true; }catch(e){ return false; } }
 function load(key){ try{ return localStorage.getItem(key); }catch(e){ return null; } }
 
-/* ---------- translations ---------- */
+/* ---------- Translations ---------- */
 const i18n = {
   en: {
     sub: "Professional iPhone Check & Mobile Services",
-    freeTitle: "FREE IMEI CHECK",
-    freeSub: "Validate the 15-digit IMEI number and its checksum.",
+    freeTitle: "FREE IMEI CHECK", freeSub: "Validate the 15-digit IMEI number and its checksum.",
     imeiLabel: "Enter IMEI Number", checkBtn: "CHECK IMEI",
     servicesTitle: "AVAILABLE SERVICES",
     s1Name: "Basic Check", s1Desc: "IMEI format and checksum validation.", s1Btn: "SELECT",
@@ -324,80 +281,56 @@ const i18n = {
     dashTitle: "ADMIN DASHBOARD", logoutBtn: "LOG OUT",
     demoNote: "Front-end demonstration only. Reports are stored in this browser. This is not secure server-side authentication or cloud storage.",
     manualTitle: "MANUAL CHECK RESULTS",
-    lblRef: "Report Reference", lblCustName: "Customer Name", lblCustPhone: "Customer WhatsApp",
-    lblReportImei: "IMEI Number", lblModel: "Device Model", lblReportService: "Service",
-    lblIcloud: "iCloud / FMI Status", lblCarrier: "Carrier Status", lblBlacklist: "Blacklist Status",
-    lblMdm: "MDM Status", lblNotes: "Additional Notes", lblLang: "Report Language",
+    lblRef: "Report Reference", lblCustName: "Customer Name", lblCustPhone: "Customer WhatsApp", lblReportImei: "IMEI Number", lblModel: "Device Model", lblReportService: "Service",
+    lblIcloud: "iCloud / FMI Status", lblCarrier: "Carrier Status", lblBlacklist: "Blacklist Status", lblMdm: "MDM Status", lblNotes: "Additional Notes", lblLang: "Report Language",
     saveReportBtn: "SAVE AND GENERATE REPORT", savedTitle: "SAVED REPORTS", refreshBtn: "REFRESH",
     thRef: "REFERENCE", thImei: "IMEI", thService: "SERVICE", thActions: "ACTIONS",
     m: {
-      imeiBad: "❌ IMEI must be exactly 15 digits.",
-      imeiOk: "✅ Valid IMEI (checksum correct).",
-      imeiFail: "❌ Invalid IMEI (checksum failed).",
-      tac: "TAC (device type code)", orderFill: "Please fill in name, WhatsApp number and a valid 15-digit IMEI.",
-      orderBad: "Invalid IMEI checksum. Please check the number.",
-      orderOpen: "Opening WhatsApp...",
-      pwNew: "First use: create an admin password (min 6 characters):",
-      pwShort: "Password too short.", pwAsk: "Enter admin password:", pwWrong: "Wrong password.",
-      pwSaved: "Admin password saved in this browser.", pwNoCrypto: "This browser cannot secure the password (HTTPS required).",
-      needLogin: "Admin login required.", fillReport: "Please fill in the reference and a 15-digit IMEI.",
-      saved: "Report saved.", none: "No reports saved yet.", confirmDel: "Delete this report?",
-      view: "View", send: "WhatsApp", del: "Delete", copy: "Copy", copied: "Copied."
+      imeiBad: "❌ IMEI must be exactly 15 digits.", imeiOk: "✅ Valid IMEI (checksum correct).", imeiFail: "❌ Invalid IMEI (checksum failed).",
+      tac: "TAC (device type code)", orderFill: "Please fill in name, WhatsApp number and a valid 15-digit IMEI.", orderBad: "Invalid IMEI checksum. Please check the number.", orderOpen: "Opening WhatsApp...",
+      pwNew: "First use: create an admin password (min 6 characters):", pwShort: "Password too short.", pwAsk: "Enter admin password:", pwWrong: "Wrong password.",
+      pwSaved: "Admin password saved in this browser.", needLogin: "Admin login required.", fillReport: "Please fill in the reference and a 15-digit IMEI.",
+      saved: "Report saved.", none: "No reports saved yet.", confirmDel: "Delete this report?", view: "View", send: "WhatsApp", del: "Delete", copy: "Copy", copied: "Copied."
     },
     rep: {
-      title: "GSM YASSER SERVER — CHECK REPORT", ref: "Reference", date: "Date", cust: "Customer", phone: "WhatsApp",
-      imei: "IMEI", model: "Device Model", service: "Service", icloud: "iCloud / FMI", carrier: "Carrier",
-      bl: "Blacklist", mdm: "MDM", notes: "Notes", foot: "Results are based on available data at the time of the check."
+      title: "GSM YASSER SERVER — CHECK REPORT", ref: "Reference", date: "Date", cust: "Customer", phone: "WhatsApp", imei: "IMEI", model: "Device Model", service: "Service", icloud: "iCloud / FMI", carrier: "Carrier", bl: "Blacklist", mdm: "MDM", notes: "Notes", foot: "Results are based on available data at the time of the check."
     }
   },
   fr: {
     sub: "Vérification professionnelle iPhone et services mobiles",
-    freeTitle: "VÉRIFICATION IMEI GRATUITE",
-    freeSub: "Validez le numéro IMEI à 15 chiffres et sa somme de contrôle.",
+    freeTitle: "VÉRIFICATION IMEI GRATUITE", freeSub: "Validez le numéro IMEI à 15 chiffres et sa somme de contrôle.",
     imeiLabel: "Entrez le numéro IMEI", checkBtn: "VÉRIFIER L'IMEI",
     servicesTitle: "SERVICES DISPONIBLES",
-    s1Name: "Vérification de base", s1Desc: "Format IMEI et validation de la somme de contrôle.", s1Btn: "SÉLECTIONNER",
-    s2Name: "Vérification iCloud / FMI", s2Desc: "Rapport manuel iCloud et statut Find My iPhone.", s2Btn: "COMMANDER",
-    s3Name: "Vérification Opérateur", s3Desc: "Rapport manuel de l'opérateur et verrouillage SIM.", s3Btn: "COMMANDER",
+    s1Name: "Vérification de base", s1Desc: "Format IMEI et validation.", s1Btn: "SÉLECTIONNER",
+    s2Name: "Vérification iCloud / FMI", s2Desc: "Rapport manuel iCloud et Find My iPhone.", s2Btn: "COMMANDER",
+    s3Name: "Vérification Opérateur", s3Desc: "Rapport manuel opérateur et verrouillage SIM.", s3Btn: "COMMANDER",
     s4Name: "Liste Noire GSMA", s4Desc: "Rapport de statut sur la liste noire.", s4Btn: "COMMANDER",
-    s5Name: "Rapport PRO Complet", s5Desc: "Rapport complet avec les résultats disponibles.", s5Btn: "COMMANDER LE RAPPORT",
+    s5Name: "Rapport PRO Complet", s5Desc: "Rapport complet avec les résultats.", s5Btn: "COMMANDER LE RAPPORT",
     orderTitle: "SOUMETTRE VOTRE COMMANDE",
     lblName: "Nom du client", lblPhone: "WhatsApp du client", lblOrderImei: "Numéro IMEI", lblService: "Sélectionner le service",
     sendOrderBtn: "ENVOYER LA COMMANDE VIA WHATSAPP",
-    adminTitle: "ADMINISTRATION", adminLoginBtn: "CONNEXION ADMIN", adminSub: "Accès autorisé à l'administration.",
+    adminTitle: "ADMINISTRATION", adminLoginBtn: "CONNEXION ADMIN", adminSub: "Accès autorisé.",
     dashTitle: "TABLEAU DE BORD", logoutBtn: "DÉCONNEXION",
-    demoNote: "Démonstration front-end uniquement. Les rapports sont stockés dans ce navigateur. Ce n'est pas une authentification serveur sécurisée ni un stockage cloud.",
+    demoNote: "Démonstration front-end uniquement. Les rapports sont stockés dans ce navigateur.",
     manualTitle: "RÉSULTATS DE VÉRIFICATION MANUELLE",
-    lblRef: "Référence du rapport", lblCustName: "Nom du client", lblCustPhone: "WhatsApp du client",
-    lblReportImei: "Numéro IMEI", lblModel: "Modèle de l'appareil", lblReportService: "Service",
-    lblIcloud: "Statut iCloud / FMI", lblCarrier: "Statut Opérateur", lblBlacklist: "Statut Liste Noire",
-    lblMdm: "Statut MDM", lblNotes: "Notes additionnelles", lblLang: "Langue du rapport",
-    saveReportBtn: "ENREGISTRER ET GÉNÉRER LE RAPPORT", savedTitle: "RAPPORTS ENREGISTRÉS", refreshBtn: "ACTUALISER",
+    lblRef: "Référence du rapport", lblCustName: "Nom du client", lblCustPhone: "WhatsApp du client", lblReportImei: "Numéro IMEI", lblModel: "Modèle de l'appareil", lblReportService: "Service",
+    lblIcloud: "Statut iCloud / FMI", lblCarrier: "Statut Opérateur", lblBlacklist: "Statut Liste Noire", lblMdm: "Statut MDM", lblNotes: "Notes additionnelles", lblLang: "Langue du rapport",
+    saveReportBtn: "ENREGISTRER ET GÉNÉRER", savedTitle: "RAPPORTS ENREGISTRÉS", refreshBtn: "ACTUALISER",
     thRef: "RÉFÉRENCE", thImei: "IMEI", thService: "SERVICE", thActions: "ACTIONS",
     m: {
-      imeiBad: "❌ L'IMEI doit contenir exactement 15 chiffres.",
-      imeiOk: "✅ IMEI valide (somme de contrôle correcte).",
-      imeiFail: "❌ IMEI invalide (somme de contrôle incorrecte).",
-      tac: "TAC (code type d'appareil)", orderFill: "Veuillez saisir le nom, le numéro WhatsApp et un IMEI valide de 15 chiffres.",
-      orderBad: "Somme de contrôle IMEI invalide. Vérifiez le numéro.",
-      orderOpen: "Ouverture de WhatsApp...",
-      pwNew: "Première utilisation : créez un mot de passe admin (6 caractères min.) :",
-      pwShort: "Mot de passe trop court.", pwAsk: "Entrez le mot de passe admin :", pwWrong: "Mot de passe incorrect.",
-      pwSaved: "Mot de passe admin enregistré dans ce navigateur.", pwNoCrypto: "Ce navigateur ne peut pas sécuriser le mot de passe (HTTPS requis).",
-      needLogin: "Connexion admin requise.", fillReport: "Veuillez saisir la référence et un IMEI de 15 chiffres.",
-      saved: "Rapport enregistré.", none: "Aucun rapport enregistré.", confirmDel: "Supprimer ce rapport ?",
-      view: "Voir", send: "WhatsApp", del: "Supprimer", copy: "Copier", copied: "Copié."
+      imeiBad: "❌ L'IMEI doit contenir 15 chiffres.", imeiOk: "✅ IMEI valide.", imeiFail: "❌ IMEI invalide.",
+      tac: "TAC", orderFill: "Veuillez remplir le nom, le numéro WhatsApp et un IMEI valide.", orderBad: "Somme de contrôle IMEI invalide.", orderOpen: "Ouverture de WhatsApp...",
+      pwNew: "Créez un mot de passe admin (6 caractères min.) :", pwShort: "Trop court.", pwAsk: "Entrez le mot de passe :", pwWrong: "Mot de passe incorrect.",
+      pwSaved: "Mot de passe enregistré.", needLogin: "Connexion requise.", fillReport: "Veuillez remplir la référence et un IMEI de 15 chiffres.",
+      saved: "Rapport enregistré.", none: "Aucun rapport.", confirmDel: "Supprimer ?", view: "Voir", send: "WhatsApp", del: "Supprimer", copy: "Copier", copied: "Copié."
     },
     rep: {
-      title: "GSM YASSER SERVER — RAPPORT DE VÉRIFICATION", ref: "Référence", date: "Date", cust: "Client", phone: "WhatsApp",
-      imei: "IMEI", model: "Modèle", service: "Service", icloud: "iCloud / FMI", carrier: "Opérateur",
-      bl: "Liste noire", mdm: "MDM", notes: "Notes", foot: "Les résultats sont basés sur les données disponibles au moment de la vérification."
+      title: "GSM YASSER SERVER — RAPPORT", ref: "Référence", date: "Date", cust: "Client", phone: "WhatsApp", imei: "IMEI", model: "Modèle", service: "Service", icloud: "iCloud / FMI", carrier: "Opérateur", bl: "Liste noire", mdm: "MDM", notes: "Notes", foot: "Résultats basés sur les données disponibles."
     }
   },
   ar: {
     sub: "فحص آيفون احترافي والخدمات المحمولة",
-    freeTitle: "فحص IMEI المجاني",
-    freeSub: "تحقق من رقم IMEI المكون من 15 رقماً ومن صحة المجموع الاختباري.",
+    freeTitle: "فحص IMEI المجاني", freeSub: "تحقق من رقم IMEI المكون من 15 رقماً وصحة المجموع الاختباري.",
     imeiLabel: "أدخل رقم الـ IMEI", checkBtn: "فحص الـ IMEI",
     servicesTitle: "الخدمات المتاحة",
     s1Name: "فحص أساسي", s1Desc: "تنسيق IMEI والتحقق من المجموع الاختباري.", s1Btn: "اختيار",
@@ -406,5 +339,13 @@ const i18n = {
     s4Name: "القائمة السوداء GSMA", s4Desc: "تقرير حالة القائمة السوداء.", s4Btn: "اطلب الآن",
     s5Name: "تقرير PRO الشامل", s5Desc: "تقرير شامل مع نتائج الفحص المتاحة.", s5Btn: "اطلب التقرير الشامل",
     orderTitle: "إرسال طلبك",
-    lblName: "اسم العميل", lblPhone:
+    lblName: "اسم العميل", lblPhone: "واتساب العميل", lblOrderImei: "رقم IMEI", lblService: "اختر الخدمة",
+    sendOrderBtn: "إرسال الطلب عبر واتساب",
+    adminTitle: "الإدارة", adminLoginBtn: "دخول الإدارة", adminSub: "دخول الإدارة المصرح به.",
+    dashTitle: "لوحة التحكم", logoutBtn: "تسجيل الخروج",
+    demoNote: "عرض توضيحي للواجهة الأمامية فقط. يتم تخزين التقارير في هذا المتصفح.",
+    manualTitle: "نتائج الفحص اليدوي",
+    lblRef: "مرجع التقرير", lblCustName: "اسم العميل", lblCustPhone: "واتساب العميل", lblReportImei: "رقم IMEI", lblModel: "موديل الجهاز", lblReportService: "الخدمة",
+    lblIcloud: "حالة iCloud / FMI", lblCarrier: "حالة الشبكة", lblBlacklist: "حالة القائمة السوداء", lblMdm: "حالة MDM", lblNotes: "ملاحظات إضافية", lblLang: "لغة التقرير",
+    saveReportBtn: "حفظ وإنشاء التق
     
