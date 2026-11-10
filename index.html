@@ -30,7 +30,9 @@
         }
     </script>
     <style>
-        body { font-family: 'Tajawal', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: 'Tajawal', sans-serif; }
+        /* ضمان تفاعل الأزرار باللمس على الهواتف */
+        button, select, input { touch-action: manipulation; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-slate-950 text-slate-100" id="body-container">
@@ -47,7 +49,7 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold text-white tracking-wide">GSM YASSER SERVER</h1>
-                    <p class="text-xs text-slate-400" data-i18n="tagline">Professional iPhone Check & Mobile Services</p>
+                    <p class="text-xs text-slate-400">Professional iPhone Check & Mobile Services</p>
                 </div>
             </div>
 
@@ -78,13 +80,13 @@
         <!-- IMEI Check Section -->
         <section class="rounded-3xl bg-slate-900 border border-slate-800 p-6 sm:p-10 shadow-2xl text-center relative overflow-hidden">
             <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-3" data-i18n="heroTitle">تحقق من حالة هاتفك iPhone برقم الـ IMEI</h2>
-            <p class="text-slate-400 text-sm mb-6 max-w-xl mx-auto" data-i18n="heroDesc">أدخل رقم الـ IMEI المكون من 15 خانة للتحقق من صحة التسلسل وصلاحية الجهاز مجاناً قبل تقديم الطلب.</p>
+            <p class="text-slate-400 text-sm mb-6 max-w-xl mx-auto">أدخل رقم الـ IMEI المكون من 15 خانة للتحقق من صحة التسلسل وصلاحية الجهاز مجاناً قبل تقديم الطلب.</p>
             <div class="max-w-xl mx-auto relative">
                 <input type="text" id="imei-input" maxlength="15" placeholder="أدخل رقم الـ IMEI (15 رقم)" 
                     class="w-full bg-slate-950 text-white placeholder-slate-500 rounded-2xl px-5 py-4 text-lg font-mono border-2 border-slate-800 focus:border-brand-gold focus:outline-none text-center"
                 />
                 <button type="button" id="btn-validate-imei" class="mt-3 sm:mt-0 sm:absolute sm:left-2 sm:top-2 sm:bottom-2 bg-brand-gold hover:bg-brand-goldHover text-slate-950 font-bold px-6 py-2.5 rounded-xl transition cursor-pointer shadow-md">
-                    <span data-i18n="checkBtn">فحص الآن</span>
+                    فحص الآن
                 </button>
             </div>
             <div id="imei-validation-result" class="mt-4 hidden p-4 rounded-xl border text-sm font-medium max-w-xl mx-auto"></div>
@@ -94,7 +96,7 @@
         <section class="space-y-6">
             <h3 class="text-2xl font-bold text-white flex items-center gap-2">
                 <i class="fa-solid fa-list-check text-brand-gold"></i>
-                <span data-i18n="servicesTitle">الخدمات المتاحة والأسعار</span>
+                <span>الخدمات المتاحة والأسعار</span>
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Service 1 -->
@@ -104,8 +106,8 @@
                         <p class="text-xs text-slate-400 mb-4">فحص المعلومات الأساسية للجهاز والموديل.</p>
                         <div class="text-2xl font-extrabold text-brand-gold mb-4 price-tag" data-dzd="0" data-usd="0" data-eur="0">مجاناً</div>
                     </div>
-                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-slate-950 font-semibold text-sm transition cursor-pointer flex items-center justify-center gap-2" data-service="Basic Info Check" data-price-dzd="0">
-                        <i class="fa-solid fa-cart-shopping"></i> <span data-i18n="orderNow">طلب الخدمة</span>
+                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-slate-950 font-semibold text-sm transition cursor-pointer flex items-center justify-center gap-2" data-service="Basic Info Check">
+                        <i class="fa-solid fa-cart-shopping"></i> <span>طلب الخدمة</span>
                     </button>
                 </div>
 
@@ -116,8 +118,8 @@
                         <p class="text-xs text-slate-400 mb-4">التحقق من حالة العثور على الـ iPhone (ON/OFF).</p>
                         <div class="text-2xl font-extrabold text-brand-gold mb-4 price-tag" data-dzd="400" data-usd="2" data-eur="1.8">400 DZD</div>
                     </div>
-                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-slate-950 font-semibold text-sm transition cursor-pointer flex items-center justify-center gap-2" data-service="iCloud / FMI Status Check" data-price-dzd="400">
-                        <i class="fa-solid fa-cart-shopping"></i> <span data-i18n="orderNow">طلب الخدمة</span>
+                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-slate-950 font-semibold text-sm transition cursor-pointer flex items-center justify-center gap-2" data-service="iCloud / FMI Status Check">
+                        <i class="fa-solid fa-cart-shopping"></i> <span>طلب الخدمة</span>
                     </button>
                 </div>
 
@@ -128,8 +130,8 @@
                         <p class="text-xs text-slate-400 mb-4">معرفة الشبكة الأصلية وهل الجهاز مقفل.</p>
                         <div class="text-2xl font-extrabold text-brand-gold mb-4 price-tag" data-dzd="400" data-usd="2" data-eur="1.8">400 DZD</div>
                     </div>
-                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-slate-950 font-semibold text-sm transition cursor-pointer flex items-center justify-center gap-2" data-service="Carrier & SIM Lock Check" data-price-dzd="400">
-                        <i class="fa-solid fa-cart-shopping"></i> <span data-i18n="orderNow">طلب الخدمة</span>
+                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl border border-brand-gold/40 text-brand-gold hover:bg-brand-gold hover:text-slate-950 font-semibold text-sm transition cursor-pointer flex items-center justify-center gap-2" data-service="Carrier & SIM Lock Check">
+                        <i class="fa-solid fa-cart-shopping"></i> <span>طلب الخدمة</span>
                     </button>
                 </div>
 
@@ -141,8 +143,8 @@
                         <p class="text-xs text-slate-400 mb-4">تقرير شامل (FMI, Blacklist, Carrier, Warranty).</p>
                         <div class="text-2xl font-extrabold text-brand-gold mb-4 price-tag" data-dzd="800" data-usd="4" data-eur="3.6">800 DZD</div>
                     </div>
-                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl bg-brand-gold text-slate-950 hover:bg-brand-goldHover font-bold text-sm transition cursor-pointer flex items-center justify-center gap-2 shadow-md" data-service="Full PRO Report" data-price-dzd="800">
-                        <i class="fa-solid fa-cart-shopping"></i> <span data-i18n="orderNow">طلب الخدمة</span>
+                    <button type="button" class="order-service-btn w-full py-2.5 rounded-xl bg-brand-gold text-slate-950 hover:bg-brand-goldHover font-bold text-sm transition cursor-pointer flex items-center justify-center gap-2 shadow-md" data-service="Full PRO Report">
+                        <i class="fa-solid fa-cart-shopping"></i> <span>طلب الخدمة</span>
                     </button>
                 </div>
             </div>
@@ -154,14 +156,14 @@
                 <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                     <h3 class="text-xl font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-paper-plane text-brand-cyan"></i>
-                        <span data-i18n="orderFormTitle">تقديم طلب فحص جديد</span>
+                        <span>تقديم طلب فحص جديد</span>
                     </h3>
                     <span id="selected-price-tag" class="text-lg font-bold text-brand-gold bg-slate-950 px-3 py-1 rounded-xl border border-slate-800">0 DZD</span>
                 </div>
 
                 <form id="order-form" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="labelService">الخدمة المطلوبة</label>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">الخدمة المطلوبة</label>
                         <select id="order-service" class="w-full bg-slate-950 text-white border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-brand-cyan focus:outline-none cursor-pointer">
                             <option value="Basic Info Check" data-price="0">Basic Info Check (مجاناً)</option>
                             <option value="iCloud / FMI Status Check" data-price="400">iCloud / FMI Status Check (400 DZD)</option>
@@ -170,15 +172,15 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="labelIMEI">رقم الـ IMEI الخاص بالجهاز (15 رقم)</label>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">رقم الـ IMEI الخاص بالجهاز (15 رقم)</label>
                         <input type="text" id="order-imei" maxlength="15" required placeholder="أدخل 15 رقم للـ IMEI" class="w-full bg-slate-950 text-white border border-slate-800 rounded-xl px-4 py-3 font-mono text-sm focus:border-brand-cyan focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1" data-i18n="labelContactInfo">معلومات التواصل أو رقم الهاتف</label>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">معلومات التواصل أو رقم الهاتف</label>
                         <input type="text" id="order-contact" required placeholder="+213 6XX XX XX XX" class="w-full bg-slate-950 text-white border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-brand-cyan focus:outline-none">
                     </div>
                     <button type="submit" class="w-full bg-gradient-to-r from-brand-cyan to-blue-600 hover:from-blue-500 hover:to-brand-cyan text-slate-950 font-bold py-3.5 rounded-xl shadow-lg transition cursor-pointer flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btnSubmitOrder">إرسال الطلب الآن</span>
+                        <i class="fa-solid fa-paper-plane"></i> <span>إرسال الطلب الآن</span>
                     </button>
                 </form>
             </div>
@@ -200,48 +202,7 @@
 
     <!-- JavaScript Logic -->
     <script>
-        const translations = {
-            ar: {
-                tagline: "Professional iPhone Check & Mobile Services",
-                heroTitle: "تحقق من حالة هاتفك iPhone برقم الـ IMEI",
-                heroDesc: "أدخل رقم الـ IMEI المكون من 15 خانة للتحقق من صحة التسلسل وصلاحية الجهاز مجاناً قبل تقديم الطلب.",
-                checkBtn: "فحص الآن",
-                servicesTitle: "الخدمات المتاحة والأسعار",
-                orderNow: "طلب الخدمة",
-                orderFormTitle: "تقديم طلب فحص جديد",
-                labelService: "الخدمة المطلوبة",
-                labelIMEI: "رقم الـ IMEI الخاص بالجهاز (15 رقم)",
-                labelContactInfo: "معلومات التواصل أو رقم الهاتف",
-                btnSubmitOrder: "إرسال الطلب الآن"
-            },
-            en: {
-                tagline: "Professional iPhone Check & Mobile Services",
-                heroTitle: "Check your iPhone Status via IMEI",
-                heroDesc: "Enter the 15-digit IMEI number to verify sequence validity and device status for free before ordering.",
-                checkBtn: "Check Now",
-                servicesTitle: "Available Services & Pricing",
-                orderNow: "Order Service",
-                orderFormTitle: "Submit New Service Order",
-                labelService: "Requested Service",
-                labelIMEI: "Device IMEI Number (15 digits)",
-                labelContactInfo: "Contact Information or Phone",
-                btnSubmitOrder: "Submit Order Now"
-            },
-            fr: {
-                tagline: "Professional iPhone Check & Mobile Services",
-                heroTitle: "Vérifiez votre iPhone via IMEI",
-                heroDesc: "Entrez le numéro IMEI à 15 chiffres pour vérifier la validité et l'état de l'appareil gratuitement.",
-                checkBtn: "Vérifier",
-                servicesTitle: "Services et Tarifs",
-                orderNow: "Commander",
-                orderFormTitle: "Soumettre une nouvelle commande",
-                labelService: "Service demandé",
-                labelIMEI: "Numéro IMEI (15 chiffres)",
-                labelContactInfo: "Information de contact ou Téléphone",
-                btnSubmitOrder: "Envoyer la commande"
-            }
-        };
-
+        // إشعار تفاعلي
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -255,19 +216,7 @@
             }, 3500);
         }
 
-        document.getElementById('lang-select').addEventListener('change', (e) => {
-            const lang = e.target.value;
-            document.documentElement.setAttribute('lang', lang);
-            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-            
-            const texts = translations[lang];
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (texts[key]) el.textContent = texts[key];
-            });
-            showToast(lang === 'ar' ? 'تم تغيير اللغة بنجاح' : 'Language changed successfully');
-        });
-
+        // تبديل العملات
         document.getElementById('currency-select').addEventListener('change', (e) => {
             const curr = e.target.value;
             document.querySelectorAll('.price-tag').forEach(el => {
@@ -282,6 +231,15 @@
             });
         });
 
+        // تغيير اللغات
+        document.getElementById('lang-select').addEventListener('change', (e) => {
+            const lang = e.target.value;
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            showToast(lang === 'ar' ? 'تم تغيير اللغة بنجاح' : 'Language changed successfully');
+        });
+
+        // تبديل المظهر (داكن وفاتح)
         const themeBtn = document.getElementById('btn-toggle-theme');
         const themeIcon = document.getElementById('theme-icon');
         const bodyContainer = document.getElementById('body-container');
@@ -300,6 +258,7 @@
             }
         });
 
+        // زر فحص الـ IMEI
         document.getElementById('btn-validate-imei').addEventListener('click', () => {
             const val = document.getElementById('imei-input').value.trim();
             const res = document.getElementById('imei-validation-result');
@@ -308,4 +267,39 @@
                 res.className = "mt-4 p-4 rounded-xl border text-sm font-medium bg-emerald-500/10 border-emerald-500/30 text-emerald-400 max-w-xl mx-auto";
                 res.innerHTML = `<i class="fa-solid fa-circle-check ml-2"></i> رقم الـ IMEI صالح ومقبول وفق التسلسل الصحيح.`;
             } else {
-      
+                res.className = "mt-4 p-4 rounded-xl border text-sm font-medium bg-red-500/10 border-red-500/30 text-red-400 max-w-xl mx-auto";
+                res.innerHTML = `<i class="fa-solid fa-triangle-exclamation ml-2"></i> خطأ: يجب أن يتكون رقم الـ IMEI من 15 رقمًا بدقة.`;
+            }
+        });
+
+        // أزرار طلب الخدمات في الكروت
+        document.querySelectorAll('.order-service-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const serviceName = btn.getAttribute('data-service');
+                const select = document.getElementById('order-service');
+                for (let i = 0; i < select.options.length; i++) {
+                    if (select.options[i].value === serviceName) {
+                        select.selectedIndex = i;
+                        break;
+                    }
+                }
+                document.getElementById('order-section').scrollIntoView({ behavior: 'smooth' });
+                showToast('تم اختيار الخدمة بنجاح');
+            });
+        });
+
+        // نموذج الطلب
+        document.getElementById('order-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const imei = document.getElementById('order-imei').value.trim();
+            if (imei.length !== 15) {
+                showToast('تأكد من إدخال 15 رقم للـ IMEI', 'error');
+                return;
+            }
+            showToast('تم تقديم طلبك بنجاح! سيتم التواصل معك قريباً.');
+            document.getElementById('order-form').reset();
+        });
+    </script>
+</body>
+                        </html>
+                    
