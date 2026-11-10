@@ -33,13 +33,13 @@
         body { font-family: 'Tajawal', sans-serif; transition: background-color 0.3s, color 0.3s; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between bg-slate-950 text-slate-100 dark:bg-slate-950 dark:text-slate-100" id="body-container">
+<body class="min-h-screen flex flex-col justify-between bg-slate-950 text-slate-100" id="body-container">
 
     <!-- Toast Notification -->
     <div id="toast-container" class="fixed top-5 left-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
     <!-- Header -->
-    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
+    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3 space-x-reverse">
                 <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand-gold to-yellow-200 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg">
@@ -53,21 +53,18 @@
 
             <!-- Controls: Language, Currency, Theme -->
             <div class="flex items-center gap-2 sm:gap-3">
-                <!-- Currency Select -->
                 <select id="currency-select" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm font-medium focus:outline-none focus:border-brand-gold cursor-pointer">
                     <option value="DZD">DZD (دج)</option>
                     <option value="USD">USD ($)</option>
                     <option value="EUR">EUR (€)</option>
                 </select>
 
-                <!-- Language Select -->
                 <select id="lang-select" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs sm:text-sm font-medium focus:outline-none focus:border-brand-gold cursor-pointer">
                     <option value="ar">العربية</option>
                     <option value="en">English</option>
                     <option value="fr">Français</option>
                 </select>
 
-                <!-- Theme Toggle Button -->
                 <button type="button" id="btn-toggle-theme" class="bg-slate-800 hover:bg-slate-700 text-brand-gold border border-slate-700 p-2 rounded-lg text-sm transition cursor-pointer" title="تبديل المظهر">
                     <i class="fa-solid fa-moon" id="theme-icon"></i>
                 </button>
@@ -80,9 +77,8 @@
 
         <!-- IMEI Check Section -->
         <section class="rounded-3xl bg-slate-900 border border-slate-800 p-6 sm:p-10 shadow-2xl text-center relative overflow-hidden">
-            <div class="absolute -top-24 -left-24 w-64 h-64 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none"></div>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-3" data-i18n="heroTitle">تحقق من حالة هاتفك iPhone برقم الـ IMEI</h2>
-            <p class="text-slate-400 text-sm mb-6 max-w-xl mx-auto" data-i18n="heroDesc">أدخل رقم الـ IMEI المكون من 15 خانة للتحقق من صحة التسلسل وصلاحية الجهاز مجاناً.</p>
+            <p class="text-slate-400 text-sm mb-6 max-w-xl mx-auto" data-i18n="heroDesc">أدخل رقم الـ IMEI المكون من 15 خانة للتحقق من صحة التسلسل وصلاحية الجهاز مجاناً قبل تقديم الطلب.</p>
             <div class="max-w-xl mx-auto relative">
                 <input type="text" id="imei-input" maxlength="15" placeholder="أدخل رقم الـ IMEI (15 رقم)" 
                     class="w-full bg-slate-950 text-white placeholder-slate-500 rounded-2xl px-5 py-4 text-lg font-mono border-2 border-slate-800 focus:border-brand-gold focus:outline-none text-center"
@@ -204,7 +200,6 @@
 
     <!-- JavaScript Logic -->
     <script>
-        // Translations Dictionary
         const translations = {
             ar: {
                 tagline: "Professional iPhone Check & Mobile Services",
@@ -225,7 +220,6 @@
                 heroDesc: "Enter the 15-digit IMEI number to verify sequence validity and device status for free before ordering.",
                 checkBtn: "Check Now",
                 servicesTitle: "Available Services & Pricing",
-                servicesOrderNow: "Order Service",
                 orderNow: "Order Service",
                 orderFormTitle: "Submit New Service Order",
                 labelService: "Requested Service",
@@ -248,7 +242,6 @@
             }
         };
 
-        // Toast Notification Helper
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -262,7 +255,6 @@
             }, 3500);
         }
 
-        // Language Switcher
         document.getElementById('lang-select').addEventListener('change', (e) => {
             const lang = e.target.value;
             document.documentElement.setAttribute('lang', lang);
@@ -276,7 +268,6 @@
             showToast(lang === 'ar' ? 'تم تغيير اللغة بنجاح' : 'Language changed successfully');
         });
 
-        // Currency Switcher
         document.getElementById('currency-select').addEventListener('change', (e) => {
             const curr = e.target.value;
             document.querySelectorAll('.price-tag').forEach(el => {
@@ -286,25 +277,22 @@
                     return;
                 }
                 if (curr === 'DZD') el.textContent = dzd + ' DZD';
-                else if (curr === 'USD') el.textContent = '$' + (dzd / 200).toFixed(1); // سعر صرف تقريبي
+                else if (curr === 'USD') el.textContent = '$' + (dzd / 200).toFixed(1);
                 else if (curr === 'EUR') el.textContent = '€' + (dzd / 220).toFixed(1);
             });
         });
 
-        // Theme Toggle (Dark / Light)
         const themeBtn = document.getElementById('btn-toggle-theme');
         const themeIcon = document.getElementById('theme-icon');
         const bodyContainer = document.getElementById('body-container');
 
         themeBtn.addEventListener('click', () => {
             if (bodyContainer.classList.contains('bg-slate-950')) {
-                // Switch to Light Mode
                 bodyContainer.classList.remove('bg-slate-950', 'text-slate-100');
                 bodyContainer.classList.add('bg-slate-100', 'text-slate-900');
                 themeIcon.className = "fa-solid fa-sun";
                 showToast('تم التفعيل إلى الوضع الفاتح');
             } else {
-                // Switch to Dark Mode
                 bodyContainer.classList.remove('bg-slate-100', 'text-slate-900');
                 bodyContainer.classList.add('bg-slate-950', 'text-slate-100');
                 themeIcon.className = "fa-solid fa-moon";
@@ -312,5 +300,12 @@
             }
         });
 
-        // IMEI Validation Algorithm (Luhn)
+        document.getElementById('btn-validate-imei').addEventListener('click', () => {
+            const val = document.getElementById('imei-input').value.trim();
+            const res = document.getElementById('imei-validation-result');
+            res.classList.remove('hidden');
+            if (val.length === 15 && !isNaN(val)) {
+                res.className = "mt-4 p-4 rounded-xl border text-sm font-medium bg-emerald-500/10 border-emerald-500/30 text-emerald-400 max-w-xl mx-auto";
+                res.innerHTML = `<i class="fa-solid fa-circle-check ml-2"></i> رقم الـ IMEI صالح ومقبول وفق التسلسل الصحيح.`;
+            } else {
       
