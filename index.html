@@ -209,6 +209,17 @@ html
 function نسخ(btn) {
   var text = btn.getAttribute('data-text');
   var ta = document.createElement('textarea');
+  html
+<script>
+function copyText(text, btn) {
+  alert("ضغطت على الزر");
+  var ta = document.createElement("textarea");
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand("copy");
+  document.body.removeChild(ta);
+  
   ta.value = text;
   document.body.appendChild(ta);
   ta.select();
