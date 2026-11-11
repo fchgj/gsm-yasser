@@ -204,3 +204,16 @@ function chooseService(serviceName){var sel=$("serviceType");for(var i=0;i<sel.o
 function submitOrder(){var d=t().m;var name=($("customerName").value||"").trim();var phone=($("customerPhone").value||"").trim();var imei=($("orderIMEI").value||"").trim();var service=$("serviceType").value;if(!name||!phone||imei.length!==15||!/^\d+$/.test(imei)){showBox("orderResult",'<span class="bad">'+d.orderFill+'</span>');return}if(!validateIMEI(imei)){showBox("orderResult",'<span class="bad">'+d.orderBad+'</span>');return}var price="FREE";if(service.indexOf
 html
 <button class="copy-btn" data-text="https://fchgj.github.io/gsm-yasse
+html
+<script>
+function نسخ(btn) {
+  var text = btn.getAttribute('data-text');
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  alert('تم النسخ ✓');
+}
+</script>
