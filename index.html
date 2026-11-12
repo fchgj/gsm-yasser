@@ -266,4 +266,103 @@ function toggleTheme(){
 var prices={
   DZD:{p2:"400 DZD",p3:"400 DZD",p4:"400 DZD",p5:"800 DZD"},
   USD:{p2:"$3.00",p3:"$3.00",p4:"$3.00",p5:"$6.00"},
-  EUR:{p2:"€2.80",p3:"€2.80",p4:"€
+  EUR:{p2:"€2.80",p3:"€2.80",p4:"€2.80",p5:"€5.60"}
+};
+function updatePrices(){
+  var p=prices[currentCurrency];
+  ["DZD","USD","EUR"].forEach(function(c){var b=$("c-"+c);if(b)b.classList.toggle("active",c===currentCurrency)});
+  setText("p1",{en:"FREE",fr:"GRATUIT",ar:"مجاني"}[currentLang]);
+  for(var i=2;i<=5;i++)setText("p"+i,p["p"+i]);
+}
+function setCurrency(c){currentCurrency=c;updatePrices()}
+
+function luhn(s){
+  if(!/^\d{15}$/.test(s))return false;
+  var sum=0;
+  for(var i=0;i<15;i++){var d=+s[14-i];if(i%2===1){d*=2;if(d>9)d-=9}sum+=d}
+  return sum%10===0;
+}
+function checkIMEI(){
+  var v=$("imei").value.replace(/\D/g,""),m=t().m;
+  if(v.length!==15){showBox("imeiResult",'<span class="bad">'+m.imeiBad+'</span>');return}
+  if(luhn(v))showBox("imeiResult",'<span class="good">'+m.imeiOk+'</span><br>'+m.tac+': '+v.slice(0,8));
+  else showBox("imeiResult",'<span class="bad">'+m.imeiFail+'</span>');
+}
+function chooseService(name){
+  $("serviceType").value=name;
+  $("orderSection").scrollIntoView({behavior:"smooth"});
+}
+function submitOrder(){
+  var m=t().m,n=$("customerName").value.trim(),ph=$("customerPhone").value.replace(/\D/g,""),
+      im=$("orderIMEI").value.replace(/\D/g,""),sv=$("serviceType").value;
+  if(!n||!ph||im.length!==15){showBox("orderResult",'<span class="bad">'+m.orderFill+'</span>');return}
+  if(!luhn(im)){showBox("orderResult",'<span class="bad">'+m.orderBad+'</span>');return}
+  var msg="New Order\nName: "+n+"\nWhatsApp: "+ph+"\nIMEI: "+im+"\nService: "+sv;
+  showBox("orderResult",'<span class="good">'+m.orderOpen+'</span>');
+  window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank");
+}
+
+function hash(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return String(h)}
+function adminLogin(){
+  var m=t().m,saved=load(PASS_KEY),p;
+  if(!saved){
+    p=prompt(m.pwNew);if(!p)return;
+    if(p.length<6){alert(m.pwShort);return}
+    store(PASS_KEY,hash(p));alert(m.pwSaved);
+  }else{
+    p=prompt(m.pwAsk);if(p===null)return;
+    if(hash(p)!==saved){alert(m.pwWrong);return}
+  }
+  isAdmin=true;$("adminPanel").style.display="block";showReports();
+}
+function adminLogout(){isAdmin=false;$("adminPanel").style.display="none"}
+
+function getReports(){try{return JSON.parse(load(STORAGE_KEY)||"[]")}catch(e){return[]}}
+function buildReport(r){
+  var p=i18n[r.lang||"en"].rep;
+  return p.title+"\n\n"+p.ref+": "+r.ref+"\n"+p.date+": "+r.date+"\n"+p.cust+": "+r.customer+
+  "\n"+p.phone+": "+r.phone+"\n"+p.imei+": "+r.imei+"\n"+p.model+": "+r.model+
+  "\n"+p.service+": "+r.service+"\n\n"+p.icloud+": "+r.icloud+"\n"+p.carrier+": "+r.carrier+
+  "\n"+p.bl+": "+r.blacklist+"\n"+p.mdm+": "+r.mdm+"\n"+p.notes+": "+(r.notes||"-")+"\n\n"+p.foot;
+}
+function saveReport(){
+  var m=t().m;
+  if(!isAdmin){alert(m.needLogin);return}
+  var r={ref:$("reportRef").value.trim(),customer:$("reportCustomer").value.trim(),
+    phone:$("reportPhone").value.replace(/\D/g,""),imei:$("reportIMEI").value.replace(/\D/g,""),
+    model:$("reportModel").value.trim(),service:$("reportService").value,
+    icloud:$("icloudStatus").value,carrier:$("carrierStatus").value,
+    blacklist:$("blacklistStatus").value,mdm:$("mdmStatus").value,
+    notes:$("reportNotes").value.trim(),lang:$("reportLanguage").value,
+    date:new Date().toLocaleString()};
+  if(!r.ref||r.imei.length!==15){alert(m.fillReport);return}
+  var list=getReports();list.unshift(r);
+  store(STORAGE_KEY,JSON.stringify(list));
+  showBox("adminResult",esc(buildReport(r)));
+  showReports();
+}
+function showReports(){
+  var m=t().m,list=getReports(),tb=$("reportsList");
+  if(!list.length){tb.innerHTML='<tr><td colspan="4">'+m.none+'</td></tr>';return}
+  tb.innerHTML=list.map(function(r,i){
+    return '<tr><td>'+esc(r.ref)+'</td><td>'+esc(r.imei)+'</td><td>'+esc(r.service)+'</td><td>'+
+    '<button type="button" class="mini" onclick="viewReport('+i+')">'+m.view+'</button>'+
+    '<button type="button" class="mini green" onclick="sendReport('+i+')">'+m.send+'</button>'+
+    '<button type="button" class="mini red" onclick="delReport('+i+')">'+m.del+'</button></td></tr>';
+  }).join("");
+}
+function viewReport(i){showBox("adminResult",esc(buildReport(getReports()[i])))}
+function sendReport(i){
+  var r=getReports()[i];
+  window.open("https://wa.me/"+r.phone+"?text="+encodeURIComponent(buildReport(r)),"_blank");
+}
+function delReport(i){
+  if(!confirm(t().m.confirmDel))return;
+  var l=getReports();l.splice(i,1);store(STORAGE_KEY,JSON.stringify(l));showReports();
+}
+
+if(load("gsm_theme")==="light")document.documentElement.setAttribute("data-theme","light");
+setLang("en");
+</script>
+</body>
+</html>
