@@ -7,7 +7,7 @@
 <title>GSM YASSER SERVER</title>
 <style>
 :root{--bg:#0b1420;--card:#142235;--input:#0c1827;--border:#293d54;--text:#f5f8fc;--muted:#a4b2c2;--blue:#1479ef;--green:#16a875;--red:#e34d4d;--primary:#f59e0b;}
-  [data-theme="light"]{--bg:#f1f5f9;--card:#ffffff;--input:#f8fafc;--border:#cbd5e1;--text:#0f172a;--muted:#64748b;--blue:#f59e0b;--green:#10b981;--red:#ef4444;}
+[data-theme="light"]{--bg:#f1f5f9;--card:#ffffff;--input:#f8fafc;--border:#cbd5e1;--text:#0f172a;--muted:#64748b;--blue:#f59e0b;--green:#10b981;--red:#ef4444;}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;transition:background .3s,color .3s}
 header{background:#101d2c;padding:25px 15px;text-align:center;border-bottom:1px solid var(--border)}
@@ -20,7 +20,7 @@ header p{color:var(--muted);font-size:13px}
 .ctrl-group{display:flex;gap:5px;flex-wrap:wrap}
 .ctrl-btn{background:#1a293d;color:var(--muted);border:1px solid var(--border);padding:6px 10px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:bold}
 [data-theme="light"] .ctrl-btn{background:#e2e8f0;color:#334155}
-  ctrl-btn.active{background:var(--primary);color:#0b1420;border-color:var(--primary)}
+.ctrl-btn.active{background:var(--primary);color:#0b1420;border-color:var(--primary)}
 .card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:20px;margin-bottom:18px}
 h2{font-size:19px;margin:0 0 15px}
 h3{font-size:16px}
@@ -184,47 +184,86 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 <footer>GSM YASSER SERVER © 2026 — All Rights Reserved</footer>
 
 <script>
-var WHATSAPP_NUMBER="213657241710",STORAGE_KEY="gsm_yasser_reports_v3",PASS_KEY="gsm_yasser_admin_hash_v1",currentLang="en",currentCurrency="DZD",isAdmin=false;
+var WHATSAPP_NUMBER="213657241710", STORAGE_KEY="gsm_yasser_reports_v3", PASS_KEY="gsm_yasser_admin_hash_v1", currentLang="en", currentCurrency="DZD", isAdmin=false;
 var $=function(id){return document.getElementById(id)};
 function esc(s){return String(s||"").replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function setText(id,text){var el=$(id);if(el&&text!==undefined)el.textContent=text}
 function showBox(id,html){var el=$(id);el.innerHTML=html;el.style.display="block"}
 function store(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}}
 function load(k){try{return localStorage.getItem(k)}catch(e){return null}}
-var i18n={en:{sub:"Professional iPhone Check & Mobile Services",freeTitle:"FREE IMEI CHECK",freeSub:"Validate the 15-digit IMEI number and its checksum.",imeiLabel:"Enter IMEI Number",checkBtn:"CHECK IMEI",servicesTitle:"AVAILABLE SERVICES",s1Name:"Basic Check",s1Desc:"IMEI format and checksum validation.",s1Btn:"SELECT",s2Name:"iCloud / FMI Check",s2Desc:"Manual iCloud status report.",s2Btn:"ORDER NOW",s3Name:"Carrier Check",s3Desc:"Carrier and SIM lock status.",s3Btn:"ORDER NOW",s4Name:"Blacklist GSMA",s4Desc:"Blacklist status report.",s4Btn:"ORDER NOW",s5Name:"Full PRO Report",s5Desc:"Comprehensive report.",s5Btn:"ORDER FULL REPORT",orderTitle:"SUBMIT YOUR ORDER",lblName:"Customer Name",lblPhone:"Customer WhatsApp",lblOrderImei:"IMEI Number",lblService:"Select Service",sendOrderBtn:"SEND ORDER VIA WHATSAPP",adminTitle:"ADMINISTRATION",adminLoginBtn:"ADMIN LOGIN",adminSub:"Authorized access.",dashTitle:"ADMIN DASHBOARD",logoutBtn:"LOG OUT",demoNote:"Reports are stored locally.",manualTitle:"MANUAL CHECK RESULTS",lblRef:"Report Reference",lblCustName:"Customer Name",lblCustPhone:"Customer WhatsApp",lblReportImei:"IMEI Number",lblModel:"Device Model",lblReportService:"Service",lblIcloud:"iCloud / FMI Status",lblCarrier:"Carrier Status",lblBlacklist:"Blacklist Status",lblMdm:"MDM Status",lblNotes:"Notes",lblLang:"Report Language",saveReportBtn:"SAVE AND GENERATE REPORT",savedTitle:"SAVED REPORTS",refreshBtn:"REFRESH",thRef:"REFERENCE",thImei:"IMEI",thService:"SERVICE",thActions:"ACTIONS",m:{imeiBad:"❌ IMEI must be 15 digits.",imeiOk:"✅ Valid IMEI.",imeiFail:"❌ Invalid IMEI checksum.",tac:"TAC",orderFill:"Please fill name, WhatsApp and valid IMEI.",orderBad:"Invalid IMEI checksum.",orderOpen:"Opening WhatsApp...",pwNew:"Create admin password (min 6 chars):",pwShort:"Too short.",pwAsk:"Enter admin password:",pwWrong:"Wrong password.",pwSaved:"Password saved.",needLogin:"Login required.",fillReport:"Fill reference and 15-digit IMEI.",saved:"Report saved.",none:"No reports.",confirmDel:"Delete?",view:"View",send:"WhatsApp",del:"Delete"},rep:{title:"GSM YASSER SERVER — REPORT",ref:"Ref",date:"Date",cust:"Customer",phone:"WhatsApp",imei:"IMEI",model:"Model",service:"Service",icloud:"iCloud",carrier:"Carrier",bl:"Blacklist",mdm:"MDM",notes:"Notes",foot:"Results based on available data."}},fr:{sub:"Services professionnels iPhone",freeTitle:"VÉRIFICATION IMEI GRATUITE",freeSub:"Validez le numéro IMEI.",imeiLabel:"Entrez l'IMEI",checkBtn:"VÉRIFIER",servicesTitle:"SERVICES",s1Name:"Base",s1Desc:"Validation IMEI.",s1Btn:"SÉLECTIONNER",s2Name:"iCloud / FMI",s2Desc:"Rapport iCloud.",s2Btn:"COMMANDER",s3Name:"Opérateur",s3Desc:"Statut SIM.",s3Btn:"COMMANDER",s4Name:"Liste Noire",s4Desc:"Statut liste noire.",s4Btn:"COMMANDER",s5Name:"Rapport PRO",s5Desc:"Complet.",s5Btn:"COMMANDER",orderTitle:"COMMANDE",lblName:"Nom",lblPhone:"WhatsApp",lblOrderImei:"IMEI",lblService:"Service",sendOrderBtn:"ENVOYER VIA WHATSAPP",adminTitle:"ADMINISTRATION",adminLoginBtn:"CONNEXION",adminSub:"Accès autorisé.",dashTitle:"TABLEAU DE BORD",logoutBtn:"DÉCONNEXION",demoNote:"Stockage local.",manualTitle:"RÉSULTATS",lblRef:"Référence",lblCustName:"Client",lblCustPhone:"WhatsApp",lblReportImei:"IMEI",lblModel:"Modèle",lblReportService:"Service",lblIcloud:"iCloud",lblCarrier:"Opérateur",lblBlacklist:"Liste Noire",lblMdm:"MDM",lblNotes:"Notes",lblLang:"Langue",saveReportBtn:"ENREGISTRER",savedTitle:"RAPPORTS",refreshBtn:"ACTUALISER",thRef:"RÉFÉRENCE",thImei:"IMEI",thService:"SERVICE",thActions:"ACTIONS",m:{imeiBad:"❌ 15 chiffres.",imeiOk:"✅ Valide.",imeiFail:"❌ Invalide.",tac:"TAC",orderFill:"Remplissez les champs.",orderBad:"IMEI invalide.",orderOpen:"Ouverture WhatsApp...",pwNew:"Mot de passe (6 car.) :",pwShort:"Trop court.",pwAsk:"Mot de passe :",pwWrong:"Incorrect.",pwSaved:"Enregistré.",needLogin:"Connexion requise.",fillReport:"Remplissez ref et IMEI.",saved:"Enregistré.",none:"Aucun.",confirmDel:"Supprimer ?",view:"Voir",send:"WhatsApp",del:"Supprimer"},rep:{title:"GSM YASSER SERVER — RAPPORT",ref:"Réf",date:"Date",cust:"Client",phone:"WhatsApp",imei:"IMEI",model:"Modèle",service:"Service",icloud:"iCloud",carrier:"Opérateur",bl:"Liste Noire",mdm:"MDM",notes:"Notes",foot:"Résultats disponibles."}},ar:{sub:"فحص آيفون احترافي",freeTitle:"فحص IMEI المجاني",freeSub:"تحقق من رقم IMEI.",imeiLabel:"أدخل IMEI",checkBtn:"فحص",servicesTitle:"الخدمات",s1Name:"أساسي",s1Desc:"التحقق من IMEI.",s1Btn:"اختيار",s2Name:"iCloud / FMI",s2Desc:"تقرير آيكلاود.",s2Btn:"اطلب",s3Name:"الشبكة",s3Desc:"حالة القفل.",s3Btn:"اطلب",s4Name:"القائمة السوداء",s4Desc:"حالة الحظر.",s4Btn:"اطلب",s5Name:"تقرير شامل",s5Desc:"تقرير كامل.",s5Btn:"اطلب",orderTitle:"إرسال الطلب",lblName:"الاسم",lblPhone:"واتساب",lblOrderImei:"IMEI",lblService:"الخدمة",sendOrderBtn:"إرسال عبر واتساب",adminTitle:"الإدارة",adminLoginBtn:"دخول",adminSub:"دخول مصرح.",dashTitle:"لوحة التحكم",logoutBtn:"خروج",demoNote:"تخزين محلي.",manualTitle:"النتائج اليدوية",lblRef:"المرجع",lblCustName:"العميل",lblCustPhone:"واتساب",lblReportImei:"IMEI",lblModel:"الموديل",lblReportService:"الخدمة",lblIcloud:"آيكلاود",lblCarrier:"الشبكة",lblBlacklist:"القائمة السوداء",lblMdm:"MDM",lblNotes:"ملاحظات",lblLang:"اللغة",saveReportBtn:"حفظ وإنشاء",savedTitle:"التقارير",refreshBtn:"تحديث",thRef:"المرجع",thImei:"IMEI",thService:"الخدمة",thActions:"إجراءات",m:{imeiBad:"❌ 15 رقماً.",imeiOk:"✅ صالح.",imeiFail:"❌ غير صالح.",tac:"TAC",orderFill:"املأ الحقول.",orderBad:"IMEI غير صالح.",orderOpen:"جاري فتح واتساب...",pwNew:"كلمة مرور (6 أحرف):",pwShort:"قصيرة.",pwAsk:"كلمة المرور:",pwWrong:"خاطئة.",pwSaved:"تم الحفظ.",needLogin:"سجل الدخول.",fillReport:"املأ المرجع و IMEI.",saved:"تم الحفظ.",none:"لا توجد.",confirmDel:"حذف؟",view:"عرض",send:"واتساب",del:"حذف"},rep:{title:"GSM YASSER SERVER — تقرير",ref:"المرجع",date:"التاريخ",cust:"العميل",phone:"واتساب",imei:"IMEI",model:"الموديل",service:"الخدمة",icloud:"آيكلاود",carrier:"الشبكة",bl:"القائمة السوداء",mdm:"MDM",notes:"ملاحظات",foot:"النتائج حسب البيانات."}}};
+
+var i18n={
+  en:{sub:"Professional iPhone Check & Mobile Services",freeTitle:"FREE IMEI CHECK",freeSub:"Validate the 15-digit IMEI number and its checksum.",imeiLabel:"Enter IMEI Number",checkBtn:"CHECK IMEI",servicesTitle:"AVAILABLE SERVICES",s1Name:"Basic Check",s1Desc:"IMEI format and checksum validation.",s1Btn:"SELECT",s2Name:"iCloud / FMI Check",s2Desc:"Manual iCloud status report.",s2Btn:"ORDER NOW",s3Name:"Carrier Check",s3Desc:"Carrier and SIM lock status.",s3Btn:"ORDER NOW",s4Name:"Blacklist GSMA",s4Desc:"Blacklist status report.",s4Btn:"ORDER NOW",s5Name:"Full PRO Report",s5Desc:"Comprehensive report.",s5Btn:"ORDER FULL REPORT",orderTitle:"SUBMIT YOUR ORDER",lblName:"Customer Name",lblPhone:"Customer WhatsApp",lblOrderImei:"IMEI Number",lblService:"Select Service",sendOrderBtn:"SEND ORDER VIA WHATSAPP",adminTitle:"ADMINISTRATION",adminLoginBtn:"ADMIN LOGIN",adminSub:"Authorized access.",dashTitle:"ADMIN DASHBOARD",logoutBtn:"LOG OUT",demoNote:"Reports are stored locally.",manualTitle:"MANUAL CHECK RESULTS",lblRef:"Report Reference",lblCustName:"Customer Name",lblCustPhone:"Customer WhatsApp",lblReportImei:"IMEI Number",lblModel:"Device Model",lblReportService:"Service",lblIcloud:"iCloud / FMI Status",lblCarrier:"Carrier Status",lblBlacklist:"Blacklist Status",lblMdm:"MDM Status",lblNotes:"Notes",lblLang:"Report Language",saveReportBtn:"SAVE AND GENERATE REPORT",savedTitle:"SAVED REPORTS",refreshBtn:"REFRESH",thRef:"REFERENCE",thImei:"IMEI",thService:"SERVICE",thActions:"ACTIONS",m:{imeiBad:"❌ IMEI must be 15 digits.",imeiOk:"✅ Valid IMEI.",imeiFail:"❌ Invalid IMEI checksum.",tac:"TAC",orderFill:"Please fill name, WhatsApp and valid IMEI.",orderBad:"Invalid IMEI checksum.",orderOpen:"Opening WhatsApp...",pwNew:"Create admin password (min 6 chars):",pwShort:"Too short.",pwAsk:"Enter admin password:",pwWrong:"Wrong password.",pwSaved:"Password saved.",needLogin:"Login required.",fillReport:"Fill reference and 15-digit IMEI.",saved:"Report saved.",none:"No reports.",confirmDel:"Delete?",view:"View",send:"WhatsApp",del:"Delete"},rep:{title:"GSM YASSER SERVER — REPORT",ref:"Ref",date:"Date",cust:"Customer",phone:"WhatsApp",imei:"IMEI",model:"Model",service:"Service",icloud:"iCloud",carrier:"Carrier",bl:"Blacklist",mdm:"MDM",notes:"Notes",foot:"Results based on available data."}},
+  fr:{sub:"Services professionnels iPhone",freeTitle:"VÉRIFICATION IMEI GRATUITE",freeSub:"Validez le numéro IMEI.",imeiLabel:"Entrez l'IMEI",checkBtn:"VÉRIFIER",servicesTitle:"SERVICES",s1Name:"Base",s1Desc:"Validation IMEI.",s1Btn:"SÉLECTIONNER",s2Name:"iCloud / FMI",s2Desc:"Rapport iCloud.",s2Btn:"COMMANDER",s3Name:"Opérateur",s3Desc:"Statut SIM.",s3Btn:"COMMANDER",s4Name:"Liste Noire",s4Desc:"Statut liste noire.",s4Btn:"COMMANDER",s5Name:"Rapport PRO",s5Desc:"Complet.",s5Btn:"COMMANDER",orderTitle:"COMMANDE",lblName:"Nom",lblPhone:"WhatsApp",lblOrderImei:"IMEI",lblService:"Service",sendOrderBtn:"ENVOYER VIA WHATSAPP",adminTitle:"ADMINISTRATION",adminLoginBtn:"CONNEXION",adminSub:"Accès autorisé.",dashTitle:"TABLEAU DE BORD",logoutBtn:"DÉCONNEXION",demoNote:"Stockage local.",manualTitle:"RÉSULTATS",lblRef:"Référence",lblCustName:"Client",lblCustPhone:"WhatsApp",lblReportImei:"IMEI",lblModel:"Modèle",lblReportService:"Service",lblIcloud:"iCloud",lblCarrier:"Opérateur",lblBlacklist:"Liste Noire",lblMdm:"MDM",lblNotes:"Notes",lblLang:"Langue",saveReportBtn:"ENREGISTRER",savedTitle:"RAPPORTS",refreshBtn:"ACTUALISER",thRef:"RÉFÉRENCE",thImei:"IMEI",thService:"SERVICE",thActions:"ACTIONS",m:{imeiBad:"❌ 15 chiffres.",imeiOk:"✅ Valide.",imeiFail:"❌ Invalide.",tac:"TAC",orderFill:"Remplissez les champs.",orderBad:"IMEI invalide.",orderOpen:"Ouverture WhatsApp...",pwNew:"Mot de passe (6 car.) :",pwShort:"Trop court.",pwAsk:"Mot de passe :",pwWrong:"Incorrect.",pwSaved:"Enregistré.",needLogin:"Connexion requise.",fillReport:"Remplissez ref et IMEI.",saved:"Enregistré.",none:"Aucun.",confirmDel:"Supprimer ?",view:"Voir",send:"WhatsApp",del:"Supprimer"},rep:{title:"GSM YASSER SERVER — RAPPORT",ref:"Réf",date:"Date",cust:"Client",phone:"WhatsApp",imei:"IMEI",model:"Modèle",service:"Service",icloud:"iCloud",carrier:"Opérateur",bl:"Liste Noire",mdm:"MDM",notes:"Notes",foot:"Résultats disponibles."}},
+  ar:{sub:"فحص آيفون احترافي",freeTitle:"فحص IMEI المجاني",freeSub:"تحقق من رقم IMEI.",imeiLabel:"أدخل IMEI",checkBtn:"فحص",servicesTitle:"الخدمات",s1Name:"أساسي",s1Desc:"التحقق من IMEI.",s1Btn:"اختيار",s2Name:"iCloud / FMI",s2Desc:"تقرير آيكلاود.",s2Btn:"اطلب",s3Name:"الشبكة",s3Desc:"حالة القفل.",s3Btn:"اطلب",s4Name:"القائمة السوداء",s4Desc:"حالة الحظر.",s4Btn:"اطلب",s5Name:"تقرير شامل",s5Desc:"تقرير كامل.",s5Btn:"اطلب",orderTitle:"إرسال الطلب",lblName:"الاسم",lblPhone:"واتساب",lblOrderImei:"IMEI",lblService:"الخدمة",sendOrderBtn:"إرسال عبر واتساب",adminTitle:"الإدارة",adminLoginBtn:"دخول",adminSub:"دخول مصرح.",dashTitle:"لوحة التحكم",logoutBtn:"خروج",demoNote:"تخزين محلي.",manualTitle:"النتائج اليدوية",lblRef:"المرجع",lblCustName:"العميل",lblCustPhone:"واتساب",lblReportImei:"IMEI",lblModel:"الموديل",lblReportService:"الخدمة",lblIcloud:"آيكلاود",lblCarrier:"الشبكة",lblBlacklist:"القائمة السوداء",lblMdm:"MDM",lblNotes:"ملاحظات",lblLang:"اللغة",saveReportBtn:"حفظ وإنشاء",savedTitle:"التقارير",refreshBtn:"تحديث",thRef:"المرجع",thImei:"IMEI",thService:"الخدمة",thActions:"إجراءات",m:{imeiBad:"❌ 15 رقماً.",imeiOk:"✅ صالح.",imeiFail:"❌ غير صالح.",tac:"TAC",orderFill:"املأ الحقول.",orderBad:"IMEI غير صالح.",orderOpen:"جاري فتح واتساب...",pwNew:"كلمة مرور (6 أحرف):",pwShort:"قصيرة.",pwAsk:"كلمة المرور:",pwWrong:"خاطئة.",pwSaved:"تم الحفظ.",needLogin:"سجل الدخول.",fillReport:"املأ المرجع و IMEI.",saved:"تم الحفظ.",none:"لا توجد.",confirmDel:"حذف؟",view:"عرض",send:"واتساب",del:"حذف"},rep:{title:"GSM YASSER SERVER — تقرير",ref:"المرجع",date:"التاريخ",cust:"العميل",phone:"واتساب",imei:"IMEI",model:"الموديل",service:"الخدمة",icloud:"آيكلاود",carrier:"الشبكة",bl:"القائمة السوداء",mdm:"MDM",notes:"ملاحظات",foot:"النتائج حسب البيانات."}}
+};
+
 function t(){return i18n[currentLang]}
-function setLang(lang){currentLang=lang;document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";["en","fr","ar"].forEach(function(l){var b=$("l-"+l);if(b)b.classList.toggle("active",l===lang)});var d=t();setText("headerSub",d.sub);setText("txtFreeTitle",d.freeTitle);setText("txtFreeSub",d.freeSub);setText("txtImeiLabel",d.imeiLabel);setText("txtCheckBtn",d.checkBtn);setText("txtServicesTitle",d.servicesTitle);for(var i=1;i<=5;i++){setText("s"+i+"Name",d["s"+i+"Name"]);setText("s"+i+"Desc",d["s"+i+"Desc"]);setText("s"+i+"Btn",d["s"+i+"Btn"])}setText("txtOrderTitle",d.orderTitle);setText("txtLblName",d.lblName);setText("txtLblPhone",d.lblPhone);setText("txtLblOrderImei",d.lblOrderImei);setText("txtLblService",d.lblService);setText("txtSendOrderBtn",d.sendOrderBtn);setText("txtAdminTitle",d.adminTitle);setText("txtAdminLoginBtn",d.adminLoginBtn);setText("txtAdminSub",d.adminSub);setText("txtDashTitle",d.dashTitle);setText("txtLogoutBtn",d.logoutBtn);setText("txtDemoNote",d.demoNote);setText("txtManualTitle",d.manualTitle);setText("txtLblRef",d.lblRef);setText("txtLblCustName",d.lblCustName);setText("txtLblCustPhone",d.lblCustPhone);setText("txtLblReportImei",d.lblReportImei);setText("txtLblModel",d.lblModel);setText("txtLblReportService",d.lblReportService);setText("txtLblIcloud",d.lblIcloud);setText("txtLblCarrier",d.lblCarrier);setText("txtLblBlacklist",d.lblBlacklist);setText("txtLblMdm",d.lblMdm);setText("txtLblNotes",d.lblNotes);setText("txtLblLang",d.lblLang);setText("txtSaveReportBtn",d.saveReportBtn);setText("txtSavedTitle",d.savedTitle);setText("txtRefreshBtn",d.refreshBtn);setText("thRef",d.thRef);setText("thImei",d.thImei);setText("thService",d.thService);setText("thActions",d.thActions);updatePrices()}
-function toggleTheme(){var cur=document.documentElement.getAttribute("data-theme");if(cur==="light"){document.documentElement.removeAttribute("data-theme");store("gsm_theme","dark")}else{document.documentElement.setAttribute("data-theme","light");store("gsm_theme","light")}}
-var prices={DZD:{p2:"400 DZD",p3:"400 DZD",p4:"400 DZD",p5:"800 DZD"},USD:{p2:"$3.00",p3:"$3.00",p4:"$3.00",p5:"$6.00"},EUR:{p2:"€2.80",p3:"€2.80",p4:"€2.80",p5:"€5.50"}};
-function setCurrency(cur){currentCurrency=cur;["DZD","USD","EUR"].forEach(function(c){var b=$("c-"+c);if(b)b.classList.toggle("active",c===cur)});updatePrices()}
-function updatePrices(){var p=prices[cfunction updatePrices(){var p=prices[currentCurrency];for(var i=2;i<=5;i++){setText("p"+i,p["p"+i])}}
-function validateIMEI(imei){if(!/^\d{15}$/.test(imei))return false;var sum=0;for(var i=0;i<14;i++){var digit=parseInt(imei[i],10);if(i%2===1){digit*=2;if(digit>9)digit-=9}sum+=digit}return((10-(sum%10))%10)===parseInt(imei[14],10)}
-function checkIMEI(){var d=t().m;var imei=($("imei").value||"").trim();if(imei.length!==15||!/^\d+$/.test(imei)){showBox("imeiResult",'<span class="bad">'+d.imeiBad+'</span>');return}if(validateIMEI(imei)){showBox("imeiResult",'<span class="good">'+d.imeiOk+'</span><br><br>'+d.tac+': <strong>'+imei.substring(0,8)+'</strong>')}else{showBox("imeiResult",'<span class="bad">'+d.imeiFail+'</span>')}}
-function chooseService(serviceName){var sel=$("serviceType");for(var i=0;i<sel.options.length;i++){if(sel.options[i].text===serviceName){sel.selectedIndex=i;break}}$("orderSection").scrollIntoView({behavior:"smooth"})}
-function submitOrder(){var d=t().m;var name=($("customerName").value||"").trim();var phone=($("customerPhone").value||"").trim();var imei=($("orderIMEI").value||"").trim();var service=$("serviceType").value;if(!name||!phone||imei.length!==15||!/^\d+$/.test(imei)){showBox("orderResult",'<span class="bad">'+d.orderFill+'</span>');return}if(!validateIMEI(imei)){showBox("orderResult",'<span class="bad">'+d.orderBad+'</span>');return}var price="FREE";if(service.indexOf
-html
-<button class="copy-btn" data-text="https://fchgj.github.io/gsm-yasse
-html
-<script>
-function نسخ(btn) {
-  var text = btn.getAttribute('data-text');
-  var ta = document.createElement('textarea');
-  html
-<script>
-function copyText(text, btn) {
-  alert("ضغطت على الزر");
-  var ta = document.createElement("textarea");
-  ta.value = text;
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand("copy");
-  document.body.removeChild(ta);
-  
-  ta.value = text;
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand('copy');
-  document.body.removeChild(ta);
-  alert('تم النسخ ✓');
+
+function setLang(lang){
+  currentLang=lang;
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+  ["en","fr","ar"].forEach(function(l){var b=$("l-"+l);if(b)b.classList.toggle("active",l===lang)});
+  var d=t();
+  setText("headerSub",d.sub);
+  setText("txtFreeTitle",d.freeTitle);
+  setText("txtFreeSub",d.freeSub);
+  setText("txtImeiLabel",d.imeiLabel);
+  setText("txtCheckBtn",d.checkBtn);
+  setText("txtServicesTitle",d.servicesTitle);
+  for(var i=1;i<=5;i++){
+    setText("s"+i+"Name",d["s"+i+"Name"]);
+    setText("s"+i+"Desc",d["s"+i+"Desc"]);
+    setText("s"+i+"Btn",d["s"+i+"Btn"]);
+  }
+  setText("txtOrderTitle",d.orderTitle);
+  setText("txtLblName",d.lblName);
+  setText("txtLblPhone",d.lblPhone);
+  setText("txtLblOrderImei",d.lblOrderImei);
+  setText("txtLblService",d.lblService);
+  setText("txtSendOrderBtn",d.sendOrderBtn);
+  setText("txtAdminTitle",d.adminTitle);
+  setText("txtAdminLoginBtn",d.adminLoginBtn);
+  setText("txtAdminSub",d.adminSub);
+  setText("txtDashTitle",d.dashTitle);
+  setText("txtLogoutBtn",d.logoutBtn);
+  setText("txtDemoNote",d.demoNote);
+  setText("txtManualTitle",d.manualTitle);
+  setText("txtLblRef",d.lblRef);
+  setText("txtLblCustName",d.lblCustName);
+  setText("txtLblCustPhone",d.lblCustPhone);
+  setText("txtLblReportImei",d.lblReportImei);
+  setText("txtLblModel",d.lblModel);
+  setText("txtLblReportService",d.lblReportService);
+  setText("txtLblIcloud",d.lblIcloud);
+  setText("txtLblCarrier",d.lblCarrier);
+  setText("txtLblBlacklist",d.lblBlacklist);
+  setText("txtLblMdm",d.lblMdm);
+  setText("txtLblNotes",d.lblNotes);
+  setText("txtLblLang",d.lblLang);
+  setText("txtSaveReportBtn",d.saveReportBtn);
+  setText("txtSavedTitle",d.savedTitle);
+  setText("txtRefreshBtn",d.refreshBtn);
+  setText("thRef",d.thRef);
+  setText("thImei",d.thImei);
+  setText("thService",d.thService);
+  setText("thActions",d.thActions);
+  updatePrices();
 }
-</script>
+
+function toggleTheme(){
+  var cur=document.documentElement.getAttribute("data-theme");
+  if(cur==="light"){
+    document.documentElement.removeAttribute("data-theme");
+    store("gsm_theme","dark");
+  }else{
+    document.documentElement.setAttribute("data-theme","light");
+    store("gsm_theme","light");
+  }
+}
+
+var prices={
+  DZD:{p2:"400 DZD",p3:"400 DZD",p4:"400 DZD",p5:"800 DZD"},
+  USD:{p2:"$3.00",p3:"$3.00",p4:"$3.00",p5:"$6.00"},
+  EUR:{p2:"€2.80",p3:"€2.80",p4:"€
