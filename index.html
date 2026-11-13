@@ -1,269 +1,232 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSM YASSER - iPhone Checker</title>
+    <title>GSM Yasser Server - Professional iPhone Check & Mobile Services</title>
     <style>
-        :root{ --bg:#0a1628;--bg2:rgba(255,255,255,.05);--card:rgba(255,255,255,.04);--ink:#ffffff;--muted:rgba(255,255,255,.6);--line:rgba(255,255,255,.1); --gold:#fbbf24;--gold2:#f59e0b;--gold-ink:#1a1204;--green:#10b981;--green2:#059669;--ok:#4ade80;--bad:#ff8a80; --glow:rgba(251,191,36,.14);--glow2:rgba(6,182,212,.13);--glow3:rgba(26,10,46,.85);--pill:rgba(10,22,40,.85); box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark; }
-        :root[data-theme="light"]{ --bg:#f6f4ee;--bg2:#efeadd;--card:#ffffff;--ink:#0a1628;--muted:#5b6678;--line:#dcd8cc; --gold:#b7791f;--ok:#0f7a4f;--bad:#b42318;--glow:rgba(251,191,36,.2);--glow2:rgba(6,182,212,.12);--glow3:transparent;--pill:#ffffff;color-scheme:light; }
-        html{scroll-padding-top:env(safe-area-inset-top,0px)}
-        *{box-sizing:border-box}
-        body{margin:0;color:var(--ink);font-family:'Inter','Tajawal',system-ui,sans-serif;font-weight:500;font-size:14px;line-height:1.5; background:radial-gradient(800px 400px at 10% 0,var(--glow),transparent 60%),radial-gradient(600px 400px at 90% 20%,var(--glow2),transparent 60%),radial-gradient(700px 500px at 50% 100%,var(--glow3),transparent 70%),var(--bg);min-height:100vh}
-        .wrap{max-width:640px;margin:0 auto;padding:12px 14px 30px;zoom:.74}
-        .top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line)}
-        .brand{font-weight:800;font-size:17px}.brand b{color:var(--gold)}
-        .ctl{display:flex;gap:8px;align-items:center}
-        .seg{display:flex;background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px}
-        .curbar{display:flex;justify-content:center;margin-top:12px}
-        .seg button{border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;cursor:pointer}
-        .seg button[aria-pressed="true"]{background:var(--gold);color:var(--gold-ink)}
-        .theme,.settings-btn{width:34px;height:34px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-size:16px;cursor:pointer;display:grid;place-items:center}
-        .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:12px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-        .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-        .lbl{font-weight:800;font-size:13px;color:var(--muted)}
-        .pill{background:var(--bg2);border-radius:999px;padding:3px 10px;font-size:12px;color:var(--muted);direction:ltr}
-        .field{display:flex;align-items:center;gap:10px;margin-top:12px;background:var(--pill);border:1.5px solid var(--line);border-radius:999px;padding:6px 8px 6px 16px}
-        .field:focus-within{border-color:var(--gold)}
-        .field input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:15px;letter-spacing:.05em;padding:8px 0;outline:none;direction:ltr;text-align:left}
-        .status{min-height:20px;margin-top:8px;font-weight:700;font-size:13px}
-        .ok{color:var(--ok)}.bad{color:var(--bad)}
-        .free{border:2px solid var(--ink);border-color:color-mix(in srgb,var(--ink) 80%,transparent);box-shadow:0 0 40px rgba(16,185,129,.08)}
-        .free .head{display:flex;align-items:flex-start;gap:12px}
-        .fico{width:40px;height:40px;flex:none;border-radius:999px;background:var(--green);color:#fff;font-weight:800;font-size:18px;display:grid;place-items:center}
-        .free h3{margin:0;font-size:15px;line-height:1.3}
-        .free p{margin:2px 0 0;color:var(--muted);font-size:12px}
-        .badge{margin-inline-start:auto;flex:none;background:var(--gold);color:var(--gold-ink);font-weight:800;font-size:11px;border-radius:999px;padding:4px 10px}
-        .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:12px;border:0;border-radius:999px;padding:11px;font:inherit;font-weight:800;font-size:14px;cursor:pointer;text-decoration:none}
-        .btn.g{background:linear-gradient(90deg,var(--green),var(--green2));color:#fff;box-shadow:0 10px 26px rgba(16,185,129,.28)}
-        .btn.y{background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--gold-ink)}
-        .res{margin-top:10px;font-size:12px;color:var(--muted);background:var(--bg2);border-radius:14px;padding:10px 14px}
-        .res b{display:block;font-size:14px;margin-bottom:2px}
-        .div{display:flex;align-items:center;gap:12px;margin:22px 0 0;color:var(--gold);font-weight:800;font-size:13px}
-        .div::before,.div::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5}
-        .svc .price{font-size:16px;font-weight:800;color:var(--gold);line-height:1}
-        .svc .price small{font-size:11px;font-weight:700;margin-inline-start:4px}
-        .svc h3{margin:10px 0 2px;font-size:15px}
-        .svc p{margin:0;color:var(--muted);font-size:12px}
-        .svc.pro{border:2px solid var(--gold)}
-        .steps{color:var(--muted);font-size:12px;margin:14px 0 0;padding-inline-start:20px}
-        footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
-        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .2s ease}
-        .modal-overlay.active{opacity:1;pointer-events:all}
-        .modal{background:var(--bg);border:1px solid var(--line);border-radius:24px;padding:20px;width:90%;max-width:440px;box-shadow:0 20px 40px rgba(0,0,0,0.5)}
-        .modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
-        .modal-title{font-size:16px;font-weight:800;color:var(--gold)}
-        .modal-close{border:0;background:transparent;color:var(--muted);font-size:20px;cursor:pointer}
-        .form-group{margin-bottom:14px}
-        .form-group label{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:var(--muted)}
-        .form-group input{width:100%;background:var(--pill);border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--ink);font:inherit;font-size:13px;outline:none}
-        .form-group input:focus{border-color:var(--gold)}
-        .api-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-inline-start:6px}
-        .api-badge.linked{background:rgba(16,185,129,0.15);color:var(--ok)}
-        .api-badge.unlinked{background:rgba(255,138,128,0.15);color:var(--bad)}
+        /* Basic reset and dark theme styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #58a6ff;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        p.subtitle {
+            color: #8b949e;
+            font-size: 14px;
+        }
+        .section-title {
+            font-size: 18px;
+            color: #f0f6fc;
+            margin: 20px 0 10px 0;
+        }
+        .card-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 15px;
+            flex: 1;
+            min-width: 200px;
+        }
+        .card h3 {
+            font-size: 16px;
+            color: #58a6ff;
+            margin-bottom: 8px;
+        }
+        .card p {
+            font-size: 13px;
+            color: #8b949e;
+            margin-bottom: 12px;
+        }
+        .btn {
+            background-color: #238636;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #2ea043;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: #8b949e;
+            margin-bottom: 5px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #c9d1d9;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: #8b949e;
+            border-top: 1px solid #30363d;
+            padding-top: 15px;
+        }
     </style>
 </head>
 <body>
-<div class="wrap">
-    <div class="top">
-        <div class="brand">GSM YASSER <b>SERVER</b></div>
-        <div class="ctl">
-            <button class="settings-btn" id="open-settings" title="Settings">⚙️</button>
-            <button class="theme" id="theme-toggle" title="Toggle Theme">🌙</button>
-        </div>
-    </div>
 
-    <!-- Language & Currency Selectors -->
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; flex-wrap:wrap; gap:8px;">
-        <div class="seg">
-            <button data-l="ar" aria-pressed="true">العربية</button>
-            <button data-l="fr">Français</button>
-            <button data-l="en">EN</button>
-        </div>
-        <div class="seg cs">
-            <button data-c="DZD" aria-pressed="true">DZD</button>
-            <button data-c="USD">USD $</button>
-            <button data-c="EUR">EUR €</button>
-        </div>
-    </div>
+    <header>
+        <h1>GSM YASSER SERVER</h1>
+        <p class="subtitle">Professional iPhone Check & Mobile Services</p>
+    </header>
 
-    <!-- IMEI Input Card -->
-    <div class="card">
-        <div class="row">
-            <span class="lbl" data-i="lbl">الرقم التسلسلي / IMEI</span>
-            <span class="pill" id="cnt">0/15</span>
-        </div>
-        <div class="field">
-            <input type="tel" id="imei" maxlength="15" placeholder="35xxxxxxxxxxxxx" autocomplete="off">
-            <span id="api-status-badge" class="api-badge unlinked">غير مربوط ⚠️</span>
-        </div>
-        <div class="status" id="st"></div>
-    </div>
-
-    <!-- Free Check Information Section (English) -->
-    <div class="info-box" style="background-color: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-top: 12px; font-size: 13px; line-height: 1.6; color: var(--muted);">
-        <h4 style="margin: 0 0 10px 0; color: var(--gold); font-size: 14px; text-align: center;">What does the Free Check include?</h4>
-        <ul style="margin: 0; padding-left: 20px; padding-right: 0; text-align: left;" dir="ltr">
-            <li><strong>Device Name:</strong> Accurate identification of the official model.</li>
-            <li><strong>Release Date:</strong> Know when the device was launched on the market.</li>
-            <li><strong>Model / Part Number:</strong> Determine regional version and origin.</li>
-            <li><strong>Basic Warranty:</strong> Initial overview of Apple support status.</li>
-        </ul>
-    </div>
-
-    <!-- Free Check Action Card -->
-    <div class="card free">
-        <div class="head">
-            <div class="fico">✓</div>
-            <div>
-                <h3 data-i="ft">تحقق مجاني من صيغة الرقم</h3>
-                <p data-i="fs">بدون واتساب · يفحص صحة الرقم فقط</p>
+    <!-- Free IMEI Check Section -->
+    <section>
+        <div class="section-title">FREE IMEI CHECK</div>
+        <div class="card">
+            <p>Validate the 15-digit IMEI number and its checksum.</p>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Enter 15-digit IMEI" maxlength="15" id="imeiInput">
             </div>
-            <div class="badge" data-i="fb">مجاني</div>
+            <button class="btn" onclick="checkImei()">CHECK IMEI</button>
         </div>
-        <button class="btn g" id="free"><span data-i="fbtn">تحقق الآن - 0 دج</span></button>
-        <div class="res" id="res" hidden></div>
-    </div>
+    </section>
 
-    <!-- Paid Services Section -->
-    <div class="div" data-i="prem">خدمات مميزة</div>
-
-    <div class="card svc">
-        <div class="row">
-            <div class="sico">📶</div>
-            <div class="price">400<small class="cur-lbl">دج</small></div>
+    <!-- Available Services Section -->
+    <section>
+        <div class="section-title">AVAILABLE SERVICES</div>
+        <div class="card-container">
+            <div class="card">
+                <h3>Basic Check</h3>
+                <p>IMEI format and checksum validation.</p>
+                <button class="btn" style="background-color: #1f6feb;">FREE</button>
+            </div>
+            <div class="card">
+                <h3>iCloud / FMI Check</h3>
+                <p>Manual iCloud status report.</p>
+                <p><strong>400 DZD</strong></p>
+                <button class="btn" onclick="selectService('iCloud / FMI Check', 400)">ORDER NOW</button>
+            </div>
+            <div class="card">
+                <h3>Carrier Check</h3>
+                <p>Carrier and SIM lock status.</p>
+                <p><strong>400 DZD</strong></p>
+                <button class="btn" onclick="selectService('Carrier Check', 400)">ORDER NOW</button>
+            </div>
+            <div class="card">
+                <h3>Blacklist GSMA</h3>
+                <p>Blacklist status report.</p>
+                <p><strong>400 DZD</strong></p>
+                <button class="btn" onclick="selectService('Blacklist GSMA', 400)">ORDER NOW</button>
+            </div>
         </div>
-        <h3 data-i="s1">فحص قفل الشبكة</h3>
-        <p data-i="s1d">قفل المشغّل · الشبكة · حالة الشريحة</p>
-        <a class="btn y" data-svc="فحص قفل الشبكة" target="_blank"><span data-i="order">اطلب عبر واتساب</span> ↗</a>
-    </div>
+    </section>
 
-    <div class="card svc">
-        <div class="row">
-            <div class="sico">☁️</div>
-            <div class="price">400<small class="cur-lbl">دج</small></div>
+    <!-- Submit Order Section -->
+    <section>
+        <div class="section-title">SUBMIT YOUR ORDER</div>
+        <div class="card">
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" class="form-control" id="customerName" placeholder="Your name">
+            </div>
+            <div class="form-group">
+                <label>Customer WhatsApp</label>
+                <input type="text" class="form-control" id="customerWhatsapp" placeholder="Example: 213XXXXXXXXX">
+            </div>
+            <div class="form-group">
+                <label>IMEI Number</label>
+                <input type="text" class="form-control" id="orderImei" placeholder="Enter IMEI">
+            </div>
+            <div class="form-group">
+                <label>Selected Service</label>
+                <select class="form-control" id="selectedService">
+                    <option value="Basic Check">Basic Check (Free)</option>
+                    <option value="iCloud / FMI Check">iCloud / FMI Check - 400 DZD</option>
+                    <option value="Carrier Check">Carrier Check - 400 DZD</option>
+                    <option value="Blacklist GSMA">Blacklist GSMA - 400 DZD</option>
+                </select>
+            </div>
+            <button class="btn" onclick="sendOrder()">SEND ORDER VIA WHATSAPP</button>
         </div>
-        <h3 data-i="s2">فحص iCloud / Find My</h3>
-        <p data-i="s2d">قفل iCloud · حالة Find My iPhone</p>
-        <a class="btn y" data-svc="فحص iCloud" target="_blank"><span data-i="order">اطلب عبر واتساب</span> ↗</a>
-    </div>
+    </section>
 
-    <div class="card svc">
-        <div class="row">
-            <div class="sico">🚫</div>
-            <div class="price">400<small class="cur-lbl">دج</small></div>
+    <!-- Administration -->
+    <section style="margin-top: 30px;">
+        <div class="section-title">ADMINISTRATION</div>
+        <div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+            <p style="margin: 0;">Authorized access</p>
+            <button class="btn" style="width: auto; padding: 6px 12px; background-color: #30363d;" onclick="adminLogin()">ADMIN LOGIN</button>
         </div>
-        <h3 data-i="s3">فحص القائمة السوداء</h3>
-        <p data-i="s3d">مسروق · مفقود · محظور</p>
-        <a class="btn y" data-svc="فحص القائمة السوداء" target="_blank"><span data-i="order">اطلب عبر واتساب</span> ↗</a>
-    </div>
+    </section>
 
-    <div class="card svc pro">
-        <div class="row">
-            <div class="sico" style="background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3)">⭐</div>
-            <div class="price" style="color:var(--green)">800<small class="cur-lbl">دج</small></div>
-        </div>
-        <h3 data-i="s4">فحص FULL PRO شامل</h3>
-        <p data-i="s4d">الكل في تقرير PDF واحد</p>
-        <a class="btn g" data-svc="فحص FULL PRO شامل" target="_blank"><span data-i="order">اطلب عبر واتساب</span> ↗</a>
-    </div>
-
-    <ol class="steps" data-steps>
-        <li>أدخل الـ IMEI واختر الخدمة.</li>
-        <li>أرسل الرسالة عبر واتساب.</li>
-        <li>نفحص الجهاز ونرسل لك تقرير PDF.</li>
-    </ol>
-
-    <footer data-i="foot">
-        GSM YASSER · واتساب: 0657241710 · الخدمة لأجهزة iPhone فقط. لمعرفة الـ IMEI اتصل بـ *#06# على الهاتف.
+    <footer>
+        GSM YASSER SERVER &copy; 2026 - All Rights Reserved
     </footer>
-</div>
 
-<!-- Settings Modal -->
-<div class="modal-overlay" id="settings-modal">
-    <div class="modal">
-        <div class="modal-header">
-            <div class="modal-title">⚙️ إعدادات الخادم والـ API</div>
-            <button class="modal-close" id="close-settings">✕</button>
-        </div>
-        <form id="settings-form">
-            <div class="form-group">
-                <label>مفتاح الـ API Key</label>
-                <input type="text" id="cfg-api-key" placeholder="أدخل مفتاح الـ API">
-            </div>
-            <div class="form-group">
-                <label>رابط السيرفر (API URL)</label>
-                <input type="text" id="cfg-api-url" placeholder="https://...">
-            </div>
-            <div class="form-group">
-                <label>اسم الخدمة / العلامة التجارية</label>
-                <input type="text" id="cfg-brand" placeholder="GSM YASSER">
-            </div>
-            <button class="btn y" type="submit">حفظ الإعدادات</button>
-        </form>
-    </div>
-</div>
-
-<script>
-    var NUM="213657241710";
-    var DEFAULT_KEY = "303aec8a-3efa-41fd-91c0-b06840bd1046";
-    var CONFIG = {
-        apiKey: localStorage.getItem("gsm_api_key") || DEFAULT_KEY,
-        apiUrl: localStorage.getItem("gsm_api_url") || "https://dash.imei.info/api/v1/",
-        brandName: localStorage.getItem("gsm_brand") || "GSM YASSER"
-    };
-
-    var modal = document.getElementById("settings-modal");
-    var btnOpen = document.getElementById("open-settings");
-    var btnClose = document.getElementById("close-settings");
-    var settingsForm = document.getElementById("settings-form");
-    var apiKeyInput = document.getElementById("cfg-api-key");
-    var apiUrlInput = document.getElementById("cfg-api-url");
-    var brandInput = document.getElementById("cfg-brand");
-    var apiBadge = document.getElementById("api-status-badge");
-
-    function updateConfigUI() {
-        apiKeyInput.value = CONFIG.apiKey;
-        apiUrlInput.value = CONFIG.apiUrl;
-        brandInput.value = CONFIG.brandName;
-        if(CONFIG.apiKey) {
-            apiBadge.textContent = "مربوط ✅";
-            apiBadge.className = "api-badge linked";
-        } else {
-            apiBadge.textContent = "غير مربوط ⚠️";
-            apiBadge.className = "api-badge unlinked";
+    <script>
+        function checkImei() {
+            const imei = document.getElementById('imeiInput').value;
+            if(imei.length === 15) {
+                alert('Valid IMEI format length.');
+            } else {
+                alert('Please enter a valid 15-digit IMEI number.');
+            }
         }
-    }
-    updateConfigUI();
 
-    btnOpen.onclick = function(){ modal.classList.add("active"); };
-    btnClose.onclick = function(){ modal.classList.remove("active"); };
-    modal.onclick = function(e){ if(e.target === modal) modal.classList.remove("active"); };
-
-    settingsForm.onsubmit = function(e){
-        e.preventDefault();
-        CONFIG.apiKey = apiKeyInput.value.trim();
-        CONFIG.apiUrl = apiUrlInput.value.trim();
-        CONFIG.brandName = brandInput.value.trim() || "GSM YASSER";
-        localStorage.setItem("gsm_api_key", CONFIG.apiKey);
-        localStorage.setItem("gsm_api_url", CONFIG.apiUrl);
-        localStorage.setItem("gsm_brand", CONFIG.brandName);
-        updateConfigUI();
-        modal.classList.remove("active");
-    };
-
-    var themeToggle = document.getElementById("theme-toggle");
-    themeToggle.onclick = function() {
-        var currentTheme = document.documentElement.getAttribute("data-theme");
-        var newTheme = currentTheme === "light" ? "dark" : "light";
-        if(newTheme === "light") {
-            document.documentElement.setAttribute("data-theme", "light");
-            themeToggle.textContent = "☀️";
-        } else {
-            document.documentElement.removeAttribute("data-theme");
-            themeToggle.textContent = "🌙";
+        function selectService(serviceName, price) {
+            document.getElementById('selectedService').value = serviceName;
+            window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
         }
-    };
-</script>
+
+        function sendOrder() {
+            const name = document.getElementById('customerName').value;
+            const whatsapp = document.getElementById('customerWhatsapp').value;
+            const imei = document.getElementById('orderImei').value;
+            const service = document.getElementById('selectedService').value;
+
+            if(!name || !whatsapp || !imei) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            const message = `Hello, I want to order a service.%0AName: ${name}%0AWhatsApp: ${whatsapp}%0AIMEI: ${imei}%0AService: ${service}`;
+            const targetNumber = '213657241710';
+            window.open(`https://wa.me/${targetNumber}?text=${message}`, '_blank');
+        }
+
+        function adminLogin() {
+            alert('Admin login portal is restricted.');
+        }
+    </script>
 </body>
-            </html>
+                </html>
