@@ -1,232 +1,238 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSM Yasser Server - Professional iPhone Check & Mobile Services</title>
-    <style>
-        /* Basic reset and dark theme styling */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            padding: 20px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        h1 {
-            color: #58a6ff;
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-        p.subtitle {
-            color: #8b949e;
-            font-size: 14px;
-        }
-        .section-title {
-            font-size: 18px;
-            color: #f0f6fc;
-            margin: 20px 0 10px 0;
-        }
-        .card-container {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .card {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            padding: 15px;
-            flex: 1;
-            min-width: 200px;
-        }
-        .card h3 {
-            font-size: 16px;
-            color: #58a6ff;
-            margin-bottom: 8px;
-        }
-        .card p {
-            font-size: 13px;
-            color: #8b949e;
-            margin-bottom: 12px;
-        }
-        .btn {
-            background-color: #238636;
-            color: #ffffff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            text-align: center;
-            display: inline-block;
-            text-decoration: none;
-        }
-        .btn:hover {
-            background-color: #2ea043;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            color: #8b949e;
-            margin-bottom: 5px;
-        }
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            background-color: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            color: #c9d1d9;
-        }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 12px;
-            color: #8b949e;
-            border-top: 1px solid #30363d;
-            padding-top: 15px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSM YASSER SERVER - Professional iPhone Check</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#0f172a;color:#fff;padding:20px}
+.container{max-width:900px;margin:auto}
+.header{text-align:center;padding:30px 10px;background:linear-gradient(135deg,#2563eb,#0ea5e9);border-radius:15px}
+.header h1{font-size:32px;letter-spacing:1px}
+.header p{opacity:.9;margin-top:8px}
+.topbar{display:flex;justify-content:center;gap:10px;margin:15px 0;flex-wrap:wrap}
+.topbar button,.topbar select{background:#1e293b;color:#fff;border:1px solid #334155;padding:8px 14px;border-radius:20px;cursor:pointer}
+.card{background:#1e293b;padding:22px;border-radius:15px;margin-bottom:20px}
+.card h2{margin-bottom:12px;color:#38bdf8}
+input,select{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff;font-size:15px}
+.btn{width:100%;padding:13px;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:10px}
+.btn-blue{background:#2563eb;color:#fff}
+.btn-green{background:#22c55e;color:#fff}
+.btn-dark{background:#334155;color:#fff}
+.services{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.service{background:#0f172a;border:1px solid #334155;padding:18px;border-radius:12px}
+.service h3{color:#fff}
+.service p{font-size:14px;color:#cbd5e1;margin:8px 0}
+.price{font-size:20px;font-weight:bold;color:#22c55e}
+.footer{text-align:center;opacity:.6;margin-top:20px;font-size:13px}
+#imeiResult{margin-top:12px;padding:12px;border-radius:10px;display:none;background:#052e16}
+@media(max-width:600px){.services{grid-template-columns:1fr}.header h1{font-size:26px}}
+</style>
 </head>
 <body>
+<div class="container">
 
-    <header>
-        <h1>GSM YASSER SERVER</h1>
-        <p class="subtitle">Professional iPhone Check & Mobile Services</p>
-    </header>
+<div class="header">
+<h1>GSM YASSER SERVER</h1>
+<p>Professional iPhone Check & Mobile Services</p>
+<p>Fast - Secure - Trusted</p>
+</div>
 
-    <!-- Free IMEI Check Section -->
-    <section>
-        <div class="section-title">FREE IMEI CHECK</div>
-        <div class="card">
-            <p>Validate the 15-digit IMEI number and its checksum.</p>
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Enter 15-digit IMEI" maxlength="15" id="imeiInput">
-            </div>
-            <button class="btn" onclick="checkImei()">CHECK IMEI</button>
-        </div>
-    </section>
+<div class="topbar">
+<select id="currencySelect" onchange="changeCurrency()">
+<option value="DZD">DZD - Algerian Dinar</option>
+<option value="USD">USD - US Dollar</option>
+<option value="EUR">EUR - Euro</option>
+</select>
+<button onclick="toggleTheme()">🌙 / ☀️ Theme</button>
+</div>
 
-    <!-- Available Services Section -->
-    <section>
-        <div class="section-title">AVAILABLE SERVICES</div>
-        <div class="card-container">
-            <div class="card">
-                <h3>Basic Check</h3>
-                <p>IMEI format and checksum validation.</p>
-                <button class="btn" style="background-color: #1f6feb;">FREE</button>
-            </div>
-            <div class="card">
-                <h3>iCloud / FMI Check</h3>
-                <p>Manual iCloud status report.</p>
-                <p><strong>400 DZD</strong></p>
-                <button class="btn" onclick="selectService('iCloud / FMI Check', 400)">ORDER NOW</button>
-            </div>
-            <div class="card">
-                <h3>Carrier Check</h3>
-                <p>Carrier and SIM lock status.</p>
-                <p><strong>400 DZD</strong></p>
-                <button class="btn" onclick="selectService('Carrier Check', 400)">ORDER NOW</button>
-            </div>
-            <div class="card">
-                <h3>Blacklist GSMA</h3>
-                <p>Blacklist status report.</p>
-                <p><strong>400 DZD</strong></p>
-                <button class="btn" onclick="selectService('Blacklist GSMA', 400)">ORDER NOW</button>
-            </div>
-        </div>
-    </section>
+<div class="card">
+<h2>FREE IMEI CHECK</h2>
+<p>Enter your 15-digit IMEI to validate format, checksum and TAC.</p>
+<input type="text" id="imeiInput" placeholder="Enter IMEI - Example: 350493291234253" maxlength="15">
+<button class="btn btn-blue" onclick="checkImei()">CHECK IMEI</button>
+<div id="imeiResult"></div>
+</div>
 
-    <!-- Submit Order Section -->
-    <section>
-        <div class="section-title">SUBMIT YOUR ORDER</div>
-        <div class="card">
-            <div class="form-group">
-                <label>Customer Name</label>
-                <input type="text" class="form-control" id="customerName" placeholder="Your name">
-            </div>
-            <div class="form-group">
-                <label>Customer WhatsApp</label>
-                <input type="text" class="form-control" id="customerWhatsapp" placeholder="Example: 213XXXXXXXXX">
-            </div>
-            <div class="form-group">
-                <label>IMEI Number</label>
-                <input type="text" class="form-control" id="orderImei" placeholder="Enter IMEI">
-            </div>
-            <div class="form-group">
-                <label>Selected Service</label>
-                <select class="form-control" id="selectedService">
-                    <option value="Basic Check">Basic Check (Free)</option>
-                    <option value="iCloud / FMI Check">iCloud / FMI Check - 400 DZD</option>
-                    <option value="Carrier Check">Carrier Check - 400 DZD</option>
-                    <option value="Blacklist GSMA">Blacklist GSMA - 400 DZD</option>
-                </select>
-            </div>
-            <button class="btn" onclick="sendOrder()">SEND ORDER VIA WHATSAPP</button>
-        </div>
-    </section>
+<div class="card">
+<h2>AVAILABLE SERVICES</h2>
+<div class="services">
 
-    <!-- Administration -->
-    <section style="margin-top: 30px;">
-        <div class="section-title">ADMINISTRATION</div>
-        <div class="card" style="display: flex; justify-content: space-between; align-items: center;">
-            <p style="margin: 0;">Authorized access</p>
-            <button class="btn" style="width: auto; padding: 6px 12px; background-color: #30363d;" onclick="adminLogin()">ADMIN LOGIN</button>
-        </div>
-    </section>
+<div class="service">
+<h3>Basic Check</h3>
+<p>IMEI format, checksum validation and TAC info.</p>
+<div class="price">FREE</div>
+<button class="btn btn-blue" onclick="selectService('Basic Check',0)">SELECT</button>
+</div>
 
-    <footer>
-        GSM YASSER SERVER &copy; 2026 - All Rights Reserved
-    </footer>
+<div class="service">
+<h3>Full Report</h3>
+<p>Model, Storage, Color, Warranty, Activation Status.</p>
+<div class="price" data-usd="5">5 USD</div>
+<button class="btn btn-blue" onclick="selectService('Full Report',5)">ORDER NOW</button>
+</div>
 
-    <script>
-        function checkImei() {
-            const imei = document.getElementById('imeiInput').value;
-            if(imei.length === 15) {
-                alert('Valid IMEI format length.');
-            } else {
-                alert('Please enter a valid 15-digit IMEI number.');
-            }
-        }
+<div class="service">
+<h3>iCloud Status</h3>
+<p>Check Find My iPhone ON / OFF and iCloud Clean / Lost.</p>
+<div class="price" data-usd="3">3 USD</div>
+<button class="btn btn-blue" onclick="selectService('iCloud Status',3)">ORDER NOW</button>
+</div>
 
-        function selectService(serviceName, price) {
-            document.getElementById('selectedService').value = serviceName;
-            window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
-        }
+<div class="service">
+<h3>Carrier & SIM Lock</h3>
+<p>Check Carrier, Country and SIM Lock Status.</p>
+<div class="price" data-usd="4">4 USD</div>
+<button class="btn btn-blue" onclick="selectService('Carrier & SIM Lock',4)">ORDER NOW</button>
+</div>
 
-        function sendOrder() {
-            const name = document.getElementById('customerName').value;
-            const whatsapp = document.getElementById('customerWhatsapp').value;
-            const imei = document.getElementById('orderImei').value;
-            const service = document.getElementById('selectedService').value;
+<div class="service">
+<h3>Blacklist Check</h3>
+<p>Check if device is Blacklisted / Stolen / Lost.</p>
+<div class="price" data-usd="4">4 USD</div>
+<button class="btn btn-blue" onclick="selectService('Blacklist Check',4)">ORDER NOW</button>
+</div>
 
-            if(!name || !whatsapp || !imei) {
-                alert('Please fill in all required fields.');
-                return;
-            }
+<div class="service">
+<h3>Apple Warranty</h3>
+<p>Check Apple Warranty and AppleCare Coverage.</p>
+<div class="price" data-usd="2">2 USD</div>
+<button class="btn btn-blue" onclick="selectService('Apple Warranty',2)">ORDER NOW</button>
+</div>
 
-            const message = `Hello, I want to order a service.%0AName: ${name}%0AWhatsApp: ${whatsapp}%0AIMEI: ${imei}%0AService: ${service}`;
-            const targetNumber = '213657241710';
-            window.open(`https://wa.me/${targetNumber}?text=${message}`, '_blank');
-        }
+</div>
+</div>
 
-        function adminLogin() {
-            alert('Admin login portal is restricted.');
-        }
-    </script>
+<div class="card">
+<h2>SUBMIT YOUR ORDER</h2>
+<input type="text" id="customerName" placeholder="Customer Name *">
+<input type="text" id="customerWhatsapp" placeholder="Customer WhatsApp - Example: 213XXXXXXXXX">
+<input type="text" id="orderImei" placeholder="IMEI Number *">
+<select id="selectedService">
+<option value="Basic Check">Basic Check - FREE</option>
+<option value="Full Report">Full Report - 5 USD</option>
+<option value="iCloud Status">iCloud Status - 3 USD</option>
+<option value="Carrier & SIM Lock">Carrier & SIM Lock - 4 USD</option>
+<option value="Blacklist Check">Blacklist Check - 4 USD</option>
+<option value="Apple Warranty">Apple Warranty - 2 USD</option>
+</select>
+<button class="btn btn-green" onclick="sendOrder()">SEND ORDER VIA WHATSAPP</button>
+</div>
+
+<div class="card">
+<h2>ADMINISTRATION</h2>
+<p>Authorized access only.</p>
+<button class="btn btn-dark" onclick="adminLogin()">ADMIN LOGIN</button>
+<div id="adminPanel" style="display:none;margin-top:15px">
+<input type="password" id="adminPass" placeholder="Admin Password">
+<button class="btn btn-blue" onclick="checkAdmin()">LOGIN</button>
+<p id="adminMsg" style="margin-top:10px"></p>
+</div>
+</div>
+
+<div class="footer">GSM YASSER SERVER © 2026 — All Rights Reserved<br>WhatsApp: +213 657 24 17 10</div>
+
+</div>
+
+<script>
+let isDark = true;
+function toggleTheme(){
+  isDark = !isDark;
+  document.body.style.background = isDark ? '#0f172a' : '#f1f5f9';
+  document.body.style.color = isDark ? '#fff' : '#0f172a';
+}
+
+function changeCurrency(){
+  const cur = document.getElementById('currencySelect').value;
+  let rate = 1, symbol = 'USD';
+  if(cur==='DZD'){ rate = 230; symbol='DZD'; }
+  if(cur==='EUR'){ rate = 0.92; symbol='EUR'; }
+  if(cur==='USD'){ rate = 1; symbol='USD'; }
+  document.querySelectorAll('[data-usd]').forEach(el=>{
+    const usd = parseFloat(el.getAttribute('data-usd'));
+    if(cur==='DZD') el.textContent = Math.round(usd*rate) + ' DZD';
+    else el.textContent = (usd*rate).toFixed(2) + ' ' + symbol;
+  });
+}
+
+function luhnCheck(imei){
+  let sum = 0;
+  for(let i=0;i<15;i++){
+    let d = parseInt(imei[i]);
+    if((14-i)%2===1){
+      d = d*2;
+      if(d>9) d = d-9;
+    }
+    sum += d;
+  }
+  return sum % 10 === 0;
+}
+
+function checkImei(){
+  const imei = document.getElementById('imeiInput').value.trim();
+  const box = document.getElementById('imeiResult');
+  box.style.display = 'block';
+  if(imei.length !== 15 || isNaN(imei)){
+    box.style.background = '#450a0a';
+    box.innerHTML = '❌ Invalid IMEI. Please enter a valid 15-digit IMEI number.';
+    return;
+  }
+  if(!luhnCheck(imei)){
+    box.style.background = '#450a0a';
+    box.innerHTML = '❌ Invalid IMEI checksum. Please check the number and try again.';
+    return;
+  }
+  const tac = imei.substring(0,8);
+  box.style.background = '#052e16';
+  box.innerHTML = '✅ <b>Valid IMEI.</b><br>TAC: ' + tac + '<br>Status: Format and checksum are correct.<br>You can now order a Full Report.';
+}
+
+function selectService(serviceName, price){
+  document.getElementById('selectedService').value = serviceName;
+  const imei = document.getElementById('imeiInput').value;
+  if(imei) document.getElementById('orderImei').value = imei;
+  window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+  alert('Service selected: ' + serviceName + ' - Please fill the order form below.');
+}
+
+function sendOrder(){
+  const name = document.getElementById('customerName').value.trim();
+  const whatsapp = document.getElementById('customerWhatsapp').value.trim();
+  const imei = document.getElementById('orderImei').value.trim();
+  const service = document.getElementById('selectedService').value;
+  if(!name || !whatsapp || !imei){
+    alert('Please fill in all required fields.');
+    return;
+  }
+  if(imei.length !== 15){
+    alert('Please enter a valid 15-digit IMEI number.');
+    return;
+  }
+  const message = 'Hello, I want to order a service.%0AName: ' + encodeURIComponent(name) + '%0AWhatsApp: ' + encodeURIComponent(whatsapp) + '%0AIMEI: ' + imei + '%0AService: ' + encodeURIComponent(service);
+  const targetNumber = '213657241710';
+  window.open('https://wa.me/' + targetNumber + '?text=' + message, '_blank');
+}
+
+function adminLogin(){
+  document.getElementById('adminPanel').style.display = 'block';
+}
+
+function checkAdmin(){
+  const pass = document.getElementById('adminPass').value;
+  const msg = document.getElementById('adminMsg');
+  if(pass === 'Yasser2026'){
+    msg.style.color = '#22c55e';
+    msg.innerHTML = '✅ Welcome Admin. Dashboard is ready. Total orders system is active.';
+  } else {
+    msg.style.color = '#ef4444';
+    msg.innerHTML = '❌ Wrong password. Access denied.';
+  }
+}
+</script>
 </body>
-                </html>
+</html>
+
+
