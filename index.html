@@ -47,19 +47,16 @@
 <header>
   <div class="logo">GSM <span>YASSER</span> SERVER</div>
   <div class="controls">
-    <!-- LANGUAGE SELECTOR -->
     <select id="langSelect" onchange="setLang(this.value)">
       <option value="en">🇬🇧 English</option>
       <option value="ar">🇩🇿 العربية</option>
       <option value="fr">🇫🇷 Français</option>
     </select>
-    <!-- CURRENCY SELECTOR -->
-    <select id="currencySelect" onchange="updatePrices()">
+    <select id="currencySelect">
       <option value="DZD">DZD - Algerian Dinar</option>
       <option value="USD">USD - Dollar</option>
       <option value="EUR">EUR - Euro</option>
     </select>
-    <!-- THEME -->
     <button onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
   </div>
 </header>
@@ -78,11 +75,36 @@
   <div id="imeiResult" class="result"></div>
 </div>
 
-<!-- SERVICES -->
+<!-- PAID SERVICES - STATIC, ALWAYS VISIBLE -->
 <div class="card">
   <h2 data-i18n="servicesTitle">AVAILABLE SERVICES</h2>
   <p data-i18n="servicesDesc">Select a service, then fill the order form below.</p>
-  <div class="services" id="servicesList"></div>
+  <div class="services" id="servicesList">
+    <div class="service" onclick="selectService('iCloud Removal - Clean', 5000, this)">
+      <b>iCloud Removal - Clean</b><span>ICLOUD CLEAN</span><div class="price">5000 DZD</div>
+    </div>
+    <div class="service" onclick="selectService('iCloud Removal - Lost', 12000, this)">
+      <b>iCloud Removal - Lost</b><span>ICLOUD LOST</span><div class="price">12000 DZD</div>
+    </div>
+    <div class="service" onclick="selectService('Carrier Unlock - iPhone', 3500, this)">
+      <b>Carrier Unlock - iPhone</b><span>UNLOCK IPHONE</span><div class="price">3500 DZD</div>
+    </div>
+    <div class="service" onclick="selectService('Carrier Unlock - Samsung', 3000, this)">
+      <b>Carrier Unlock - Samsung</b><span>UNLOCK SAMSUNG</span><div class="price">3000 DZD</div>
+    </div>
+    <div class="service" onclick="selectService('Full IMEI Check', 1000, this)">
+      <b>Full IMEI Check</b><span>CHECK</span><div class="price">1000 DZD</div>
+    </div>
+    <div class="service" onclick="selectService('iCloud Bypass - Hello Screen', 8000, this)">
+      <b>iCloud Bypass - Hello</b><span>BYPASS</span><div class="price">8000 DZD</div>
+    </div>
+    <div class="service" onclick="selectService('FRP Bypass - Android', 2500, this)">
+      <b>FRP Bypass - Android</b><span>FRP</span><div class="price">2500 DZD</div>
+    </div>
+    <div class="service" onclick="selectService('MDM Removal', 6000, this)">
+      <b>MDM Removal</b><span>MDM</span><div class="price">6000 DZD</div>
+    </div>
+  </div>
 </div>
 
 <!-- ORDER FORM -->
@@ -105,14 +127,6 @@
 </div>
 
 <script>
-// ---------- DATA ----------
-const SERVICES = [
-  { id: "icloud", name: {en:"iCloud Removal", ar:"إزالة iCloud", fr:"Suppression iCloud"}, priceDZD: 5000 },
-  { id: "unlock", name: {en:"Carrier Unlock", ar:"فتح الشبكة", fr:"Déblocage Réseau"}, priceDZD: 3500 },
-  { id: "check", name: {en:"Full IMEI Check", ar:"فحص IMEI كامل", fr:"Vérification IMEI Complète"}, priceDZD: 1000 },
-  { id: "bypass", name: {en:"iCloud Bypass", ar:"تخطي iCloud", fr:"Contournement iCloud"}, priceDZD: 8000 },
-];
-
 const TRANSLATIONS = {
   en: {
     heroTitle:"GSM YASSER SERVER",
@@ -190,10 +204,7 @@ const TRANSLATIONS = {
 
 let currentLang = localStorage.getItem('siteLang') || 'en';
 let selectedService = null;
-const RATES = { DZD: 1, USD: 0.0042, EUR: 0.0039 };
-const SYMBOLS = { DZD: "DZD", USD: "$", EUR: "€" };
 
-// ---------- LANGUAGE ----------
 function setLang(lang){
   currentLang = lang;
   localStorage.setItem('siteLang', lang);
@@ -206,38 +217,22 @@ function setLang(lang){
     if(t[key]) el.textContent = t[key];
   });
   document.getElementById('themeBtn').textContent = document.body.classList.contains('light') ? t.themeLight : t.themeDark;
-  renderServices();
   if(!selectedService) document.getElementById('selectedServiceDisplay').value = t.noService;
 }
 
-function renderServices(){
-  const list = document.getElementById('servicesList');
-  const cur = document.getElementById('currencySelect').value;
-  list.innerHTML = "";
-  SERVICES.forEach(s => {
-    const price = Math.round(s.priceDZD * RATES[cur]);
-    const div = document.createElement('div');
-    div.className = 'service' + (selectedService && selectedService.id === s.id ? ' selected' : '');
-    div.innerHTML = `<b>${s.name[currentLang]}</b><span>${s.id.toUpperCase()}</span><div class="price">${price} ${SYMBOLS[cur]}</div>`;
-    div.onclick = () => {
-      selectedService = s;
-      document.getElementById('selectedServiceDisplay').value = s.name[currentLang] + " - " + price + " " + SYMBOLS[cur];
-      renderServices();
-    };
-    list.appendChild(div);
-  });
-}
-
-function updatePrices(){ renderServices(); }
-
-// ---------- THEME ----------
 function toggleTheme(){
   document.body.classList.toggle('light');
   const t = TRANSLATIONS[currentLang];
   document.getElementById('themeBtn').textContent = document.body.classList.contains('light') ? t.themeLight : t.themeDark;
 }
 
-// ---------- IMEI ----------
+function selectService(name, price, el){
+  selectedService = { name: name, price: price };
+  document.querySelectorAll('.service').forEach(s=>s.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('selectedServiceDisplay').value = name + " - " + price + " DZD";
+}
+
 function isValidLuhn(imei){
   if(!/^\d{15}$/.test(imei)) return false;
   let sum = 0;
@@ -264,7 +259,6 @@ function checkIMEI(){
   }
 }
 
-// ---------- ORDER ----------
 function sendOrder(){
   const name = document.getElementById('custName').value.trim();
   const wa = document.getElementById('custWhatsapp').value.trim();
@@ -275,14 +269,12 @@ function sendOrder(){
   if(!name || !wa || !imei){ res.className='result err'; res.textContent = t.fillAll; return; }
   if(!selectedService){ res.className='result err'; res.textContent = t.selectService; return; }
   res.className='result ok'; res.textContent = "✅ " + t.orderSent;
-  const msg = `Hello GSM YASSER%0A%0AName: ${encodeURIComponent(name)}%0AWhatsApp: ${encodeURIComponent(wa)}%0AIMEI: ${encodeURIComponent(imei)}%0AService: ${encodeURIComponent(selectedService.name.en)}`;
-  // CHANGE THIS NUMBER TO YOUR WHATSAPP NUMBER
-  const myNumber = "213657241710;
+  const msg = `Hello GSM YASSER%0A%0AName: ${encodeURIComponent(name)}%0AWhatsApp: ${encodeURIComponent(wa)}%0AIMEI: ${encodeURIComponent(imei)}%0AService: ${encodeURIComponent(selectedService.name)} - ${selectedService.price} DZD`;
+  const myNumber = "213657241710";
   window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
 }
 
-// ---------- INIT ----------
 setLang(currentLang);
 </script>
 </body>
-    </html>
+</html>
