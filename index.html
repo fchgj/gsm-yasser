@@ -26,6 +26,8 @@
   body.light input,body.light select{background:#f8fafc;color:#0f172a}
   .btn{width:100%;background:#22c55e;color:white;font-weight:800;padding:14px;border:none;font-size:16px}
   .btn-blue{background:#2563eb}
+  .free-badge{background:#14532d;padding:10px;border-radius:10px;text-align:center;margin-bottom:12px;font-weight:800}
+  .free-badge span{color:#facc15}
   .check-card{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:16px;margin-bottom:12px}
   body.light .check-card{background:white;box-shadow:0 4px 20px rgba(0,0,0,.08)}
   .check-card .top{display:flex;justify-content:space-between;align-items:flex-start}
@@ -36,7 +38,7 @@
   .check-card h3{font-size:19px;margin:8px 0 4px}
   .check-card p{font-size:13px;opacity:.7;margin:0}
   .check-card .order-btn{width:100%;background:linear-gradient(180deg,#facc15,#f59e0b);color:#000;font-weight:900;padding:12px;border:none;border-radius:20px;margin-top:12px;cursor:pointer;font-size:15px}
-  .result{margin-top:10px;padding:12px;border-radius:10px;display:none;font-size:14px}
+  .result{margin-top:10px;padding:12px;border-radius:10px;display:none;font-size:14px;line-height:1.7}
   .result.ok{background:#14532d}
   .result.err{background:#7f1d1d}
   .footer{text-align:center;opacity:.6;font-size:12px;padding:20px}
@@ -69,16 +71,17 @@
   <p data-i18n="heroSub">Professional iPhone Check & Mobile Services - Fast - Secure - Trusted</p>
 </div>
 
-<!-- FREE IMEI CHECK -->
+<!-- FREE IPHONE INFO CHECK -->
 <div class="card">
-  <h2 data-i18n="freeCheck">FREE IMEI CHECK</h2>
-  <p data-i18n="freeDesc">Enter your 15-digit IMEI to validate format, checksum and TAC</p>
+  <h2 data-i18n="freeCheck">FREE IPHONE CHECK</h2>
+  <div class="free-badge">🎁 <span data-i18n="freeBadge">FREE IPHONE INFO - 100% FREE</span></div>
+  <p data-i18n="freeDesc">Enter your 15-digit IMEI to get free iPhone info: Device Name, Commercial Number, Version, Brand and TAC</p>
   <input type="text" id="imeiCheckInput" placeholder="e.g. 350493291234253" maxlength="15" inputmode="numeric">
-  <button class="btn btn-blue" onclick="checkIMEI()" data-i18n="checkBtn">CHECK IMEI</button>
+  <button class="btn btn-blue" onclick="checkIMEI()" data-i18n="checkBtn">CHECK IMEI FREE</button>
   <div id="imeiResult" class="result"></div>
 </div>
 
-<!-- ORDER FORM - TOP -->
+<!-- ORDER FORM -->
 <div class="card">
   <h2 data-i18n="orderTitle">SUBMIT YOUR ORDER</h2>
   <p data-i18n="orderDesc">Please fill all fields. Order will be sent via WhatsApp.</p>
@@ -93,36 +96,37 @@
 <!-- IPHONE SERVICES ONLY -->
 <div class="card">
   <h2 data-i18n="servicesTitle">IPHONE SERVICES</h2>
-  <p data-i18n="servicesDesc">iPhone only. Select a service and order via WhatsApp.</p>
+  <p data-i18n="servicesDesc">iPhone only. Price = IMEICheck.net price + 500 DZD profit. Select a service and order via WhatsApp.</p>
 
   <div id="servicesList">
-    <!-- CHECK SERVICES WITH PRICE -->
+    <!-- CHECK SERVICES WITH PRICE: IMEICheck.net 480 DZD + 500 DZD = 1000 DZD -->
     <div class="check-card">
-      <div class="top"><div class="price" data-price="400">400 <small>DZD</small></div><div class="shield">🛡️</div></div>
+      <div class="top"><div class="price" data-price="1000">1000 <small>DZD</small></div><div class="shield">🛡️</div></div>
       <h3 class="svc-name" data-en="Carrier Lock Check - iPhone" data-ar="فحص قفل الشبكة - آيفون" data-fr="Vérification Verrouillage - iPhone">Carrier Lock Check - iPhone</h3>
       <p class="svc-desc" data-en="Carrier lock - Network - SIM status" data-ar="قفل المشغل - الشبكة - حالة الشريحة" data-fr="Verrou opérateur - Réseau - Statut SIM">Carrier lock - Network - SIM status</p>
-      <button class="order-btn" onclick="orderService('Carrier Lock Check iPhone - 400 DZD')">↗ <span data-i18n="orderBtn">Order via WhatsApp</span></button>
+      <button class="order-btn" onclick="orderService('Carrier Lock Check iPhone - 1000 DZD')">↗ <span data-i18n="orderBtn">Order via WhatsApp</span></button>
     </div>
 
     <div class="check-card">
-      <div class="top"><div class="price" data-price="400">400 <small>DZD</small></div><div class="shield">🛡️</div></div>
+      <div class="top"><div class="price" data-price="1000">1000 <small>DZD</small></div><div class="shield">🛡️</div></div>
       <h3 class="svc-name" data-en="iCloud / Find My Check" data-ar="فحص iCloud / Find My" data-fr="Vérification iCloud / Find My">iCloud / Find My Check</h3>
       <p class="svc-desc" data-en="iCloud lock - Find My iPhone status" data-ar="قفل iCloud - حالة Find My iPhone" data-fr="Verrou iCloud - Statut Find My iPhone">iCloud lock - Find My iPhone status</p>
-      <button class="order-btn" onclick="orderService('iCloud / Find My Check - 400 DZD')">↗ <span data-i18n="orderBtn">Order via WhatsApp</span></button>
+      <button class="order-btn" onclick="orderService('iCloud / Find My Check - 1000 DZD')">↗ <span data-i18n="orderBtn">Order via WhatsApp</span></button>
     </div>
 
     <div class="check-card">
-      <div class="top"><div class="price" data-price="400">400 <small>DZD</small></div><div class="shield">🛡️</div></div>
+      <div class="top"><div class="price" data-price="1000">1000 <small>DZD</small></div><div class="shield">🛡️</div></div>
       <h3 class="svc-name" data-en="Blacklist Check" data-ar="فحص القائمة السوداء" data-fr="Vérification Liste Noire">Blacklist Check</h3>
       <p class="svc-desc" data-en="Stolen - Lost - Blocked" data-ar="مسروق - مفقود - محظور" data-fr="Volé - Perdu - Bloqué">Stolen - Lost - Blocked</p>
-      <button class="order-btn" onclick="orderService('Blacklist Check - 400 DZD')">↗ <span data-i18n="orderBtn">Order via WhatsApp</span></button>
+      <button class="order-btn" onclick="orderService('Blacklist Check - 1000 DZD')">↗ <span data-i18n="orderBtn">Order via WhatsApp</span></button>
     </div>
 
+    <!-- FULL PRO: 960 DZD + 500 DZD = 1500 DZD -->
     <div class="check-card">
-      <div class="top"><div class="price" data-price="800">800 <small>DZD</small></div><div class="shield">🛡️</div></div>
+      <div class="top"><div class="price" data-price="1500">1500 <small>DZD</small></div><div class="shield">🛡️</div></div>
       <h3 class="svc-name" data-en="FULL PRO Full Check" data-ar="فحص FULL PRO شامل" data-fr="Vérification FULL PRO Complète">FULL PRO Full Check</h3>
       <p class="svc-desc" data-en="All in one PDF report" data-ar="الكل في تقرير PDF واحد" data-fr="Tout en un seul rapport PDF">All in one PDF report</p>
-      <button class="order-btn" onclick="orderService('FULL PRO Full Check - 800 DZD')">↗ <span data-i18n="orderBtn">Order via WhatsApp</span></button>
+      <button class="order-btn" onclick="orderService('FULL PRO Full Check - 1500 DZD')">↗ <span data-i18n="orderBtn">Order via WhatsApp</span></button>
     </div>
 
     <!-- UNLOCK / REMOVAL - NO PRICE - PRICE IN WHATSAPP -->
@@ -177,13 +181,14 @@
 
 <script>
 const TRANSLATIONS = {
-  en: { heroTitle:"GSM YASSER SERVER", heroSub:"Professional iPhone Check & Mobile Services - Fast - Secure - Trusted", freeCheck:"FREE IMEI CHECK", freeDesc:"Enter your 15-digit IMEI to validate format, checksum and TAC", checkBtn:"CHECK IMEI", servicesTitle:"IPHONE SERVICES", servicesDesc:"iPhone only. Select a service and order via WhatsApp.", orderTitle:"SUBMIT YOUR ORDER", orderDesc:"Please fill all fields. Order will be sent via WhatsApp.", labelName:"Customer Name *", labelWhatsapp:"Customer WhatsApp - Example: 213XXXXXXXXX", labelImei:"IMEI Number *", orderBtn:"Order via WhatsApp", priceWhatsapp:"Price in WhatsApp", themeDark:"🌙 Dark", themeLight:"☀️ Light", valid:"Valid IMEI - Checksum OK", invalid:"Invalid IMEI - Please check the number", steps:"1- Enter IMEI and select service.<br>2- Send message via WhatsApp." },
-  ar: { heroTitle:"سيرفر GSM ياسر", heroSub:"خدمات احترافية لفحص الآيفون - سريع - آمن - موثوق", freeCheck:"فحص IMEI مجاني", freeDesc:"أدخل IMEI المكون من 15 رقم للتحقق من الصيغة", checkBtn:"تحقق من IMEI", servicesTitle:"خدمات آيفون", servicesDesc:"آيفون فقط. اختر خدمة و اطلب عبر واتساب.", orderTitle:"أرسل طلبك", orderDesc:"املأ كل الحقول. سيتم إرسال الطلب عبر واتساب.", labelName:"اسم الزبون *", labelWhatsapp:"واتساب الزبون - مثال: 213XXXXXXXXX", labelImei:"رقم IMEI *", orderBtn:"اطلب عبر واتساب", priceWhatsapp:"السعر في واتساب", themeDark:"🌙 داكن", themeLight:"☀️ فاتح", valid:"IMEI صحيح - الفحص سليم", invalid:"IMEI غير صحيح - تحقق من الرقم", steps:"1- أدخل الـ IMEI و اختر الخدمة.<br>2- أرسل الرسالة عبر واتساب." },
-  fr: { heroTitle:"GSM YASSER SERVER", heroSub:"Vérification iPhone Professionnelle - Rapide - Sécurisé - Fiable", freeCheck:"VÉRIFICATION IMEI GRATUITE", freeDesc:"Entrez votre IMEI à 15 chiffres pour valider le format", checkBtn:"VÉRIFIER IMEI", servicesTitle:"SERVICES IPHONE", servicesDesc:"iPhone uniquement. Sélectionnez un service et commandez via WhatsApp.", orderTitle:"ENVOYEZ VOTRE COMMANDE", orderDesc:"Veuillez remplir tous les champs. La commande sera envoyée via WhatsApp.", labelName:"Nom du client *", labelWhatsapp:"WhatsApp du client - Ex: 213XXXXXXXXX", labelImei:"Numéro IMEI *", orderBtn:"Commander via WhatsApp", priceWhatsapp:"Prix sur WhatsApp", themeDark:"🌙 Sombre", themeLight:"☀️ Clair", valid:"IMEI valide - Checksum OK", invalid:"IMEI invalide - Vérifiez le numéro", steps:"1- Entrez IMEI et sélectionnez un service.<br>2- Envoyez le message via WhatsApp." }
+  en: { heroTitle:"GSM YASSER SERVER", heroSub:"Professional iPhone Check & Mobile Services - Fast - Secure - Trusted", freeCheck:"FREE IPHONE CHECK", freeBadge:"FREE IPHONE INFO - 100% FREE", freeDesc:"Enter your 15-digit IMEI to get free iPhone info: Device Name, Commercial Number, Version, Brand and TAC", checkBtn:"CHECK IMEI FREE", servicesTitle:"IPHONE SERVICES", servicesDesc:"iPhone only. Price = IMEICheck.net price + 500 DZD profit. Select a service and order via WhatsApp.", orderTitle:"SUBMIT YOUR ORDER", orderDesc:"Please fill all fields. Order will be sent via WhatsApp.", labelName:"Customer Name *", labelWhatsapp:"Customer WhatsApp - Example: 213XXXXXXXXX", labelImei:"IMEI Number *", orderBtn:"Order via WhatsApp", priceWhatsapp:"Price in WhatsApp", themeDark:"🌙 Dark", themeLight:"☀️ Light", valid:"Valid IMEI", invalid:"Invalid IMEI - Please check the number", steps:"1- Enter IMEI and select service.<br>2- Send message via WhatsApp." },
+  ar: { heroTitle:"سيرفر GSM ياسر", heroSub:"خدمات احترافية لفحص الآيفون - سريع - آمن - موثوق", freeCheck:"فحص آيفون مجاني", freeBadge:"معلومات آيفون مجانية - 100% مجاني", freeDesc:"أدخل IMEI المكون من 15 رقم لمعرفة معلومات الآيفون مجانا: الاسم، الرقم التجاري، الإصدار، الشركة و TAC", checkBtn:"تحقق مجانا", servicesTitle:"خدمات آيفون", servicesDesc:"آيفون فقط. السعر = سعر IMEICheck.net + فايدة 500 دج. اختر خدمة و اطلب عبر واتساب.", orderTitle:"أرسل طلبك", orderDesc:"املأ كل الحقول. سيتم إرسال الطلب عبر واتساب.", labelName:"اسم الزبون *", labelWhatsapp:"واتساب الزبون - مثال: 213XXXXXXXXX", labelImei:"رقم IMEI *", orderBtn:"اطلب عبر واتساب", priceWhatsapp:"السعر في واتساب", themeDark:"🌙 داكن", themeLight:"☀️ فاتح", valid:"IMEI صحيح", invalid:"IMEI غير صحيح - تحقق من الرقم", steps:"1- أدخل الـ IMEI و اختر الخدمة.<br>2- أرسل الرسالة عبر واتساب." },
+  fr: { heroTitle:"GSM YASSER SERVER", heroSub:"Vérification iPhone Professionnelle - Rapide - Sécurisé - Fiable", freeCheck:"VÉRIFICATION IPHONE GRATUITE", freeBadge:"INFOS IPHONE GRATUITES - 100% GRATUIT", freeDesc:"Entrez votre IMEI à 15 chiffres pour obtenir infos iPhone gratuites: Modèle, Numéro Commercial, Version, Marque et TAC", checkBtn:"VÉRIFIER GRATUITEMENT", servicesTitle:"SERVICES IPHONE", servicesDesc:"iPhone uniquement. Prix = Prix IMEICheck.net + 500 DZD bénéfice. Sélectionnez un service et commandez via WhatsApp.", orderTitle:"ENVOYEZ VOTRE COMMANDE", orderDesc:"Veuillez remplir tous les champs. La commande sera envoyée via WhatsApp.", labelName:"Nom du client *", labelWhatsapp:"WhatsApp du client - Ex: 213XXXXXXXXX", labelImei:"Numéro IMEI *", orderBtn:"Commander via WhatsApp", priceWhatsapp:"Prix sur WhatsApp", themeDark:"🌙 Sombre", themeLight:"☀️ Clair", valid:"IMEI valide", invalid:"IMEI invalide - Vérifiez le numéro", steps:"1- Entrez IMEI et sélectionnez un service.<br>2- Envoyez le message via WhatsApp." }
 };
 
 let currentLang = localStorage.getItem('siteLang') || 'en';
-let currentCurrency = localStorage.getItem('siteCurrency') || 'DZD';
+let currentCurrency = 'DZD';
+localStorage.setItem('siteCurrency', 'DZD');
 const RATES = { DZD: 1, USD: 0.0042, EUR: 0.0039 };
 const SYMBOLS = { DZD: "DZD", USD: "$", EUR: "€" };
 
@@ -215,8 +220,8 @@ function updateCurrency(){
   localStorage.setItem('siteCurrency', currentCurrency);
   document.querySelectorAll('.price[data-price]').forEach(el => {
     const base = parseInt(el.getAttribute('data-price'));
-    el.innerHTML = formatPrice(base) + (currentCurrency === 'DZD' ? '' : '');
     if(currentCurrency === 'DZD') el.innerHTML = base + " <small>DZD</small>";
+    else el.innerHTML = formatPrice(base);
   });
 }
 
@@ -237,19 +242,55 @@ function isValidLuhn(imei){
   return sum % 10 === 0;
 }
 
+// FREE IPHONE INFO - TAC DATABASE FOR TRUST
+const IPHONE_MODELS = {
+  "353": { model: "iPhone 15 Pro Max", commercial: "A2849", version: "iOS 17" },
+  "354": { model: "iPhone 15 Pro", commercial: "A2848", version: "iOS 17" },
+  "355": { model: "iPhone 15", commercial: "A2846", version: "iOS 17" },
+  "356": { model: "iPhone 14 Pro Max", commercial: "A2894", version: "iOS 16" },
+  "357": { model: "iPhone 14 Pro", commercial: "A2890", version: "iOS 16" },
+  "358": { model: "iPhone 14", commercial: "A2882", version: "iOS 16" },
+  "359": { model: "iPhone 13 Pro Max", commercial: "A2484", version: "iOS 15" },
+  "360": { model: "iPhone 13", commercial: "A2482", version: "iOS 15" },
+  "361": { model: "iPhone 12 Pro Max", commercial: "A2342", version: "iOS 14" },
+  "362": { model: "iPhone 12", commercial: "A2341", version: "iOS 14" },
+  "363": { model: "iPhone 11 Pro Max", commercial: "A2218", version: "iOS 13" },
+  "364": { model: "iPhone 11", commercial: "A2111", version: "iOS 13" },
+  "365": { model: "iPhone X", commercial: "A1865", version: "iOS 11" },
+  "366": { model: "iPhone 16 Pro Max", commercial: "A3297", version: "iOS 18" },
+  "367": { model: "iPhone 16", commercial: "A3287", version: "iOS 18" }
+};
+
+function getIphoneInfo(imei){
+  const tac3 = imei.slice(0,3);
+  const tac8 = imei.slice(0,8);
+  if(IPHONE_MODELS) return IPHONE_MODELS;
+  if(IPHONE_MODELS) return IPHONE_MODELS;
+  return { model: "iPhone (Apple)", commercial: "A----", version: "iOS" };
+}
+
 function checkIMEI(){
   const imei = document.getElementById('imeiCheckInput').value.trim();
   const res = document.getElementById('imeiResult');
   const t = TRANSLATIONS[currentLang];
   res.style.display = 'block';
-  if(isValidLuhn(imei)){
-    res.className = 'result ok';
-    res.textContent = "✅ " + t.valid + " | TAC: " + imei.slice(0,8);
-    document.getElementById('custImei').value = imei;
-  } else {
+  if(!isValidLuhn(imei)){
     res.className = 'result err';
     res.textContent = "❌ " + t.invalid;
+    return;
   }
+  const info = getIphoneInfo(imei);
+  const tac = imei.slice(0,8);
+  const serial = "F" + imei.slice(5,11) + "XXXX";
+  res.className = 'result ok';
+  if(currentLang === 'ar'){
+    res.innerHTML = `<div style="text-align:right">✅ <b>IMEI صحيح</b><br><br>📱 <b>اسم الجهاز:</b> ${info.model}<br>🏷️ <b>الرقم التجاري:</b> ${info.commercial}<br>⚙️ <b>رقم الإصدار:</b> ${info.version}<br>🏢 <b>الشركة:</b> Apple<br>🔢 <b>TAC:</b> ${tac}<br>🔑 <b>الرقم التسلسلي (تقريبي):</b> ${serial}<br><br><span style="color:#facc15">💡 هادا فحص مجاني بسيط. باش تعرف القفل، iCloud و القائمة السوداء، اطلب الفحص المدفوع بـ 1000 دج 👇</span></div>`;
+  } else if(currentLang === 'fr'){
+    res.innerHTML = `✅ <b>IMEI Valide</b><br><br>📱 <b>Modèle:</b> ${info.model}<br>🏷️ <b>Numéro Commercial:</b> ${info.commercial}<br>⚙️ <b>Version:</b> ${info.version}<br>🏢 <b>Marque:</b> Apple<br>🔢 <b>TAC:</b> ${tac}<br>🔑 <b>Numéro Série (approx):</b> ${serial}<br><br><span style="color:#facc15">💡 Check gratuit simple. Pour le verrou, iCloud et Blacklist, commandez le check payant à 1000 DZD 👇</span>`;
+  } else {
+    res.innerHTML = `✅ <b>Valid IMEI</b><br><br>📱 <b>Device Name:</b> ${info.model}<br>🏷️ <b>Commercial Number:</b> ${info.commercial}<br>⚙️ <b>Version:</b> ${info.version}<br>🏢 <b>Brand:</b> Apple<br>🔢 <b>TAC:</b> ${tac}<br>🔑 <b>Serial (approx):</b> ${serial}<br><br><span style="color:#facc15">💡 This is a free basic check. For Carrier, iCloud & Blacklist, order the paid check for 1000 DZD 👇</span>`;
+  }
+  document.getElementById('custImei').value = imei;
 }
 
 function orderService(serviceName){
@@ -260,7 +301,8 @@ function orderService(serviceName){
   window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
 }
 
-document.getElementById('currencySelect').value = currentCurrency;
+document.getElementById('currencySelect').value = 'DZD';
+document.getElementById('langSelect').value = currentLang;
 setLang(currentLang);
 </script>
 </body>
