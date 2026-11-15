@@ -99,35 +99,26 @@ function updateThemeButton(){ const btn=document.getElementById('themeBtn'); if(
 function loadTheme(){ const s=localStorage.getItem('siteTheme')||'dark'; if(s==='light') document.body.classList.add('light'); updateThemeButton(); }
 function isValidLuhn(imei){ if(!/^\d{15}$/.test(imei)) return false; let sum=0; for(let i=0;i<15;i++){ let d=parseInt(imei[i]); if((15-i)%2===0){ d*=2; if(d>9) d-=9; } sum+=d; } return sum%10===0; }
 
-// ===== CORRECTED DATABASE - TAC8 FIRST =====
-const IPHONE_MODELS = {
-  "35677108": { model: "iPhone 8 Plus", commercial: "A1897", version: "iOS 11" },
-  "35677308": { model: "iPhone 8 Plus", commercial: "A1897", version: "iOS 11" },
-  "35438008": { model: "iPhone X", commercial: "A1865", version: "iOS 11" },
-  "353": { model: "iPhone 15 Pro Max", commercial: "A2849", version: "iOS 17" },
-  "354": { model: "iPhone 15 Pro", commercial: "A2848", version: "iOS 17" },
-  "355": { model: "iPhone 15", commercial: "A2846", version: "iOS 17" },
-  "356": { model: "iPhone 14 Pro Max", commercial: "A2894", version: "iOS 16" },
-  "357": { model: "iPhone 14 Pro", commercial: "A2890", version: "iOS 16" },
-  "358": { model: "iPhone 14", commercial: "A2882", version: "iOS 16" },
-  "359": { model: "iPhone 13 Pro Max", commercial: "A2484", version: "iOS 15" },
-  "360": { model: "iPhone 13", commercial: "A2482", version: "iOS 15" },
-  "361": { model: "iPhone 12 Pro Max", commercial: "A2342", version: "iOS 14" },
-  "362": { model: "iPhone 12", commercial: "A2341", version: "iOS 14" },
-  "363": { model: "iPhone 11 Pro Max", commercial: "A2218", version: "iOS 13" },
-  "364": { model: "iPhone 11", commercial: "A2111", version: "iOS 13" },
-  "365": { model: "iPhone X", commercial: "A1865", version: "iOS 11" },
-  "366": { model: "iPhone 16 Pro Max", commercial: "A3297", version: "iOS 18" },
-  "367": { model: "iPhone 16", commercial: "A3287", version: "iOS 18" }
-};
-
+// ===== FIXED FINAL - DIRECT CHECK, NO DICTIONARY =====
 function getIphoneInfo(imei){
-  const tac8 = imei.slice(0,8);
-  const tac3 = imei.slice(0,3);
-  const found = IPHONE_MODELS || IPHONE_MODELS;
-  if(found){
-    return { model: found.model || "iPhone (Apple)", commercial: found.commercial || "A----", version: found.version || "iOS" };
-  }
+  if(imei.startsWith("35677108")) return { model: "iPhone 8 Plus", commercial: "A1897", version: "iOS 11" };
+  if(imei.startsWith("35677308")) return { model: "iPhone 8 Plus", commercial: "A1897", version: "iOS 11" };
+  if(imei.startsWith("35438008")) return { model: "iPhone X", commercial: "A1865", version: "iOS 11" };
+  if(imei.startsWith("353")) return { model: "iPhone 15 Pro Max", commercial: "A2849", version: "iOS 17" };
+  if(imei.startsWith("354")) return { model: "iPhone 15 Pro", commercial: "A2848", version: "iOS 17" };
+  if(imei.startsWith("355")) return { model: "iPhone 15", commercial: "A2846", version: "iOS 17" };
+  if(imei.startsWith("356")) return { model: "iPhone 14 Pro Max", commercial: "A2894", version: "iOS 16" };
+  if(imei.startsWith("357")) return { model: "iPhone 14 Pro", commercial: "A2890", version: "iOS 16" };
+  if(imei.startsWith("358")) return { model: "iPhone 14", commercial: "A2882", version: "iOS 16" };
+  if(imei.startsWith("359")) return { model: "iPhone 13 Pro Max", commercial: "A2484", version: "iOS 15" };
+  if(imei.startsWith("360")) return { model: "iPhone 13", commercial: "A2482", version: "iOS 15" };
+  if(imei.startsWith("361")) return { model: "iPhone 12 Pro Max", commercial: "A2342", version: "iOS 14" };
+  if(imei.startsWith("362")) return { model: "iPhone 12", commercial: "A2341", version: "iOS 14" };
+  if(imei.startsWith("363")) return { model: "iPhone 11 Pro Max", commercial: "A2218", version: "iOS 13" };
+  if(imei.startsWith("364")) return { model: "iPhone 11", commercial: "A2111", version: "iOS 13" };
+  if(imei.startsWith("365")) return { model: "iPhone X", commercial: "A1865", version: "iOS 11" };
+  if(imei.startsWith("366")) return { model: "iPhone 16 Pro Max", commercial: "A3297", version: "iOS 18" };
+  if(imei.startsWith("367")) return { model: "iPhone 16", commercial: "A3287", version: "iOS 18" };
   return { model: "iPhone (Apple)", commercial: "A----", version: "iOS" };
 }
 
@@ -157,7 +148,6 @@ async function checkIMEI(){
 function showFreeResult(imei, brand, model, commercial, version, tac, serial, source){
   const res = document.getElementById('imeiResult');
   res.className='result ok';
-  // Safety: never show undefined
   brand = brand || "APPLE"; model = model || "iPhone (Apple)"; commercial = commercial || "A----"; version = version || "iOS";
   if(currentLang==='ar'){
     res.innerHTML=`<div style="text-align:right">✅ <b>IMEI صحيح - فحص مجاني</b><br><br>📱 <b>اسم الجهاز:</b> ${model}<br>🏷️ <b>الرقم التجاري:</b> ${commercial}<br>⚙️ <b>رقم الإصدار:</b> ${version}<br>🏢 <b>الشركة:</b> ${brand}<br>🔢 <b>TAC:</b> ${tac}<br>🔑 <b>الرقم التسلسلي (تقريبي):</b> ${serial}<br><small style="opacity:.6">Source: ${source}</small><br><br><span style="color:#facc15">💡 هادا فحص مجاني بسيط. للمزيد تواصل معنا 👇</span></div>`;
