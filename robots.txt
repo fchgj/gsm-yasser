@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fchgj.github.io/gsm-yasser/sitemap.xml
