@@ -33,7 +33,6 @@ body.light .check-card{background:white;box-shadow:0 4px 20px rgba(0,0,0,.08)}
 .result{margin-top:10px;padding:12px;border-radius:10px;display:none;font-size:14px;line-height:1.7}
 .result.ok{background:#14532d}.result.err{background:#7f1d1d}
 .footer{text-align:center;opacity:.6;font-size:12px;padding:20px}
-[dir="rtl"]{text-align:right}
 </style>
 </head>
 <body>
@@ -41,54 +40,61 @@ body.light .check-card{background:white;box-shadow:0 4px 20px rgba(0,0,0,.08)}
 <header><div class="logo">GSM <span>YASSER</span> SERVER</div>
 <div class="controls">
 <select id="langSelect" onchange="setLang(this.value)">
-<option value="en">🇬🇧 English</option><option value="ar">🇩🇿 العربية</option><option value="fr">🇫🇷 Français</option>
+<option value="en">English</option><option value="ar">Arabic</option><option value="fr">French</option>
 </select>
-<button id="themeBtn" onclick="toggleTheme()">🌙 Dark</button>
+<button id="themeBtn" onclick="toggleTheme()">Dark</button>
 </div></header>
-<div class="hero"><h1 data-i18n="heroTitle">GSM YASSER SERVER</h1><p data-i18n="heroSub">Professional iPhone Check & Mobile Services - Fast - Secure - Trusted</p></div>
-<div class="global-badge" data-i18n="globalBadge">🌍 خدمتنا متوفرة لجميع الدول - Our service is available for all countries</div>
+<div class="hero"><h1>GSM YASSER SERVER</h1><p>Professional iPhone Check & Mobile Services - Fast - Secure - Trusted</p></div>
+<div class="global-badge">Our service is available for all countries</div>
 <div class="card">
-<h2 data-i18n="freeCheck">FREE IPHONE CHECK</h2>
+<h2>FREE IPHONE CHECK</h2>
 <div class="free-badge">FREE IPHONE INFO - 100% FREE</div>
-<p data-i18n="freeDesc">Enter your 15-digit IMEI to get free iPhone info</p>
+<p>Enter your 15-digit IMEI to get free iPhone info</p>
 <input type="text" id="imeiCheckInput" placeholder="IMEI - 15 digits" maxlength="15">
-<button class="btn" onclick="checkIMEI()" data-i18n="checkBtn">CHECK IMEI FREE</button>
+<button class="btn" onclick="checkIMEI()">CHECK IMEI FREE</button>
 <div id="imeiResult" class="result"></div>
 </div>
 <div class="card">
-<h2 data-i18n="orderTitle">SUBMIT YOUR ORDER</h2>
-<p data-i18n="orderDesc">Please fill all fields. You will be redirected to WhatsApp for inquiry.</p>
+<h2>SUBMIT YOUR ORDER</h2>
+<p>Please fill all fields. You will be redirected to WhatsApp for inquiry.</p>
 <input type="text" id="custName" placeholder="Customer Name">
 <input type="text" id="custWhatsapp" placeholder="Customer WhatsApp - Example: 213XXXXXXXXX">
 <input type="text" id="custImei" placeholder="IMEI Number">
 </div>
 <div class="card">
-<h2 data-i18n="servicesTitle">IPHONE SERVICES</h2>
-<p data-i18n="servicesDesc">iPhone only. Select a service for more information via WhatsApp.</p>
-<div class="check-card"><div class="top"><span class="shield">🛡️</span></div><h3 class="svc-name" data-en="Carrier Lock Check" data-ar="فحص قفل الشبكة" data-fr="Vérification Verrouillage Opérateur">Carrier Lock Check</h3><p class="svc-desc" data-en="Carrier lock - Network - SIM status" data-ar="قفل الشبكة - الشبكة - حالة الشريحة" data-fr="Verrouillage opérateur - Réseau - Statut SIM">Carrier lock - Network - SIM status</p><button class="order-btn" onclick="orderService('Carrier Lock Check')" data-i18n="orderBtn">تواصل معنا للاستفسار ↗</button></div>
-<div class="check-card"><div class="top"><span class="shield">🛡️</span></div><h3 class="svc-name" data-en="iCloud / Find My Check" data-ar="فحص iCloud" data-fr="Vérification iCloud">iCloud / Find My Check</h3><p class="svc-desc" data-en="iCloud lock - Find My iPhone status" data-ar="قفل iCloud - حالة Find My" data-fr="Verrouillage iCloud - Statut Localiser">iCloud lock - Find My iPhone status</p><button class="order-btn" onclick="orderService('iCloud Check')" data-i18n="orderBtn">تواصل معنا للاستفسار ↗</button></div>
-<div class="check-card"><div class="top"><span class="shield">🛡️</span></div><h3 class="svc-name" data-en="Blacklist Check" data-ar="فحص القائمة السوداء" data-fr="Vérification Liste Noire">Blacklist Check</h3><p class="svc-desc" data-en="Stolen - Lost - Blocked" data-ar="مسروق - ضائع - محظور" data-fr="Volé - Perdu - Bloqué">Stolen - Lost - Blocked</p><button class="order-btn" onclick="orderService('Blacklist Check')" data-i18n="orderBtn">تواصل معنا للاستفسار ↗</button></div>
-<div class="check-card"><div class="top"><span class="shield">🛡️</span></div><h3 class="svc-name" data-en="FULL PRO Full Check" data-ar="فحص شامل PRO" data-fr="Vérification Complète PRO">FULL PRO Full Check</h3><p class="svc-desc" data-en="All in one PDF report - GSX" data-ar="تقرير PDF كامل - GSX" data-fr="Rapport PDF complet - GSX">All in one PDF report - GSX</p><button class="order-btn" onclick="orderService('FULL PRO Check')" data-i18n="orderBtn">تواصل معنا للاستفسار ↗</button></div>
-<p data-i18n="steps" style="margin-top:12px">1- Enter IMEI and select service.<br>2- Send message via WhatsApp.</p>
+<h2>IPHONE SERVICES</h2>
+<p>iPhone only. Select a service for more information via WhatsApp.</p>
+<div class="check-card"><div class="top"><span class="shield">🛡️</span></div><h3>Carrier Lock Check</h3><p>Carrier lock - Network - SIM status</p><button class="order-btn" onclick="orderService('Carrier Lock Check')">Contact us for inquiry</button></div>
+<div class="check-card"><div class="top"><span class="shield">🛡️</span></div><h3>iCloud / Find My Check</h3><p>iCloud lock - Find My iPhone status</p><button class="order-btn" onclick="orderService('iCloud Check')">Contact us for inquiry</button></div>
+<div class="check-card"><div class="top"><span class="shield">🛡️</span></div><h3>Blacklist Check</h3><p>Stolen - Lost - Blocked</p><button class="order-btn" onclick="orderService('Blacklist Check')">Contact us for inquiry</button></div>
+<div class="check-card"><div class="top"><span class="shield">🛡️</span></div><h3>FULL PRO Full Check</h3><p>All in one PDF report - GSX</p><button class="order-btn" onclick="orderService('FULL PRO Check')">Contact us for inquiry</button></div>
+<p style="margin-top:12px">1- Enter IMEI and select service.<br>2- Send message via WhatsApp.</p>
 </div>
 <div class="footer">© 2026 GSM YASSER - All Rights Reserved</div>
 </div>
 <script>
 const API_KEY = "ia_76a4dc9a5950fd9dba57d33a4eadf5b29cfcd5b1a48f8809";
 const API_URL = "https://api.imeiapi.net/v1/device/";
-const TRANSLATIONS = {
-en:{heroTitle:"GSM YASSER SERVER",heroSub:"Professional iPhone Check & Mobile Services - Fast - Secure - Trusted",globalBadge:"🌍 Our service is available for all countries",freeCheck:"FREE IPHONE CHECK",freeDesc:"Enter your 15-digit IMEI to get free iPhone info: Device Name, Commercial Number, Version, Brand and TAC",checkBtn:"CHECK IMEI FREE",servicesTitle:"IPHONE SERVICES",servicesDesc:"iPhone only. Select a service for more information via WhatsApp.",orderTitle:"SUBMIT YOUR ORDER",orderDesc:"Please fill all fields. You will be redirected to WhatsApp for inquiry.",orderBtn:"Contact us for inquiry ↗",valid:"Valid IMEI",invalid:"Invalid IMEI - Please check the number",steps:"1- Enter IMEI and select service.<br>2- Send message via WhatsApp."},
-ar:{heroTitle:"سيرفر GSM ياسر",heroSub:"خدمات احترافية لفحص الآيفون - سريع - آمن - موثوق",globalBadge:"🌍 خدمتنا متوفرة لجميع الدول",freeCheck:"فحص آيفون مجاني",freeDesc:"أدخل IMEI المكون من 15 رقم لمعرفة معلومات الآيفون مجانا",checkBtn:"تحقق مجانا",servicesTitle:"خدمات آيفون",servicesDesc:"آيفون فقط. اختر خدمة للمزيد من المعلومات عبر واتساب.",orderTitle:"أرسل طلبك",orderDesc:"املأ كل الحقول. سيتم تحويلك إلى واتساب للاستفسار.",orderBtn:"تواصل معنا للاستفسار ↗",valid:"IMEI صحيح",invalid:"IMEI غير صحيح - تحقق من الرقم",steps:"1- أدخل الـ IMEI و اختر الخدمة.<br>2- أرسل الرسالة عبر واتساب."},
-fr:{heroTitle:"GSM YASSER SERVER",heroSub:"Vérification iPhone Professionnelle - Rapide - Sécurisé - Fiable",globalBadge:"🌍 Notre service est disponible pour tous les pays",freeCheck:"VÉRIFICATION IPHONE GRATUITE",freeDesc:"Entrez votre IMEI à 15 chiffres pour obtenir infos iPhone gratuites",checkBtn:"VÉRIFIER GRATUITEMENT",servicesTitle:"SERVICES IPHONE",servicesDesc:"iPhone uniquement. Sélectionnez un service pour plus d'informations via WhatsApp.",orderTitle:"ENVOYEZ VOTRE COMMANDE",orderDesc:"Veuillez remplir tous les champs. Vous serez redirigé vers WhatsApp pour vous renseigner.",orderBtn:"Contactez-nous pour vous renseigner ↗",valid:"IMEI valide",invalid:"IMEI invalide - Vérifiez le numéro",steps:"1- Entrez IMEI et sélectionnez un service.<br>2- Envoyez le message via WhatsApp."}
-};
-let currentLang = localStorage.getItem('siteLang') || 'en';
-function setLang(lang){currentLang=lang;localStorage.setItem('siteLang',lang);document.getElementById('langSelect').value=lang;document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';const t=TRANSLATIONS[currentLang];document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k])el.innerHTML=t[k];});document.querySelectorAll('.svc-name').forEach(el=>{el.textContent=el.getAttribute('data-'+lang);});document.querySelectorAll('.svc-desc').forEach(el=>{el.textContent=el.getAttribute('data-'+lang);});updateThemeButton();}
-function toggleTheme(){const isLight=document.body.classList.toggle('light');localStorage.setItem('siteTheme',isLight?'light':'dark');updateThemeButton();}
-function updateThemeButton(){const btn=document.getElementById('themeBtn');if(document.body.classList.contains('light')){btn.textContent='☀️ Light';btn.style.background='#facc15';btn.style.color='#000';}else{btn.textContent='🌙 Dark';btn.style.background='#2563eb';btn.style.color='#fff';}}
-function loadTheme(){const s=localStorage.getItem('siteTheme')||'dark';if(s==='light')document.body.classList.add('light');updateThemeButton();}
-function isValidLuhn(imei){if(!/^\d{15}$/.test(imei))return false;let sum=0;for(let i=0;i<15;i++){let d=parseInt(imei[i]);if((15-i)%2===0){d*=2;if(d>9)d-=9;}sum+=d;}return sum%10===0;}
 
-// --- FIXED: TAC 8 digits first, then TAC 3 ---
+function toggleTheme(){
+  const isLight = document.body.classList.toggle('light');
+  localStorage.setItem('siteTheme', isLight ? 'light' : 'dark');
+  document.getElementById('themeBtn').textContent = isLight ? 'Light' : 'Dark';
+}
+function setLang(lang){ localStorage.setItem('siteLang', lang); }
+
+function isValidLuhn(imei){
+  if(!/^\d{15}$/.test(imei)) return false;
+  let sum = 0;
+  for(let i=0;i<15;i++){
+    let d = parseInt(imei[i]);
+    if((15-i)%2===0){ d*=2; if(d>9) d-=9; }
+    sum+=d;
+  }
+  return sum % 10 === 0;
+}
+
+// FIXED DATABASE - TAC 8 digits first, then TAC 3 digits
 const IPHONE_MODELS = {
   "35677108": { model: "iPhone 8 Plus", commercial: "A1897", version: "iOS 11" },
   "35677308": { model: "iPhone 8 Plus", commercial: "A1897", version: "iOS 11" },
@@ -113,47 +119,66 @@ const IPHONE_MODELS = {
 function getIphoneInfo(imei){
   const tac8 = imei.slice(0,8);
   const tac3 = imei.slice(0,3);
-  return IPHONE_MODELS || IPHONE_MODELS || { model: "iPhone (Apple)", commercial: "A----", version: "iOS" };
+  const found = IPHONE_MODELS || IPHONE_MODELS;
+  if(found){
+    return { model: found.model, commercial: found.commercial, version: found.version };
+  }
+  return { model: "iPhone (Apple)", commercial: "A----", version: "iOS" };
 }
 
 async function checkIMEI(){
-const imei=document.getElementById('imeiCheckInput').value.trim();
-const res=document.getElementById('imeiResult');
-const t=TRANSLATIONS[currentLang];
-res.style.display='block';
-if(!isValidLuhn(imei)){res.className='result err';res.textContent="❌ "+t.invalid;return;}
-res.className='result ok';res.innerHTML="⏳ Checking... جاري الفحص...";
-const localInfo = getIphoneInfo(imei);
-try{
-const response=await fetch(`${API_URL}${imei}`,{headers:{'X-Api-Key':API_KEY,'Accept':'application/json'}});
-const data=await response.json();
-const brand=data.brand||data.Brand||data.manufacturer||"Apple";
-const model=data.model||data.Model||data.modelName||data.device||localInfo.model;
-const commercial=localInfo.commercial;
-const version=localInfo.version;
-const tac=imei.slice(0,8);
-const serial="F"+imei.slice(5,11)+"XXXX";
-showFreeResult(imei,brand,model,commercial,version,tac,serial,"IMEIAPI - Live");
-return;
-}catch(e){
-const tac=imei.slice(0,8);const serial="F"+imei.slice(5,11)+"XXXX";
-showFreeResult(imei,"Apple",localInfo.model,localInfo.commercial,localInfo.version,tac,serial,"Local");
+  const imei = document.getElementById('imeiCheckInput').value.trim();
+  const res = document.getElementById('imeiResult');
+  res.style.display = 'block';
+  if(!isValidLuhn(imei)){
+    res.className = 'result err';
+    res.textContent = "Invalid IMEI - Please check the number";
+    return;
+  }
+  res.className = 'result ok';
+  res.innerHTML = "Checking...";
+  const localInfo = getIphoneInfo(imei);
+  // Safety: never show undefined
+  const commercial = localInfo.commercial || "A----";
+  const version = localInfo.version || "iOS";
+  const tac = imei.slice(0,8);
+  const serial = "F" + imei.slice(5,11) + "XXXX";
+
+  try{
+    const response = await fetch(`${API_URL}${imei}`, {
+      headers: { 'X-Api-Key': API_KEY, 'Accept': 'application/json' }
+    });
+    const data = await response.json();
+    const brand = data.brand || data.Brand || data.manufacturer || "APPLE";
+    const model = data.model || data.Model || data.modelName || data.device || localInfo.model;
+    showResult(imei, brand, model, commercial, version, tac, serial, "IMEIAPI - Live");
+  }catch(e){
+    showResult(imei, "APPLE", localInfo.model, commercial, version, tac, serial, "Local");
+  }
 }
+
+function showResult(imei, brand, model, commercial, version, tac, serial, source){
+  const res = document.getElementById('imeiResult');
+  res.className = 'result ok';
+  res.innerHTML = `Valid IMEI - Free Check<br><br>
+  Device Name: ${model}<br>
+  Commercial Number: ${commercial}<br>
+  Version: ${version}<br>
+  Brand: ${brand}<br>
+  TAC: ${tac}<br>
+  Serial (approx): ${serial}<br>
+  <small style="opacity:.6">Source: ${source}</small><br><br>
+  <span style="color:#facc15">This is a free basic check. For more information contact us</span>`;
+  document.getElementById('custImei').value = imei;
 }
-function showFreeResult(imei,brand,model,commercial,version,tac,serial,source){
-const res=document.getElementById('imeiResult');res.className='result ok';
-if(currentLang==='ar'){res.innerHTML=`<div style="text-align:right">✅ <b>IMEI صحيح - فحص مجاني</b><br><br>📱 <b>اسم الجهاز:</b> ${model}<br>🏷️ <b>الرقم التجاري:</b> ${commercial}<br>⚙️ <b>رقم الإصدار:</b> ${version}<br>🏢 <b>الشركة:</b> ${brand}<br>🔢 <b>TAC:</b> ${tac}<br>🔑 <b>الرقم التسلسلي (تقريبي):</b> ${serial}<br><small style="opacity:.6">Source: ${source}</small><br><br><span style="color:#facc15">💡 هادا فحص مجاني بسيط. للمزيد تواصل معنا 👇</span></div>`;}
-else if(currentLang==='fr'){res.innerHTML=`✅ <b>IMEI Valide - Check Gratuit</b><br><br>📱 <b>Modèle:</b> ${model}<br>🏷️ <b>Numéro Commercial:</b> ${commercial}<br>⚙️ <b>Version:</b> ${version}<br>🏢 <b>Marque:</b> ${brand}<br>🔢 <b>TAC:</b> ${tac}<br>🔑 <b>Numéro Série (approx):</b> ${serial}<br><small style="opacity:.6">Source: ${source}</small>`;}
-else{res.innerHTML=`✅ <b>Valid IMEI - Free Check</b><br><br>📱 <b>Device Name:</b> ${model}<br>🏷️ <b>Commercial Number:</b> ${commercial}<br>⚙️ <b>Version:</b> ${version}<br>🏢 <b>Brand:</b> ${brand}<br>🔢 <b>TAC:</b> ${tac}<br>🔑 <b>Serial (approx):</b> ${serial}<br><small style="opacity:.6">Source: ${source}</small><br><br><span style="color:#facc15">💡 This is a free basic check. For more information contact us 👇</span>`;}
-document.getElementById('custImei').value=imei;
-}
+
 function orderService(serviceName){
-const imei=document.getElementById('custImei')?document.getElementById('custImei').value.trim():"";
-const name=document.getElementById('custName')?document.getElementById('custName').value.trim():"";
-const msg=`Hello GSM YASSER%0A%0AService: ${encodeURIComponent(serviceName)}%0AIMEI: ${encodeURIComponent(imei||'---')}%0AName: ${encodeURIComponent(name||'---')}`;
-const myNumber="213657241710";window.open(`https://wa.me/${myNumber}?text=${msg}`,'_blank');
+  const imei = document.getElementById('custImei') ? document.getElementById('custImei').value.trim() : "";
+  const name = document.getElementById('custName') ? document.getElementById('custName').value.trim() : "";
+  const msg = `Hello GSM YASSER%0A%0AService: ${encodeURIComponent(serviceName)}%0AIMEI: ${encodeURIComponent(imei || '---')}%0AName: ${encodeURIComponent(name || '---')}`;
+  const myNumber = "213657241710";
+  window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
 }
-document.getElementById('langSelect').value=currentLang;setLang(currentLang);loadTheme();
 </script>
 </body>
 </html>
