@@ -24,7 +24,6 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #334155
 body.light input,body.light select{background:#f8fafc;color:#0f172a}
 .btn{width:100%;background:#22c55e;color:white;font-weight:800;padding:14px;border:none;font-size:16px;cursor:pointer}
 .free-badge{background:#14532d;padding:10px;border-radius:10px;text-align:center;margin-bottom:12px;font-weight:800}
-.free-badge span{color:#facc15}
 .check-card{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:16px;margin-bottom:12px}
 body.light .check-card{background:white;box-shadow:0 4px 20px rgba(0,0,0,.08)}
 .check-card .top{display:flex;justify-content:space-between;align-items:flex-start}
@@ -88,8 +87,35 @@ function toggleTheme(){const isLight=document.body.classList.toggle('light');loc
 function updateThemeButton(){const btn=document.getElementById('themeBtn');if(document.body.classList.contains('light')){btn.textContent='☀️ Light';btn.style.background='#facc15';btn.style.color='#000';}else{btn.textContent='🌙 Dark';btn.style.background='#2563eb';btn.style.color='#fff';}}
 function loadTheme(){const s=localStorage.getItem('siteTheme')||'dark';if(s==='light')document.body.classList.add('light');updateThemeButton();}
 function isValidLuhn(imei){if(!/^\d{15}$/.test(imei))return false;let sum=0;for(let i=0;i<15;i++){let d=parseInt(imei[i]);if((15-i)%2===0){d*=2;if(d>9)d-=9;}sum+=d;}return sum%10===0;}
-const IPHONE_MODELS={"353":{model:"iPhone 15 Pro Max",commercial:"A2849",version:"iOS 17"},"354":{model:"iPhone 15 Pro",commercial:"A2848",version:"iOS 17"},"355":{model:"iPhone 15",commercial:"A2846",version:"iOS 17"},"356":{model:"iPhone 14 Pro Max",commercial:"A2894",version:"iOS 16"},"357":{model:"iPhone 14 Pro",commercial:"A2890",version:"iOS 16"},"358":{model:"iPhone 14",commercial:"A2882",version:"iOS 16"},"359":{model:"iPhone 13 Pro Max",commercial:"A2484",version:"iOS 15"},"360":{model:"iPhone 13",commercial:"A2482",version:"iOS 15"},"361":{model:"iPhone 12 Pro Max",commercial:"A2342",version:"iOS 14"},"362":{model:"iPhone 12",commercial:"A2341",version:"iOS 14"},"363":{model:"iPhone 11 Pro Max",commercial:"A2218",version:"iOS 13"},"364":{model:"iPhone 11",commercial:"A2111",version:"iOS 13"},"365":{model:"iPhone X",commercial:"A1865",version:"iOS 11"},"366":{model:"iPhone 16 Pro Max",commercial:"A3297",version:"iOS 18"},"367":{model:"iPhone 16",commercial:"A3287",version:"iOS 18"}};
-function getIphoneInfo(imei){const tac3=imei.slice(0,3);return IPHONE_MODELS||{model:"iPhone (Apple)",commercial:"A----",version:"iOS"};}
+
+// --- FIXED: TAC 8 digits first, then TAC 3 ---
+const IPHONE_MODELS = {
+  "35677108": { model: "iPhone 8 Plus", commercial: "A1897", version: "iOS 11" },
+  "35677308": { model: "iPhone 8 Plus", commercial: "A1897", version: "iOS 11" },
+  "35438008": { model: "iPhone X", commercial: "A1865", version: "iOS 11" },
+  "353": { model: "iPhone 15 Pro Max", commercial: "A2849", version: "iOS 17" },
+  "354": { model: "iPhone 15 Pro", commercial: "A2848", version: "iOS 17" },
+  "355": { model: "iPhone 15", commercial: "A2846", version: "iOS 17" },
+  "356": { model: "iPhone 14 Pro Max", commercial: "A2894", version: "iOS 16" },
+  "357": { model: "iPhone 14 Pro", commercial: "A2890", version: "iOS 16" },
+  "358": { model: "iPhone 14", commercial: "A2882", version: "iOS 16" },
+  "359": { model: "iPhone 13 Pro Max", commercial: "A2484", version: "iOS 15" },
+  "360": { model: "iPhone 13", commercial: "A2482", version: "iOS 15" },
+  "361": { model: "iPhone 12 Pro Max", commercial: "A2342", version: "iOS 14" },
+  "362": { model: "iPhone 12", commercial: "A2341", version: "iOS 14" },
+  "363": { model: "iPhone 11 Pro Max", commercial: "A2218", version: "iOS 13" },
+  "364": { model: "iPhone 11", commercial: "A2111", version: "iOS 13" },
+  "365": { model: "iPhone X", commercial: "A1865", version: "iOS 11" },
+  "366": { model: "iPhone 16 Pro Max", commercial: "A3297", version: "iOS 18" },
+  "367": { model: "iPhone 16", commercial: "A3287", version: "iOS 18" }
+};
+
+function getIphoneInfo(imei){
+  const tac8 = imei.slice(0,8);
+  const tac3 = imei.slice(0,3);
+  return IPHONE_MODELS || IPHONE_MODELS || { model: "iPhone (Apple)", commercial: "A----", version: "iOS" };
+}
+
 async function checkIMEI(){
 const imei=document.getElementById('imeiCheckInput').value.trim();
 const res=document.getElementById('imeiResult');
@@ -97,21 +123,21 @@ const t=TRANSLATIONS[currentLang];
 res.style.display='block';
 if(!isValidLuhn(imei)){res.className='result err';res.textContent="❌ "+t.invalid;return;}
 res.className='result ok';res.innerHTML="⏳ Checking... جاري الفحص...";
+const localInfo = getIphoneInfo(imei);
 try{
 const response=await fetch(`${API_URL}${imei}`,{headers:{'X-Api-Key':API_KEY,'Accept':'application/json'}});
 const data=await response.json();
-console.log(data);
 const brand=data.brand||data.Brand||data.manufacturer||"Apple";
-const model=data.model||data.Model||data.modelName||data.device||getIphoneInfo(imei).model;
-const commercial=getIphoneInfo(imei).commercial;
-const version=getIphoneInfo(imei).version;
+const model=data.model||data.Model||data.modelName||data.device||localInfo.model;
+const commercial=localInfo.commercial;
+const version=localInfo.version;
 const tac=imei.slice(0,8);
 const serial="F"+imei.slice(5,11)+"XXXX";
 showFreeResult(imei,brand,model,commercial,version,tac,serial,"IMEIAPI - Live");
 return;
 }catch(e){
-const info=getIphoneInfo(imei);const tac=imei.slice(0,8);const serial="F"+imei.slice(5,11)+"XXXX";
-showFreeResult(imei,"Apple",info.model,info.commercial,info.version,tac,serial,"Local");
+const tac=imei.slice(0,8);const serial="F"+imei.slice(5,11)+"XXXX";
+showFreeResult(imei,"Apple",localInfo.model,localInfo.commercial,localInfo.version,tac,serial,"Local");
 }
 }
 function showFreeResult(imei,brand,model,commercial,version,tac,serial,source){
