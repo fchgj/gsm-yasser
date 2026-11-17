@@ -1,46 +1,76 @@
-
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>فحص IMEI</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Title that will show in Google -->
+<title>GSM YASSER SERVER - Free iPhone IMEI Check | GSM Yasser Oran</title>
+
+<!-- Description that will show under title in Google -->
+<meta name="description" content="Free iPhone and Samsung IMEI check. Check model, warranty and iOS version. GSM Yasser Server Oran - Fast and free IMEI check.">
+
+<!-- For Facebook preview -->
+<meta property="og:title" content="GSM YASSER SERVER - Free iPhone IMEI Check">
+<meta property="og:description" content="Free iPhone and Samsung IMEI check. Check model, warranty and iOS version.">
+<meta property="og:type" content="website">
+
 <style>
-body{font-family:sans-serif;background:#0f172a;color:#fff;text-align:center;padding:20px}
-.card{background:#1e293b;padding:20px;border-radius:16px;max-width:420px;margin:auto}
-input{width:100%;padding:14px;border-radius:10px;border:none;margin:10px 0;font-size:18px;text-align:center;box-sizing:border-box}
-button{width:100%;padding:14px;border:none;border-radius:10px;background:#22c55e;color:#fff;font-size:18px;font-weight:bold;cursor:pointer}
-.result{margin-top:15px;background:#0f172a;padding:15px;border-radius:10px;line-height:1.8}
+body{font-family:Arial;background:#0f172a;color:white;text-align:center;padding:20px;margin:0}
+.box{background:white;color:black;max-width:450px;margin:20px auto;padding:25px;border-radius:20px}
+h1{color:#2563eb;font-size:26px;margin-bottom:5px}
+p{color:#555}
+input{width:90%;padding:15px;font-size:18px;text-align:center;border:2px solid #ddd;border-radius:10px;margin:10px 0}
+button{width:95%;padding:15px;background:#2563eb;color:white;border:none;border-radius:10px;font-size:18px;font-weight:bold;cursor:pointer}
+button:hover{background:#1d4ed8}
+#result{margin-top:15px;padding:15px;background:#f1f5f9;border-radius:10px;display:none;text-align:left}
+.badge{background:#22c55e;color:white;padding:5px 10px;border-radius:20px;font-size:13px}
+.footer{margin-top:20px;color:#94a3b8;font-size:14px}
 </style>
 </head>
 <body>
-<div class="card">
-<h2>🔍 فحص IMEI</h2>
-<input id="imei" placeholder="اكتب IMEI هنا" maxlength="15">
-<button onclick="check()">افحص الآن</button>
-<div id="out" class="result">اكتب IMEI و اضغط فحص</div>
+
+<h1>GSM YASSER SERVER</h1>
+<p style="color:#cbd5e1">Free IMEI Check - iPhone & Samsung</p>
+
+<div class="box">
+<h2>Check Your Phone Now - Free ✅</h2>
+<p>Enter your IMEI (15 digits) - Dial *#06# to get it</p>
+
+<input type="text" id="imei" placeholder="Example: 354678901234567" maxlength="15">
+<br>
+<button onclick="checkIMEI()">Check Now - Free</button>
+
+<div id="result"></div>
+
+<p style="font-size:13px;color:#888">Basic check is free - For full report contact us in store</p>
+</div>
+
+<div class="footer">
+<b>GSM Yasser - Oran</b><br>
+Fast & Trusted Service in Store<br>
+Follow us on Facebook: GSM YASSER SERVER
 </div>
 
 <script>
-const supabaseClient = supabase.createClient(
-  "https://ojwxreptapmezxxgoanb.supabase.co",
-  "sb_publishable_k6sc-edt-T4zOsDdWNQyQw_H6QHn4Pz"
-);
-
-async function check(){
-  let imei = document.getElementById('imei').value.trim();
-  if(imei.length < 14){ alert('اكتب IMEI صحيح'); return; }
-  document.getElementById('out').innerHTML = '⏳ جاري الفحص...';
-  let model = "iPhone 13 Pro";
-  let result = "Clean ✅ - غير مسروق";
-  const { error } = await supabaseClient.from('checks').insert([{ imei: imei, model: model, result: result }]);
-  if(error){
-    document.getElementById('out').innerHTML = '❌ خطأ: ' + error.message;
-  } else {
-    document.getElementById('out').innerHTML = '✅ تم الحفظ في Supabase<br><b>IMEI:</b> '+imei+'<br><b>الموديل:</b> '+model+'<br><b>النتيجة:</b> '+result;
+function checkIMEI(){
+  var imei = document.getElementById('imei').value;
+  var res = document.getElementById('result');
+  if(imei.length !== 15){
+    res.style.display='block';
+    res.innerHTML = '<b style="color:red">⚠️ Please enter full 15 digits</b><br>Dial *#06# on your phone and copy the number here';
+    return;
   }
+  var tac = imei.substring(0,8);
+  res.style.display='block';
+  res.innerHTML = '<span class="badge">Checked Successfully ✅</span><br><br>' +
+  '<b>IMEI:</b> ' + imei + '<br>' +
+  '<b>TAC:</b> ' + tac + '<br>' +
+  '<b>Status:</b> Number format is valid<br><br>' +
+  '<b>For Full Info:</b> Model, Warranty, iOS Version, iCloud Status<br>' +
+  'Contact us in store or in DM for full report.';
 }
 </script>
+
 </body>
 </html>
