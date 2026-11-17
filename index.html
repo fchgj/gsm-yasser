@@ -60,7 +60,6 @@ body.light #freeResult{background:#f0fdf4;color:#0f172a}
   <p data-i18n="subtitle">Check your iPhone before you buy it.<br>Accurate report in minutes.</p>
 </div>
 
-<!-- FREE -->
 <div class="card" style="border-color:#16a34a">
   <div class="card-top"><span class="badge-free">FREE</span><div class="icon">🎁</div></div>
   <h2 data-i18n="free_title">Free IMEI Check</h2>
@@ -70,36 +69,32 @@ body.light #freeResult{background:#f0fdf4;color:#0f172a}
   <div id="freeResult"></div>
 </div>
 
-<!-- NETWORK -->
 <div class="card">
   <div class="card-top"><div></div><div class="icon">🛡️</div></div>
   <h2 data-i18n="net_title">Network Lock Check</h2>
   <p data-i18n="net_desc">Network Lock - SIM Status - Carrier</p>
-  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20Network%20Lock%20Check" data-i18n="contact">Contact Us For Inquiry →</a>
+  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20Network%20Lock%20Check" onclick="saveOrder('Network Check','')" data-i18n="contact">Contact Us For Inquiry →</a>
 </div>
 
-<!-- ICLOUD -->
 <div class="card">
   <div class="card-top"><div></div><div class="icon">☁️</div></div>
   <h2 data-i18n="icloud_title">iCloud Check</h2>
   <p data-i18n="icloud_desc">Find My - iCloud Lock Status</p>
-  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20iCloud%20Check" data-i18n="contact">Contact Us For Inquiry →</a>
+  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20iCloud%20Check" onclick="saveOrder('iCloud Check','')" data-i18n="contact">Contact Us For Inquiry →</a>
 </div>
 
-<!-- BLACKLIST -->
 <div class="card">
   <div class="card-top"><div></div><div class="icon">🚫</div></div>
   <h2 data-i18n="black_title">Blacklist Check</h2>
   <p data-i18n="black_desc">Stolen - Lost - Blocked</p>
-  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20Blacklist%20Check" data-i18n="contact">Contact Us For Inquiry →</a>
+  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20Blacklist%20Check" onclick="saveOrder('Blacklist Check','')" data-i18n="contact">Contact Us For Inquiry →</a>
 </div>
 
-<!-- PRO -->
 <div class="card pro">
   <div class="card-top"><span class="badge-pro" data-i18n="best">BEST VALUE</span><div class="icon">👑</div></div>
   <h2 data-i18n="pro_title">Full PRO Check</h2>
   <p data-i18n="pro_desc">Full PDF Report - GSX - Warranty - Purchase Date - Network - iCloud</p>
-  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20Full%20PRO%20Check" data-i18n="contact">Contact Us For Inquiry →</a>
+  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20Full%20PRO%20Check" onclick="saveOrder('Full PRO Check','')" data-i18n="contact">Contact Us For Inquiry →</a>
 </div>
 
 <div class="footer">
@@ -109,6 +104,7 @@ body.light #freeResult{background:#f0fdf4;color:#0f172a}
 </div>
 
 <script>
+const SHEET_URL = "PUT_YOUR_URL_HERE";
 const T={
 en:{badge:"⚡ Fast & Reliable - Instant Report",subtitle:"Check your iPhone before you buy it.<br>Accurate report in minutes.",free_title:"Free IMEI Check",free_desc:"Basic Info - Model - Brand - Free, No Payment",free_btn:"Check For Free →",net_title:"Network Lock Check",net_desc:"Network Lock - SIM Status - Carrier",icloud_title:"iCloud Check",icloud_desc:"Find My - iCloud Lock Status",black_title:"Blacklist Check",black_desc:"Stolen - Lost - Blocked",pro_title:"Full PRO Check",pro_desc:"Full PDF Report - GSX - Warranty - Purchase Date - Network - iCloud",contact:"Contact Us For Inquiry →",best:"BEST VALUE",whatsapp:"WhatsApp:",footer:"All iPhone Models Supported - 100% Trusted Service",enter:"Please enter IMEI (15 digits)",checking:"Checking... Please wait",result:"✅ IMEI is valid!<br>For full details (Model, Network, iCloud) contact us on WhatsApp, it's FREE to ask."},
 fr:{badge:"⚡ Rapide & Fiable - Rapport Instantané",subtitle:"Vérifiez votre iPhone avant de l'acheter.<br>Rapport précis en quelques minutes.",free_title:"Vérification IMEI Gratuite",free_desc:"Infos de base - Modèle - Marque - Gratuit, Sans Paiement",free_btn:"Vérifier Gratuitement →",net_title:"Vérification Verrou Réseau",net_desc:"Verrou Réseau - Statut SIM - Opérateur",icloud_title:"Vérification iCloud",icloud_desc:"Localiser - Statut Verrou iCloud",black_title:"Vérification Liste Noire",black_desc:"Volé - Perdu - Bloqué",pro_title:"Vérification PRO Complète",pro_desc:"Rapport PDF Complet - GSX - Garantie - Date d'achat - Réseau - iCloud",contact:"Contactez-nous →",best:"MEILLEURE OFFRE",whatsapp:"WhatsApp:",footer:"Tous les modèles iPhone supportés - Service 100% Fiable",enter:"Veuillez entrer IMEI (15 chiffres)",checking:"Vérification... Veuillez patienter",result:"✅ IMEI valide !<br>Pour les détails complets (Modèle, Réseau, iCloud) contactez-nous sur WhatsApp, c'est GRATUIT."},
@@ -130,6 +126,16 @@ let isLight=document.body.classList.contains('light');
 document.getElementById('themeBtn').innerText=isLight?'🌙':'☀️';
 localStorage.setItem('theme',isLight?'light':'dark');
 }
+function saveOrder(type, imei){
+  try{
+    let orders = JSON.parse(localStorage.getItem('gsm_orders') || '[]');
+    orders.unshift({imei: imei || 'No IMEI - From WhatsApp Button', type: type, date: new Date().toLocaleString()});
+    localStorage.setItem('gsm_orders', JSON.stringify(orders.slice(0,50)));
+    if(SHEET_URL && SHEET_URL.indexOf('script.google')!==-1){
+      fetch(SHEET_URL, {method:'POST', mode:'no-cors', body: JSON.stringify({imei: imei || 'No IMEI', type: type})});
+    }
+  }catch(e){}
+}
 function freeCheck(e){
 e.preventDefault();
 let v=document.getElementById('imeiInput').value.trim();
@@ -137,6 +143,7 @@ let box=document.getElementById('freeResult');
 box.style.display='block';
 if(v.length<15||isNaN(v)){box.innerHTML='❌ '+T[curLang].enter;return;}
 box.innerHTML=T[curLang].checking;
+saveOrder('Free Check', v);
 setTimeout(()=>{box.innerHTML=T[curLang].result+'<br><br><a href="https://wa.me/213657241710?text=Hello, my IMEI is '+v+' I want free check" style="color:#fff;background:#16a34a;padding:10px 16px;border-radius:10px;display:inline-block;text-decoration:none;font-weight:700;">WhatsApp Us →</a>';},1200);
 }
 if(localStorage.getItem('theme')==='light')toggleTheme();
