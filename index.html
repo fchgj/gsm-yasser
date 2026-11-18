@@ -142,11 +142,19 @@ e.preventDefault();
 let v=document.getElementById('imeiInput').value.trim();
 let box=document.getElementById('freeResult');
 box.style.display='block';
-if(v.length<15||isNaN(v)){box.innerHTML='❌ '+T[curLang].enter;return;}
-box.innerHTML=T[curLang].checking;
+if(v.length<15||isNaN(v)){box.innerHTML='❌ IMEI غير صحيح - لازم 15 رقم';return;}
+box.innerHTML='⏳ جاري الفحص الحقيقي...';
+fetch('https://alpha.imeicheck.com/api/free_with_key/modelBrandName?key='+IMEI_API_KEY+'&imei='+v)
+.then(r=>r.json())
+.then(d=>{
+let brand=d.brand||d.Brand||'غير معروف';
+let model=d.model||d.Model||d.modelName||'';
+box.innerHTML='✅ <b>'+brand+' '+model+'</b><br>IMEI: '+v+'<br>الجهاز أصلي - TAC مسجل';
 saveOrder('Free Check', v);
-setTimeout(()=>{box.innerHTML=T[curLang].result+'<br><br><a href="https://wa.me/213657241710?text=Hello, my IMEI is '+v+' I want free check" style="color:#fff;background:#16a34a;padding:10px 16px;border-radius:10px;display:inline-block;text-decoration:none;font-weight:700;">WhatsApp Us →</a>';},1200);
+})
+.catch(err=>{box.innerHTML='❌ خطأ في الاتصال - حاول مرة أخرى';});
 }
+
 if(localStorage.getItem('theme')==='light')toggleTheme();
 </script>
 </body>
