@@ -1,161 +1,126 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GSM Yasser - IMEI Check | Free, Network, iCloud, Blacklist, PRO</title>
-<meta name="description" content="GSM Yasser - Free IMEI Check, Network Lock, iCloud, Blacklist and Full PRO GSX Report. Oran, Algeria.">
+<title>IMEI Check - Unlock & Check</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
-body{background:#0b1220;color:#fff;padding:16px;transition:.3s}
-body.light{background:#f1f5f9;color:#0f172a}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.langs{display:flex;background:#1e293b;border-radius:20px;padding:4px;border:1px solid #334155}
-body.light .langs{background:#fff;border-color:#cbd5e1}
-.langs button{border:0;background:transparent;color:#94a3b8;padding:7px 13px;border-radius:16px;font-weight:700;cursor:pointer;font-size:13px}
-.langs button.active{background:#2563eb;color:#fff}
-.theme-btn{background:#1e293b;border:1px solid #334155;color:#fff;width:38px;height:38px;border-radius:50%;font-size:18px;cursor:pointer}
-body.light .theme-btn{background:#fff;color:#0f172a;border-color:#cbd5e1}
-.header{text-align:center;padding:24px 10px 10px}
-.header h1{font-size:34px;font-weight:800;line-height:1.15}
-.header h1 span{color:#3b82f6}
-.header p{color:#94a3b8;margin-top:8px;font-size:15px;line-height:1.5}
-body.light .header p{color:#64748b}
-.badge{display:inline-block;background:#1e293b;color:#60a5fa;padding:6px 14px;border-radius:20px;font-size:13px;margin-bottom:14px;border:1px solid #334155}
-body.light .badge{background:#dbeafe;border-color:#bfdbfe;color:#1d4ed8}
-.card{background:#111c33;border:1px solid #1e293b;border-radius:18px;padding:20px;margin:14px 0}
-body.light .card{background:#fff;border-color:#e2e8f0;box-shadow:0 4px 12px rgba(0,0,0,.05)}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start}
-.icon{width:44px;height:44px;background:#1e293b;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid #334155}
-body.light .icon{background:#f1f5f9;border-color:#e2e8f0}
-.card h2{font-size:21px;margin:12px 0 6px;font-weight:700}
-.card p{color:#94a3b8;font-size:14px;line-height:1.5;margin-bottom:16px}
-body.light .card p{color:#64748b}
-.btn{display:block;background:#2563eb;color:#fff;text-align:center;padding:14px;border-radius:12px;text-decoration:none;font-weight:700;font-size:16px}
-.btn-green{background:#16a34a}
-.pro{border-color:#2563eb}
-.badge-pro{background:#2563eb;color:#fff;font-size:11px;padding:4px 8px;border-radius:6px;font-weight:700}
-.badge-free{background:#16a34a;color:#fff;font-size:11px;padding:4px 8px;border-radius:6px;font-weight:700}
-.footer{text-align:center;color:#64748b;font-size:13px;padding:20px 0 10px;line-height:1.7}
-input{width:100%;padding:14px;border-radius:12px;border:1px solid #334155;background:#0b1220;color:#fff;font-size:16px;text-align:center;margin-bottom:12px;letter-spacing:2px}
-body.light input{background:#f8fafc;color:#0f172a;border-color:#cbd5e1}
-#freeResult{display:none;background:#052e16;border:1px solid #16a34a;padding:14px;border-radius:12px;margin-top:12px;font-size:14px;line-height:1.7}
-body.light #freeResult{background:#f0fdf4;color:#0f172a}
+body{font-family:Arial,sans-serif;background:#0f172a;color:#fff;margin:0;padding:20px;text-align:center}
+.container{max-width:600px;margin:auto;background:#1e293b;padding:25px;border-radius:15px}
+h1{color:#38bdf8}
+input{width:90%;padding:12px;border-radius:10px;border:none;margin:10px 0;font-size:16px;text-align:center}
+button{padding:12px 20px;border:none;border-radius:10px;background:#38bdf8;color:#fff;font-weight:bold;cursor:pointer;margin:5px;width:90%;font-size:16px}
+button:hover{background:#0284c7}
+.result{margin-top:15px;background:#0f172a;padding:15px;border-radius:10px;display:none;text-align:left}
+.card{background:#334155;padding:15px;border-radius:10px;margin:10px 0}
+.price{color:#4ade80;font-weight:bold;font-size:18px}
 </style>
 </head>
 <body>
+<div class="container">
+<h1>🔓 IMEI CHECK</h1>
+<p>Check your device - Free & Paid Services</p>
 
-<div class="topbar">
-  <div class="langs">
-    <button onclick="setLang('ar')" id="btn-ar">عربي</button>
-    <button onclick="setLang('en')" id="btn-en" class="active">EN</button>
-    <button onclick="setLang('fr')" id="btn-fr">FR</button>
-  </div>
-  <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀️</button>
-</div>
+<h3>Free Check</h3>
+<input type="text" id="imeiInput" placeholder="Enter IMEI - 15 digits" maxlength="15">
+<button onclick="freeCheck(event)">Check For Free</button>
+<div id="freeResult" class="result"></div>
 
-<div class="header">
-  <div class="badge" data-i18n="badge">⚡ Fast & Reliable - Instant Report</div>
-  <h1>GSM YASSER<br><span>IMEI Check</span></h1>
-  <p data-i18n="subtitle">Check your iPhone before you buy it.<br>Accurate report in minutes.</p>
-</div>
+<hr>
 
-<div class="card" style="border-color:#16a34a">
-  <div class="card-top"><span class="badge-free">FREE</span><div class="icon">🎁</div></div>
-  <h2 data-i18n="free_title">Free IMEI Check</h2>
-  <p data-i18n="free_desc">Basic Info - Model - Brand - Free, No Payment</p>
-  <input type="tel" id="imeiInput" placeholder="Enter IMEI - 15 digits" maxlength="15">
-  <a class="btn btn-green" href="#" onclick="freeCheck(event)" data-i18n="free_btn">Check For Free →</a>
-  <div id="freeResult"></div>
+<h3>Paid Services</h3>
+<div class="card">
+<b>iCloud / Activation Lock Check</b><br>
+<span class="price">500 DA</span><br>
+<button onclick="paidCheck('iCloud Check',500)">Buy Now</button>
 </div>
 
 <div class="card">
-  <div class="card-top"><div></div><div class="icon">🛡️</div></div>
-  <h2 data-i18n="net_title">Network Lock Check</h2>
-  <p data-i18n="net_desc">Network Lock - SIM Status - Carrier</p>
-  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20Network%20Lock%20Check" onclick="saveOrder('Network Check','')" data-i18n="contact">Contact Us For Inquiry →</a>
+<b>Carrier / SIM Lock Check</b><br>
+<span class="price">500 DA</span><br>
+<button onclick="paidCheck('Carrier Check',500)">Buy Now</button>
 </div>
 
 <div class="card">
-  <div class="card-top"><div></div><div class="icon">☁️</div></div>
-  <h2 data-i18n="icloud_title">iCloud Check</h2>
-  <p data-i18n="icloud_desc">Find My - iCloud Lock Status</p>
-  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20iCloud%20Check" onclick="saveOrder('iCloud Check','')" data-i18n="contact">Contact Us For Inquiry →</a>
+<b>Blacklist / Stolen Check</b><br>
+<span class="price">500 DA</span><br>
+<button onclick="paidCheck('Blacklist Check',500)">Buy Now</button>
 </div>
 
 <div class="card">
-  <div class="card-top"><div></div><div class="icon">🚫</div></div>
-  <h2 data-i18n="black_title">Blacklist Check</h2>
-  <p data-i18n="black_desc">Stolen - Lost - Blocked</p>
-  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20Blacklist%20Check" onclick="saveOrder('Blacklist Check','')" data-i18n="contact">Contact Us For Inquiry →</a>
+<b>Full Report</b><br>
+<span class="price">1000 DA</span><br>
+<button onclick="paidCheck('Full Report',1000)">Buy Now</button>
 </div>
 
-<div class="card pro">
-  <div class="card-top"><span class="badge-pro" data-i18n="best">BEST VALUE</span><div class="icon">👑</div></div>
-  <h2 data-i18n="pro_title">Full PRO Check</h2>
-  <p data-i18n="pro_desc">Full PDF Report - GSX - Warranty - Purchase Date - Network - iCloud</p>
-  <a class="btn" href="https://wa.me/213657241710?text=Hello%20Yasser,%20I%20want%20Full%20PRO%20Check" onclick="saveOrder('Full PRO Check','')" data-i18n="contact">Contact Us For Inquiry →</a>
-</div>
+<div id="paidResult" class="result"></div>
 
-<div class="footer">
-  GSM Yasser - Oran, Algeria<br>
-  <span data-i18n="whatsapp">WhatsApp:</span> 0657.241710<br>
-  <span data-i18n="footer">All iPhone Models Supported - 100% Trusted Service</span>
+<h3>My Orders</h3>
+<div id="ordersList"></div>
+
 </div>
 
 <script>
-const SHEET_URL = "PUT_YOUR_URL_HERE";
-  const IMEI_API_KEY = "KHDOY-wAUFL-o9rhR-75hoH-ZNHaS-iiHxn";
-const T={
-en:{badge:"⚡ Fast & Reliable - Instant Report",subtitle:"Check your iPhone before you buy it.<br>Accurate report in minutes.",free_title:"Free IMEI Check",free_desc:"Basic Info - Model - Brand - Free, No Payment",free_btn:"Check For Free →",net_title:"Network Lock Check",net_desc:"Network Lock - SIM Status - Carrier",icloud_title:"iCloud Check",icloud_desc:"Find My - iCloud Lock Status",black_title:"Blacklist Check",black_desc:"Stolen - Lost - Blocked",pro_title:"Full PRO Check",pro_desc:"Full PDF Report - GSX - Warranty - Purchase Date - Network - iCloud",contact:"Contact Us For Inquiry →",best:"BEST VALUE",whatsapp:"WhatsApp:",footer:"All iPhone Models Supported - 100% Trusted Service",enter:"Please enter IMEI (15 digits)",checking:"Checking... Please wait",result:"✅ IMEI is valid!<br>For full details (Model, Network, iCloud) contact us on WhatsApp, it's FREE to ask."},
-fr:{badge:"⚡ Rapide & Fiable - Rapport Instantané",subtitle:"Vérifiez votre iPhone avant de l'acheter.<br>Rapport précis en quelques minutes.",free_title:"Vérification IMEI Gratuite",free_desc:"Infos de base - Modèle - Marque - Gratuit, Sans Paiement",free_btn:"Vérifier Gratuitement →",net_title:"Vérification Verrou Réseau",net_desc:"Verrou Réseau - Statut SIM - Opérateur",icloud_title:"Vérification iCloud",icloud_desc:"Localiser - Statut Verrou iCloud",black_title:"Vérification Liste Noire",black_desc:"Volé - Perdu - Bloqué",pro_title:"Vérification PRO Complète",pro_desc:"Rapport PDF Complet - GSX - Garantie - Date d'achat - Réseau - iCloud",contact:"Contactez-nous →",best:"MEILLEURE OFFRE",whatsapp:"WhatsApp:",footer:"Tous les modèles iPhone supportés - Service 100% Fiable",enter:"Veuillez entrer IMEI (15 chiffres)",checking:"Vérification... Veuillez patienter",result:"✅ IMEI valide !<br>Pour les détails complets (Modèle, Réseau, iCloud) contactez-nous sur WhatsApp, c'est GRATUIT."},
-ar:{badge:"⚡ سريع و موثوق - تقرير فوري",subtitle:"افحص الآيفون تاعك قبل ما تشريه.<br>تقرير دقيق في دقائق.",free_title:"فحص IMEI مجاني",free_desc:"معلومات أساسية - الموديل - الشركة - مجاني بدون دفع",free_btn:"افحص مجانا →",net_title:"فحص قفل الشبكة",net_desc:"قفل الشبكة - حالة الشريحة - الشركة",icloud_title:"فحص iCloud",icloud_desc:"Find My - حالة قفل iCloud",black_title:"فحص القائمة السوداء",black_desc:"مسروق - ضائع - محظور",pro_title:"فحص شامل PRO",pro_desc:"تقرير PDF كامل - GSX - الضمان - تاريخ الشراء - الشبكة - iCloud",contact:"تواصل معنا للاستفسار →",best:"أفضل عرض",whatsapp:"واتساب:",footer:"كل موديلات الآيفون مدعومة - خدمة موثوقة 100%",enter:"من فضلك دخل IMEI (15 رقم)",checking:"جاري الفحص... انتظر",result:"✅ IMEI صحيح!<br>للتفاصيل الكاملة (الموديل، الشبكة، iCloud) تواصل معنا في الواتساب، الاستفسار مجاني."}
-};
-let curLang='en';
-function setLang(l){
-curLang=l;
-document.documentElement.lang=l;
-document.documentElement.dir=(l==='ar'?'rtl':'ltr');
-document.querySelectorAll('[data-i18n]').forEach(el=>{let k=el.getAttribute('data-i18n');if(T[l][k])el.innerHTML=T[l][k];});
-document.querySelectorAll('.langs button').forEach(b=>b.classList.remove('active'));
-document.getElementById('btn-'+l).classList.add('active');
-document.getElementById('imeiInput').placeholder=l==='ar'?'دخل IMEI - 15 رقم':l==='fr'?'Entrez IMEI - 15 chiffres':'Enter IMEI - 15 digits';
-}
-function toggleTheme(){
-document.body.classList.toggle('light');
-let isLight=document.body.classList.contains('light');
-document.getElementById('themeBtn').innerText=isLight?'🌙':'☀️';
-localStorage.setItem('theme',isLight?'light':'dark');
-}
-function saveOrder(type, imei){
-  try{
-    let orders = JSON.parse(localStorage.getItem('gsm_orders') || '[]');
-    orders.unshift({imei: imei || 'No IMEI - From WhatsApp Button', type: type, date: new Date().toLocaleString()});
-    localStorage.setItem('gsm_orders', JSON.stringify(orders.slice(0,50)));
-    if(SHEET_URL && SHEET_URL.indexOf('script.google')!==-1){
-      fetch(SHEET_URL, {method:'POST', mode:'no-cors', body: JSON.stringify({imei: imei || 'No IMEI', type: type})});
-    }
-  }catch(e){}
-}
-function freeCheck(e){
-e.preventDefault();
-let v=document.getElementById('imeiInput').value.trim();
-let box=document.getElementById('freeResult');
-box.style.display='block';
-if(v.length<15||isNaN(v)){box.innerHTML='❌ IMEI غير صحيح - لازم 15 رقم';return;}
-box.innerHTML='⏳ جاري الفحص الحقيقي...';
-fetch('https://alpha.imeicheck.com/api/free_with_key/modelBrandName?key='+IMEI_API_KEY+'&imei='+v)
-.then(r=>r.json())
-.then(d=>{
-let brand=d.brand||d.Brand||'غير معروف';
-let model=d.model||d.Model||d.modelName||'';
-box.innerHTML='✅ <b>'+brand+' '+model+'</b><br>IMEI: '+v+'<br>الجهاز أصلي - TAC مسجل';
-saveOrder('Free Check', v);
-})
-.catch(err=>{box.innerHTML='❌ خطأ في الاتصال - حاول مرة أخرى';});
+const IMEI_API_KEY = 'KHDOY-F8R1W-A9N0M-QM2L8-V7TZP-X4KEJ';
+
+function saveOrder(service, imei){
+  let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+  orders.push({service: service, imei: imei, date: new Date().toLocaleString()});
+  localStorage.setItem('orders', JSON.stringify(orders));
+  showOrders();
 }
 
-if(localStorage.getItem('theme')==='light')toggleTheme();
+function showOrders(){
+  let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+  let el = document.getElementById('ordersList');
+  if(orders.length === 0){ el.innerHTML = '<p>No orders yet</p>'; return; }
+  el.innerHTML = orders.map(o => '<div style="background:#0f172a;padding:10px;margin:5px;border-radius:8px;text-align:left">✅ '+o.service+' - '+o.imei+'<br><small>'+o.date+'</small></div>').join('');
+}
+
+function freeCheck(e){
+  if(e) e.preventDefault();
+  let v = document.getElementById('imeiInput').value.trim();
+  let box = document.getElementById('freeResult');
+  box.style.display = 'block';
+  if(v.length < 15 || isNaN(v)){
+    box.innerHTML = '❌ Invalid IMEI - Must be 15 digits';
+    return;
+  }
+  box.innerHTML = '⏳ Checking real IMEI...';
+  fetch('https://alpha.imeicheck.com/api/free_with_key/modelBrandName?key=' + IMEI_API_KEY + '&imei=' + v)
+  .then(r => r.json())
+  .then(d => {
+    console.log('API Response:', d);
+    let data = d.data || d.result || d.response || d;
+    let brand = data.brand || data.Brand || data.manufacturer || data.Manufacturer || data.make || data.Make || data.brandName || 'Unknown';
+    let model = data.model || data.Model || data.modelName || data.ModelName || data.device || data.Device || data.deviceName || '';
+    if(brand === 'Unknown' && !model){
+      box.innerHTML = '⚠️ IMEI Not Found in Database<br>IMEI: ' + v + '<br><small>Debug: ' + JSON.stringify(d).slice(0,300) + '</small>';
+    } else {
+      box.innerHTML = '✅ <b>' + brand + ' ' + model + '</b><br>IMEI: ' + v + '<br>Device is Original - TAC Registered';
+    }
+    saveOrder('Free Check', v);
+  })
+  .catch(err => {
+    box.innerHTML = '❌ Connection Error - Please try again';
+    console.log(err);
+  });
+}
+
+function paidCheck(service, price){
+  let v = document.getElementById('imeiInput').value.trim();
+  let box = document.getElementById('paidResult');
+  box.style.display = 'block';
+  if(v.length < 15 || isNaN(v)){
+    box.innerHTML = '❌ Please enter valid IMEI first (15 digits)';
+    return;
+  }
+  box.innerHTML = '✅ Order Created: ' + service + ' - ' + price + ' DA<br>IMEI: ' + v + '<br>Please contact us on WhatsApp to pay and receive result.';
+  saveOrder(service, v);
+  window.open('https://wa.me/213657241710?text=Hello, I want ' + encodeURIComponent(service) + ' for IMEI ' + v, '_blank');
+}
+
+showOrders();
 </script>
 </body>
 </html>
