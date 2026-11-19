@@ -1,4 +1,4 @@
-// تحميل مكتبة html2pdf تلقائياً إذا لم تكن موجودة
+// 1. تحميل مكتبة html2pdf تلقائياً
 function loadPdfLibrary(callback) {
     if (typeof html2pdf !== 'undefined') {
         callback();
@@ -10,10 +10,20 @@ function loadPdfLibrary(callback) {
     document.head.appendChild(script);
 }
 
-/**
- * دالة توليد وتحميل تقرير PDF تلقائياً مدمج باللغات الثلاث (العربية، الفرنسية، الإنجليزية)
- * @param {Object} data - بيانات الفحص (IMEI، الموديل، الحالة، إلخ)
- */
+// 2. دالة جمع البيانات من الاستمارة وتشغيل التوليد
+function collectDataAndGenerate() {
+    const data = {
+        imei: document.getElementById('imei').value.trim() || 'N/A',
+        model: document.getElementById('model').value.trim() || 'N/A',
+        fmi: document.getElementById('fmi').value.trim() || 'N/A',
+        icloud: document.getElementById('icloud').value.trim() || 'N/A',
+        carrier: document.getElementById('carrier').value.trim() || 'N/A'
+    };
+
+    generateImeiReportPDF(data);
+}
+
+// 3. دالة توليد الـ PDF (التصميم الاحترافي)
 function generateImeiReportPDF(data) {
     loadPdfLibrary(() => {
         const reportContainer = document.createElement('div');
@@ -53,7 +63,7 @@ function generateImeiReportPDF(data) {
                             <span style="color: #555; font-size: 11px;">Numéro IMEI / الرقم التسلسلي</span>
                         </td>
                         <td style="padding: 10px; border: 1px solid #dee2e6; font-weight: bold; font-size: 13px;">
-                            ${data.imei || 'N/A'}
+                            ${data.imei}
                         </td>
                     </tr>
                     <tr>
@@ -62,7 +72,7 @@ function generateImeiReportPDF(data) {
                             <span style="color: #555; font-size: 11px;">Modèle de l'appareil / طراز الجهاز</span>
                         </td>
                         <td style="padding: 10px; border: 1px solid #dee2e6;">
-                            ${data.model || 'N/A'}
+                            ${data.model}
                         </td>
                     </tr>
                     <tr style="background-color: #f8f9fa;">
@@ -71,7 +81,7 @@ function generateImeiReportPDF(data) {
                             <span style="color: #555; font-size: 11px;">Localiser mon iPhone / العثور على الآيفون</span>
                         </td>
                         <td style="padding: 10px; border: 1px solid #dee2e6; font-weight: bold;">
-                            ${data.fmi || 'N/A'}
+                            ${data.fmi}
                         </td>
                     </tr>
                     <tr>
@@ -80,7 +90,7 @@ function generateImeiReportPDF(data) {
                             <span style="color: #555; font-size: 11px;">État iCloud / حالة الآي كلاود</span>
                         </td>
                         <td style="padding: 10px; border: 1px solid #dee2e6;">
-                            ${data.icloud || 'N/A'}
+                            ${data.icloud}
                         </td>
                     </tr>
                     <tr style="background-color: #f8f9fa;">
@@ -89,7 +99,7 @@ function generateImeiReportPDF(data) {
                             <span style="color: #555; font-size: 11px;">Opérateur / حالة الشبكة</span>
                         </td>
                         <td style="padding: 10px; border: 1px solid #dee2e6;">
-                            ${data.carrier || 'N/A'}
+                            ${data.carrier}
                         </td>
                     </tr>
                 </tbody>
@@ -108,7 +118,7 @@ function generateImeiReportPDF(data) {
 
         const opt = {
             margin:       10,
-            filename:     `IMEI_Report_${data.imei || 'iPhone'}.pdf`,
+            filename:     `IMEI_Report_${data.imei}.pdf`,
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, useCORS: true },
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
