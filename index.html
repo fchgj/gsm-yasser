@@ -1,242 +1,61 @@
+
+
+
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GSM Yasser PRO</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>GSM Yasser PRO</title>
 <style>
-*{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#eef2f7;margin:0;padding:10px}
+*{box-sizing:border-box} body{font-family:Arial;background:#eef2f7;margin:0;padding:10px}
 .wrap{max-width:620px;margin:auto}
-.form{background:#fff;padding:16px;border-radius:16px}
-.form label{font-weight:bold;font-size:13px;display:block;margin-top:10px}
-.form input,.form select,.form textarea{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;margin-top:4px;font-size:14px}
-.form button{width:100%;padding:13px;background:#1e4a8a;color:#fff;border:none;border-radius:12px;font-weight:bold;margin-top:10px;cursor:pointer}
-.auto{background:#c9a227!important;color:#111!important}
-.report{background:#fff;padding:0;overflow:hidden;border-radius:14px}
-.header{text-align:center;padding:14px 10px 0}
+.form{background:#fff;padding:16px;border-radius:16px} .form label{font-weight:bold;font-size:13px;display:block;margin-top:10px} .form input,.form select,.form textarea{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;margin-top:4px;font-size:14px} .form button{width:100%;padding:13px;background:#1e4a8a;color:#fff;border:none;border-radius:12px;font-weight:bold;margin-top:10px;cursor:pointer} .auto{background:#c9a227!important;color:#111!important}
+.report{background:#fff;padding:0;overflow:hidden}
+.header{text-align:center;padding:14px 10px 0} .header img{width:230px;max-width:90%}
 .titleBar{background:#0f2f5e;color:#c9a227;text-align:center;font-size:26px;font-weight:bold;padding:10px;margin:12px 0}
 .box{border:1px solid #e5d9a0;border-radius:14px;padding:14px;margin:12px;background:#fffdf2}
 .box h3{text-align:center;color:#1e4a8a;margin:0 0 10px}
-.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #eee;font-size:15px}
-.row:last-child{border:none}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #eee;font-size:15px} .row:last-child{border:none}
 .ltr{direction:ltr;unicode-bidi:isolate;font-weight:bold}
-.badge{padding:5px 12px;border-radius:20px;color:#fff;font-size:13px;white-space:nowrap}
-.green{background:#16a34a}
-.red{background:#dc2626}
-.resultBox{background:#d9f0e0;border:2px solid #16a34a;color:#14532d;text-align:center;padding:14px;border-radius:12px;font-weight:bold;font-size:18px;margin:12px}
-.resultBox small{display:block;font-weight:normal;font-size:13px;margin-top:4px}
-.footer{background:#0f2f5e;color:#fff;text-align:center;padding:14px;font-size:14px;display:flex;justify-content:space-between;align-items:center}
-.footer b{color:#fff}
-.footer span{color:#c9a227}
-.ownerActions{padding:12px;text-align:center;background:#f8fafc;border-top:1px dashed #cbd5e1}
-.pdfBtn{background:#0f2f5e;color:#c9a227;border:2px solid #c9a227;padding:12px 20px;border-radius:12px;font-size:15px;font-weight:bold;cursor:pointer;width:100%}
-.hide{display:none!important}
-@media print{body{background:#fff;padding:0} .form,.ownerActions{display:none!important}}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="form" id="formBox">
-    <h2 style="text-align:center;color:#1e4a8a">⚡ Auto Fill - GSM Yasser</h2>
-    <label>1 - Paste check result here</label>
-    <textarea id="pasteBox" rows="3" placeholder="Example: iPhone 13 IMEI 356771681825578 Orange France CLEAN OFF"></textarea>
-    <button type="button" class="auto" onclick="autoFill()">⚡ Auto Fill</button>
+.badge{padding:5px 12px;border-radius:20px;color:#fff;font-size:13px;white-space:nowrap} .green{background:#16a34a} .red{background:#dc2626}
+.resultBox{background:#d9f0e0;border:2px solid #16a34a;color:#14532d;text-align:center;padding:14px;border-radius:12px;font-weight:bold;font-size:18px;margin:12px} .resultBox small{display:block;font-weight:normal;font-size:13px;margin-top:4px}
+.footer{background:#0f2f5e;color:#fff;text-align:center;padding:14px;font-size:14px;display:flex;justify-content:space-between;align-items:center} .footer b{color:#fff} .footer span{color:#c9a227}
+.hide{display:none}
+@media print{body{background:#fff;padding:0} .form{display:none!important}}
+</style></head>
+<body><div class="wrap">
+<div class="form" id="formBox"><h2 style="text-align:center;color:#1e4a8a">⚡ تعمير تلقائي - GSM Yasser</h2>
+<label>1 - لصق نتيجة الفحص هنا</label>
+<textarea id="pasteBox" rows="3" placeholder="مثال: iPhone 13 IMEI 356771681825578 Orange France CLEAN OFF"></textarea>
+<button class="auto" onclick="autoFill()">⚡ عمر تلقائيا</button>
+<label>الموديل</label><input id="inModel" value="iPhone 13">
+<label>IMEI</label><input id="inImei" value="356771681825578" dir="ltr" style="text-align:left">
+<label>تاريخ الفحص</label><input id="inDate" type="date" value="2026-11-19">
+<label>قفل الشبكة</label><select id="inNetwork"><option>مقفول على Orange فرنسا</option><option>مفتوح - Unlocked</option><option>مقفول على SFR فرنسا</option><option>مقفول على Bouygues فرنسا</option><option>مقفول على EE UK</option><option>مقفول على AT&T USA</option></select>
+<label>iCloud</label><select id="inIcloud"><option>OFF - مفتوح</option><option>ON - مقفول</option></select>
+<label>القائمة السوداء</label><select id="inBlack"><option>CLEAN - نظيف</option><option>LOST - ضائع</option><option>STOLEN - مسروق</option><option>BLOCKED - محظور</option></select>
+<label>الضمان</label><input id="inWarranty" value="2026 / 12">
+<label>تاريخ الشراء</label><input id="inBuy" value="2025 / 01 / 15">
+<button onclick="generate()">✅ توليد التقرير</button></div>
 
-    <label>Model</label>
-    <input id="inModel" value="iPhone 13">
-
-    <label>IMEI</label>
-    <input id="inImei" value="356771681825578" dir="ltr" style="text-align:left">
-
-    <label>Check Date</label>
-    <input id="inDate" type="date" value="2026-11-19">
-
-    <label>SIM Lock / Network</label>
-    <select id="inNetwork">
-      <option>Locked to Orange France</option>
-      <option>Unlocked</option>
-      <option>Locked to SFR France</option>
-      <option>Locked to Bouygues France</option>
-      <option>Locked to EE UK</option>
-      <option>Locked to AT&amp;T USA</option>
-    </select>
-
-    <label>iCloud / Find My</label>
-    <select id="inIcloud">
-      <option>OFF - Clean</option>
-      <option>ON - Locked</option>
-    </select>
-
-    <label>Blacklist Status</label>
-    <select id="inBlack">
-      <option>CLEAN</option>
-      <option>LOST</option>
-      <option>STOLEN</option>
-      <option>BLOCKED</option>
-    </select>
-
-    <label>Warranty</label>
-    <input id="inWarranty" value="2026 / 12">
-
-    <label>Purchase Date</label>
-    <input id="inBuy" value="2025 / 01 / 15">
-
-    <button type="button" onclick="generate()">✅ Generate Report</button>
-  </div>
-
-  <div class="report" id="reportBox">
-    <div id="pdfContent">
-      <div class="header">
-        <div style="font-size:32px;font-weight:bold;color:#1e4a8a">GSM <span style="color:#c9a227;font-size:18px">Yasser Server</span></div>
-        <div style="color:#888;font-size:12px">Mobile Unlock &amp; Digital Services</div>
-      </div>
-      <div class="titleBar">PRO DIAGNOSTIC REPORT</div>
-      <div class="box">
-        <h3>📱 Device Details</h3>
-        <div class="row"><span>Device Model:</span><b id="outModel">iPhone 13</b></div>
-        <div class="row"><span>IMEI Number:</span><b class="ltr" id="outImei">356771681825578</b></div>
-        <div class="row"><span>Check Date:</span><b id="outDate">19 / 11 / 2026</b></div>
-        <div class="row"><span>Purchase Date:</span><b id="outBuy">2025 / 01 / 15</b></div>
-        <div class="row"><span>Warranty:</span><b id="outWarranty">Until 2026 / 12</b></div>
-      </div>
-      <div class="box">
-        <h3>✅ Check Results</h3>
-        <div class="row"><span>🔒 Carrier / SIM Lock:</span><span class="badge red" id="outNetwork">LOCKED</span></div>
-        <div class="row"><span>☁️ iCloud / Find My:</span><span class="badge green" id="outIcloud">OFF</span></div>
-        <div class="row"><span>🛡️ Blacklist Status:</span><span class="badge green" id="outBlack">CLEAN</span></div>
-      </div>
-      <div class="resultBox" id="finalResultBox">✅ Final Result: Device is Clean<small id="finalResultSub">No blacklist issues, Find My is OFF, and ready for use.</small></div>
-      <div class="footer">
-        <div style="text-align:left;font-size:11px">All checks are accurate as of check date<br><span>18/11/2026 • GSM Yasser Server © 2026</span></div>
-        <div style="text-align:right"><b>GSM Yasser — Oran</b><br><span>WhatsApp: 0657241710</span></div>
-      </div>
-    </div>
-
-    <!-- Visible only to the site owner after opening the private activation link -->
-    <div class="ownerActions hide" id="ownerBar">
-      <button type="button" class="pdfBtn" id="pdfBtn" onclick="downloadPdf()">📄 Download PDF Report (Owner Only)</button>
-    </div>
-  </div>
+<div class="report" id="reportBox">
+<div class="header"><div style="font-size:32px;font-weight:bold;color:#1e4a8a">GSM <span style="color:#c9a227;font-size:18px">Yasser Server</span></div><div style="color:#888;font-size:12px">Mobile Unlock & Digital Services</div></div>
+<div class="titleBar">تقرير فحص PRO</div>
+<div class="box"><h3>📱 تفاصيل الجهاز</h3>
+<div class="row"><span>نوع الجهاز:</span><b id="outModel">iPhone 13</b></div>
+<div class="row"><span>رقم الـ IMEI:</span><b class="ltr" id="outImei">356771681825578</b></div>
+<div class="row"><span>تاريخ الفحص:</span><b id="outDate">19 / 11 / 2026</b></div>
+<div class="row"><span>تاريخ الشراء:</span><b>2025 / 01 / 15</b></div>
+<div class="row"><span>الضمان:</span><b>حتى 2026 / 12</b></div>
 </div>
-
+<div class="box"><h3>✅ نتائج الفحص</h3>
+<div class="row"><span>🔒 قفل الشبكة: مقفول على فرنسا</span><span class="badge red" id="outNetwork">مقفول / LOCKED</span></div>
+<div class="row"><span>☁️ iCloud حالة: مغلق / OFF</span><span class="badge green" id="outIcloud">مغلق / OFF</span></div>
+<div class="row"><span>🛡️ Blacklist / نظيف القائمة السوداء:</span><span class="badge green" id="outBlack">نظيف / CLEAN</span></div>
+</div>
+<div class="resultBox">✅ النتيجة النهائية: الجهاز نظيف<small>الجهاز غير مدرج في القائمة السوداء، لا يوجد قفل iCloud، وجاهز للاستخدام.</small></div>
+<div class="footer"><div style="text-align:right;font-size:11px">جميع الفحوصات دقيقة حسب تاريخ الفحص<br><span>18/11/2026 • GSM Yasser Server © 2026</span></div><div style="text-align:left"><b>GSM Yasser — Oran</b><br><span>WhatsApp: 0657241710</span></div></div>
+</div>
+</div>
 <script>
-(function checkOwnerAccess(){
-  const OWNER_KEY = "yasser"; // Change this to your own secret key
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("owner") === OWNER_KEY) {
-    localStorage.setItem("gsm_yasser_owner_pdf", "1");
-  }
-  const isOwner = localStorage.getItem("gsm_yasser_owner_pdf") === "1";
-  const ownerBar = document.getElementById("ownerBar");
-  if (ownerBar && isOwner) {
-    ownerBar.classList.remove("hide");
-  }
-})();
-
-function autoFill(){
-  let t = document.getElementById('pasteBox').value;
-  if(!t){ alert('Please paste the check result first'); return; }
-  let imei = t.match(/\d{15}/);
-  if(imei) document.getElementById('inImei').value = imei[0];
-
-  let models = ['iPhone 16','iPhone 15','iPhone 14','iPhone 13','iPhone 12','iPhone 11','iPhone X'];
-  for(let m of models){
-    if(t.toLowerCase().includes(m.toLowerCase())){
-      document.getElementById('inModel').value = m;
-      break;
-    }
-  }
-
-  let lower = t.toLowerCase();
-  if(lower.includes('unlocked')) document.getElementById('inNetwork').value = 'Unlocked';
-  else if(lower.includes('orange')) document.getElementById('inNetwork').value = 'Locked to Orange France';
-  else if(lower.includes('sfr')) document.getElementById('inNetwork').value = 'Locked to SFR France';
-  else if(lower.includes('bouygues')) document.getElementById('inNetwork').value = 'Locked to Bouygues France';
-  else if(lower.includes('ee')) document.getElementById('inNetwork').value = 'Locked to EE UK';
-  else if(lower.includes('at&t') || lower.includes('att')) document.getElementById('inNetwork').value = 'Locked to AT&T USA';
-
-  if(lower.includes('icloud on') || lower.includes('find my: on') || lower.includes('fmi: on')) {
-    document.getElementById('inIcloud').value = 'ON - Locked';
-  } else if(lower.includes('off') || lower.includes('icloud off')) {
-    document.getElementById('inIcloud').value = 'OFF - Clean';
-  }
-
-  if(lower.includes('stolen')) document.getElementById('inBlack').value = 'STOLEN';
-  else if(lower.includes('lost')) document.getElementById('inBlack').value = 'LOST';
-  else if(lower.includes('blocked') || lower.includes('blacklisted')) document.getElementById('inBlack').value = 'BLOCKED';
-  else if(lower.includes('clean')) document.getElementById('inBlack').value = 'CLEAN';
-
-  alert('✅ Auto filled successfully!');
-}
-
-function generate(){
-  document.getElementById('outModel').innerText = document.getElementById('inModel').value;
-  document.getElementById('outImei').innerText = document.getElementById('inImei').value;
-  document.getElementById('outBuy').innerText = document.getElementById('inBuy').value;
-  document.getElementById('outWarranty').innerText = 'Until ' + document.getElementById('inWarranty').value;
-
-  let d = document.getElementById('inDate').value;
-  if(d){
-    let p = d.split('-');
-    document.getElementById('outDate').innerText = p[2] + ' / ' + p[1] + ' / ' + p[0];
-  }
-
-  let net = document.getElementById('inNetwork').value;
-  let n = document.getElementById('outNetwork');
-  let isUnlocked = net.toLowerCase().includes('unlocked') && !net.toLowerCase().includes('locked');
-  n.innerText = isUnlocked ? 'UNLOCKED' : 'LOCKED';
-  n.className = 'badge ' + (isUnlocked ? 'green' : 'red');
-
-  let ic = document.getElementById('inIcloud').value;
-  let i = document.getElementById('outIcloud');
-  let isOff = ic.toUpperCase().includes('OFF');
-  i.innerText = isOff ? 'OFF' : 'ON';
-  i.className = 'badge ' + (isOff ? 'green' : 'red');
-
-  let bl = document.getElementById('inBlack').value;
-  let b = document.getElementById('outBlack');
-  let isClean = bl.toUpperCase().includes('CLEAN');
-  b.innerText = isClean ? 'CLEAN' : bl.toUpperCase();
-  b.className = 'badge ' + (isClean ? 'green' : 'red');
-
-  let box = document.getElementById('finalResultBox');
-  let sub = document.getElementById('finalResultSub');
-  if(!isClean || !isOff){
-    box.style.background = '#fee2e2';
-    box.style.borderColor = '#dc2626';
-    box.style.color = '#7f1d1d';
-    box.firstChild.textContent = '⚠️ Final Result: Attention Required';
-    sub.innerText = (!isClean ? 'Device has blacklist/status alert (' + bl + '). ' : '') + (!isOff ? 'Find My / iCloud is ON.' : '');
-  } else {
-    box.style.background = '#d9f0e0';
-    box.style.borderColor = '#16a34a';
-    box.style.color = '#14532d';
-    box.firstChild.textContent = '✅ Final Result: Device is Clean';
-    sub.innerText = 'No blacklist issues, Find My is OFF, and ready for use.';
-  }
-
-  document.getElementById('formBox').classList.add('hide');
-  window.scrollTo(0, 0);
-}
-
-function downloadPdf(){
-  const element = document.getElementById('pdfContent');
-  const imeiVal = document.getElementById('outImei').innerText.trim() || 'report';
-  if (typeof html2pdf === 'undefined') {
-    window.print();
-    return;
-  }
-  const opt = {
-    margin: 6,
-    filename: 'GSM-Yasser-' + imeiVal + '.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  };
-  html2pdf().set(opt).from(element).save();
-}
-</script>
-</body>
-</html>
+function autoFill(){let t=document.getElementById('pasteBox').value; if(!t){alert('لصق النتيجة أولا');return;} let imei=t.match(/\d{15}/); if(imei) document.getElementById('inImei').value=imei[0]; let models=['iPhone 16','iPhone 15','iPhone 14','iPhone 13','iPhone 12','iPhone 11','iPhone X']; for(let m of models){if(t.toLowerCase().includes(m.toLowerCase())){document.getElementById('inModel').value=m;break;}} if(t.toLowerCase().includes('unlocked')) document.getElementById('inNetwork').value='مفتوح - Unlocked'; else if(t.toLowerCase().includes('orange')) document.getElementById('inNetwork').value='مقفول على Orange فرنسا'; else if(t.toLowerCase().includes('sfr')) document.getElementById('inNetwork').value='مقفول على SFR فرنسا'; if(t.toLowerCase().includes('icloud on')) document.getElementById('inIcloud').value='ON - مقفول'; else if(t.toLowerCase().includes('off')) document.getElementById('inIcloud').value='OFF - مفتوح'; if(t.toLowerCase().includes('stolen')) document.getElementById('inBlack').value='STOLEN - مسروق'; else if(t.toLowerCase().includes('lost')) document.getElementById('inBlack').value='LOST - ضائع'; else if(t.toLowerCase().includes('clean')) document.getElementById('inBlack').value='CLEAN - نظيف'; alert('✅ تعمر تلقائيا!');}
+function generate(){document.getElementById('outModel').innerText=document.getElementById('inModel').value;document.getElementById('outImei').innerText=document.getElementById('inImei').value;let d=document.getElementById('inDate').value;if(d){let p=d.split('-');document.getElementById('outDate').innerText=p[2]+' / '+p[1]+' / '+p[0];}let net=document.getElementById('inNetwork').value;let n=document.getElementById('outNetwork');n.innerText=net.includes('مفتوح')?'مفتوح / UNLOCKED':'مقفول / LOCKED';n.className='badge '+(net.includes('مفتوح')?'green':'red');let ic=document.getElementById('inIcloud').value;let i=document.getElementById('outIcloud');i.innerText=ic.includes('OFF')?'مغلق / OFF':'مقفول / ON';i.className='badge '+(ic.includes('OFF')?'green':'red');let bl=document.getElementById('inBlack').value;let b=document.getElementById('outBlack');b.innerText=bl.includes('CLEAN')?'نظيف / CLEAN':'خطر / BLOCKED';b.className='badge '+(bl.includes('CLEAN')?'green':'red');document.getElementById('formBox').classList.add('hide');window.scrollTo(0,0);}
+</script></body></html>
