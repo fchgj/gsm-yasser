@@ -205,7 +205,7 @@ body{
 .mono{direction:ltr;unicode-bidi:isolate;font-weight:bold}
 .hide{display:none!important}
 
-/* Owner-only PDF report drawer/panel */
+/* Owner-only PDF report panel */
 .owner-panel{
   margin-top:14px;
   padding:14px;
@@ -297,7 +297,7 @@ body{
     <div class="result-box hide" id="freeResult"></div>
   </section>
 
-  <!-- Paid / Contact Service Cards -->
+  <!-- Service Cards -->
   <section class="service-card">
     <h2 class="service-title"><span>🛡️</span><span id="srvNetTitle">Network Lock Check</span></h2>
     <p class="service-desc" id="srvNetDesc">Network lock - SIM status</p>
@@ -360,7 +360,7 @@ body{
 </div>
 
 <script>
-const OWNER_KEY = "yasser"; // Change this secret key if desired
+const OWNER_KEY = "yasser";
 const WHATSAPP_NUMBER = "213657241710";
 
 const TAC_MODELS = {
@@ -398,4 +398,228 @@ const I18N = {
     errImei: "Please enter a valid 15-digit IMEI number.",
     validImei: "IMEI Valid",
     tacLabel: "TAC",
-    modelLabel: "Detected
+    modelLabel: "Detected Model",
+    unknownModel: "Apple / GSM Device (Full check available via PRO)"
+  },
+  fr: {
+    dir: "ltr",
+    mainTitle: "Vérification IMEI",
+    mainSubtitle: "Vérifiez votre appareil facilement",
+    freeBadge: "✅ Vérification Gratuite",
+    freeSub: "Connaissez votre modèle - 100% Gratuit -",
+    imeiPh: "Entrez IMEI - 15 chiffres",
+    captchaLabel: "🤖 Je ne suis pas un robot :",
+    captchaPh: "Code",
+    freeCheckBtn: "Vérifier Gratuitement",
+    srvNetTitle: "Vérification Verrou Réseau",
+    srvNetDesc: "Verrou réseau - État SIM",
+    srvIcloudTitle: "Vérification iCloud",
+    srvIcloudDesc: "Verrou iCloud - Find My",
+    srvBlackTitle: "Vérification Liste Noire",
+    srvBlackDesc: "Volé - Perdu - Bloqué",
+    srvProTitle: "Vérification Complète PRO",
+    srvProDesc: "Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud",
+    contact: "Contactez-nous",
+    lightLabel: "☀ Clair",
+    darkLabel: "🌙 Sombre",
+    errCaptcha: "Code captcha incorrect. Veuillez réessayer.",
+    errImei: "Veuillez saisir un numéro IMEI valide à 15 chiffres.",
+    validImei: "IMEI Valide",
+    tacLabel: "TAC",
+    modelLabel: "Modèle détecté",
+    unknownModel: "Appareil GSM (Vérification complète disponible via PRO)"
+  },
+  ar: {
+    dir: "rtl",
+    mainTitle: "فحص IMEI",
+    mainSubtitle: "تحقق من جهازك بسهولة",
+    freeBadge: "✅ فحص مجاني",
+    freeSub: "اعرف موديل جهازك - مجاني 100% -",
+    imeiPh: "أدخل رقم IMEI - 15 رقماً",
+    captchaLabel: "🤖 أنا لست روبوتاً:",
+    captchaPh: "الرمز",
+    freeCheckBtn: "افحص مجاناً الآن",
+    srvNetTitle: "فحص قفل الشبكة",
+    srvNetDesc: "قفل الشبكة - حالة الشريحة",
+    srvIcloudTitle: "فحص iCloud",
+    srvIcloudDesc: "قفل iCloud - العثور على iPhone",
+    srvBlackTitle: "فحص القائمة السوداء",
+    srvBlackDesc: "مسروق - مفقود - محظور",
+    srvProTitle: "فحص كامل PRO",
+    srvProDesc: "تقرير PDF كامل - GSX - الضمان - تاريخ الشراء - الشبكة - iCloud",
+    contact: "تواصل معنا",
+    lightLabel: "☀ فاتح",
+    darkLabel: "🌙 داكن",
+    errCaptcha: "رمز التحقق غير صحيح. أعد المحاولة.",
+    errImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
+    validImei: "رقم IMEI صالح",
+    tacLabel: "TAC",
+    modelLabel: "الموديل المتوقع",
+    unknownModel: "جهاز GSM (التفاصيل الكاملة متوفرة عبر فحص PRO)"
+  }
+};
+
+let currentLang = "en";
+let currentCaptcha = "NMKLU";
+
+function setLanguage(lang){
+  if(!I18N[lang]) return;
+  currentLang = lang;
+  const t = I18N[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = t.dir;
+
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.lang === lang);
+  });
+
+  document.getElementById("mainTitle").textContent = t.mainTitle;
+  document.getElementById("mainSubtitle").textContent = t.mainSubtitle;
+  document.getElementById("freeBadge").textContent = t.freeBadge;
+  document.getElementById("freeSub").textContent = t.freeSub;
+  document.getElementById("imeiInput").placeholder = t.imeiPh;
+  document.getElementById("captchaLabel").textContent = t.captchaLabel;
+  document.getElementById("captchaInput").placeholder = t.captchaPh;
+  document.getElementById("freeCheckBtn").textContent = t.freeCheckBtn;
+
+  document.getElementById("srvNetTitle").textContent = t.srvNetTitle;
+  document.getElementById("srvNetDesc").textContent = t.srvNetDesc;
+  document.getElementById("srvIcloudTitle").textContent = t.srvIcloudTitle;
+  document.getElementById("srvIcloudDesc").textContent = t.srvIcloudDesc;
+  document.getElementById("srvBlackTitle").textContent = t.srvBlackTitle;
+  document.getElementById("srvBlackDesc").textContent = t.srvBlackDesc;
+  document.getElementById("srvProTitle").textContent = t.srvProTitle;
+  document.getElementById("srvProDesc").textContent = t.srvProDesc;
+
+  ["contactNet","contactIcloud","contactBlack","contactPro"].forEach(id => {
+    document.getElementById(id).textContent = t.contact;
+  });
+
+  updateThemeButtonText();
+}
+
+function toggleTheme(){
+  const root = document.documentElement;
+  const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  root.setAttribute("data-theme", next);
+  updateThemeButtonText();
+}
+
+function updateThemeButtonText(){
+  const theme = document.documentElement.getAttribute("data-theme");
+  const t = I18N[currentLang];
+  document.getElementById("themeBtn").textContent = theme === "dark" ? t.lightLabel : t.darkLabel;
+}
+
+function refreshCaptcha(){
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let code = "";
+  for(let i = 0; i < 5; i++){
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  currentCaptcha = code;
+  document.getElementById("captchaCode").textContent = code;
+  document.getElementById("captchaInput").value = "";
+}
+
+function isValidLuhnImei(imei){
+  if(!/^\d{15}$/.test(imei)) return false;
+  let sum = 0;
+  for(let i = 0; i < 15; i++){
+    let digit = parseInt(imei[i], 10);
+    if(i % 2 === 1){
+      digit *= 2;
+      if(digit > 9) digit -= 9;
+    }
+    sum += digit;
+  }
+  return sum % 10 === 0;
+}
+
+function runFreeCheck(){
+  const t = I18N[currentLang];
+  const imei = document.getElementById("imeiInput").value.trim();
+  const cap = document.getElementById("captchaInput").value.trim().toUpperCase();
+  const box = document.getElementById("freeResult");
+
+  box.classList.remove("hide","error","ok");
+
+  if(cap !== currentCaptcha){
+    box.classList.add("error");
+    box.textContent = t.errCaptcha;
+    refreshCaptcha();
+    return;
+  }
+
+  if(!isValidLuhnImei(imei)){
+    box.classList.add("error");
+    box.textContent = t.errImei;
+    refreshCaptcha();
+    return;
+  }
+
+  const tac = imei.slice(0, 8);
+  const model = TAC_MODELS[tac] || t.unknownModel;
+
+  box.classList.add("ok");
+  box.innerHTML =
+    "<div><strong>✅ " + t.validImei + "</strong></div>" +
+    "<div>IMEI: <span class='mono'>" + imei + "</span></div>" +
+    "<div>" + t.tacLabel + ": <span class='mono'>" + tac + "</span></div>" +
+    "<div>" + t.modelLabel + ": <strong>" + model + "</strong></div>";
+
+  document.getElementById("pdfImei").value = imei;
+  if(TAC_MODELS[tac]) document.getElementById("pdfModel").value = TAC_MODELS[tac];
+  syncOwnerReport();
+  refreshCaptcha();
+}
+
+function contactService(serviceName){
+  const imei = document.getElementById("imeiInput").value.trim();
+  const text = encodeURIComponent("Hello GSM Yasser, I need: " + serviceName + (imei ? " | IMEI: " + imei : ""));
+  window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + text, "_blank");
+}
+
+function initOwnerAccess(){
+  const params = new URLSearchParams(window.location.search);
+  if(params.get("owner") === OWNER_KEY){
+    localStorage.setItem("gsm_yasser_owner_pdf", "1");
+  }
+  const isOwner = localStorage.getItem("gsm_yasser_owner_pdf") === "1";
+  if(isOwner){
+    document.getElementById("ownerSection").classList.remove("hide");
+  }
+}
+
+function syncOwnerReport(){
+  document.getElementById("rModel").textContent = document.getElementById("pdfModel").value || "-";
+  document.getElementById("rImei").textContent = document.getElementById("pdfImei").value || "-";
+  document.getElementById("rCarrier").textContent = document.getElementById("pdfCarrier").value || "-";
+  document.getElementById("rIcloud").textContent = document.getElementById("pdfIcloud").value || "-";
+  document.getElementById("rBlack").textContent = document.getElementById("pdfBlack").value || "-";
+  document.getElementById("rWarranty").textContent = document.getElementById("pdfWarranty").value || "-";
+}
+
+function downloadOwnerPdf(){
+  syncOwnerReport();
+  const area = document.getElementById("pdfReportArea");
+  const imeiVal = (document.getElementById("rImei").textContent || "report").trim();
+  if(typeof html2pdf === "undefined"){
+    window.print();
+    return;
+  }
+  const opt = {
+    margin: 8,
+    filename: "GSM-Yasser-" + imeiVal + ".pdf",
+    image: { type: "jpeg", quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+  };
+  html2pdf().set(opt).from(area).save();
+}
+
+initOwnerAccess();
+setLanguage("en");
+</script>
+</body>
+  </html>
