@@ -7,7 +7,7 @@
   <style>
     * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
     body { margin: 0; background: #0f172a; color: #f8fafc; padding: 20px; }
-    .container { max-width: 1020px; margin: 0 auto; }
+    .container { max-width: 1040px; margin: 0 auto; }
     .card { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
     h1, h2 { margin-top: 0; color: #38bdf8; }
     .login-card { max-width: 420px; margin: 60px auto; }
@@ -31,6 +31,8 @@
     .btn-refresh:hover:not(:disabled) { background: #059669; }
     .btn-whatsapp-top { background: #16a34a; color: #fff; }
     .btn-whatsapp-top:hover { background: #15803d; }
+    .btn-copy { background: #334155; color: #f8fafc; }
+    .btn-copy:hover { background: #475569; }
     .btn-logout { background: #475569; color: #fff; }
     .btn-logout:hover:not(:disabled) { background: #334155; }
     .btn-danger { background: #ef4444; color: #fff; }
@@ -80,8 +82,9 @@
           </div>
           <div class="actions">
             <a id="topWhatsappLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-link btn-whatsapp-top">
-              WhatsApp (0657.241710)
+              WhatsApp (0657.24.17.10)
             </a>
+            <button type="button" class="btn-copy" onclick="copyWhatsappNumber()">Copy Number</button>
             <button type="button" id="refreshBtn" class="btn-refresh" onclick="loadOrders()">Refresh</button>
             <button type="button" id="clearAllBtn" class="btn-danger" onclick="clearOrders()">Clear All</button>
             <button type="button" class="btn-logout" onclick="logout()">Logout</button>
@@ -111,11 +114,33 @@
   <script>
     const DB_URL = "https://gsm-yasser-default-rtdb.firebaseio.com";
     const ADMIN_PASSWORD = "wP5t5B3d";
-    const WHATSAPP_NUMBER = "213657241710"; // 0657.241710
-    const AUTH_KEY = "gsm_yasser_admin_session_en_wa_v1";
+    const WHATSAPP_PHONE = "213657241710";
+    const WHATSAPP_DISPLAY = "0657.24.17.10";
+    const AUTH_KEY = "gsm_yasser_admin_session_en_wa_v3";
+
+    function sanitizeWhatsappPhone(rawPhone) {
+      const digits = String(rawPhone || "").replace(/\D/g, "");
+      if (!digits || /^2130+$/.test(digits) || digits.length < 10) {
+        return WHATSAPP_PHONE;
+      }
+      return digits;
+    }
 
     function buildWhatsappUrl(messageText) {
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(messageText)}`;
+      const validPhone = sanitizeWhatsappPhone(WHATSAPP_PHONE);
+      return `https://api.whatsapp.com/send?phone=${validPhone}&text=${encodeURIComponent(messageText)}`;
+    }
+
+    function copyWhatsappNumber() {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(WHATSAPP_DISPLAY).then(() => {
+          alert(`WhatsApp number copied: ${WHATSAPP_DISPLAY}`);
+        }).catch(() => {
+          prompt("Copy WhatsApp number:", WHATSAPP_DISPLAY);
+        });
+      } else {
+        prompt("Copy WhatsApp number:", WHATSAPP_DISPLAY);
+      }
     }
 
     function initTopWhatsappLink() {
