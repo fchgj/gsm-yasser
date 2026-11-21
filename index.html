@@ -1,576 +1,563 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-theme="dark">
+<html lang="fr" dir="ltr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#060c18">
-<title>GSM YASSER SERVER — Owner PDF Report</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GSM YASSER - Vérification IMEI</title>
+  <style>
+    :root {
+      --bg-color: #0b1120;
+      --card-bg: #131c31;
+      --input-bg: #0f172a;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #1e293b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
 
-<style>
-:root[data-theme="dark"]{
-  --bg:#060c18;
-  --card:#0e192d;
-  --card-2:#13213b;
-  --input:#08101e;
-  --border:#1f3254;
-  --text:#f1f5f9;
-  --muted:#94a3b8;
-  --accent:#2563eb;
-  --accent-hover:#1d4ed8;
-  --pill:#15233d;
-  --pill-active:#2563eb;
-  --ok:#4ade80;
-  --err:#f87171;
-}
+    body.light {
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --input-bg: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #cbd5e1;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+    }
 
-:root[data-theme="light"]{
-  --bg:#eef2f7;
-  --card:#ffffff;
-  --card-2:#f8fafc;
-  --input:#f1f5f9;
-  --border:#cbd5e1;
-  --text:#0f172a;
-  --muted:#475569;
-  --accent:#2563eb;
-  --accent-hover:#1d4ed8;
-  --pill:#e2e8f0;
-  --pill-active:#2563eb;
-  --ok:#15803d;
-  --err:#dc2626;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
-*{box-sizing:border-box}
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 16px;
+      transition: background-color 0.25s, color 0.25s;
+    }
 
-body{
-  margin:0;
-  padding:14px 12px 36px;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  transition:.2s;
-}
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+    }
 
-.container{
-  max-width:640px;
-  margin:0 auto;
-}
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
 
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  margin-bottom:14px;
-}
+    .lang-group {
+      display: flex;
+      gap: 6px;
+    }
 
-.lang-group{display:flex;gap:6px}
+    .pill-btn {
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-.lang-btn,.theme-btn,.back-link{
-  border:1px solid var(--border);
-  background:var(--pill);
-  color:var(--text);
-  padding:7px 12px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:bold;
-  cursor:pointer;
-  text-decoration:none;
-}
+    .pill-btn.active {
+      background-color: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
 
-.lang-btn.active{
-  background:var(--pill-active);
-  color:#ffffff;
-}
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
 
-.hero{
-  text-align:center;
-  margin-bottom:16px;
-}
+    .header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
 
-.hero h1{
-  margin:4px 0;
-  font-size:24px;
-  font-weight:800;
-}
+    .header p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
 
-.hero p{
-  margin:0;
-  color:var(--muted);
-  font-size:13px;
-}
+    /* Cards */
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
 
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:14px;
-}
+    .free-card-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
 
-label{
-  display:block;
-  margin:10px 0 6px;
-  font-size:13px;
-  color:var(--muted);
-  font-weight:bold;
-}
+    .free-card-sub {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
 
-.input-field{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid var(--border);
-  background:var(--input);
-  color:var(--text);
-  font-size:14px;
-  outline:none;
-}
+    .input-field {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      margin-bottom: 12px;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
 
-.input-field::placeholder{color:var(--muted)}
+    .input-field:focus {
+      border-color: var(--primary);
+    }
 
-.mono{
-  direction:ltr;
-  unicode-bidi:isolate;
-  font-weight:bold;
-}
+    /* Captcha Box */
+    .captcha-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      padding: 8px 10px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
 
-.msg-err{
-  color:var(--err);
-  font-size:13px;
-  margin-top:8px;
-  min-height:18px;
-}
+    .captcha-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
 
-.msg-ok{
-  color:var(--ok);
-  font-size:13px;
-  margin-top:8px;
-  min-height:18px;
-}
+    .captcha-code-display {
+      background: #ffffff;
+      color: #0f172a;
+      font-weight: 900;
+      font-family: monospace;
+      font-size: 16px;
+      letter-spacing: 3px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      user-select: none;
+      text-decoration: line-through;
+    }
 
-.actions{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin-top:12px;
-}
+    .captcha-input {
+      width: 78px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      text-align: center;
+      text-transform: uppercase;
+    }
 
-.btn{
-  width:100%;
-  padding:12px 14px;
-  border:none;
-  border-radius:10px;
-  font-size:14px;
-  font-weight:bold;
-  cursor:pointer;
-  color:#ffffff;
-}
+    .refresh-btn {
+      background-color: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 9px;
+      cursor: pointer;
+      font-size: 13px;
+    }
 
-.btn-preview{background:#1d4ed8}
-.btn-preview:hover{background:#1e40af}
+    /* Primary Button */
+    .btn-primary {
+      width: 100%;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+    }
 
-.btn-pdf{background:#15803d}
-.btn-pdf:hover{background:#166534}
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
 
-.btn-reset{background:#334155}
-.btn-reset:hover{background:#1e293b}
+    /* Result & Error */
+    .status-msg {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: none;
+      line-height: 1.5;
+    }
 
-.preview-heading{
-  font-size:15px;
-  font-weight:bold;
-  margin:0 0 12px;
-  color:var(--text);
-}
+    .status-msg.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
 
-/* منطقة التقرير المخصصة للتصدير إلى PDF */
-#pdf-export-wrapper{
-  background:#ffffff;
-  color:#0f172a;
-  padding:18px;
-  border-radius:12px;
-  border:1px solid #cbd5e1;
-}
+    .status-msg.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
 
-.report-banner{
-  background:#0c2340;
-  color:#ffffff;
-  text-align:center;
-  padding:18px 14px;
-  border-radius:10px;
-  margin-bottom:14px;
-}
+    /* Service Cards */
+    .service-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
 
-.report-banner h2{
-  margin:0 0 6px;
-  font-size:21px;
-  letter-spacing:1px;
-}
+    .service-icon {
+      font-size: 18px;
+      margin-top: 2px;
+    }
 
-.report-banner p{
-  margin:0;
-  font-size:11px;
-  color:#cbd5e1;
-  letter-spacing:1.2px;
-}
+    .service-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
 
-.section-label{
-  text-align:center;
-  font-size:12px;
-  font-weight:800;
-  color:#334155;
-  letter-spacing:1px;
-  margin:10px 0 12px;
-}
-
-.report-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-bottom:16px;
-}
-
-.report-table td{
-  padding:11px 6px;
-  border-bottom:1px solid #e2e8f0;
-  font-size:13px;
-}
-
-.report-table td.r-key{
-  color:#475569;
-  width:46%;
-}
-
-.report-table td.r-val{
-  text-align:right;
-  font-weight:bold;
-  color:#0f172a;
-  direction:ltr;
-  unicode-bidi:isolate;
-}
-
-.report-footer{
-  background:#f1f5f9;
-  color:#475569;
-  text-align:center;
-  padding:12px;
-  border-radius:8px;
-  font-size:12px;
-  line-height:1.6;
-}
-
-.report-footer strong{
-  color:#0f172a;
-}
-</style>
+    .service-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
 </head>
-
 <body>
-<div class="container">
 
-  <div class="topbar">
-    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-      <a href="index.html" class="back-link" id="backLink">← Index</a>
+  <div class="container">
+    <!-- Top Bar: Languages & Theme -->
+    <div class="top-bar">
       <div class="lang-group">
-        <button type="button" class="lang-btn" data-lang="ar" onclick="setLanguage('ar')">العربية</button>
-        <button type="button" class="lang-btn" data-lang="fr" onclick="setLanguage('fr')">FR</button>
-        <button type="button" class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+        <button class="pill-btn" data-lang="ar" onclick="setLang('ar')">العربية</button>
+        <button class="pill-btn active" data-lang="fr" onclick="setLang('fr')">FR</button>
+        <button class="pill-btn" data-lang="en" onclick="setLang('en')">EN</button>
       </div>
+      <button class="pill-btn" id="themeBtn" onclick="toggleTheme()">☀️ Clair</button>
     </div>
-    <button type="button" class="theme-btn" id="themeBtn" onclick="toggleTheme()">☀ Light</button>
+
+    <!-- Header -->
+    <div class="header">
+      <div style="font-size: 20px; margin-bottom: 4px;">📱</div>
+      <h1 id="mainTitle">Vérification IMEI</h1>
+      <p id="mainSub">Vérifiez votre appareil facilement</p>
+    </div>
+
+    <!-- Free Check Card -->
+    <div class="card">
+      <div class="free-card-title">
+        <span>✅</span>
+        <span id="freeTitle">Vérification Gratuite</span>
+      </div>
+      <div class="free-card-sub" id="freeSub">Connaissez votre modèle - 100% Gratuit -</div>
+
+      <input
+        type="text"
+        id="imeiInput"
+        class="input-field"
+        maxlength="15"
+        inputmode="numeric"
+        placeholder="Entrez IMEI - 15 chiffres"
+      />
+
+      <!-- Captcha -->
+      <div class="captcha-box">
+        <span class="captcha-label">🔒 <span id="robotText">Je ne suis pas un robot:</span></span>
+        <span class="captcha-code-display" id="captchaDisplay">NMKLU</span>
+        <input type="text" id="captchaInput" class="captcha-input" maxlength="5" placeholder="Code" />
+        <button type="button" class="refresh-btn" onclick="generateCaptcha()" title="Refresh">🔄</button>
+      </div>
+
+      <button type="button" class="btn-primary" id="freeBtn" onclick="checkFreeIMEI()">
+        Vérifier Gratuitement
+      </button>
+
+      <div id="resultBox" class="status-msg"></div>
+    </div>
+
+    <!-- Service 1: Carrier / Network Lock -->
+    <div class="card">
+      <div class="service-header">
+        <span class="service-icon">📡</span>
+        <div>
+          <div class="service-title" id="srv1Title">Vérification Verrou Réseau</div>
+          <div class="service-desc" id="srv1Desc">Verrou réseau - État SIM</div>
+        </div>
+      </div>
+      <a href="https://wa.me/213000000000?text=Bonjour,%20je%20veux%20v%C3%A9rifier%20le%20Verrou%20R%C3%A9seau%20IMEI" target="_blank" class="btn-primary contact-btn">
+        Contactez-nous ↗
+      </a>
+    </div>
+
+    <!-- Service 2: iCloud -->
+    <div class="card">
+      <div class="service-header">
+        <span class="service-icon">☁️</span>
+        <div>
+          <div class="service-title" id="srv2Title">Vérification iCloud</div>
+          <div class="service-desc" id="srv2Desc">Verrou iCloud - Find My</div>
+        </div>
+      </div>
+      <a href="https://wa.me/213000000000?text=Bonjour,%20je%20veux%20v%C3%A9rifier%20l%27%C3%A9tat%20iCloud%20IMEI" target="_blank" class="btn-primary contact-btn">
+        Contactez-nous ↗
+      </a>
+    </div>
+
+    <!-- Service 3: Blacklist -->
+    <div class="card">
+      <div class="service-header">
+        <span class="service-icon">🚫</span>
+        <div>
+          <div class="service-title" id="srv3Title">Vérification Liste Noire</div>
+          <div class="service-desc" id="srv3Desc">Volé - Perdu - Bloqué</div>
+        </div>
+      </div>
+      <a href="https://wa.me/213000000000?text=Bonjour,%20je%20veux%20v%C3%A9rifier%20la%20Liste%20Noire%20IMEI" target="_blank" class="btn-primary contact-btn">
+        Contactez-nous ↗
+      </a>
+    </div>
+
+    <!-- Service 4: Complete PRO Check -->
+    <div class="card">
+      <div class="service-header">
+        <span class="service-icon">📄</span>
+        <div>
+          <div class="service-title" id="srv4Title">Vérification Complète PRO</div>
+          <div class="service-desc" id="srv4Desc">Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud</div>
+        </div>
+      </div>
+      <a href="https://wa.me/213000000000?text=Bonjour,%20je%20veux%20le%20Rapport%20Complet%20PRO%20IMEI" target="_blank" class="btn-primary contact-btn">
+        Contactez-nous ↗
+      </a>
+    </div>
   </div>
 
-  <header class="hero">
-    <h1 id="pageTitle">Owner IMEI PDF Report</h1>
-    <p id="pageSub">Generate and download complete device check PDF reports</p>
-  </header>
+  <script>
+    let currentLang = "fr";
+    let currentCaptcha = "";
 
-  <section class="card">
-    <label for="modelInput" id="lblModel">Model</label>
-    <input type="text" id="modelInput" class="input-field" value="iPhone 13">
+    const translations = {
+      ar: {
+        dir: "rtl",
+        mainTitle: "فحص رقم IMEI",
+        mainSub: "تحقق من معلومات جهازك بكل سهولة",
+        freeTitle: "فحص مجاني",
+        freeSub: "تعرف على موديل جهازك - مجاني 100% -",
+        imeiPlaceholder: "أدخل رقم IMEI - 15 رقماً",
+        robotText: "أنا لست روبوت:",
+        codePlaceholder: "الرمز",
+        freeBtn: "فحص مجاني الآن",
+        srv1Title: "فحص قفل الشبكة",
+        srv1Desc: "حالة الشبكة - شريحة SIM",
+        srv2Title: "فحص حالة iCloud",
+        srv2Desc: "قفل الآيكلود - Find My",
+        srv3Title: "فحص القائمة السوداء",
+        srv3Desc: "مسروق - مفقود - محظور",
+        srv4Title: "فحص شامل PRO",
+        srv4Desc: "تقرير PDF كامل - GSX - الضمان - تاريخ الشراء - الشبكة - iCloud",
+        contactBtn: "تواصل معنا ↗",
+        lightMode: "☀️ فاتح",
+        darkMode: "🌙 داكن",
+        errImei: "يرجى إدخال رقم IMEI صحيح مكون من 15 رقماً.",
+        errCaptcha: "رمز التحقق غير صحيح، حاول مرة أخرى.",
+        okMsg: "✅ رقم IMEI صحيح! جاري جلب بيانات الموديل..."
+      },
+      fr: {
+        dir: "ltr",
+        mainTitle: "Vérification IMEI",
+        mainSub: "Vérifiez votre appareil facilement",
+        freeTitle: "Vérification Gratuite",
+        freeSub: "Connaissez votre modèle - 100% Gratuit -",
+        imeiPlaceholder: "Entrez IMEI - 15 chiffres",
+        robotText: "Je ne suis pas un robot:",
+        codePlaceholder: "Code",
+        freeBtn: "Vérifier Gratuitement",
+        srv1Title: "Vérification Verrou Réseau",
+        srv1Desc: "Verrou réseau - État SIM",
+        srv2Title: "Vérification iCloud",
+        srv2Desc: "Verrou iCloud - Find My",
+        srv3Title: "Vérification Liste Noire",
+        srv3Desc: "Volé - Perdu - Bloqué",
+        srv4Title: "Vérification Complète PRO",
+        srv4Desc: "Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud",
+        contactBtn: "Contactez-nous ↗",
+        lightMode: "☀️ Clair",
+        darkMode: "🌙 Sombre",
+        errImei: "Veuillez entrer un numéro IMEI valide à 15 chiffres.",
+        errCaptcha: "Code de sécurité incorrect.",
+        okMsg: "✅ IMEI valide ! Recherche du modèle en cours..."
+      },
+      en: {
+        dir: "ltr",
+        mainTitle: "IMEI Verification",
+        mainSub: "Check your device easily",
+        freeTitle: "Free Check",
+        freeSub: "Know your model - 100% Free -",
+        imeiPlaceholder: "Enter IMEI - 15 digits",
+        robotText: "I am not a robot:",
+        codePlaceholder: "Code",
+        freeBtn: "Check for Free",
+        srv1Title: "Network Lock Check",
+        srv1Desc: "Carrier Lock - SIM Status",
+        srv2Title: "iCloud Status Check",
+        srv2Desc: "iCloud Lock - Find My",
+        srv3Title: "Blacklist Check",
+        srv3Desc: "Stolen - Lost - Blocked",
+        srv4Title: "Complete PRO Check",
+        srv4Desc: "Full PDF Report - GSX - Warranty - Purchase Date - Carrier - iCloud",
+        contactBtn: "Contact us ↗",
+        lightMode: "☀️ Light",
+        darkMode: "🌙 Dark",
+        errImei: "Please enter a valid 15-digit IMEI number.",
+        errCaptcha: "Incorrect security code.",
+        okMsg: "✅ Valid IMEI! Fetching device model..."
+      }
+    };
 
-    <label for="imeiInput" id="lblImei">IMEI (15 digits)</label>
-    <input type="text" id="imeiInput" class="input-field mono" inputmode="numeric" maxlength="15" placeholder="356771081825578">
-
-    <label for="carrierInput" id="lblCarrier">Carrier / Network Lock</label>
-    <input type="text" id="carrierInput" class="input-field" value="Locked to Orange France">
-
-    <label for="icloudInput" id="lblIcloud">iCloud / Find My</label>
-    <select id="icloudInput" class="input-field">
-      <option value="OFF" selected>OFF</option>
-      <option value="ON">ON</option>
-    </select>
-
-    <label for="statusInput" id="lblStatus">Status</label>
-    <input type="text" id="statusInput" class="input-field" value="CLEAN">
-
-    <div id="errMsg" class="msg-err"></div>
-    <div id="okMsg" class="msg-ok"></div>
-
-    <div class="actions">
-      <button type="button" class="btn btn-preview" id="btnPreview" onclick="updateReportPreview()">Update Report Preview</button>
-      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="generateAndDownloadPDF()">Generate &amp; Download PDF</button>
-      <button type="button" class="btn btn-reset" id="btnReset" onclick="resetReport()">Reset Report</button>
-    </div>
-  </section>
-
-  <section class="card">
-    <div class="preview-heading" id="previewHeading">📄 PDF Report Preview</div>
-
-    <div id="pdf-export-wrapper">
-      <div class="report-banner">
-        <h2>GSM YASSER</h2>
-        <p>PROFESSIONAL IMEI CHECK REPORT</p>
-      </div>
-
-      <div class="section-label">DEVICE INFORMATION</div>
-
-      <table class="report-table">
-        <tr>
-          <td class="r-key">Model</td>
-          <td class="r-val" id="outModel">iPhone 13</td>
-        </tr>
-        <tr>
-          <td class="r-key">IMEI</td>
-          <td class="r-val" id="outImei">-</td>
-        </tr>
-        <tr>
-          <td class="r-key">Carrier / Network Lock</td>
-          <td class="r-val" id="outCarrier">Locked to Orange France</td>
-        </tr>
-        <tr>
-          <td class="r-key">iCloud / Find My</td>
-          <td class="r-val" id="outIcloud">OFF</td>
-        </tr>
-        <tr>
-          <td class="r-key">Status</td>
-          <td class="r-val" id="outStatus">CLEAN</td>
-        </tr>
-      </table>
-
-      <div class="report-footer">
-        <strong>GSM YASSER SERVER</strong><br>
-        Professional Mobile Device Services
-      </div>
-    </div>
-  </section>
-
-</div>
-
-<script>
-const TAC_MODELS = {
-  "35677108":"iPhone 13",
-  "35677168":"iPhone 13",
-  "35489211":"iPhone 14",
-  "35901284":"iPhone 15",
-  "35291044":"iPhone 12",
-  "35384110":"iPhone 11"
-};
-
-const I18N = {
-  en:{
-    dir:"ltr",
-    back:"← Index",
-    pageTitle:"Owner IMEI PDF Report",
-    pageSub:"Generate and download complete device check PDF reports",
-    lblModel:"Model",
-    lblImei:"IMEI (15 digits)",
-    lblCarrier:"Carrier / Network Lock",
-    lblIcloud:"iCloud / Find My",
-    lblStatus:"Status",
-    btnPreview:"Update Report Preview",
-    btnPdf:"Generate & Download PDF",
-    btnReset:"Reset Report",
-    previewHeading:"📄 PDF Report Preview",
-    lightLabel:"☀ Light",
-    darkLabel:"🌙 Dark",
-    errImei:"Please enter a valid 15-digit IMEI number.",
-    okPreview:"Report preview updated successfully.",
-    okPdf:"PDF downloaded successfully."
-  },
-  fr:{
-    dir:"ltr",
-    back:"← Accueil",
-    pageTitle:"Rapport PDF IMEI Propriétaire",
-    pageSub:"Générez et téléchargez des rapports PDF complets",
-    lblModel:"Modèle",
-    lblImei:"IMEI (15 chiffres)",
-    lblCarrier:"Opérateur / Verrouillage réseau",
-    lblIcloud:"iCloud / Localiser",
-    lblStatus:"État",
-    btnPreview:"Mettre à jour l'aperçu",
-    btnPdf:"Générer et télécharger le PDF",
-    btnReset:"Réinitialiser",
-    previewHeading:"📄 Aperçu du rapport PDF",
-    lightLabel:"☀ Clair",
-    darkLabel:"🌙 Sombre",
-    errImei:"Veuillez saisir un numéro IMEI valide à 15 chiffres.",
-    okPreview:"Aperçu du rapport mis à jour avec succès.",
-    okPdf:"PDF téléchargé avec succès."
-  },
-  ar:{
-    dir:"rtl",
-    back:"← الرئيسية",
-    pageTitle:"تقرير PDF لرقم IMEI (المالك)",
-    pageSub:"توليد وتحميل تقارير فحص الأجهزة بصيغة PDF كاملة",
-    lblModel:"الموديل",
-    lblImei:"رقم IMEI (15 رقماً)",
-    lblCarrier:"الشبكة / قفل الشبكة",
-    lblIcloud:"حالة iCloud / العثور على iPhone",
-    lblStatus:"الحالة",
-    btnPreview:"تحديث معاينة التقرير",
-    btnPdf:"توليد وتحميل ملف PDF",
-    btnReset:"إعادة ضبط التقرير",
-    previewHeading:"📄 معاينة تقرير PDF",
-    lightLabel:"☀ فاتح",
-    darkLabel:"🌙 داكن",
-    errImei:"يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
-    okPreview:"تم تحديث معاينة التقرير بنجاح.",
-    okPdf:"تم تحميل ملف PDF بنجاح."
-  }
-};
-
-let currentLang = "en";
-
-function setLanguage(lang){
-  if(!I18N[lang]) return;
-  currentLang = lang;
-  const t = I18N[lang];
-
-  document.documentElement.lang = lang;
-  document.documentElement.dir = t.dir;
-
-  document.querySelectorAll(".lang-btn").forEach(btn=>{
-    btn.classList.toggle("active", btn.dataset.lang === lang);
-  });
-
-  document.getElementById("backLink").textContent = t.back;
-  document.getElementById("pageTitle").textContent = t.pageTitle;
-  document.getElementById("pageSub").textContent = t.pageSub;
-  document.getElementById("lblModel").textContent = t.lblModel;
-  document.getElementById("lblImei").textContent = t.lblImei;
-  document.getElementById("lblCarrier").textContent = t.lblCarrier;
-  document.getElementById("lblIcloud").textContent = t.lblIcloud;
-  document.getElementById("lblStatus").textContent = t.lblStatus;
-  document.getElementById("btnPreview").textContent = t.btnPreview;
-  document.getElementById("btnPdf").textContent = t.btnPdf;
-  document.getElementById("btnReset").textContent = t.btnReset;
-  document.getElementById("previewHeading").textContent = t.previewHeading;
-
-  updateThemeButtonText();
-}
-
-function toggleTheme(){
-  const root = document.documentElement;
-  const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  root.setAttribute("data-theme", next);
-  updateThemeButtonText();
-}
-
-function updateThemeButtonText(){
-  const theme = document.documentElement.getAttribute("data-theme");
-  const t = I18N[currentLang];
-  document.getElementById("themeBtn").textContent = theme === "dark" ? t.lightLabel : t.darkLabel;
-}
-
-function validateImei(){
-  const t = I18N[currentLang];
-  const imei = document.getElementById("imeiInput").value.trim();
-  const errEl = document.getElementById("errMsg");
-
-  if(!/^\d{15}$/.test(imei)){
-    errEl.textContent = t.errImei;
-    return false;
-  }
-
-  errEl.textContent = "";
-  return true;
-}
-
-function updateReportPreview(silent){
-  const t = I18N[currentLang];
-  const okEl = document.getElementById("okMsg");
-  if(!silent) okEl.textContent = "";
-
-  if(!validateImei()) return false;
-
-  const imei = document.getElementById("imeiInput").value.trim();
-  const tac = imei.slice(0, 8);
-  const modelInput = document.getElementById("modelInput");
-
-  if(!modelInput.value.trim() && TAC_MODELS[tac]){
-    modelInput.value = TAC_MODELS[tac];
-  }
-
-  document.getElementById("outModel").textContent = modelInput.value.trim() || "-";
-  document.getElementById("outImei").textContent = imei;
-  document.getElementById("outCarrier").textContent = document.getElementById("carrierInput").value.trim() || "-";
-  document.getElementById("outIcloud").textContent = document.getElementById("icloudInput").value;
-  document.getElementById("outStatus").textContent = document.getElementById("statusInput").value.trim() || "-";
-
-  if(!silent) okEl.textContent = t.okPreview;
-  return true;
-}
-
-async function generateAndDownloadPDF(){
-  const t = I18N[currentLang];
-  const okEl = document.getElementById("okMsg");
-  okEl.textContent = "";
-
-  if(!updateReportPreview(true)) return;
-
-  const imei = document.getElementById("imeiInput").value.trim();
-  const element = document.getElementById("pdf-export-wrapper");
-
-  const options = {
-    margin: 10,
-    filename: "GSM-YASSER-IMEI-" + imei + ".pdf",
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: {
-      scale: 2,
-      useCORS: true,
-      scrollX: 0,
-      scrollY: 0,
-      backgroundColor: "#ffffff"
-    },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-  };
-
-  await html2pdf().set(options).from(element).save();
-  okEl.textContent = t.okPdf;
-}
-
-function resetReport(){
-  document.getElementById("modelInput").value = "iPhone 13";
-  document.getElementById("imeiInput").value = "";
-  document.getElementById("carrierInput").value = "Locked to Orange France";
-  document.getElementById("icloudInput").value = "OFF";
-  document.getElementById("statusInput").value = "CLEAN";
-
-  document.getElementById("outModel").textContent = "iPhone 13";
-  document.getElementById("outImei").textContent = "-";
-  document.getElementById("outCarrier").textContent = "Locked to Orange France";
-  document.getElementById("outIcloud").textContent = "OFF";
-  document.getElementById("outStatus").textContent = "CLEAN";
-
-  document.getElementById("errMsg").textContent = "";
-  document.getElementById("okMsg").textContent = "";
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-  setLanguage("en");
-  const params = new URLSearchParams(window.location.search);
-  const imeiParam = (params.get("imei") || "").trim();
-  if(imeiParam){
-    document.getElementById("imeiInput").value = imeiParam;
-    const tac = imeiParam.slice(0, 8);
-    if(TAC_MODELS[tac]){
-      document.getElementById("modelInput").value = TAC_MODELS[tac];
+    function generateCaptcha() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let code = "";
+      for (let i = 0; i < 5; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      currentCaptcha = code;
+      document.getElementById("captchaDisplay").textContent = code;
+      document.getElementById("captchaInput").value = "";
     }
-    if(/^\d{15}$/.test(imeiParam)){
-      updateReportPreview(true);
+
+    function setLang(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+      document.documentElement.lang = lang;
+      document.documentElement.dir = t.dir;
+
+      document.querySelectorAll(".lang-group .pill-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.lang === lang);
+      });
+
+      document.getElementById("mainTitle").textContent = t.mainTitle;
+      document.getElementById("mainSub").textContent = t.mainSub;
+      document.getElementById("freeTitle").textContent = t.freeTitle;
+      document.getElementById("freeSub").textContent = t.freeSub;
+      document.getElementById("imeiInput").placeholder = t.imeiPlaceholder;
+      document.getElementById("robotText").textContent = t.robotText;
+      document.getElementById("captchaInput").placeholder = t.codePlaceholder;
+      document.getElementById("freeBtn").textContent = t.freeBtn;
+
+      document.getElementById("srv1Title").textContent = t.srv1Title;
+      document.getElementById("srv1Desc").textContent = t.srv1Desc;
+      document.getElementById("srv2Title").textContent = t.srv2Title;
+      document.getElementById("srv2Desc").textContent = t.srv2Desc;
+      document.getElementById("srv3Title").textContent = t.srv3Title;
+      document.getElementById("srv3Desc").textContent = t.srv3Desc;
+      document.getElementById("srv4Title").textContent = t.srv4Title;
+      document.getElementById("srv4Desc").textContent = t.srv4Desc;
+
+      document.querySelectorAll(".contact-btn").forEach(btn => {
+        btn.textContent = t.contactBtn;
+      });
+
+      updateThemeButtonText();
     }
-  }
-});
-</script>
+
+    function toggleTheme() {
+      document.body.classList.toggle("light");
+      updateThemeButtonText();
+    }
+
+    function updateThemeButtonText() {
+      const t = translations[currentLang];
+      const isLight = document.body.classList.contains("light");
+      document.getElementById("themeBtn").textContent = isLight ? t.darkMode : t.lightMode;
+    }
+
+    function isValidIMEI(imei) {
+      if (!/^\d{15}$/.test(imei)) return false;
+      let sum = 0;
+      for (let i = 0; i < 15; i++) {
+        let digit = parseInt(imei.charAt(i), 10);
+        if (i % 2 === 1) {
+          digit *= 2;
+          if (digit > 9) digit -= 9;
+        }
+        sum += digit;
+      }
+      return sum % 10 === 0;
+    }
+
+    function checkFreeIMEI() {
+      const imei = document.getElementById("imeiInput").value.trim();
+      const userCaptcha = document.getElementById("captchaInput").value.trim().toUpperCase();
+      const resultBox = document.getElementById("resultBox");
+      const t = translations[currentLang];
+
+      if (!isValidIMEI(imei)) {
+        resultBox.className = "status-msg error";
+        resultBox.textContent = t.errImei;
+        return;
+      }
+
+      if (userCaptcha !== currentCaptcha) {
+        resultBox.className = "status-msg error";
+        resultBox.textContent = t.errCaptcha;
+        generateCaptcha();
+        return;
+      }
+
+      // هنا يمكنك ربط الـ API الخاص بك أو قاعدة بيانات TAC
+      const tac = imei.substring(0, 8);
+      resultBox.className = "status-msg success";
+      resultBox.innerHTML = `${t.okMsg}<br><strong>IMEI:</strong> ${imei}<br><strong>TAC:</strong> ${tac}`;
+      generateCaptcha();
+    }
+
+    generateCaptcha();
+  </script>
 </body>
 </html>
