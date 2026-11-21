@@ -1,3 +1,70 @@
+
+<script>
+(function () {
+  "use strict";
+
+  function triggerReportPreviewAutoUpdate() {
+    if (typeof window.updateReportPreview === "function") {
+      window.updateReportPreview();
+      return true;
+    }
+
+    if (typeof window.renderPreview === "function") {
+      window.renderPreview();
+      return true;
+    }
+
+    const btn =
+      document.getElementById("updatePreviewBtn") ||
+      document.querySelector('[onclick*="updateReportPreview"]') ||
+      Array.from(document.querySelectorAll("button"))
+        .find(b => /preview|معاينة/i.test(b.textContent));
+
+    if (btn) {
+      btn.click();
+      return true;
+    }
+
+    return false;
+  }
+
+  function initializeAutoIMEI() {
+    const params = new URLSearchParams(location.search);
+    const rawIMEI = params.get("imei");
+
+    if (!rawIMEI) return;
+
+    const imei = rawIMEI.replace(/\D/g, "").slice(0, 15);
+    const input = document.getElementById("imeiInput");
+
+    if (!input || !imei) return;
+
+    input.value = imei;
+
+    input.dispatchEvent(
+      new Event("input", { bubbles: true })
+    );
+
+    input.dispatchEvent(
+      new Event("change", { bubbles: true })
+    );
+
+    setTimeout(() => {
+      triggerReportPreviewAutoUpdate();
+    }, 300);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initializeAutoIMEI
+    );
+  } else {
+    initializeAutoIMEI();
+  }
+
+})();
+</script>
 <script>
   function triggerReportPreviewAutoUpdate() {
     // 1. إذا كانت لديك دالة مباشرة لتحديث المعاينة
