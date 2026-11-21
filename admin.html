@@ -1,259 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - GSM Yasser</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#0b1220;color:#fff;padding:16px}
-.login{max-width:360px;margin:80px auto;background:#111c33;padding:24px;border-radius:18px;border:1px solid #1e293b;text-align:center}
-.login h1{font-size:24px;margin-bottom:6px}
-.login p{color:#94a3b8;font-size:14px;margin-bottom:16px}
-input{width:100%;padding:13px;border-radius:12px;border:1px solid #334155;background:#0b1220;color:#fff;font-size:16px;text-align:center;margin-bottom:12px}
-.btn{width:100%;padding:13px;border:0;border-radius:12px;background:#2563eb;color:#fff;font-weight:700;font-size:16px;cursor:pointer}
-.btn-green{background:#16a34a}
-.btn-red{background:#dc2626}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.card{background:#111c33;border:1px solid #1e293b;border-radius:16px;padding:16px;text-align:center}
-.card b{font-size:26px;display:block}
-.card span{color:#94a3b8;font-size:13px}
-.order{background:#111c33;border:1px solid #1e293b;border-radius:14px;padding:14px;margin-bottom:10px}
-.order b{color:#60a5fa}
-.order small{color:#94a3b8}
-.top{color:#94a3b8;font-size:13px;text-align:center;margin-top:16px}
-#adminPanel{display:none}
-</style>
-</head>
-<body>
-
-<div id="loginBox" class="login">
-  <h1>🔒 GSM YASSER</h1>
-  <p>Admin Panel - دخول المدير فقط</p>
-  <input type="password" id="pass" placeholder="Enter Password - الكود السري">
-  <button class="btn" onclick="login()">Login - دخول</button>
-  <p id="err" style="color:#f87171;margin-top:10px;display:none">❌ كود خاطئ - Wrong Password</p>
-</div>
-
-<div id="adminPanel">
-  <div class="header">
-    <div><h2>👋 مرحبا ياسر</h2><p style="color:#94a3b8;font-size:13px">GSM Yasser - Admin Dashboard</p></div>
-    <button class="btn" style="width:auto;padding:8px 14px;background:#dc2626" onclick="logout()">Logout</button>
-  </div>
-
-  <div class="cards">
-    <div class="card"><b id="totalOrders">0</b><span>Total Requests</span></div>
-    <div class="card"><b id="todayOrders">0</b><span>Today</span></div>
-    <div class="card"><b>0657.241710</b><span>WhatsApp</span></div>
-    <div class="card"><b>4.9 ⭐</b><span>Rating</span></div>
-  </div>
-
-  <h3 style="margin-bottom:10px">📋 آخر الطلبات - Last Orders</h3>
-  <div id="ordersList"></div>
-  <button class="btn btn-red" onclick="clearOrders()" style="margin-top:10px">Clear All Orders - مسح الكل</button>
-  <button class="btn btn-green" onclick="openSite()" style="margin-top:10px">Open Website - افتح الموقع</button>
-
-  <h3 style="margin:20px 0 10px">⚙️ Quick Actions</h3>
-  <div style="display:grid;gap:10px">
-    <a href="https://wa.me/213657241710" target="_blank" style="background:#16a34a;color:#fff;text-align:center;padding:13px;border-radius:12px;text-decoration:none;font-weight:700">Open WhatsApp - افتح الواتساب</a>
-    <a href="https://github.com/fchgj/gsm-yasser" target="_blank" style="background:#2563eb;color:#fff;text-align:center;padding:13px;border-radius:12px;text-decoration:none;font-weight:700">Edit Website in GitHub - عدل الموقع</a>
-  </div>
-
-  <p class="top">Admin only - Yasser | Password: yasser123 - بدلو من بعد للأمان</p>
-</div>
-
-<script>
-function login(){
-  let p = document.getElementById('pass').value;
-  if(p === 'yasser123'){
-    localStorage.setItem('yasser_admin','yes');
-    showAdmin();
-  } else {
-    document.getElementById('err').style.display='block';
-  }
-}
-function showAdmin(){
-  document.getElementById('loginBox').style.display='none';
-  document.getElementById('adminPanel').style.display='block';
-  loadOrders();
-}
-function logout(){
-  localStorage.removeItem('yasser_admin');
-  location.reload();
-}
-function loadOrders(){
-  let orders = JSON.parse(localStorage.getItem('gsm_orders') || '[]');
-  // Demo orders if empty - باش تشوف كيفاش يبان
-  if(orders.length===0){
-    orders = [
-      {imei:'356789123456789', type:'Free Check', date:new Date().toLocaleString()},
-      {imei:'359876543210987', type:'Network Check', date:new Date().toLocaleString()},
-    ];
-  }
-  document.getElementById('totalOrders').innerText = orders.length;
-  document.getElementById('todayOrders').innerText = orders.length;
-  let html = '';
-  orders.forEach((o,i)=>{
-    html += '<div class="order"><b>'+o.type+'</b><br>IMEI: '+o.imei+'<br><small>'+o.date+'</small><br><a href="https://wa.me/213657241710?text=Hello, your IMEI '+o.imei+' result" target="_blank" style="color:#4ade80;font-weight:700;text-decoration:none">Reply on WhatsApp →</a></div>';
-  });
-  document.getElementById('ordersList').innerHTML = html;
-}
-function clearOrders(){
-  if(confirm('تمسح كل الطلبات؟')){
-    localStorage.setItem('gsm_orders','[]');
-    loadOrders();
-  }
-}
-function openSite(){
-  window.open('https://fchgj.github.io/gsm-yasser/','_blank');
-}
-if(localStorage.getItem('yasser_admin')==='yes'){ showAdmin(); }
-document.getElementById('pass').addEventListener('keypress',function(e){ if(e.key==='Enter') login(); });
-</script>
-</body>
-</html>
-
-
----
-
-بعد ما تكمل:
-
-1. ادخل لـ admin.html
-2. دخل الكود: yasser123
-3. راح تشوف Dashboard فيه الطلبات
-
-واش درك؟
-
-تحب نزيدلك الخطوة 2؟ نخلي الموقع الرئيسي كي يدير الزبون Free Check، يروح الطلب أوتوماتيك للـ Admin و تشوفو انت؟ هادي هي اللي تخلي الـ Admin حقيقي 100%.
-
-قولي واه زيدها و نعطيك التحديث تاع index.html باش يربط الموقع مع الـ Admin.
-
-4 - لصق الكود اللي لتحت كامل
-5 - اضغط Commit changes
-6 - استنى 1 دقيقة و ادخل لهنا:
-
-https://fchgj.github.io/gsm-yasser/admin.html
-
-الكود السري: yasser123
-
----
-
-انسخ الكود كامل:
-
-html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - GSM Yasser</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#0b1220;color:#fff;padding:16px}
-.login{max-width:360px;margin:80px auto;background:#111c33;padding:24px;border-radius:18px;border:1px solid #1e293b;text-align:center}
-.login h1{font-size:24px;margin-bottom:6px}
-.login p{color:#94a3b8;font-size:14px;margin-bottom:16px}
-input{width:100%;padding:13px;border-radius:12px;border:1px solid #334155;background:#0b1220;color:#fff;font-size:16px;text-align:center;margin-bottom:12px}
-.btn{width:100%;padding:13px;border:0;border-radius:12px;background:#2563eb;color:#fff;font-weight:700;font-size:16px;cursor:pointer}
-.btn-green{background:#16a34a}
-.btn-red{background:#dc2626}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.card{background:#111c33;border:1px solid #1e293b;border-radius:16px;padding:16px;text-align:center}
-.card b{font-size:26px;display:block}
-.card span{color:#94a3b8;font-size:13px}
-.order{background:#111c33;border:1px solid #1e293b;border-radius:14px;padding:14px;margin-bottom:10px}
-.order b{color:#60a5fa}
-.order small{color:#94a3b8}
-.top{color:#94a3b8;font-size:13px;text-align:center;margin-top:16px}
-#adminPanel{display:none}
-</style>
-</head>
-<body>
-
-<div id="loginBox" class="login">
-  <h1>🔒 GSM YASSER</h1>
-  <p>Admin Panel - دخول المدير فقط</p>
-  <input type="password" id="pass" placeholder="Enter Password - الكود السري">
-  <button class="btn" onclick="login()">Login - دخول</button>
-  <p id="err" style="color:#f87171;margin-top:10px;display:none">❌ كود خاطئ - Wrong Password</p>
-</div>
-
-<div id="adminPanel">
-  <div class="header">
-    <div><h2>👋 مرحبا ياسر</h2><p style="color:#94a3b8;font-size:13px">GSM Yasser - Admin Dashboard</p></div>
-    <button class="btn" style="width:auto;padding:8px 14px;background:#dc2626" onclick="logout()">Logout</button>
-  </div>
-
-  <div class="cards">
-    <div class="card"><b id="totalOrders">0</b><span>Total Requests</span></div>
-    <div class="card"><b id="todayOrders">0</b><span>Today</span></div>
-    <div class="card"><b>0657.241710</b><span>WhatsApp</span></div>
-    <div class="card"><b>4.9 ⭐</b><span>Rating</span></div>
-  </div>
-
-  <h3 style="margin-bottom:10px">📋 آخر الطلبات - Last Orders</h3>
-  <div id="ordersList"></div>
-  <button class="btn btn-red" onclick="clearOrders()" style="margin-top:10px">Clear All Orders - مسح الكل</button>
-  <button class="btn btn-green" onclick="openSite()" style="margin-top:10px">Open Website - افتح الموقع</button>
-
-  <h3 style="margin:20px 0 10px">⚙️ Quick Actions</h3>
-  <div style="display:grid;gap:10px">
-    <a href="https://wa.me/213657241710" target="_blank" style="background:#16a34a;color:#fff;text-align:center;padding:13px;border-radius:12px;text-decoration:none;font-weight:700">Open WhatsApp - افتح الواتساب</a>
-    <a href="https://github.com/fchgj/gsm-yasser" target="_blank" style="background:#2563eb;color:#fff;text-align:center;padding:13px;border-radius:12px;text-decoration:none;font-weight:700">Edit Website in GitHub - عدل الموقع</a>
-  </div>
-
-  <p class="top">Admin only - Yasser | Password: yasser123 - بدلو من بعد للأمان</p>
-</div>
-
-<script>
-function login(){
-  let p = document.getElementById('pass').value;
-  if(p === 'yasser123'){
-    localStorage.setItem('yasser_admin','yes');
-    showAdmin();
-  } else {
-    document.getElementById('err').style.display='block';
-  }
-}
-function showAdmin(){
-  document.getElementById('loginBox').style.display='none';
-  document.getElementById('adminPanel').style.display='block';
-  loadOrders();
-}
-function logout(){
-  localStorage.removeItem('yasser_admin');
-  location.reload();
-}
-function loadOrders(){
-  let orders = JSON.parse(localStorage.getItem('gsm_orders') || '[]');
-  // Demo orders if empty - باش تشوف كيفاش يبان
-  if(orders.length===0){
-    orders = [
-      {imei:'356789123456789', type:'Free Check', date:new Date().toLocaleString()},
-      {imei:'359876543210987', type:'Network Check', date:new Date().toLocaleString()},
-    ];
-  }
-  document.getElementById('totalOrders').innerText = orders.length;
-  document.getElementById('todayOrders').innerText = orders.length;
-  let html = '';
-  orders.forEach((o,i)=>{
-    html += '<div class="order"><b>'+o.type+'</b><br>IMEI: '+o.imei+'<br><small>'+o.date+'</small><br><a href="https://wa.me/213657241710?text=Hello, your IMEI '+o.imei+' result" target="_blank" style="color:#4ade80;font-weight:700;text-decoration:none">Reply on WhatsApp →</a></div>';
-  });
-  document.getElementById('ordersList').innerHTML = html;
-}
-function clearOrders(){
-  if(confirm('تمسح كل الطلبات؟')){
-    localStorage.setItem('gsm_orders','[]');
-    loadOrders();
-  }
-}
-function openSite(){
-  window.open('https://fchgj.github.io/gsm-yasser/','_blank');
-}
-if(localStorage.getItem('yasser_admin')==='yes'){ showAdmin(); }
-document.getElementById('pass').addEventListener('keypress',function(e){ if(e.key==='Enter') login(); });
-</script>
-</body>
-</html>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - GSMYasser Server</title>
+  <style>
+    * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+    body { margin: 0; background: #0f172a; color: #f8fafc; padding: 20px; }
+    .container { max-width: 980px; margin: 0 auto; }
+    .card { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+    h1, h2 { margin-top: 0; color: #38bdf8; }
+    .login-card { max-width: 420px; margin: 60px auto; }
+    .pass-wrap { position: relative; margin: 12px 0; }
+    input[type="password"], input[type="text"] {
+      width: 100%; padding: 12px 68px 12px 12px; border-radius: 8px;
+      border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 16px;
+    }
+    .toggle-eye {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      background: transparent; color: #94a3b8; padding: 4px 8px; font-size: 13px;
+    }
+    button {
+      padding: 10px 18px; border: none; border-radius: 8px;
+      cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s;
+    }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-primary { background: #0284c7; color: #fff; width: 100%; padding: 12px; }
+    .btn-primary:hover:not(:disabled) { background: #0369a1; }
+    .btn-refresh { background: #10b981; color: #fff; }
+    .btn-refresh:hover:not(:disabled) { background: #059669; }
+    .btn-logout { background: #475569; color: #fff; }
+    .btn-logout:hover:not(:disabled) { background: #334155; }
+    .btn-danger { background: #ef4444; color: #fff; }
+    .btn-danger:hover:not(:disabled) { background: #dc2626; }
+    .btn-del-one { background: #dc2626; color: #fff; padding: 6px 10px; font-size: 12px; }
+    .toolbar { display: flex; gap: 10px; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 15px; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #334155; font-size: 14px; vertical-align: middle; }
+    th { background: #0f172a; color: #38bdf8; }
+    .badge {
+      background: #334155; color: #e2e8f0; padding: 4px 8px;
+      border-radius: 6px; font-family: monospace; display: inline-block;
+    }
+    .empty { text-align: center; padding: 30px; color: #94a3b8; }
+    .hidden { display: none; }
+    .error-msg { color: #f87171;
