@@ -1,0 +1,511 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#060c18">
+<title>GSM YASSER — Owner PDF Tool</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+:root {
+  --bg:#060c18;
+  --card:#0e192d;
+  --card2:#13213b;
+  --input:#08101e;
+  --border:#1f3254;
+  --text:#f1f5f9;
+  --muted:#94a3b8;
+  --blue:#2563eb;
+  --gold:#eab308;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  padding:16px 12px 35px;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.container{
+  max-width:560px;
+  margin:auto;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.brand{
+  font-weight:900;
+  font-size:17px;
+  color:#fff;
+}
+
+.status{
+  color:#4ade80;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+}
+
+h1{
+  font-size:23px;
+  margin:0 0 6px;
+}
+
+.subtitle{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:18px;
+}
+
+h3{
+  font-size:15px;
+  color:var(--gold);
+  margin:0 0 14px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.field{
+  min-width:0;
+}
+
+.field label{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:6px;
+}
+
+input{
+  width:100%;
+  padding:12px 10px;
+  border-radius:9px;
+  border:1px solid var(--border);
+  background:var(--input);
+  color:white;
+  outline:none;
+  font-size:13px;
+}
+
+input:focus{
+  border-color:var(--blue);
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+button{
+  width:100%;
+  border:none;
+  border-radius:10px;
+  padding:13px;
+  font-size:13px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:12px;
+}
+
+.update{
+  background:var(--blue);
+  color:white;
+}
+
+.download{
+  background:var(--gold);
+  color:#111827;
+}
+
+.reset{
+  background:#26364f;
+  color:white;
+}
+
+.pdf-sheet{
+  background:#fff;
+  color:#0f172a;
+  border-radius:8px;
+  padding:22px;
+  margin-top:12px;
+  border:1px solid #cbd5e1;
+}
+
+.pdf-header{
+  text-align:center;
+  background:#0f2f5e;
+  padding:16px 8px;
+  border-radius:7px;
+  margin-bottom:18px;
+}
+
+.pdf-brand{
+  font-size:19px;
+  font-weight:900;
+  color:#fff;
+}
+
+.pdf-subtitle{
+  font-size:10px;
+  color:#eab308;
+  margin-top:5px;
+  letter-spacing:1px;
+}
+
+.pdf-title{
+  text-align:center;
+  font-size:16px;
+  font-weight:bold;
+  margin:15px 0;
+}
+
+.pdf-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  padding:12px 5px;
+  border-bottom:1px solid #e2e8f0;
+  font-size:12px;
+}
+
+.pdf-row span{
+  color:#475569;
+}
+
+.pdf-row strong{
+  color:#0f172a;
+  text-align:right;
+  overflow-wrap:anywhere;
+}
+
+.pdf-footer{
+  text-align:center;
+  margin-top:25px;
+  padding-top:12px;
+  border-top:1px solid #cbd5e1;
+  font-size:10px;
+  color:#64748b;
+}
+
+.message{
+  font-size:12px;
+  color:#4ade80;
+  margin-top:10px;
+  text-align:center;
+}
+
+@media(max-width:380px){
+  .grid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+}
+
+@media print{
+  body{background:white}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="topbar">
+    <div class="brand">GSM YASSER SERVER</div>
+    <div class="status">● OWNER TOOL</div>
+  </div>
+
+  <div class="card">
+
+    <h1>IMEI PDF Report</h1>
+
+    <div class="subtitle">
+      Professional iPhone Check Report Generator
+    </div>
+
+    <h3>🔐 Report Information</h3>
+
+    <div class="grid">
+
+      <div class="field">
+        <label>Device Model</label>
+        <input id="pdfModel" value="iPhone 13"
+        placeholder="iPhone 13">
+      </div>
+
+      <div class="field">
+        <label>IMEI Number</label>
+        <input id="pdfImei" value=""
+        maxlength="15" inputmode="numeric"
+        placeholder="Enter IMEI">
+      </div>
+
+      <div class="field">
+        <label>Carrier / Network Lock</label>
+        <input id="pdfCarrier"
+        value="Locked to Orange France"
+        placeholder="Carrier">
+      </div>
+
+      <div class="field">
+        <label>iCloud / Find My</label>
+        <input id="pdfIcloud" value="OFF"
+        placeholder="OFF / ON">
+      </div>
+
+      <div class="field">
+        <label>Blacklist Status</label>
+        <input id="pdfBlack" value="CLEAN"
+        placeholder="CLEAN / BLACKLISTED">
+      </div>
+
+      <div class="field">
+        <label>Warranty</label>
+        <input id="pdfWarranty" value="2026 / 12"
+        placeholder="Warranty">
+      </div>
+
+    </div>
+
+    <button class="update" onclick="syncReport()">
+      🔄 Update Report Preview
+    </button>
+
+  </div>
+
+  <!-- PDF REPORT -->
+
+  <div class="card">
+
+    <h3>📄 PDF Report Preview</h3>
+
+    <div class="pdf-sheet" id="pdfReportArea">
+
+      <div class="pdf-header">
+        <div class="pdf-brand">
+          GSM YASSER
+        </div>
+
+        <div class="pdf-subtitle">
+          PROFESSIONAL IMEI CHECK REPORT
+        </div>
+      </div>
+
+      <div class="pdf-title">
+        DEVICE INFORMATION
+      </div>
+
+      <div class="pdf-row">
+        <span>Model</span>
+        <strong id="rModel">iPhone 13</strong>
+      </div>
+
+      <div class="pdf-row">
+        <span>IMEI</span>
+        <strong id="rImei">-</strong>
+      </div>
+
+      <div class="pdf-row">
+        <span>Carrier / Network Lock</span>
+        <strong id="rCarrier">Locked to Orange France</strong>
+      </div>
+
+      <div class="pdf-row">
+        <span>iCloud / Find My</span>
+        <strong id="rIcloud">OFF</strong>
+      </div>
+
+      <div class="pdf-row">
+        <span>Blacklist</span>
+        <strong id="rBlack">CLEAN</strong>
+      </div>
+
+      <div class="pdf-row">
+        <span>Warranty</span>
+        <strong id="rWarranty">2026 / 12</strong>
+      </div>
+
+      <div class="pdf-footer">
+        GSM YASSER SERVER<br>
+        Professional Mobile Device Services
+      </div>
+
+    </div>
+
+    <button class="download" onclick="downloadPDF()">
+      📄 Generate &amp; Download PDF
+    </button>
+
+    <button class="reset" onclick="resetReport()">
+      Reset Report
+    </button>
+
+    <div class="message" id="message"></div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* GET FORM VALUES */
+
+function getValue(id){
+  return document.getElementById(id).value.trim() || "-";
+}
+
+/* UPDATE PREVIEW */
+
+function syncReport(){
+
+  document.getElementById("rModel").textContent =
+    getValue("pdfModel");
+
+  document.getElementById("rImei").textContent =
+    getValue("pdfImei");
+
+  document.getElementById("rCarrier").textContent =
+    getValue("pdfCarrier");
+
+  document.getElementById("rIcloud").textContent =
+    getValue("pdfIcloud");
+
+  document.getElementById("rBlack").textContent =
+    getValue("pdfBlack");
+
+  document.getElementById("rWarranty").textContent =
+    getValue("pdfWarranty");
+
+  document.getElementById("message").textContent =
+    "Report preview updated successfully.";
+
+}
+
+/* DOWNLOAD PDF */
+
+async function downloadPDF(){
+
+  syncReport();
+
+  const imei = getValue("pdfImei");
+
+  if(imei === "-"){
+    alert("Please enter the IMEI number.");
+    return;
+  }
+
+  if(!/^\d{15}$/.test(imei)){
+    alert("IMEI must contain exactly 15 digits.");
+    return;
+  }
+
+  if(typeof html2pdf === "undefined"){
+    alert("PDF library could not load. Check your internet connection.");
+    return;
+  }
+
+  const area = document.getElementById("pdfReportArea");
+
+  const button = document.querySelector(".download");
+
+  button.disabled = true;
+  button.textContent = "Generating PDF...";
+
+  const options = {
+    margin: 10,
+    filename: "GSM-YASSER-" + imei + ".pdf",
+
+    image: {
+      type: "jpeg",
+      quality: 0.98
+    },
+
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff"
+    },
+
+    jsPDF: {
+      unit: "mm",
+      format: "a4",
+      orientation: "portrait"
+    }
+  };
+
+  try{
+
+    await html2pdf()
+      .set(options)
+      .from(area)
+      .save();
+
+    document.getElementById("message").textContent =
+      "PDF generated successfully.";
+
+  }catch(error){
+
+    console.error(error);
+
+    alert("PDF generation failed. Please try again.");
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent = "📄 Generate & Download PDF";
+
+  }
+
+}
+
+/* RESET */
+
+function resetReport(){
+
+  document.getElementById("pdfModel").value = "";
+  document.getElementById("pdfImei").value = "";
+  document.getElementById("pdfCarrier").value = "";
+  document.getElementById("pdfIcloud").value = "";
+  document.getElementById("pdfBlack").value = "";
+  document.getElementById("pdfWarranty").value = "";
+
+  syncReport();
+
+  document.getElementById("message").textContent =
+    "Report fields cleared.";
+
+}
+
+/* LIVE PREVIEW */
+
+document.querySelectorAll("input").forEach(input=>{
+  input.addEventListener("input",syncReport);
+});
+
+syncReport();
+
+</script>
+
+</body>
+</html>
