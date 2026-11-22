@@ -3,145 +3,210 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GSM Yasser Server — فحص IMEI لـ iPhone</title>
+  <title>GSM Yasser Server — iPhone IMEI Checker</title>
   <style>
     :root {
-      --bg: #0b1120;
-      --card: #111827;
-      --card-inner: #162033;
+      --bg: #070d19;
+      --surface: #0f172a;
+      --card: #131f35;
+      --card-hover: #182742;
       --text: #f8fafc;
       --muted: #94a3b8;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --border: #1e293b;
-      --badge-bg: rgba(245, 158, 11, 0.15);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --border: rgba(148, 163, 184, 0.16);
+      --badge-bg: rgba(245, 158, 11, 0.16);
       --badge-text: #fbbf24;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     }
 
     body.light {
       --bg: #f1f5f9;
+      --surface: #ffffff;
       --card: #ffffff;
-      --card-inner: #f8fafc;
+      --card-hover: #f8fafc;
       --text: #0f172a;
       --muted: #475569;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --border: #e2e8f0;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --border: rgba(15, 23, 42, 0.12);
       --badge-bg: rgba(217, 119, 6, 0.12);
       --badge-text: #b45309;
+      --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
     }
 
     body {
-      background: var(--bg);
+      background: radial-gradient(circle at top, rgba(37, 99, 235, 0.12), transparent 45%), var(--bg);
       color: var(--text);
-      padding: 16px;
-      line-height: 1.6;
-      transition: background 0.2s, color 0.2s;
+      min-height: 100vh;
+      line-height: 1.65;
+      transition: background 0.25s ease, color 0.25s ease;
     }
 
     .container {
-      max-width: 640px;
+      width: 100%;
+      max-width: 1120px;
       margin: 0 auto;
+      padding: 20px;
     }
 
+    /* شريط علوي عالمي متجاوب */
     .topbar {
-      background: var(--card);
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 10px 14px;
+      box-shadow: var(--shadow);
+      border-radius: 16px;
+      padding: 12px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 14px;
       flex-wrap: wrap;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
+    }
+
+    .brand-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 10px var(--success);
+    }
+
+    .topbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .topbar-group {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .btn-pill {
-      background: var(--card-inner);
+      background: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 0.85rem;
+      border-radius: 10px;
+      padding: 7px 14px;
+      font-size: 0.86rem;
       font-weight: 600;
       cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .btn-pill:hover {
+      background: var(--card-hover);
+      border-color: var(--primary);
     }
 
     .btn-pill.active {
       background: var(--primary);
-      color: #fff;
+      color: #ffffff;
       border-color: var(--primary);
     }
 
+    /* ترويسة الموقع */
     .hero {
       text-align: center;
-      margin-bottom: 24px;
+      max-width: 760px;
+      margin: 0 auto 32px;
     }
 
     .hero h1 {
-      font-size: 1.6rem;
-      margin-bottom: 6px;
+      font-size: clamp(1.55rem, 3vw, 2.3rem);
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
     }
 
     .hero p {
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: clamp(0.95rem, 1.5vw, 1.08rem);
     }
 
-    .box {
-      background: var(--card);
+    /* شبكة سطح المكتب الرئيسية */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (min-width: 900px) {
+      .main-grid {
+        grid-template-columns: 420px 1fr;
+        gap: 28px;
+      }
+    }
+
+    .panel {
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border-radius: 20px;
+      padding: 24px;
     }
 
-    .box h2 {
-      font-size: 1.15rem;
-      margin-bottom: 4px;
+    .panel h2 {
+      font-size: 1.22rem;
+      font-weight: 700;
+      margin-bottom: 6px;
     }
 
-    .box .sub {
+    .panel .sub {
       color: var(--muted);
-      font-size: 0.88rem;
-      margin-bottom: 16px;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
     }
 
     .input {
       width: 100%;
-      background: var(--card-inner);
+      background: var(--card);
       border: 1px solid var(--border);
       color: var(--text);
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 0.95rem;
-      margin-bottom: 12px;
+      border-radius: 12px;
+      padding: 13px 15px;
+      font-size: 0.96rem;
+      margin-bottom: 14px;
       outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .input:focus {
       border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
     }
 
     .captcha-row {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .captcha-row .input {
@@ -150,64 +215,125 @@
     }
 
     .captcha-box {
-      background: #0f172a;
+      background: #0b1324;
       color: #e2e8f0;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-weight: 700;
+      border-radius: 12px;
+      padding: 11px 16px;
+      font-weight: 800;
+      font-size: 0.95rem;
       letter-spacing: 3px;
       user-select: none;
+      white-space: nowrap;
     }
 
     .btn-primary {
       width: 100%;
       background: var(--primary);
-      color: #fff;
+      color: #ffffff;
       border: none;
-      border-radius: 10px;
-      padding: 13px;
+      border-radius: 12px;
+      padding: 13px 18px;
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
     }
 
     .btn-primary:hover {
       background: var(--primary-hover);
     }
 
+    .btn-primary:active {
+      transform: scale(0.99);
+    }
+
     .help-link {
       display: block;
       text-align: center;
-      margin-top: 12px;
-      font-size: 0.85rem;
-      color: #60a5fa;
+      margin-top: 14px;
+      font-size: 0.86rem;
+      color: #3b82f6;
       text-decoration: none;
     }
 
+    .help-link:hover {
+      text-decoration: underline;
+    }
+
     .result-box {
-      margin-top: 14px;
-      padding: 12px;
-      border-radius: 10px;
-      background: var(--card-inner);
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 12px;
+      background: var(--card);
       border: 1px solid var(--border);
       font-size: 0.9rem;
       display: none;
     }
 
-    .service-card {
-      background: var(--card-inner);
+    .result-actions {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 12px;
+      border-radius: 9px;
+      padding: 7px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+    }
+
+    /* شبكة الخدمات المدفوعة على الشاشات الكبيرة */
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    @media (min-width: 640px) {
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-2px);
+      background: var(--card-hover);
+      border-color: rgba(37, 99, 235, 0.45);
     }
 
     .service-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 4px;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .service-title {
+      font-weight: 700;
+      font-size: 1rem;
     }
 
     .badge {
@@ -215,52 +341,77 @@
       color: var(--badge-text);
       font-size: 0.75rem;
       font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 6px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
     }
 
     .service-desc {
       color: var(--muted);
-      font-size: 0.85rem;
-      margin-bottom: 12px;
+      font-size: 0.86rem;
+      margin-bottom: 16px;
     }
 
     .btn-wa {
       display: block;
       width: 100%;
       text-align: center;
-      background: var(--card);
+      background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 11px;
       padding: 10px;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.9rem;
+      transition: all 0.18s ease;
     }
 
     .btn-wa:hover {
-      border-color: #22c55e;
+      background: #16a34a;
+      color: #ffffff;
+      border-color: #16a34a;
     }
 
+    /* التذييل */
     .footer {
       text-align: center;
       color: var(--muted);
-      font-size: 0.82rem;
-      margin-top: 24px;
-      padding-bottom: 20px;
+      font-size: 0.84rem;
+      margin-top: 36px;
+      padding-bottom: 24px;
     }
 
     .footer-pill {
       display: inline-block;
-      background: var(--card);
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 6px 14px;
+      border-radius: 10px;
+      padding: 7px 16px;
       color: var(--text);
       margin-bottom: 12px;
       text-decoration: none;
-      font-size: 0.85rem;
+      font-weight: 600;
+      font-size: 0.88rem;
+      direction: ltr;
+    }
+
+    /* تنسيق الطباعة على ويندوز */
+    @media print {
+      .topbar, .services-panel, .captcha-row, .btn-primary, .help-link, .result-actions, .footer-pill {
+        display: none !important;
+      }
+      body {
+        background: #ffffff;
+        color: #000000;
+      }
+      .panel {
+        box-shadow: none;
+        border: 1px solid #cbd5e1;
+      }
+      .result-box {
+        display: block !important;
+      }
     }
   </style>
 </head>
@@ -268,178 +419,45 @@
   <div class="container">
     <!-- الشريط العلوي -->
     <div class="topbar">
-      <div class="topbar-group">
-        <button class="btn-pill" id="themeBtn" onclick="toggleTheme()">🌙 داكن</button>
+      <div class="brand-mini">
+        <span class="brand-dot"></span>
+        <span>GSM Yasser Server</span>
       </div>
-      <div class="topbar-group">
-        <button class="btn-pill" onclick="setLang('en')">EN</button>
-        <button class="btn-pill" onclick="setLang('fr')">FR</button>
-        <button class="btn-pill active" id="langAr" onclick="setLang('ar')">العربية</button>
+
+      <div class="topbar-controls">
+        <div class="topbar-group">
+          <button class="btn-pill" id="themeBtn" type="button" onclick="toggleTheme()">🌙 داكن</button>
+        </div>
+        <div class="topbar-group">
+          <button class="btn-pill" id="langEn" type="button" onclick="setLang('en')">EN</button>
+          <button class="btn-pill" id="langFr" type="button" onclick="setLang('fr')">FR</button>
+          <button class="btn-pill active" id="langAr" type="button" onclick="setLang('ar')">العربية</button>
+        </div>
       </div>
     </div>
 
     <!-- العنوان الرئيسي -->
     <header class="hero">
-      <h1>GSM Yasser Server — فحص IMEI لـ iPhone</h1>
-      <p>فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة</p>
+      <h1 id="heroTitle">GSM Yasser Server — فحص IMEI لـ iPhone</h1>
+      <p id="heroSubtitle">فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة</p>
     </header>
 
-    <!-- قسم الفحص المجاني -->
-    <section class="box">
-      <h2>فحص مجاني</h2>
-      <p class="sub">تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</p>
+    <!-- المحتوى الرئيسي -->
+    <main class="main-grid">
+      <!-- قسم الفحص المجاني -->
+      <section class="panel">
+        <h2 id="freeTitle">فحص مجاني</h2>
+        <p class="sub" id="freeSub">تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</p>
 
-      <input
-        type="text"
-        id="imeiInput"
-        class="input"
-        maxlength="15"
-        placeholder="أدخل رقم IMEI المكوّن من 15 رقماً"
-        oninput="this.value = this.value.replace(/\D/g, '')"
-      />
+        <input
+          type="text"
+          id="imeiInput"
+          class="input"
+          maxlength="15"
+          placeholder="أدخل رقم IMEI المكوّن من 15 رقماً"
+          oninput="this.value = this.value.replace(/\D/g, '')"
+        />
 
-      <div class="captcha-row">
-        <input type="text" id="captchaInput" class="input" placeholder="الرمز" />
-        <div class="captcha-box" id="captchaDisplay">NMKLU</div>
-        <button class="btn-pill" type="button" onclick="refreshCaptcha()" title="تحديث الرمز">↻</button>
-      </div>
-
-      <button class="btn-primary" type="button" onclick="checkImei()">فحص مجاني</button>
-
-      <a href="#imei-help" class="help-link" onclick="alert('اطلب #06#* على لوحة الاتصال لمعرفة رقم IMEI'); return false;">
-        لا تعرف IMEI؟ اطلب #06#* • أين أجد IMEI؟
-      </a>
-
-      <div class="result-box" id="resultBox"></div>
-    </section>
-
-    <!-- قسم خدمات الفحص المدفوعة -->
-    <section class="box">
-      <h2>خدمات الفحص المدفوعة</h2>
-      <p class="sub">اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب +213657241710</p>
-
-      <div class="service-card">
-        <div class="service-top">
-          <strong>فحص قفل الشبكة</strong>
-          <span class="badge">مدفوع</span>
-        </div>
-        <p class="service-desc">حالة قفل المشغل وشريحة SIM</p>
-        <a class="btn-wa" target="_blank" rel="noopener"
-           href="https://wa.me/213657241710?text=مرحباً،%20أريد%20طلب%20خدمة%20فحص%20قفل%20الشبكة">
-          WhatsApp
-        </a>
-      </div>
-
-      <div class="service-card">
-        <div class="service-top">
-          <strong>فحص iCloud</strong>
-          <span class="badge">مدفوع</span>
-        </div>
-        <p class="service-desc">حالة قفل iCloud وميزة Find My</p>
-        <a class="btn-wa" target="_blank" rel="noopener"
-           href="https://wa.me/213657241710?text=مرحباً،%20أريد%20طلب%20خدمة%20فحص%20iCloud">
-          WhatsApp
-        </a>
-      </div>
-
-      <div class="service-card">
-        <div class="service-top">
-          <strong>فحص القائمة السوداء</strong>
-          <span class="badge">مدفوع</span>
-        </div>
-        <p class="service-desc">حالة الفقدان أو السرقة أو الحظر</p>
-        <a class="btn-wa" target="_blank" rel="noopener"
-           href="https://wa.me/213657241710?text=مرحباً،%20أريد%20طلب%20خدمة%20فحص%20القائمة%20السوداء">
-          WhatsApp
-        </a>
-      </div>
-
-      <div class="service-card">
-        <div class="service-top">
-          <strong>فحص شامل PRO</strong>
-          <span class="badge">مدفوع</span>
-        </div>
-        <p class="service-desc">تقرير PDF كامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud</p>
-        <a class="btn-wa" target="_blank" rel="noopener"
-           href="https://wa.me/213657241710?text=مرحباً،%20أريد%20طلب%20خدمة%20فحص%20شامل%20PRO">
-          WhatsApp
-        </a>
-      </div>
-    </section>
-
-    <!-- التذييل -->
-    <footer class="footer">
-      <div>
-        <a class="footer-pill" href="https://wa.me/213657241710" target="_blank" rel="noopener">
-          +213657241710
-        </a>
-      </div>
-      <p>.GSM YASSER SERVER. All Rights Reserved 2026 ©</p>
-    </footer>
-  </div>
-
-  <script>
-    function toggleTheme() {
-      document.body.classList.toggle("light");
-      const btn = document.getElementById("themeBtn");
-      btn.textContent = document.body.classList.contains("light") ? "☀️ فاتح" : "🌙 داكن";
-    }
-
-    function setLang(lang) {
-      document.documentElement.lang = lang;
-      document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-      document.querySelectorAll(".topbar-group .btn-pill").forEach((b) => b.classList.remove("active"));
-      if (lang === "ar") document.getElementById("langAr").classList.add("active");
-    }
-
-    function refreshCaptcha() {
-      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      let code = "";
-      for (let i = 0; i < 5; i++) {
-        code += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      document.getElementById("captchaDisplay").textContent = code;
-    }
-
-    function isValidLuhn(imei) {
-      let sum = 0;
-      for (let i = 0; i < imei.length; i++) {
-        let digit = parseInt(imei[imei.length - 1 - i], 10);
-        if (i % 2 === 1) {
-          digit *= 2;
-          if (digit > 9) digit -= 9;
-        }
-        sum += digit;
-      }
-      return sum % 10 === 0;
-    }
-
-    function checkImei() {
-      const imei = document.getElementById("imeiInput").value.trim();
-      const captcha = document.getElementById("captchaInput").value.trim().toUpperCase();
-      const expected = document.getElementById("captchaDisplay").textContent.trim().toUpperCase();
-      const box = document.getElementById("resultBox");
-
-      box.style.display = "block";
-
-      if (imei.length !== 15) {
-        box.innerHTML = "❌ يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.";
-        return;
-      }
-
-      if (captcha !== expected) {
-        box.innerHTML = "❌ رمز التحقق غير صحيح. حاول مرة أخرى.";
-        refreshCaptcha();
-        return;
-      }
-
-      const validFormat = isValidLuhn(imei);
-      box.innerHTML = validFormat
-        ? `✅ الرقم <strong>${imei}</strong> يطابق صيغة IMEI الصحيحة (Luhn). لربط الفحص ببيانات GSX/iCloud الفعلية، اربط هذا النموذج بواجهة API خارجية.`
-        : `⚠️ الرقم <strong>${imei}</strong> لا يطابق خوارزمية التحقق Luhn القياسية لرقم IMEI.`;
-
-      refreshCaptcha();
-    }
-  </script>
-</body>
-</html>
+        <div class="captcha-row">
+          <input type="text" id="captchaInput" class="input" placeholder="الرمز" />
+          <div class="captcha-box" id="captchaDisplay">NMKLU
