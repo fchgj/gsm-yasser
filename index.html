@@ -5,20 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GSM Yasser Server</title>
     <style>
-        /* استيراد خط عربي مناسب للتصميم */
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
 
         :root {
-            --bg-main: #0B1120; /* لون الخلفية الداكن جداً */
-            --bg-card: #131C2E; /* لون البطاقات */
-            --bg-card-inner: #1A2438; /* لون العناصر داخل البطاقة */
-            --border-color: #2A364F; /* لون الحدود */
+            --bg-main: #0B1120;
+            --bg-card: #131C2E;
+            --bg-card-inner: #1A2438;
+            --border-color: #2A364F;
             --text-main: #FFFFFF;
             --text-muted: #8B96A8;
             --btn-blue: #2563EB;
             --btn-blue-hover: #1D4ED8;
-            --badge-bg: #333024; /* لون خلفية كلمة مدفوع */
-            --badge-text: #EAB308; /* لون نص كلمة مدفوع */
+            --badge-bg: #333024;
+            --badge-text: #EAB308;
         }
 
         * {
@@ -35,11 +34,12 @@
             justify-content: center;
             padding: 15px;
             min-height: 100vh;
+            position: relative;
         }
 
         .container {
             width: 100%;
-            max-width: 500px; /* تحديد عرض مناسب للهاتف والحاسوب */
+            max-width: 500px;
         }
 
         /* الشريط العلوي */
@@ -72,6 +72,7 @@
             align-items: center;
             gap: 5px;
             font-weight: 500;
+            transition: 0.2s;
         }
 
         .nav-btn.active {
@@ -92,18 +93,49 @@
             align-items: center;
             cursor: pointer;
             font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .icon-btn:hover {
+            background-color: var(--border-color);
         }
 
         /* العنوان الرئيسي */
         .header-title {
             text-align: center;
             margin-bottom: 25px;
+            position: relative;
         }
 
         .header-title h1 {
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* أيقونة طريقة الاستخدام */
+        .help-icon-btn {
+            background-color: var(--bg-card-inner);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--btn-blue);
+            transition: 0.3s;
+        }
+
+        .help-icon-btn:hover {
+            background-color: var(--btn-blue);
+            color: white;
         }
 
         .header-title p {
@@ -146,16 +178,22 @@
             margin-bottom: 15px;
             outline: none;
             text-align: right;
+            transition: border 0.3s;
+        }
+
+        .input-main:focus {
+            border-color: var(--btn-blue);
         }
 
         .input-main::placeholder {
             color: var(--text-muted);
         }
 
-        .input-row {
+        /* واجهة الكابتشا المحدثة */
+        .captcha-container {
             display: flex;
             gap: 10px;
-            align-items: center;
+            align-items: stretch; /* لضمان تساوي الارتفاعات */
             margin-bottom: 25px;
         }
 
@@ -164,40 +202,57 @@
             background-color: var(--bg-main);
             border: 1px solid var(--border-color);
             color: var(--text-main);
-            padding: 14px;
+            padding: 0 14px;
             border-radius: 8px;
             font-size: 14px;
             outline: none;
             text-align: right;
+            min-height: 50px;
+            transition: border 0.3s;
         }
 
-        .captcha-code {
+        .input-captcha:focus {
+            border-color: var(--btn-blue);
+        }
+
+        .captcha-display {
             background-color: var(--bg-card-inner);
             border: 1px dashed var(--btn-blue);
             color: white;
-            padding: 14px 20px;
+            padding: 0 20px;
             border-radius: 8px;
             font-weight: 700;
-            letter-spacing: 3px;
-            font-size: 16px;
-            text-align: center;
+            letter-spacing: 4px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             white-space: nowrap;
+            user-select: none;
+            min-height: 50px;
         }
 
         .refresh-captcha {
             background-color: var(--bg-card-inner);
             border: 1px solid var(--border-color);
-            width: 48px;
-            height: 48px;
+            width: 50px;
+            min-height: 50px;
             border-radius: 8px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 20px;
+            color: var(--text-muted);
+            transition: 0.2s;
         }
 
-        /* الأزرار */
+        .refresh-captcha:hover {
+            background-color: var(--border-color);
+            color: white;
+        }
+
+        /* الأزرار العامة */
         .btn-primary {
             width: 100%;
             background-color: var(--btn-blue);
@@ -228,7 +283,7 @@
             color: var(--text-muted);
             font-size: 13px;
             margin-bottom: 20px;
-            direction: ltr; /* لجعل الأرقام والكلمات الإنجليزية تظهر بشكل صحيح */
+            direction: ltr;
             unicode-bidi: embed;
         }
 
@@ -326,6 +381,7 @@
             align-items: center;
             cursor: pointer;
             font-size: 16px;
+            color: var(--text-main);
         }
 
         .copyright {
@@ -334,19 +390,119 @@
             direction: ltr;
         }
 
+        /* ---- تصميم النافذة المنبثقة (Modal) ---- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            position: relative;
+            transform: translateY(-20px);
+            transition: 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .close-modal:hover {
+            color: white;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--btn-blue);
+        }
+
+        /* تنسيق اللغات داخل النافذة */
+        .lang-section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .lang-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .lang-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .lang-title span {
+            font-size: 18px;
+        }
+
+        .lang-steps {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            padding-right: 15px;
+        }
+
+        .lang-steps.ltr {
+            direction: ltr;
+            text-align: left;
+            padding-right: 0;
+            padding-left: 15px;
+        }
+
         /* تعديلات للهواتف الصغيرة جداً */
-        @media (max-width: 360px) {
-            .input-row {
-                flex-direction: column;
+        @media (max-width: 380px) {
+            .captcha-container {
+                flex-wrap: wrap;
             }
             .input-captcha {
                 width: 100%;
+                flex: none;
             }
-            .captcha-code {
-                width: 100%;
-            }
-            .refresh-captcha {
-                width: 100%;
+            .captcha-display {
+                flex: 1;
             }
         }
     </style>
@@ -368,9 +524,12 @@
             </div>
         </div>
 
-        <!-- العنوان -->
+        <!-- العنوان مع أيقونة المساعدة -->
         <div class="header-title">
-            <h1>GSM Yasser Server — فحص IMEI لـ iPhone</h1>
+            <h1>
+                GSM Yasser Server — فحص IMEI لـ iPhone
+                <button class="help-icon-btn" onclick="openModal()" title="طريقة الاستخدام">?</button>
+            </h1>
             <p>فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة</p>
         </div>
 
@@ -381,10 +540,11 @@
             
             <input type="text" class="input-main" placeholder="أدخل رقم IMEI المكون من 15 رقمًا" maxlength="15">
             
-            <div class="input-row">
-                <input type="text" class="input-captcha" placeholder="الرمز">
-                <div class="captcha-code">NMKLU</div>
-                <button class="refresh-captcha">🔄</button>
+            <!-- واجهة الكابتشا المحدثة -->
+            <div class="captcha-container">
+                <input type="text" class="input-captcha" placeholder="أدخل الرمز هنا">
+                <div class="captcha-display">N M K L U</div>
+                <button class="refresh-captcha" onclick="refreshCaptcha()" title="تحديث الرمز">🔄</button>
             </div>
 
             <button class="btn-primary">فحص مجاني</button>
@@ -449,7 +609,7 @@
         <!-- التذييل -->
         <div class="footer">
             <div class="footer-contact">
-                <button class="copy-btn">📄</button>
+                <button class="copy-btn" title="نسخ الرقم">📄</button>
                 <div class="phone-box">+213657241710</div>
             </div>
             <div class="copyright">© GSM YASSER SERVER. All Rights Reserved 2026</div>
@@ -457,5 +617,91 @@
 
     </div>
 
+    <!-- النافذة المنبثقة (Modal) لطريقة الاستخدام -->
+    <div class="modal-overlay" id="usageModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <div class="modal-title">طريقة الاستخدام | How to use</div>
+            
+            <!-- العربية -->
+            <div class="lang-section">
+                <div class="lang-title"><span>🇸🇦</span> العربية</div>
+                <div class="lang-steps">
+                    1. أدخل رقم IMEI المكون من 15 رقمًا في الحقل المخصص.<br>
+                    2. اكتب رمز التحقق (Captcha) الظاهر بجانب الحقل.<br>
+                    3. اضغط على زر "فحص مجاني" للحصول على النتيجة.<br>
+                    4. للخدمات المدفوعة، تواصل معنا عبر واتساب.
+                </div>
+            </div>
+
+            <!-- الإنجليزية -->
+            <div class="lang-section">
+                <div class="lang-title"><span>🇬🇧</span> English</div>
+                <div class="lang-steps ltr">
+                    1. Enter the 15-digit IMEI number in the designated field.<br>
+                    2. Type the Captcha code shown next to the field.<br>
+                    3. Click the "Free Check" button to get the result.<br>
+                    4. For paid services, contact us via WhatsApp.
+                </div>
+            </div>
+
+            <!-- الفرنسية -->
+            <div class="lang-section">
+                <div class="lang-title"><span>🇫🇷</span> Français</div>
+                <div class="lang-steps ltr">
+                    1. Entrez le numéro IMEI à 15 chiffres dans le champ prévu.<br>
+                    2. Tapez le code Captcha affiché à côté du champ.<br>
+                    3. Cliquez sur le bouton "Vérification gratuite".<br>
+                    4. Pour les services payants, contactez-nous via WhatsApp.
+                </div>
+            </div>
+
+            <!-- الإسبانية -->
+            <div class="lang-section">
+                <div class="lang-title"><span>🇪🇸</span> Español</div>
+                <div class="lang-steps ltr">
+                    1. Ingrese el número IMEI de 15 dígitos en el campo designado.<br>
+                    2. Escriba el código Captcha que se muestra junto al campo.<br>
+                    3. Haga clic en el botón "Verificación gratuita".<br>
+                    4. Para servicios de pago, contáctenos por WhatsApp.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // دالة فتح النافذة المنبثقة
+        function openModal() {
+            document.getElementById('usageModal').classList.add('active');
+        }
+
+        // دالة إغلاق النافذة المنبثقة
+        function closeModal() {
+            document.getElementById('usageModal').classList.remove('active');
+        }
+
+        // إغلاق النافذة عند النقر خارجها
+        window.onclick = function(event) {
+            var modal = document.getElementById('usageModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // دالة محاكاة تحديث الكابتشا (لتغيير النص بشكل عشوائي)
+        function refreshCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let result = '';
+            for (let i = 0; i < 5; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length)) + ' ';
+            }
+            document.querySelector('.captcha-display').innerText = result.trim();
+            
+            // تأثير بصري بسيط عند التحديث
+            const display = document.querySelector('.captcha-display');
+            display.style.opacity = '0.5';
+            setTimeout(() => { display.style.opacity = '1'; }, 150);
+        }
+    </script>
 </body>
     </html>
