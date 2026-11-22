@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin - GSM Yasser (iPhone IMEI Suite)</title>
+  <title>GSM Yasser — iPhone IMEI Check</title>
   <style>
     :root {
       --bg: #0b1220;
@@ -14,7 +14,6 @@
       --border: #24324d;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --success: #16a34a;
       --whatsapp: #22c55e;
       --danger: #ef4444;
     }
@@ -28,7 +27,6 @@
       --border: #cbd5e1;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --success: #15803d;
       --whatsapp: #16a34a;
       --danger: #dc2626;
     }
@@ -43,7 +41,7 @@
       transition: background 0.25s ease, color 0.25s ease;
     }
 
-    .container { max-width: 960px; margin: 0 auto; }
+    .container { max-width: 780px; margin: 0 auto; }
 
     .topbar {
       display: flex;
@@ -79,10 +77,27 @@
     button:hover, a.btn:hover { border-color: var(--primary); }
     button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      width: 100%;
+      justify-content: center;
+      padding: 12px;
+      font-size: 15px;
+    }
     .btn-primary:hover { background: var(--primary-hover); }
 
-    .btn-wa { background: var(--whatsapp); color: #fff; border-color: var(--whatsapp); }
+    .btn-wa {
+      background: var(--whatsapp);
+      color: #fff;
+      border-color: var(--whatsapp);
+      justify-content: center;
+    }
+
+    .hero { text-align: center; margin-bottom: 18px; }
+    .hero h1 { font-size: 25px; margin-bottom: 6px; }
+    .hero p { color: var(--muted); font-size: 14px; }
 
     .card {
       background: var(--card);
@@ -93,447 +108,387 @@
     }
 
     .card-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-    .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .card-sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px;
+    .input-box {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card-2);
+      color: var(--text);
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .captcha-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .captcha-box {
+      background: var(--card-2);
+      border: 1px dashed var(--primary);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      user-select: none;
+    }
+
+    .result-box {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 10px;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      display: none;
+      font-size: 14px;
     }
 
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 10px;
-      margin-bottom: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
     }
 
-    .service-box {
+    .service-card {
       background: var(--card-2);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
-    }
-
-    .service-box h4 { font-size: 14px; margin-bottom: 4px; }
-    .service-box p { font-size: 12px; color: var(--muted); }
-
-    .field { margin-bottom: 12px; }
-    .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--card-2);
-      color: var(--text);
-      font-size: 14px;
-    }
-
-    textarea {
-      min-height: 170px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 12.5px;
-    }
-
-    .file-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .file-chip {
-      background: var(--card-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 13px;
+      border-radius: 12px;
+      padding: 14px;
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
-      align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .status-line {
-      margin-top: 10px;
-      font-size: 13px;
-      min-height: 20px;
+    .service-card h3 { font-size: 15px; }
+    .service-card p { font-size: 12.5px; color: var(--muted); }
+
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Top Controls: Language, How to Use Shortcut, Theme -->
     <header class="topbar">
       <div class="btn-group">
-        <button type="button" data-lang="ar" onclick="setLang('ar')">العربية</button>
-        <button type="button" data-lang="fr" onclick="setLang('fr')">FR</button>
-        <button type="button" data-lang="en" class="active" onclick="setLang('en')">EN</button>
+        <button type="button" data-lang="ar" onclick="setClientLang('ar')">العربية</button>
+        <button type="button" data-lang="fr" onclick="setClientLang('fr')">FR</button>
+        <button type="button" data-lang="en" class="active" onclick="setClientLang('en')">EN</button>
       </div>
 
       <div class="btn-group">
-        <a href="steps.html" class="btn">📖 <span data-i18n="how_to_use">How to Use</span> (steps.html)</a>
-        <button type="button" id="themeBtn" onclick="toggleTheme()">🌙 <span data-i18n="theme_dark">Dark</span></button>
+        <a href="steps.html" class="btn">📖 <span data-i18n="how_to_use">How to Use</span></a>
+        <button type="button" id="themeBtn" onclick="toggleClientTheme()">🌙 <span data-i18n="theme_dark">Dark</span></button>
       </div>
     </header>
 
-    <!-- Main Configuration & Quick Navigation -->
-    <section class="card">
-      <div class="card-title" data-i18n="admin_title">GSM Yasser — Comprehensive Admin Panel</div>
-      <div class="card-sub" data-i18n="admin_sub">Manage iPhone IMEI check services, WhatsApp (+213657241710), shortcut links, and repository files</div>
-
-      <div class="grid-2">
-        <div class="field">
-          <label data-i18n="wa_label">WhatsApp Number</label>
-          <input type="text" id="waInput" value="+213657241710" />
-        </div>
-
-        <div class="field">
-          <label data-i18n="base_url_label">Repository Base URL</label>
-          <input type="text" id="baseUrlInput" value="https://fchgj.github.io/gsm-yasser/" />
-        </div>
-      </div>
-
-      <div class="btn-group">
-        <button type="button" class="btn-primary" onclick="saveAdminSettings()" data-i18n="save_settings">Save Settings</button>
-        <a href="index.html" class="btn">index.html</a>
-        <a href="steps.html" class="btn">steps.html</a>
-        <a href="owner.htmt" class="btn">owner.htmt</a>
-        <a id="waLinkBtn" href="https://wa.me/213657241710" target="_blank" rel="noopener" class="btn btn-wa">WhatsApp +213657241710</a>
-      </div>
-      <div id="adminStatus" class="status-line" style="color: var(--whatsapp);"></div>
+    <section class="hero">
+      <h1 data-i18n="title">GSM Yasser — iPhone IMEI Check</h1>
+      <p data-i18n="subtitle">Instant iPhone IMEI check & service requests</p>
     </section>
 
-    <!-- Services & IMEI Dispatch -->
     <section class="card">
-      <div class="card-title" data-i18n="services_section">iPhone IMEI Check Services</div>
-      <div class="card-sub" data-i18n="services_desc">Free Check & Additional Check Services: Network Lock Check, iCloud Check, Blacklist Check, Full Check PRO</div>
+      <div class="card-title" data-i18n="free_title">✅ Free Check</div>
+      <div class="card-sub" data-i18n="free_sub">Check your iPhone IMEI format & generate report</div>
+
+      <input
+        type="text"
+        id="imeiInput"
+        class="input-box"
+        maxlength="15"
+        inputmode="numeric"
+        data-i18n-placeholder="imei_ph"
+        placeholder="Enter 15-digit iPhone IMEI"
+      />
+
+      <div class="captcha-row">
+        <span data-i18n="cap_label">Verification code:</span>
+        <span class="captcha-box" id="capCode">NMKLU</span>
+        <input
+          type="text"
+          id="capInput"
+          class="input-box"
+          style="width: 130px; margin-bottom: 0;"
+          data-i18n-placeholder="cap_ph"
+          placeholder="Code"
+        />
+        <button type="button" onclick="newCaptcha()" title="Refresh">🔄</button>
+      </div>
+
+      <button type="button" class="btn-primary" onclick="checkFree()" data-i18n="free_btn">
+        Check Free
+      </button>
+
+      <div id="resultBox" class="result-box"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-title" data-i18n="extra_title">Additional Check Services</div>
+      <div class="card-sub" data-i18n="extra_sub">Order directly via WhatsApp +213657241710</div>
 
       <div class="services-grid">
-        <div class="service-box">
-          <h4 data-i18n="srv_free">✅ Free Check</h4>
-          <p data-i18n="srv_free_d">iPhone model lookup & format check</p>
-        </div>
-        <div class="service-box">
-          <h4 data-i18n="srv_net">🔒 Network Lock Check</h4>
-          <p data-i18n="srv_net_d">Carrier lock & SIM status</p>
-        </div>
-        <div class="service-box">
-          <h4 data-i18n="srv_icloud">☁️ iCloud Check</h4>
-          <p data-i18n="srv_icloud_d">iCloud lock & Find My status</p>
-        </div>
-        <div class="service-box">
-          <h4 data-i18n="srv_black">🚫 Blacklist Check</h4>
-          <p data-i18n="srv_black_d">Lost, stolen, or blocked status</p>
-        </div>
-        <div class="service-box">
-          <h4 data-i18n="srv_pro">⭐ Full Check PRO</h4>
-          <p data-i18n="srv_pro_d">Full PDF report: GSX, Warranty, Purchase Date, Carrier, iCloud</p>
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <div class="field">
-          <label data-i18n="choose_service">Service Type</label>
-          <select id="serviceSelect">
-            <option value="Free Check">Free Check / فحص مجاني</option>
-            <option value="Network Lock Check">Network Lock Check / فحص قفل الشبكة</option>
-            <option value="iCloud Check">iCloud Check / فحص iCloud</option>
-            <option value="Blacklist Check">Blacklist Check / فحص القائمة السوداء</option>
-            <option value="Full Check PRO">Full Check PRO / فحص شامل PRO</option>
-          </select>
+        <div class="service-card">
+          <div>
+            <h3 data-i18n="s_net">🔒 Network Lock Check</h3>
+            <p data-i18n="s_net_d">Carrier lock & SIM status</p>
+          </div>
+          <a href="#" class="btn btn-wa" onclick="orderService('Network Lock Check')">WhatsApp</a>
         </div>
 
-        <div class="field">
-          <label>iPhone IMEI (15 digits)</label>
-          <input type="text" id="imeiField" maxlength="15" inputmode="numeric" placeholder="Enter 15-digit IMEI" />
+        <div class="service-card">
+          <div>
+            <h3 data-i18n="s_ic">☁️ iCloud Check</h3>
+            <p data-i18n="s_ic_d">iCloud lock & Find My status</p>
+          </div>
+          <a href="#" class="btn btn-wa" onclick="orderService('iCloud Check')">WhatsApp</a>
+        </div>
+
+        <div class="service-card">
+          <div>
+            <h3 data-i18n="s_bl">🚫 Blacklist Check</h3>
+            <p data-i18n="s_bl_d">Lost, stolen, or blocked status</p>
+          </div>
+          <a href="#" class="btn btn-wa" onclick="orderService('Blacklist Check')">WhatsApp</a>
+        </div>
+
+        <div class="service-card">
+          <div>
+            <h3 data-i18n="s_pro">⭐ Full Check PRO</h3>
+            <p data-i18n="s_pro_d">Full PDF report: GSX, Warranty, Purchase Date, Carrier, iCloud</p>
+          </div>
+          <a href="#" class="btn btn-wa" onclick="orderService('Full Check PRO')">WhatsApp</a>
         </div>
       </div>
-
-      <div class="btn-group">
-        <button type="button" class="btn-primary" onclick="sendRequestViaWa()" data-i18n="send_wa">Send Request via WhatsApp</button>
-        <button type="button" onclick="printAdminReport()" data-i18n="print_report">Export / Print Report (PDF)</button>
-      </div>
-      <div id="imeiValidationMsg" class="status-line"></div>
     </section>
 
-    <!-- Project Files Manager -->
-    <section class="card">
-      <div class="card-title" data-i18n="files_section">Repository Files Editor & Exporter</div>
-      <div class="card-sub" data-i18n="files_desc">Edit and download project files directly: generator.js, steps.html, owner.htmt, README.md, robots.txt, sitemap.xml</div>
-
-      <div class="file-list">
-        <div class="file-chip"><span>generator.js</span><button type="button" onclick="selectFile('generator.js')">Load</button></div>
-        <div class="file-chip"><span>steps.html</span><button type="button" onclick="selectFile('steps.html')">Load</button></div>
-        <div class="file-chip"><span>owner.htmt</span><button type="button" onclick="selectFile('owner.htmt')">Load</button></div>
-        <div class="file-chip"><span>README.md</span><button type="button" onclick="selectFile('README.md')">Load</button></div>
-        <div class="file-chip"><span>robots.txt</span><button type="button" onclick="selectFile('robots.txt')">Load</button></div>
-        <div class="file-chip"><span>sitemap.xml</span><button type="button" onclick="selectFile('sitemap.xml')">Load</button></div>
-      </div>
-
-      <div class="field" style="margin-top: 14px;">
-        <label id="fileEditorLabel">File: README.md</label>
-        <textarea id="fileContentArea"></textarea>
-      </div>
-
-      <div class="btn-group">
-        <button type="button" class="btn-primary" onclick="saveAndDownloadFile()" data-i18n="save_download">Save & Download File</button>
-      </div>
-    </section>
+    <footer class="footer">
+      <a href="steps.html" class="btn" data-i18n="how_to_use">How to Use</a>
+      <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="btn btn-wa">+213657241710</a>
+    </footer>
   </div>
 
   <script>
-    const I18N = {
+    const WA_PHONE = "213657241710";
+
+    const TEXTS = {
       en: {
         dir: "ltr",
         how_to_use: "How to Use",
         theme_dark: "Dark",
         theme_light: "Light",
-        admin_title: "GSM Yasser — Comprehensive Admin Panel",
-        admin_sub: "Manage iPhone IMEI check services, WhatsApp (+213657241710), shortcut links, and repository files",
-        wa_label: "WhatsApp Number",
-        base_url_label: "Repository Base URL",
-        save_settings: "Save Settings",
-        settings_saved: "Settings saved successfully.",
-        services_section: "iPhone IMEI Check Services",
-        services_desc: "Free Check & Additional Check Services: Network Lock Check, iCloud Check, Blacklist Check, Full Check PRO",
-        srv_free: "✅ Free Check",
-        srv_free_d: "iPhone model lookup & format check",
-        srv_net: "🔒 Network Lock Check",
-        srv_net_d: "Carrier lock & SIM status",
-        srv_icloud: "☁️ iCloud Check",
-        srv_icloud_d: "iCloud lock & Find My status",
-        srv_black: "🚫 Blacklist Check",
-        srv_black_d: "Lost, stolen, or blocked status",
-        srv_pro: "⭐ Full Check PRO",
-        srv_pro_d: "Full PDF report: GSX, Warranty, Purchase Date, Carrier, iCloud",
-        choose_service: "Service Type",
-        send_wa: "Send Request via WhatsApp",
-        print_report: "Export / Print Report (PDF)",
-        invalid_imei: "Enter a valid 15-digit IMEI number.",
-        valid_imei: "Valid 15-digit IMEI format.",
-        files_section: "Repository Files Editor & Exporter",
-        files_desc: "Edit and download project files directly: generator.js, steps.html, owner.htmt, README.md, robots.txt, sitemap.xml",
-        save_download: "Save & Download File"
+        title: "GSM Yasser — iPhone IMEI Check",
+        subtitle: "Instant iPhone IMEI check & service requests",
+        free_title: "✅ Free Check",
+        free_sub: "Check your iPhone IMEI format & generate report",
+        imei_ph: "Enter 15-digit iPhone IMEI",
+        cap_label: "Verification code:",
+        cap_ph: "Code",
+        free_btn: "Check Free",
+        extra_title: "Additional Check Services",
+        extra_sub: "Order directly via WhatsApp +213657241710",
+        s_net: "🔒 Network Lock Check",
+        s_net_d: "Carrier lock & SIM status",
+        s_ic: "☁️ iCloud Check",
+        s_ic_d: "iCloud lock & Find My status",
+        s_bl: "🚫 Blacklist Check",
+        s_bl_d: "Lost, stolen, or blocked status",
+        s_pro: "⭐ Full Check PRO",
+        s_pro_d: "Full PDF report: GSX, Warranty, Purchase Date, Carrier, iCloud",
+        err_imei: "Please enter a valid 15-digit IMEI.",
+        err_cap: "Invalid verification code.",
+        valid_msg: "Valid 15-digit iPhone IMEI format.",
+        pdf_btn: "Print / Save PDF",
+        wa_btn: "Send via WhatsApp (+213657241710)"
       },
       ar: {
         dir: "rtl",
         how_to_use: "طريقة الاستخدام",
         theme_dark: "داكن",
         theme_light: "فاتح",
-        admin_title: "GSM Yasser — لوحة الإدارة الشاملة",
-        admin_sub: "إدارة خدمات فحص IMEI لـ iPhone، واتساب (+213657241710)، رابط طريقة الاستخدام، وملفات المستودع",
-        wa_label: "رقم واتساب",
-        base_url_label: "الرابط الأساسي للمستودع",
-        save_settings: "حفظ الإعدادات",
-        settings_saved: "تم حفظ الإعدادات بنجاح.",
-        services_section: "خدمات فحص IMEI لـ iPhone",
-        services_desc: "فحص مجاني وخدمات فحص إضافية: فحص قفل الشبكة، فحص iCloud، فحص القائمة السوداء، فحص شامل PRO",
-        srv_free: "✅ فحص مجاني",
-        srv_free_d: "معرفة طراز iPhone والتحقق من صيغة الرقم",
-        srv_net: "🔒 فحص قفل الشبكة",
-        srv_net_d: "حالة قفل المشغل وشريحة SIM",
-        srv_icloud: "☁️ فحص iCloud",
-        srv_icloud_d: "حالة قفل iCloud وميزة Find My",
-        srv_black: "🚫 فحص القائمة السوداء",
-        srv_black_d: "حالة الفقدان أو السرقة أو الحظر",
-        srv_pro: "⭐ فحص شامل PRO",
-        srv_pro_d: "تقرير PDF كامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud",
-        choose_service: "نوع الخدمة",
-        send_wa: "إرسال الطلب عبر واتساب",
-        print_report: "تصدير / طباعة التقرير (PDF)",
-        invalid_imei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
-        valid_imei: "صيغة رقم IMEI (15 رقماً) صحيحة.",
-        files_section: "محرر ومصدّر ملفات المستودع",
-        files_desc: "تعديل وتنزيل ملفات المشروع مباشرة: generator.js، steps.html، owner.htmt، README.md، robots.txt، sitemap.xml",
-        save_download: "حفظ وتنزيل الملف"
+        title: "GSM Yasser — فحص IMEI لـ iPhone",
+        subtitle: "فحص رقم IMEI لهواتف iPhone وطلب الخدمات مباشرة",
+        free_title: "✅ فحص مجاني",
+        free_sub: "تحقق من صيغة رقم IMEI واطبع أو احفظ التقرير",
+        imei_ph: "أدخل رقم IMEI المكوّن من 15 رقماً",
+        cap_label: "رمز التحقق:",
+        cap_ph: "الرمز",
+        free_btn: "فحص مجاني",
+        extra_title: "خدمات فحص إضافية",
+        extra_sub: "اطلب الخدمة مباشرة عبر واتساب +213657241710",
+        s_net: "🔒 فحص قفل الشبكة",
+        s_net_d: "حالة قفل المشغل وشريحة SIM",
+        s_ic: "☁️ فحص iCloud",
+        s_ic_d: "حالة قفل iCloud وميزة Find My",
+        s_bl: "🚫 فحص القائمة السوداء",
+        s_bl_d: "حالة الفقدان أو السرقة أو الحظر",
+        s_pro: "⭐ فحص شامل PRO",
+        s_pro_d: "تقرير PDF كامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud",
+        err_imei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
+        err_cap: "رمز التحقق غير صحيح.",
+        valid_msg: "صيغة رقم IMEI لـ iPhone (15 رقماً) صحيحة.",
+        pdf_btn: "طباعة / حفظ PDF",
+        wa_btn: "إرسال عبر واتساب (+213657241710)"
       },
       fr: {
         dir: "ltr",
         how_to_use: "Mode d'emploi",
         theme_dark: "Sombre",
         theme_light: "Clair",
-        admin_title: "GSM Yasser — Panneau Admin Complet",
-        admin_sub: "Gestion des services IMEI iPhone, WhatsApp (+213657241710), mode d'emploi et fichiers du dépôt",
-        wa_label: "Numéro WhatsApp",
-        base_url_label: "URL de base du dépôt",
-        save_settings: "Enregistrer les paramètres",
-        settings_saved: "Paramètres enregistrés.",
-        services_section: "Services de Vérification IMEI iPhone",
-        services_desc: "Vérification Gratuite & Services Supplémentaires : Verrou Réseau, iCloud, Liste Noire, Complète PRO",
-        srv_free: "✅ Vérification Gratuite",
-        srv_free_d: "Modèle iPhone et vérification du format",
-        srv_net: "🔒 Vérification Verrou Réseau",
-        srv_net_d: "Verrouillage opérateur et état SIM",
-        srv_icloud: "☁️ Vérification iCloud",
-        srv_icloud_d: "Verrouillage iCloud et état Find My",
-        srv_black: "🚫 Vérification Liste Noire",
-        srv_black_d: "État perdu, volé ou bloqué",
-        srv_pro: "⭐ Vérification Complète PRO",
-        srv_pro_d: "Rapport PDF complet : GSX, Garantie, Date d'achat, Réseau, iCloud",
-        choose_service: "Type de service",
-        send_wa: "Envoyer via WhatsApp",
-        print_report: "Exporter / Imprimer PDF",
-        invalid_imei: "Entrez un numéro IMEI valide à 15 chiffres.",
-        valid_imei: "Format IMEI à 15 chiffres valide.",
-        files_section: "Éditeur et Exportateur de Fichiers",
-        files_desc: "Modifier et télécharger : generator.js, steps.html, owner.htmt, README.md, robots.txt, sitemap.xml",
-        save_download: "Enregistrer et télécharger"
+        title: "GSM Yasser — Vérification IMEI iPhone",
+        subtitle: "Vérification IMEI iPhone et commande de services",
+        free_title: "✅ Vérification Gratuite",
+        free_sub: "Vérifiez le format IMEI et imprimez/enregistrez le rapport",
+        imei_ph: "Entrez l'IMEI iPhone à 15 chiffres",
+        cap_label: "Code de vérification :",
+        cap_ph: "Code",
+        free_btn: "Vérifier Gratuitement",
+        extra_title: "Services de Vérification Supplémentaires",
+        extra_sub: "Commande directe via WhatsApp +213657241710",
+        s_net: "🔒 Vérification Verrou Réseau",
+        s_net_d: "Verrouillage opérateur et état SIM",
+        s_ic: "☁️ Vérification iCloud",
+        s_ic_d: "Verrouillage iCloud et état Find My",
+        s_bl: "🚫 Vérification Liste Noire",
+        s_bl_d: "État perdu, volé ou bloqué",
+        s_pro: "⭐ Vérification Complète PRO",
+        s_pro_d: "Rapport PDF complet : GSX, Garantie, Date d'achat, Réseau, iCloud",
+        err_imei: "Veuillez saisir un IMEI valide à 15 chiffres.",
+        err_cap: "Code de vérification invalide.",
+        valid_msg: "Format IMEI iPhone (15 chiffres) valide.",
+        pdf_btn: "Imprimer / PDF",
+        wa_btn: "Envoyer sur WhatsApp (+213657241710)"
       }
     };
 
-    const TEMPLATES = {
-      "generator.js": `const WHATSAPP_NUMBER = "213657241710";\nconst HOW_TO_USE_SHORTCUT = "steps.html";\nconst REPO_FILES = ["index.html", "admin.html", "owner.htmt", "steps.html", "README.md", "robots.txt", "sitemap.xml"];\n`,
-      "steps.html": `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>How to Use</title></head><body><h1>How to Use / طريقة الاستخدام / Mode d'emploi</h1><p>Dial *#06# to view IMEI. WhatsApp: +213657241710</p><a href="index.html">Home</a></body></html>`,
-      "owner.htmt": `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Owner</title></head><body><h1>Owner - GSM Yasser</h1><p>WhatsApp: +213657241710</p><a href="index.html">Home</a> | <a href="admin.html">Admin</a></body></html>`,
-      "README.md": `# GSM Yasser — iPhone IMEI Lookup & Instant PDF Report Generator\n\n- Languages: EN, AR, FR\n- Themes: Dark, Light\n- How to Use: steps.html\n- WhatsApp: +213657241710\n- Files: index.html, generator.js, admin.html, owner.htmt, steps.html, robots.txt, sitemap.xml\n`,
-      "robots.txt": `User-agent: *\nAllow: /index.html\nAllow: /steps.html\nAllow: /owner.htmt\nDisallow: /admin.html\n\nSitemap: https://fchgj.github.io/gsm-yasser/sitemap.xml\n`,
-      "sitemap.xml": `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>https://fchgj.github.io/gsm-yasser/index.html</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>\n  <url><loc>https://fchgj.github.io/gsm-yasser/steps.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>\n  <url><loc>https://fchgj.github.io/gsm-yasser/owner.htmt</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>\n  <url><loc>https://fchgj.github.io/gsm-yasser/admin.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>\n</urlset>\n`
-    };
+    let lang = localStorage.getItem("gsm_lang") || "en";
+    let theme = localStorage.getItem("gsm_theme") || "dark";
+    let capValue = "NMKLU";
 
-    let currentLang = localStorage.getItem("gsm_lang") || "en";
-    let currentTheme = localStorage.getItem("gsm_theme") || "dark";
-    let activeFile = "README.md";
-
-    function setLang(lang) {
-      if (!I18N[lang]) return;
-      currentLang = lang;
+    function setClientLang(nextLang) {
+      if (!TEXTS[nextLang]) return;
+      lang = nextLang;
       localStorage.setItem("gsm_lang", lang);
-      const d = I18N[lang];
+      const t = TEXTS[lang];
       document.documentElement.lang = lang;
-      document.documentElement.dir = d.dir;
+      document.documentElement.dir = t.dir;
       document.querySelectorAll("[data-i18n]").forEach((el) => {
-        const key = el.getAttribute("data-i18n");
-        if (d[key]) el.textContent = d[key];
+        const k = el.getAttribute("data-i18n");
+        if (t[k]) el.textContent = t[k];
       });
-      document.querySelectorAll("[data-lang]").forEach((btn) => {
-        btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        const k = el.getAttribute("data-i18n-placeholder");
+        if (t[k]) el.placeholder = t[k];
       });
-      syncThemeBtn();
+      document.querySelectorAll("[data-lang]").forEach((b) => {
+        b.classList.toggle("active", b.getAttribute("data-lang") === lang);
+      });
+      refreshThemeBtn();
     }
 
-    function toggleTheme() {
-      currentTheme = currentTheme === "dark" ? "light" : "dark";
-      localStorage.setItem("gsm_theme", currentTheme);
-      document.documentElement.setAttribute("data-theme", currentTheme);
-      syncThemeBtn();
+    function toggleClientTheme() {
+      theme = theme === "dark" ? "light" : "dark";
+      localStorage.setItem("gsm_theme", theme);
+      document.documentElement.setAttribute("data-theme", theme);
+      refreshThemeBtn();
     }
 
-    function syncThemeBtn() {
-      const d = I18N[currentLang];
+    function refreshThemeBtn() {
+      const t = TEXTS[lang];
       const btn = document.getElementById("themeBtn");
       if (!btn) return;
-      btn.innerHTML = `${currentTheme === "dark" ? "🌙" : "☀️"} <span>${currentTheme === "dark" ? d.theme_dark : d.theme_light}</span>`;
+      btn.innerHTML = `${theme === "dark" ? "🌙" : "☀️"} <span>${theme === "dark" ? t.theme_dark : t.theme_light}</span>`;
     }
 
-    function cleanWa() {
-      const digits = (document.getElementById("waInput")?.value || "+213657241710").replace(/[^\d]/g, "");
-      return digits || "213657241710";
+    function newCaptcha() {
+      const pool = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let out = "";
+      for (let i = 0; i < 5; i++) out += pool.charAt(Math.floor(Math.random() * pool.length));
+      capValue = out;
+      const el = document.getElementById("capCode");
+      if (el) el.textContent = capValue;
     }
 
-    function saveAdminSettings() {
-      const wa = cleanWa();
-      const baseUrl = (document.getElementById("baseUrlInput")?.value || "").trim();
-      localStorage.setItem("gsm_wa", wa);
-      localStorage.setItem("gsm_base_url", baseUrl);
-      const waBtn = document.getElementById("waLinkBtn");
-      if (waBtn) {
-        waBtn.href = `https://wa.me/${wa}`;
-        waBtn.textContent = `WhatsApp +${wa}`;
-      }
-      document.getElementById("adminStatus").textContent = I18N[currentLang].settings_saved;
-    }
-
-    function checkLuhn(imei) {
+    function validImei(imei) {
       if (!/^\d{15}$/.test(imei)) return false;
       let sum = 0;
       for (let i = 0; i < 15; i++) {
-        let n = parseInt(imei[i], 10);
+        let d = parseInt(imei[i], 10);
         if (i % 2 === 1) {
-          n *= 2;
-          if (n > 9) n -= 9;
+          d *= 2;
+          if (d > 9) d -= 9;
         }
-        sum += n;
+        sum += d;
       }
       return sum % 10 === 0;
     }
 
-    function sendRequestViaWa() {
-      const wa = cleanWa();
-      const srv = document.getElementById("serviceSelect")?.value || "Free Check";
-      const imei = (document.getElementById("imeiField")?.value || "").trim();
-      const msgEl = document.getElementById("imeiValidationMsg");
-
-      if (imei && !checkLuhn(imei)) {
-        msgEl.style.color = "var(--danger)";
-        msgEl.textContent = I18N[currentLang].invalid_imei;
-        return;
-      }
-      if (imei) {
-        msgEl.style.color = "var(--whatsapp)";
-        msgEl.textContent = I18N[currentLang].valid_imei;
-      } else {
-        msgEl.textContent = "";
-      }
-
-      const text = encodeURIComponent(`GSM Yasser\nService: ${srv}${imei ? `\nIMEI: ${imei}` : ""}`);
-      window.open(`https://wa.me/${wa}?text=${text}`, "_blank", "noopener");
-    }
-
-    function printAdminReport() {
-      const srv = document.getElementById("serviceSelect")?.value || "Free Check";
-      const imei = (document.getElementById("imeiField")?.value || "N/A").trim();
-      const wa = cleanWa();
+    function printReport(imei) {
       const win = window.open("", "_blank");
       if (!win) return;
       win.document.write(`
-        <!DOCTYPE html><html><head><meta charset="UTF-8"><title>IMEI Report</title></head>
+        <!DOCTYPE html><html><head><meta charset="UTF-8"><title>iPhone IMEI Report</title></head>
         <body style="font-family:Arial,sans-serif;padding:28px;">
           <h2>GSM Yasser — iPhone IMEI Report</h2>
-          <p><strong>Service:</strong> ${srv}</p>
           <p><strong>IMEI:</strong> ${imei}</p>
-          <p><strong>WhatsApp:</strong> +${wa}</p>
+          <p><strong>WhatsApp:</strong> +${WA_PHONE}</p>
           <script>window.onload=()=>window.print();<\/script>
         </body></html>
       `);
       win.document.close();
     }
 
-    function selectFile(name) {
-      activeFile = name;
-      document.getElementById("fileEditorLabel").textContent = `File: ${name}`;
-      const saved = localStorage.getItem(`gsm_repo_${name}`);
-      document.getElementById("fileContentArea").value = saved !== null ? saved : (TEMPLATES[name] || "");
+    function checkFree() {
+      const t = TEXTS[lang];
+      const imei = (document.getElementById("imeiInput")?.value || "").trim();
+      const cap = (document.getElementById("capInput")?.value || "").trim().toUpperCase();
+      const box = document.getElementById("resultBox");
+
+      if (!validImei(imei)) {
+        box.style.display = "block";
+        box.innerHTML = `<span style="color:var(--danger);">${t.err_imei}</span>`;
+        return;
+      }
+
+      if (cap !== capValue) {
+        box.style.display = "block";
+        box.innerHTML = `<span style="color:var(--danger);">${t.err_cap}</span>`;
+        newCaptcha();
+        return;
+      }
+
+      const waUrl = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(`iPhone IMEI: ${imei}`)}`;
+      box.style.display = "block";
+      box.innerHTML = `
+        <div><strong>IMEI:</strong> <code>${imei}</code></div>
+        <div style="color:var(--whatsapp);margin-top:4px;">${t.valid_msg}</div>
+        <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">
+          <button type="button" onclick="printReport('${imei}')">📄 ${t.pdf_btn}</button>
+          <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-wa">💬 ${t.wa_btn}</a>
+        </div>
+      `;
+      newCaptcha();
     }
 
-    function saveAndDownloadFile() {
-      const content = document.getElementById("fileContentArea").value;
-      localStorage.setItem(`gsm_repo_${activeFile}`, content);
-      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = activeFile;
-      a.click();
-      URL.revokeObjectURL(a.href);
+    function orderService(serviceName) {
+      const imei = (document.getElementById("imeiInput")?.value || "").trim();
+      const msg = encodeURIComponent(`Service: ${serviceName}${imei ? `\niPhone IMEI: ${imei}` : ""}`);
+      window.open(`https://wa.me/${WA_PHONE}?text=${msg}`, "_blank", "noopener");
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      document.documentElement.setAttribute("data-theme", currentTheme);
-      const savedWa = localStorage.getItem("gsm_wa");
-      if (savedWa) {
-        document.getElementById("waInput").value = `+${savedWa}`;
-        const waBtn = document.getElementById("waLinkBtn");
-        if (waBtn) {
-          waBtn.href = `https://wa.me/${savedWa}`;
-          waBtn.textContent = `WhatsApp +${savedWa}`;
-        }
-      }
-      const savedBase = localStorage.getItem("gsm_base_url");
-      if (savedBase) document.getElementById("baseUrlInput").value = savedBase;
-      setLang(currentLang);
-      selectFile("README.md");
+      document.documentElement.setAttribute("data-theme", theme);
+      setClientLang(lang);
     });
   </script>
 </body>
