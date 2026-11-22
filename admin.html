@@ -1,458 +1,408 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr" dir="ltr" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>لوحة إدارة خيارات فحص IMEI - gsm-yasser</title>
+  <title>Vérification IMEI - gsm-yasser</title>
   <style>
-    :root {
-      --bg: #0b1120;
-      --card: #131c31;
-      --card-soft: #0f172a;
+    :root[data-theme="dark"] {
+      --bg: #080e1c;
+      --card: #11192c;
+      --input-bg: #1b2438;
       --text: #f8fafc;
       --muted: #94a3b8;
-      --accent: #3b82f6;
-      --accent-hover: #2563eb;
-      --success: #22c55e;
-      --border: #25344f;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --pill-bg: #151e33;
+      --border: #1e293b;
+      --error: #f87171;
+      --whatsapp: #16a34a;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --input-bg: #f8fafc;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --pill-bg: #e2e8f0;
+      --border: #cbd5e1;
+      --error: #dc2626;
+      --whatsapp: #16a34a;
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Tahoma, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.65;
+      line-height: 1.55;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 540px;
       margin: 0 auto;
-      padding: 24px 16px 56px;
+      padding: 16px 14px 48px;
     }
 
-    header {
+    /* Top Bar (Languages + Theme) */
+    .top-controls {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      padding-bottom: 18px;
-      margin-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.45rem;
-    }
-
-    header p {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
       gap: 10px;
-    }
-
-    .nav-link {
-      color: #93c5fd;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      padding: 8px 14px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background-color: var(--card);
-    }
-
-    .nav-link:hover {
-      border-color: var(--accent);
-    }
-
-    .card {
-      background-color: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
       margin-bottom: 18px;
     }
 
-    .card h2 {
-      margin: 0 0 14px;
-      font-size: 1.1rem;
+    .lang-pills {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--pill-bg);
+      padding: 4px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
     }
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 14px;
+    .lang-btn {
+      background: transparent;
+      color: var(--text);
+      border: none;
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
     }
 
-    label {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 600;
+    .lang-btn.active {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .theme-btn {
+      background-color: var(--pill-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 13px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Hero Title */
+    .hero {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #ef4444, #f8fafc);
+      color: #0f172a;
+      font-weight: 900;
+      font-size: 0.85rem;
       margin-bottom: 6px;
-      color: #cbd5e1;
     }
 
-    input[type="text"],
-    textarea {
+    .hero h1 {
+      margin: 0;
+      font-size: 1.55rem;
+      font-weight: 800;
+    }
+
+    .hero p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    /* Cards */
+    .card {
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .free-header {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .free-header h2 {
+      margin: 0;
+      font-size: 1.18rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .check-badge {
+      display: inline-grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background-color: #84cc16;
+      color: #0f172a;
+      font-size: 0.85rem;
+      font-weight: 900;
+    }
+
+    .free-header p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .imei-input {
       width: 100%;
-      background-color: var(--card-soft);
+      background-color: var(--input-bg);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 0.92rem;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      text-align: center;
+      letter-spacing: 0.04em;
     }
 
-    input[type="text"]:focus,
-    textarea:focus {
+    .imei-input:focus {
       outline: none;
-      border-color: var(--accent);
+      border-color: var(--primary);
     }
 
-    .service-item {
-      background-color: var(--card-soft);
+    /* Captcha Box */
+    .captcha-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      margin-top: 10px;
+    }
+
+    .captcha-label {
+      font-size: 0.82rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .captcha-code-box {
+      background-color: #ffffff;
+      color: #1e293b;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 900;
+      font-size: 0.95rem;
+      letter-spacing: 0.14em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      user-select: none;
+    }
+
+    .captcha-input {
+      width: 78px;
+      background-color: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-size: 0.88rem;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .captcha-refresh {
+      background-color: #0284c7;
+      color: #ffffff;
+      border: none;
+      border-radius: 7px;
+      width: 30px;
+      height: 30px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-full {
+      width: 100%;
+      margin-top: 12px;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-full:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .error-msg {
+      margin: 8px 0 0;
+      color: var(--error);
+      font-size: 0.85rem;
+      text-align: center;
+      min-height: 1.1em;
+    }
+
+    .result-box {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .result-box p {
+      margin: 4px 0;
+    }
+
+    /* Service Cards */
+    .service-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .shield-icon {
+      flex: 0 0 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #ef4444, #f8fafc);
+      color: #0f172a;
+      font-size: 0.78rem;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      margin-top: 2px;
+    }
+
+    .service-head h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .service-head p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* Numbered Quick Steps & Footer Links */
+    .steps-mini {
+      margin-top: 20px;
+    }
+
+    .steps-mini-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .steps-mini-head h2 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .link-accent {
+      color: #60a5fa;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .link-accent:hover {
+      text-decoration: underline;
+    }
+
+    .steps-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 12px;
+      padding: 12px;
+      font-size: 0.86rem;
     }
 
-    .service-top {
+    .step-num {
+      flex: 0 0 26px;
+      height: 26px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.82rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .footer-nav {
+      margin-top: 22px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      margin-bottom: 12px;
+      font-size: 0.84rem;
     }
 
-    .service-badge {
-      font-weight: 700;
-      color: #60a5fa;
-      font-size: 0.95rem;
-    }
-
-    .toggle-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin: 0;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    .actions {
+    .footer-nav-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    button {
-      border: none;
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background-color: var(--accent);
-      color: #ffffff;
-    }
-
-    .btn-primary:hover {
-      background-color: var(--accent-hover);
-    }
-
-    .btn-secondary {
-      background-color: #1e293b;
-      color: #e2e8f0;
-      border: 1px solid var(--border);
-    }
-
-    .status-msg {
-      margin-top: 10px;
-      color: var(--success);
-      font-size: 0.9rem;
-      min-height: 1.3em;
-    }
-
-    textarea.code-out {
-      min-height: 190px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.82rem;
-      direction: ltr;
-      text-align: left;
+      gap: 12px;
     }
   </style>
 </head>
-<body>
+<body id="top">
   <div class="container">
-    <header>
-      <div>
-        <h1>إدارة خيارات فحص IMEI</h1>
-        <p>تحكم في خيارات الفحص المجاني وخدمات التحقق الظاهرة للعملاء</p>
+    <!-- Top Language & Theme Bar -->
+    <div class="top-controls">
+      <div class="lang-pills" role="group" aria-label="Language Selector">
+        <button type="button" class="lang-btn" data-lang="ar">العربية</button>
+        <button type="button" class="lang-btn active" data-lang="fr">FR</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
       </div>
-      <nav class="nav-links">
-        <a href="index.html" class="nav-link">الواجهة الرئيسية</a>
-        <a href="steps.html" class="nav-link">صفحة الخطوات</a>
-      </nav>
-    </header>
-
-    <section class="card">
-      <h2>الإعدادات العامة والواتساب</h2>
-      <div class="grid-2">
-        <div>
-          <label for="wa-phone">رقم واتساب لاستقبال الطلبات (دولي)</label>
-          <input type="text" id="wa-phone" value="213657241710" />
-        </div>
-        <div>
-          <label for="free-captcha">تفعيل رمز التحقق البشري في الفحص المجاني</label>
-          <select id="free-captcha" style="width:100%;padding:10px 12px;border-radius:10px;background:#0f172a;color:#f8fafc;border:1px solid #25344f;">
-            <option value="true" selected>مفعّل (Je ne suis pas un robot)</option>
-            <option value="false">معطّل</option>
-          </select>
-        </div>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>خيارات الفحص والخدمات (من الصورة المرفقة)</h2>
-      <div id="services-container"></div>
-
-      <div class="actions">
-        <button type="button" id="save-btn" class="btn-primary">حفظ التعديلات</button>
-        <button type="button" id="reset-btn" class="btn-secondary">استعادة الافتراضي</button>
-      </div>
-      <p id="status-msg" class="status-msg" role="status"></p>
-    </section>
-
-    <section class="card">
-      <h2>تصدير إعدادات JSON / JavaScript</h2>
-      <p style="color: var(--muted); font-size: 0.88rem; margin-top: 0;">
-        يمكنك نسخ الكود أدناه واستخدامه داخل ملف الإعدادات أو <code>generator.js</code> عند نشر التحديثات على المستودع.
-      </p>
-      <textarea id="export-output" class="code-out" readonly></textarea>
-      <div class="actions">
-        <button type="button" id="copy-btn" class="btn-secondary">نسخ الكود</button>
-      </div>
-    </section>
-  </div>
-
-  <script src="generator.js"></script>
-  <script>
-    (function () {
-      const STORAGE_KEY = "gsm_yasser_admin_options_v1";
-
-      const defaultConfig = {
-        whatsappPhone: "213657241710",
-        freeCheckCaptcha: true,
-        services: [
-          {
-            id: "free_check",
-            enabled: true,
-            badge: "Vérification Gratuite",
-            titleFr: "Vérification Gratuite",
-            subtitleFr: "Connaissez votre modèle - 100% Gratuit -",
-            ctaFr: "Vérifier Gratuitement",
-            titleEn: "Free IMEI Check",
-            subtitleEn: "Know your model - 100% Free -",
-            ctaEn: "Check for Free",
-            titleAr: "فحص مجاني لرقم IMEI",
-            subtitleAr: "اعرف طراز جهازك - مجاني 100% -",
-            ctaAr: "فحص مجاناً"
-          },
-          {
-            id: "network_lock",
-            enabled: true,
-            badge: "Vérification Verrou Réseau",
-            titleFr: "Vérification Verrou Réseau",
-            subtitleFr: "Verrou réseau - État SIM",
-            ctaFr: "Contactez-nous ↗",
-            titleEn: "Network Lock Check",
-            subtitleEn: "Carrier lock - SIM status",
-            ctaEn: "Contact us ↗",
-            titleAr: "فحص قفل الشبكة",
-            subtitleAr: "قفل الشبكة - حالة الشريحة SIM",
-            ctaAr: "تواصل معنا ↗"
-          },
-          {
-            id: "icloud_check",
-            enabled: true,
-            badge: "Vérification iCloud",
-            titleFr: "Vérification iCloud",
-            subtitleFr: "Verrou iCloud - Find My",
-            ctaFr: "Contactez-nous ↗",
-            titleEn: "iCloud Check",
-            subtitleEn: "iCloud lock - Find My",
-            ctaEn: "Contact us ↗",
-            titleAr: "فحص iCloud",
-            subtitleAr: "قفل iCloud - ميزة Find My",
-            ctaAr: "تواصل معنا ↗"
-          },
-          {
-            id: "blacklist_check",
-            enabled: true,
-            badge: "Vérification Liste Noire",
-            titleFr: "Vérification Liste Noire",
-            subtitleFr: "Volé - Perdu - Bloqué",
-            ctaFr: "Contactez-nous ↗",
-            titleEn: "Blacklist Check",
-            subtitleEn: "Stolen - Lost - Blocked",
-            ctaEn: "Contact us ↗",
-            titleAr: "فحص القائمة السوداء",
-            subtitleAr: "مسروق - مفقود - محظور",
-            ctaAr: "تواصل معنا ↗"
-          },
-          {
-            id: "pro_report",
-            enabled: true,
-            badge: "Vérification Complète PRO",
-            titleFr: "Vérification Complète PRO",
-            subtitleFr: "Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud",
-            ctaFr: "Contactez-nous ↗",
-            titleEn: "Complete PRO Check",
-            subtitleEn: "Full PDF report - GSX - Warranty - Purchase date - Carrier - iCloud",
-            ctaEn: "Contact us ↗",
-            titleAr: "فحص شامل PRO",
-            subtitleAr: "تقرير PDF كامل - GSX - الضمان - تاريخ الشراء - الشبكة - iCloud",
-            ctaAr: "تواصل معنا ↗"
-          }
-        ]
-      };
-
-      const servicesContainer = document.getElementById("services-container");
-      const waPhoneInput = document.getElementById("wa-phone");
-      const freeCaptchaSelect = document.getElementById("free-captcha");
-      const saveBtn = document.getElementById("save-btn");
-      const resetBtn = document.getElementById("reset-btn");
-      const copyBtn = document.getElementById("copy-btn");
-      const statusMsg = document.getElementById("status-msg");
-      const exportOutput = document.getElementById("export-output");
-
-      function loadConfig() {
-        try {
-          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-          if (saved && Array.isArray(saved.services)) {
-            return {
-              whatsappPhone: saved.whatsappPhone || defaultConfig.whatsappPhone,
-              freeCheckCaptcha:
-                typeof saved.freeCheckCaptcha === "boolean"
-                  ? saved.freeCheckCaptcha
-                  : defaultConfig.freeCheckCaptcha,
-              services: saved.services
-            };
-          }
-        } catch (e) {}
-        return JSON.parse(JSON.stringify(defaultConfig));
-      }
-
-      let currentConfig = loadConfig();
-
-      function renderServices() {
-        waPhoneInput.value = currentConfig.whatsappPhone;
-        freeCaptchaSelect.value = String(currentConfig.freeCheckCaptcha);
-
-        servicesContainer.innerHTML = currentConfig.services
-          .map(
-            (srv, idx) => `
-          <div class="service-item" data-index="${idx}">
-            <div class="service-top">
-              <span class="service-badge">${srv.badge}</span>
-              <label class="toggle-label">
-                <input type="checkbox" class="srv-enabled" ${srv.enabled ? "checked" : ""} />
-                مفعّل
-              </label>
-            </div>
-            <div class="grid-2">
-              <div>
-                <label>العنوان (الفرنسية FR)</label>
-                <input type="text" class="srv-title-fr" value="${srv.titleFr}" />
-              </div>
-              <div>
-                <label>الوصف (الفرنسية FR)</label>
-                <input type="text" class="srv-sub-fr" value="${srv.subtitleFr}" />
-              </div>
-              <div>
-                <label>العنوان (العربية AR)</label>
-                <input type="text" class="srv-title-ar" value="${srv.titleAr}" />
-              </div>
-              <div>
-                <label>نص الزر (الفرنسية FR)</label>
-                <input type="text" class="srv-cta-fr" value="${srv.ctaFr}" />
-              </div>
-            </div>
-          </div>
-        `
-          )
-          .join("");
-
-        refreshExportBox();
-      }
-
-      function collectConfigFromForm() {
-        const items = servicesContainer.querySelectorAll(".service-item");
-        const updatedServices = currentConfig.services.map((srv, idx) => {
-          const el = items[idx];
-          return {
-            ...srv,
-            enabled: el.querySelector(".srv-enabled").checked,
-            titleFr: el.querySelector(".srv-title-fr").value.trim() || srv.titleFr,
-            subtitleFr: el.querySelector(".srv-sub-fr").value.trim() || srv.subtitleFr,
-            titleAr: el.querySelector(".srv-title-ar").value.trim() || srv.titleAr,
-            ctaFr: el.querySelector(".srv-cta-fr").value.trim() || srv.ctaFr
-          };
-        });
-
-        return {
-          whatsappPhone: waPhoneInput.value.trim().replace(/[^\d]/g, "") || defaultConfig.whatsappPhone,
-          freeCheckCaptcha: freeCaptchaSelect.value === "true",
-          services: updatedServices
-        };
-      }
-
-      function refreshExportBox() {
-        exportOutput.value =
-          "window.GSM_YASSER_OPTIONS = " + JSON.stringify(currentConfig, null, 2) + ";";
-      }
-
-      saveBtn.addEventListener("click", function () {
-        currentConfig = collectConfigFromForm();
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentConfig));
-        refreshExportBox();
-        statusMsg.textContent = "تم حفظ التعديلات بنجاح في المتصفح.";
-      });
-
-      resetBtn.addEventListener("click", function () {
-        currentConfig = JSON.parse(JSON.stringify(defaultConfig));
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentConfig));
-        renderServices();
-        statusMsg.textContent = "تمت استعادة الإعدادات الافتراضية.";
-      });
-
-      copyBtn.addEventListener("click", function () {
-        exportOutput.select();
-        navigator.clipboard?.writeText(exportOutput.value);
-        statusMsg.textContent = "تم نسخ كود الإعدادات.";
-      });
-
-      renderServices();
-    })();
-  </script>
-</body>
-</html>
+      <button type="button" id="theme-toggle" class="theme-btn">☀️ Clair</button>
+    </div>
