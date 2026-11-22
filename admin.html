@@ -1,750 +1,457 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-theme="dark">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>iPhone IMEI Lookup &amp; Inspection Tool</title>
+  <title>لوحة إدارة خيارات فحص IMEI - gsm-yasser</title>
   <style>
-    :root[data-theme="dark"] {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --card-alt: #162032;
+    :root {
+      --bg: #0b1120;
+      --card: #131c31;
+      --card-soft: #0f172a;
       --text: #f8fafc;
       --muted: #94a3b8;
-      --accent: #38bdf8;
-      --accent-dark: #082f49;
-      --whatsapp: #22c55e;
-      --whatsapp-dark: #052e16;
-      --border: #334155;
-      --error: #f87171;
-      --shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-    }
-
-    :root[data-theme="light"] {
-      --bg: #f1f5f9;
-      --card: #ffffff;
-      --card-alt: #f8fafc;
-      --text: #0f172a;
-      --muted: #475569;
-      --accent: #0284c7;
-      --accent-dark: #ffffff;
-      --whatsapp: #16a34a;
-      --whatsapp-dark: #ffffff;
-      --border: #cbd5e1;
-      --error: #dc2626;
-      --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --success: #22c55e;
+      --border: #25344f;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Tahoma, sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.65;
-      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     .container {
-      max-width: 840px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 24px 16px 56px;
     }
 
-    /* Language & Theme Controls */
-    .controls-bar {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .lang-group {
-      display: inline-flex;
-      background-color: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 3px;
-      gap: 2px;
-    }
-
-    .lang-btn,
-    .theme-btn {
-      background-color: transparent;
-      color: var(--text);
-      border: 1px solid transparent;
-      border-radius: 8px;
-      padding: 6px 11px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-    }
-
-    .lang-btn.active {
-      background-color: var(--accent);
-      color: var(--accent-dark);
-    }
-
-    .theme-btn {
-      background-color: var(--card);
-      border-color: var(--border);
-      padding: 9px 13px;
-    }
-
-    .theme-btn:hover,
-    .lang-btn:not(.active):hover {
-      background-color: rgba(56, 189, 248, 0.12);
-    }
-
-    /* Header & Navigation */
     header {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       padding-bottom: 18px;
       margin-bottom: 24px;
       border-bottom: 1px solid var(--border);
     }
 
-    .brand h1 {
+    header h1 {
       margin: 0;
-      font-size: 1.55rem;
+      font-size: 1.45rem;
     }
 
-    .brand p {
+    header p {
       margin: 4px 0 0;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
     }
 
-    .top-nav {
+    .nav-links {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       gap: 10px;
     }
 
     .nav-link {
-      color: var(--accent);
+      color: #93c5fd;
       text-decoration: none;
       font-weight: 600;
       font-size: 0.9rem;
-      padding: 8px 13px;
+      padding: 8px 14px;
       border-radius: 10px;
       border: 1px solid var(--border);
       background-color: var(--card);
-      transition: background-color 0.2s ease, border-color 0.2s ease;
     }
 
     .nav-link:hover {
       border-color: var(--accent);
-      background-color: rgba(56, 189, 248, 0.1);
     }
 
-    /* Main Lookup Card */
     .card {
       background-color: var(--card);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 22px;
-      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 1.1rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
     }
 
     label {
       display: block;
+      font-size: 0.88rem;
       font-weight: 600;
-      margin-bottom: 8px;
-      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: #cbd5e1;
     }
 
-    .input-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    input[type="text"] {
-      flex: 1 1 260px;
-      background-color: var(--bg);
+    input[type="text"],
+    textarea {
+      width: 100%;
+      background-color: var(--card-soft);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 1rem;
-      letter-spacing: 0.06em;
-      transition: border-color 0.2s ease;
+      padding: 10px 12px;
+      font-size: 0.92rem;
     }
 
-    input[type="text"]:focus {
+    input[type="text"]:focus,
+    textarea:focus {
       outline: none;
       border-color: var(--accent);
     }
 
-    .helper-text {
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 0.86rem;
-    }
-
-    .error-msg {
-      margin: 10px 0 0;
-      color: var(--error);
-      font-size: 0.88rem;
-      min-height: 1.2em;
-    }
-
-    .form-actions {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .btn-primary {
-      background-color: var(--accent);
-      color: var(--accent-dark);
-      border: none;
-      border-radius: 10px;
-      padding: 11px 18px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: filter 0.2s ease;
-    }
-
-    .btn-primary:hover {
-      filter: brightness(1.06);
-    }
-
-    .help-link {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.92rem;
-      font-weight: 600;
-      padding: 9px 14px;
-      border-radius: 10px;
+    .service-item {
+      background-color: var(--card-soft);
       border: 1px solid var(--border);
-      transition: background-color 0.2s ease;
-    }
-
-    .help-link:hover {
-      background-color: rgba(56, 189, 248, 0.1);
-      text-decoration: underline;
-    }
-
-    /* Result Box */
-    .result-box {
-      margin-top: 20px;
-      padding: 16px;
       border-radius: 12px;
-      background-color: var(--bg);
-      border: 1px solid var(--border);
+      padding: 16px;
+      margin-bottom: 12px;
     }
 
-    .result-box h2 {
-      margin: 0 0 10px;
-      font-size: 1.05rem;
-      color: var(--accent);
-    }
-
-    .result-box p {
-      margin: 6px 0;
-      font-size: 0.93rem;
-    }
-
-    /* Numbered Steps Cards */
-    .steps-section {
-      margin-top: 28px;
-    }
-
-    .section-head {
+    .service-top {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
-    .section-head h2 {
-      margin: 0;
-      font-size: 1.15rem;
-    }
-
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-    }
-
-    .step-card {
-      background-color: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: var(--shadow);
-    }
-
-    .step-badge {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background-color: var(--accent);
-      color: var(--accent-dark);
-      font-weight: 800;
+    .service-badge {
+      font-weight: 700;
+      color: #60a5fa;
       font-size: 0.95rem;
-      display: grid;
-      place-items: center;
     }
 
-    .step-card h3 {
-      margin: 0;
-      font-size: 1rem;
-    }
-
-    .step-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    /* WhatsApp Support Bar */
-    .support-bar {
-      margin-top: 24px;
-      padding: 16px 18px;
-      border-radius: 14px;
-      background-color: var(--card-alt);
-      border: 1px solid var(--border);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .support-info p {
-      margin: 3px 0 0;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .support-info a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .btn-whatsapp {
+    .toggle-label {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background-color: var(--whatsapp);
-      color: var(--whatsapp-dark);
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.92rem;
-      padding: 10px 16px;
-      border-radius: 10px;
-      transition: filter 0.2s ease;
-    }
-
-    .btn-whatsapp:hover {
-      filter: brightness(1.06);
-    }
-
-    /* Footer Quick Navigation */
-    footer.page-footer {
-      margin-top: 26px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+      margin: 0;
+      cursor: pointer;
       font-size: 0.9rem;
     }
 
-    .footer-links {
+    .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 10px;
+      margin-top: 14px;
     }
 
-    .footer-links a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
     }
 
-    .footer-links a:hover {
-      text-decoration: underline;
+    .btn-primary {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background-color: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid var(--border);
+    }
+
+    .status-msg {
+      margin-top: 10px;
+      color: var(--success);
+      font-size: 0.9rem;
+      min-height: 1.3em;
+    }
+
+    textarea.code-out {
+      min-height: 190px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.82rem;
+      direction: ltr;
+      text-align: left;
     }
   </style>
 </head>
-<body id="top">
+<body>
   <div class="container">
-    <div class="controls-bar" aria-label="Language and Theme Controls">
-      <div class="lang-group" role="group" aria-label="Language Selector">
-        <button type="button" class="lang-btn active" data-lang="en">EN</button>
-        <button type="button" class="lang-btn" data-lang="fr">FR</button>
-        <button type="button" class="lang-btn" data-lang="ar">العربية</button>
-      </div>
-      <button type="button" id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">Light</button>
-    </div>
-
     <header>
-      <div class="brand">
-        <h1 data-i18n="title">iPhone IMEI Lookup</h1>
-        <p data-i18n="subtitle">Check iPhone IMEI information quickly and clearly.</p>
+      <div>
+        <h1>إدارة خيارات فحص IMEI</h1>
+        <p>تحكم في خيارات الفحص المجاني وخدمات التحقق الظاهرة للعملاء</p>
       </div>
-      <nav class="top-nav" aria-label="Primary Navigation">
-        <a href="#lookup-section" class="nav-link" data-i18n="navStart">Start Lookup</a>
-        <a href="steps.html" class="nav-link" data-i18n="navSteps">Full Steps Guide</a>[span_1](start_span)[span_1](end_span)
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">الواجهة الرئيسية</a>
+        <a href="steps.html" class="nav-link">صفحة الخطوات</a>
       </nav>
     </header>
 
-    <main id="lookup-section" class="card">
-      <form id="imei-form" novalidate>
-        <label for="imei-input" data-i18n="imeiLabel">Enter 15-digit iPhone IMEI</label>
-        <div class="input-row">
-          <input
-            type="text"
-            id="imei-input"
-            name="imei"
-            inputmode="numeric"
-            maxlength="15"
-            placeholder="e.g. 350000000000000"
-            autocomplete="off"
-          />
+    <section class="card">
+      <h2>الإعدادات العامة والواتساب</h2>
+      <div class="grid-2">
+        <div>
+          <label for="wa-phone">رقم واتساب لاستقبال الطلبات (دولي)</label>
+          <input type="text" id="wa-phone" value="213657241710" />
         </div>
-
-        <p class="helper-text" data-i18n="imeiHelper">Dial *#06# on your iPhone to view your 15-digit IMEI.</p>
-        <p id="imei-error" class="error-msg" role="alert"></p>
-
-        <div class="form-actions">
-          <button type="submit" id="check-btn" class="btn-primary" data-i18n="lookupBtn">Lookup IMEI</button>
-          <a href="steps.html" class="help-link" data-i18n="howToUse">How to use? (Steps Page)</a>[span_2](start_span)[span_2](end_span)
+        <div>
+          <label for="free-captcha">تفعيل رمز التحقق البشري في الفحص المجاني</label>
+          <select id="free-captcha" style="width:100%;padding:10px 12px;border-radius:10px;background:#0f172a;color:#f8fafc;border:1px solid #25344f;">
+            <option value="true" selected>مفعّل (Je ne suis pas un robot)</option>
+            <option value="false">معطّل</option>
+          </select>
         </div>
-      </form>
-
-      <section id="result-box" class="result-box" hidden aria-live="polite">
-        <h2 data-i18n="resultTitle">IMEI Lookup Result</h2>
-        <div id="result-content"></div>
-      </section>
-    </main>
-
-    <section class="steps-section" aria-label="Quick Numbered Steps">
-      <div class="section-head">
-        <h2 data-i18n="quickStepsTitle">Quick Steps</h2>
-        <a href="steps.html" class="nav-link" data-i18n="openSteps">Open Detailed Steps</a>[span_3](start_span)[span_3](end_span)
-      </div>
-
-      <div class="steps-grid">
-        <article class="step-card">
-          <div class="step-badge">1</div>
-          <h3 data-i18n="step1Title">Find Your IMEI</h3>
-          <p data-i18n="step1Desc">Open the Phone app on your iPhone and dial *#06# to display the 15-digit IMEI.</p>
-        </article>
-
-        <article class="step-card">
-          <div class="step-badge">2</div>
-          <h3 data-i18n="step2Title">Enter &amp; Check</h3>
-          <p data-i18n="step2Desc">Paste or type the 15-digit number into the lookup box above and click Lookup IMEI.</p>
-        </article>
-
-        <article class="step-card">
-          <div class="step-badge">3</div>
-          <h3 data-i18n="step3Title">Review Details</h3>
-          <p data-i18n="step3Desc">Inspect the returned IMEI details right on the page or contact support if needed.</p>
-        </article>
       </div>
     </section>
 
-    <aside class="support-bar" aria-label="WhatsApp Support">
-      <div class="support-info">
-        <strong data-i18n="waTitle">WhatsApp Support</strong>
-        <p>
-          <span data-i18n="waLine">Direct line:</span>
-          <a id="wa-phone-link" href="https://wa.me/213657241710" target="_blank" rel="noopener noreferrer">+213 657 241 710</a>
-        </p>
-      </div>
-      <a
-        id="wa-btn"
-        href="https://wa.me/213657241710?text=Hello%2C%20I%20need%20help%20with%20iPhone%20IMEI%20lookup."
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn-whatsapp"
-        data-i18n="waBtn"
-      >
-        WhatsApp (+213657241710)
-      </a>
-    </aside>
+    <section class="card">
+      <h2>خيارات الفحص والخدمات (من الصورة المرفقة)</h2>
+      <div id="services-container"></div>
 
-    <footer class="page-footer">
-      <span data-i18n="footerBrand">iPhone IMEI Lookup Tool</span>
-      <div class="footer-links">
-        <a href="#lookup-section" data-i18n="startNow">Start Lookup Now</a>
-        <a href="steps.html" data-i18n="stepsShort">Steps</a>[span_4](start_span)[span_4](end_span)
-        <a href="#top" data-i18n="backTop">Back to Top</a>
+      <div class="actions">
+        <button type="button" id="save-btn" class="btn-primary">حفظ التعديلات</button>
+        <button type="button" id="reset-btn" class="btn-secondary">استعادة الافتراضي</button>
       </div>
-    </footer>
+      <p id="status-msg" class="status-msg" role="status"></p>
+    </section>
+
+    <section class="card">
+      <h2>تصدير إعدادات JSON / JavaScript</h2>
+      <p style="color: var(--muted); font-size: 0.88rem; margin-top: 0;">
+        يمكنك نسخ الكود أدناه واستخدامه داخل ملف الإعدادات أو <code>generator.js</code> عند نشر التحديثات على المستودع.
+      </p>
+      <textarea id="export-output" class="code-out" readonly></textarea>
+      <div class="actions">
+        <button type="button" id="copy-btn" class="btn-secondary">نسخ الكود</button>
+      </div>
+    </section>
   </div>
 
-  <script src="generator.js"></script>[span_5](start_span)[span_5](end_span)
+  <script src="generator.js"></script>
   <script>
     (function () {
-      const WA_NUMBER = "213657241710";
+      const STORAGE_KEY = "gsm_yasser_admin_options_v1";
 
-      const translations = {
-        en: {
-          dir: "ltr",
-          title: "iPhone IMEI Lookup",
-          subtitle: "Check iPhone IMEI information quickly and clearly.",
-          navStart: "Start Lookup",
-          navSteps: "Full Steps Guide",
-          imeiLabel: "Enter 15-digit iPhone IMEI",
-          imeiHelper: "Dial *#06# on your iPhone to view your 15-digit IMEI.",
-          lookupBtn: "Lookup IMEI",
-          howToUse: "How to use? (Steps Page)",
-          resultTitle: "IMEI Lookup Result",
-          quickStepsTitle: "Quick Steps",
-          openSteps: "Open Detailed Steps",
-          step1Title: "Find Your IMEI",
-          step1Desc: "Open the Phone app on your iPhone and dial *#06# to display the 15-digit IMEI.",
-          step2Title: "Enter & Check",
-          step2Desc: "Paste or type the 15-digit number into the lookup box above and click Lookup IMEI.",
-          step3Title: "Review Details",
-          step3Desc: "Inspect the returned IMEI details right on the page or contact support if needed.",
-          waTitle: "WhatsApp Support",
-          waLine: "Direct line:",
-          waBtn: "WhatsApp (+213657241710)",
-          footerBrand: "iPhone IMEI Lookup Tool",
-          startNow: "Start Lookup Now",
-          stepsShort: "Steps",
-          backTop: "Back to Top",
-          invalidImei: "Please enter a valid 15-digit IMEI number.",
-          lblImei: "IMEI",
-          lblStatus: "Status",
-          lblTime: "Time",
-          defaultStatus: "Checked",
-          themeLight: "Light Mode",
-          themeDark: "Dark Mode",
-          waMsg: "Hello, I need help with iPhone IMEI lookup.",
-          waMsgWithImei: "Hello, I need help with iPhone IMEI: "
-        },
-        fr: {
-          dir: "ltr",
-          title: "Vérification IMEI iPhone",
-          subtitle: "Consultez les informations IMEI d'un iPhone rapidement et clairement.",
-          navStart: "Commencer",
-          navSteps: "Guide des étapes",
-          imeiLabel: "Entrez l'IMEI iPhone à 15 chiffres",
-          imeiHelper: "Composez *#06# sur votre iPhone pour afficher l'IMEI à 15 chiffres.",
-          lookupBtn: "Vérifier l'IMEI",
-          howToUse: "Comment utiliser ? (Étapes)",
-          resultTitle: "Résultat de la vérification",
-          quickStepsTitle: "Étapes rapides",
-          openSteps: "Voir les étapes détaillées",
-          step1Title: "Trouver l'IMEI",
-          step1Desc: "Ouvrez l'application Téléphone sur votre iPhone et composez *#06#.",
-          step2Title: "Saisir et vérifier",
-          step2Desc: "Saisissez les 15 chiffres dans le champ ci-dessus puis cliquez sur Vérifier l'IMEI.",
-          step3Title: "Consulter les détails",
-          step3Desc: "Vérifiez les informations affichées ou contactez le support en cas de besoin.",
-          waTitle: "Assistance WhatsApp",
-          waLine: "Ligne directe :",
-          waBtn: "WhatsApp (+213657241710)",
-          footerBrand: "Outil de vérification IMEI iPhone",
-          startNow: "Commencer maintenant",
-          stepsShort: "Étapes",
-          backTop: "Haut de page",
-          invalidImei: "Veuillez saisir un numéro IMEI valide à 15 chiffres.",
-          lblImei: "IMEI",
-          lblStatus: "Statut",
-          lblTime: "Heure",
-          defaultStatus: "Vérifié",
-          themeLight: "Mode clair",
-          themeDark: "Mode sombre",
-          waMsg: "Bonjour, j'ai besoin d'aide pour la vérification IMEI iPhone.",
-          waMsgWithImei: "Bonjour, j'ai besoin d'aide pour l'IMEI iPhone : "
-        },
-        ar: {
-          dir: "rtl",
-          title: "فحص رقم IMEI لهواتف iPhone",
-          subtitle: "استعلم عن معلومات رقم IMEI لهاتف iPhone بوضوح وسرعة.",
-          navStart: "بدء الفحص",
-          navSteps: "دليل الخطوات الكامل",
-          imeiLabel: "أدخل رقم IMEI المكوّن من 15 رقماً",
-          imeiHelper: "اطلب الرمز *#06# على هاتف iPhone لعرض رقم IMEI المكوّن من 15 رقماً.",
-          lookupBtn: "فحص IMEI",
-          howToUse: "كيف أستخدم الأداة؟ (صفحة الخطوات)",
-          resultTitle: "نتيجة الفحص",
-          quickStepsTitle: "خطوات سريعة",
-          openSteps: "عرض الخطوات المفصلة",
-          step1Title: "استخراج رقم IMEI",
-          step1Desc: "افتح تطبيق الهاتف في iPhone واطلب *#06# لإظهار الرقم التسلسلي IMEI.",
-          step2Title: "إدخال الرقم والفحص",
-          step2Desc: "أدخل الرقم المكوّن من 15 خانة في الحقل أعلاه ثم اضغط على فحص IMEI.",
-          step3Title: "مراجعة التفاصيل",
-          step3Desc: "اطلع على بيانات الرقم الظاهرة في الصفحة أو تواصل مع الدعم عند الحاجة.",
-          waTitle: "الدعم عبر واتساب",
-          waLine: "الرقم المباشر:",
-          waBtn: "واتساب (+213657241710)",
-          footerBrand: "أداة فحص IMEI لهواتف iPhone",
-          startNow: "ابدأ الفحص الآن",
-          stepsShort: "الخطوات",
-          backTop: "العودة للأعلى",
-          invalidImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
-          lblImei: "رقم IMEI",
-          lblStatus: "الحالة",
-          lblTime: "الوقت",
-          defaultStatus: "تم الفحص",
-          themeLight: "الوضع الفاتح",
-          themeDark: "الوضع الداكن",
-          waMsg: "مرحباً، أحتاج إلى مساعدة بخصوص فحص IMEI لهاتف iPhone.",
-          waMsgWithImei: "مرحباً، أحتاج إلى مساعدة بخصوص رقم IMEI: "
-        }
+      const defaultConfig = {
+        whatsappPhone: "213657241710",
+        freeCheckCaptcha: true,
+        services: [
+          {
+            id: "free_check",
+            enabled: true,
+            badge: "Vérification Gratuite",
+            titleFr: "Vérification Gratuite",
+            subtitleFr: "Connaissez votre modèle - 100% Gratuit -",
+            ctaFr: "Vérifier Gratuitement",
+            titleEn: "Free IMEI Check",
+            subtitleEn: "Know your model - 100% Free -",
+            ctaEn: "Check for Free",
+            titleAr: "فحص مجاني لرقم IMEI",
+            subtitleAr: "اعرف طراز جهازك - مجاني 100% -",
+            ctaAr: "فحص مجاناً"
+          },
+          {
+            id: "network_lock",
+            enabled: true,
+            badge: "Vérification Verrou Réseau",
+            titleFr: "Vérification Verrou Réseau",
+            subtitleFr: "Verrou réseau - État SIM",
+            ctaFr: "Contactez-nous ↗",
+            titleEn: "Network Lock Check",
+            subtitleEn: "Carrier lock - SIM status",
+            ctaEn: "Contact us ↗",
+            titleAr: "فحص قفل الشبكة",
+            subtitleAr: "قفل الشبكة - حالة الشريحة SIM",
+            ctaAr: "تواصل معنا ↗"
+          },
+          {
+            id: "icloud_check",
+            enabled: true,
+            badge: "Vérification iCloud",
+            titleFr: "Vérification iCloud",
+            subtitleFr: "Verrou iCloud - Find My",
+            ctaFr: "Contactez-nous ↗",
+            titleEn: "iCloud Check",
+            subtitleEn: "iCloud lock - Find My",
+            ctaEn: "Contact us ↗",
+            titleAr: "فحص iCloud",
+            subtitleAr: "قفل iCloud - ميزة Find My",
+            ctaAr: "تواصل معنا ↗"
+          },
+          {
+            id: "blacklist_check",
+            enabled: true,
+            badge: "Vérification Liste Noire",
+            titleFr: "Vérification Liste Noire",
+            subtitleFr: "Volé - Perdu - Bloqué",
+            ctaFr: "Contactez-nous ↗",
+            titleEn: "Blacklist Check",
+            subtitleEn: "Stolen - Lost - Blocked",
+            ctaEn: "Contact us ↗",
+            titleAr: "فحص القائمة السوداء",
+            subtitleAr: "مسروق - مفقود - محظور",
+            ctaAr: "تواصل معنا ↗"
+          },
+          {
+            id: "pro_report",
+            enabled: true,
+            badge: "Vérification Complète PRO",
+            titleFr: "Vérification Complète PRO",
+            subtitleFr: "Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud",
+            ctaFr: "Contactez-nous ↗",
+            titleEn: "Complete PRO Check",
+            subtitleEn: "Full PDF report - GSX - Warranty - Purchase date - Carrier - iCloud",
+            ctaEn: "Contact us ↗",
+            titleAr: "فحص شامل PRO",
+            subtitleAr: "تقرير PDF كامل - GSX - الضمان - تاريخ الشراء - الشبكة - iCloud",
+            ctaAr: "تواصل معنا ↗"
+          }
+        ]
       };
 
-      const htmlEl = document.documentElement;
-      const themeToggle = document.getElementById("theme-toggle");
-      const langButtons = document.querySelectorAll(".lang-btn");
-      const waBtn = document.getElementById("wa-btn");
-      const waPhoneLink = document.getElementById("wa-phone-link");
-      const form = document.getElementById("imei-form");
-      const input = document.getElementById("imei-input");
-      const errorEl = document.getElementById("imei-error");
-      const resultBox = document.getElementById("result-box");
-      const resultContent = document.getElementById("result-content");
+      const servicesContainer = document.getElementById("services-container");
+      const waPhoneInput = document.getElementById("wa-phone");
+      const freeCaptchaSelect = document.getElementById("free-captcha");
+      const saveBtn = document.getElementById("save-btn");
+      const resetBtn = document.getElementById("reset-btn");
+      const copyBtn = document.getElementById("copy-btn");
+      const statusMsg = document.getElementById("status-msg");
+      const exportOutput = document.getElementById("export-output");
 
-      let currentLang = localStorage.getItem("imei_lang") || "en";
-      let currentTheme = localStorage.getItem("imei_theme") || "dark";
-      let lastReport = null;
-
-      function updateWhatsAppLinks() {
-        const dict = translations[currentLang] || translations.en;
-        const cleanImei = input.value.trim().replace(/\s+/g, "");
-        const message = cleanImei ? dict.waMsgWithImei + cleanImei : dict.waMsg;
-        const url = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(message);
-        waBtn.href = url;
-        waPhoneLink.href = url;
-      }
-
-      function applyTheme(theme) {
-        currentTheme = theme === "light" ? "light" : "dark";
-        htmlEl.setAttribute("data-theme", currentTheme);
-        localStorage.setItem("imei_theme", currentTheme);
-        const dict = translations[currentLang] || translations.en;
-        themeToggle.textContent = currentTheme === "dark" ? dict.themeLight : dict.themeDark;
-      }
-
-      function renderResult(data) {
-        if (!data) return;
-        const dict = translations[currentLang] || translations.en;
-        resultContent.innerHTML =
-          "<p><strong>" + dict.lblImei + ":</strong> " + data.imei + "</p>" +
-          "<p><strong>" + dict.lblStatus + ":</strong> " + (data.status || dict.defaultStatus) + "</p>" +
-          "<p><strong>" + dict.lblTime + ":</strong> " + (data.checkedAt || new Date().toLocaleString()) + "</p>";
-      }
-
-      function applyLanguage(lang) {
-        currentLang = translations[lang] ? lang : "en";
-        const dict = translations[currentLang];
-        htmlEl.setAttribute("lang", currentLang);
-        htmlEl.setAttribute("dir", dict.dir);
-        document.title = dict.title;
-        localStorage.setItem("imei_lang", currentLang);
-
-        langButtons.forEach((btn) => {
-          btn.classList.toggle("active", btn.dataset.lang === currentLang);
-        });
-
-        document.querySelectorAll("[data-i18n]").forEach((el) => {
-          const key = el.getAttribute("data-i18n");
-          if (dict[key]) {
-            el.textContent = dict[key];
+      function loadConfig() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+          if (saved && Array.isArray(saved.services)) {
+            return {
+              whatsappPhone: saved.whatsappPhone || defaultConfig.whatsappPhone,
+              freeCheckCaptcha:
+                typeof saved.freeCheckCaptcha === "boolean"
+                  ? saved.freeCheckCaptcha
+                  : defaultConfig.freeCheckCaptcha,
+              services: saved.services
+            };
           }
-        });
-
-        updateWhatsAppLinks();
-        themeToggle.textContent = currentTheme === "dark" ? dict.themeLight : dict.themeDark;
-
-        if (!resultBox.hidden && lastReport) {
-          renderResult(lastReport);
-        }
+        } catch (e) {}
+        return JSON.parse(JSON.stringify(defaultConfig));
       }
 
-      themeToggle.addEventListener("click", function () {
-        applyTheme(currentTheme === "dark" ? "light" : "dark");
-      });
+      let currentConfig = loadConfig();
 
-      langButtons.forEach((btn) => {
-        btn.addEventListener("click", function () {
-          applyLanguage(btn.dataset.lang);
-        });
-      });
+      function renderServices() {
+        waPhoneInput.value = currentConfig.whatsappPhone;
+        freeCaptchaSelect.value = String(currentConfig.freeCheckCaptcha);
 
-      input.addEventListener("input", updateWhatsAppLinks);
+        servicesContainer.innerHTML = currentConfig.services
+          .map(
+            (srv, idx) => `
+          <div class="service-item" data-index="${idx}">
+            <div class="service-top">
+              <span class="service-badge">${srv.badge}</span>
+              <label class="toggle-label">
+                <input type="checkbox" class="srv-enabled" ${srv.enabled ? "checked" : ""} />
+                مفعّل
+              </label>
+            </div>
+            <div class="grid-2">
+              <div>
+                <label>العنوان (الفرنسية FR)</label>
+                <input type="text" class="srv-title-fr" value="${srv.titleFr}" />
+              </div>
+              <div>
+                <label>الوصف (الفرنسية FR)</label>
+                <input type="text" class="srv-sub-fr" value="${srv.subtitleFr}" />
+              </div>
+              <div>
+                <label>العنوان (العربية AR)</label>
+                <input type="text" class="srv-title-ar" value="${srv.titleAr}" />
+              </div>
+              <div>
+                <label>نص الزر (الفرنسية FR)</label>
+                <input type="text" class="srv-cta-fr" value="${srv.ctaFr}" />
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
 
-      function isValidImei(value) {
-        if (!/^\d{15}$/.test(value)) return false;
-        let sum = 0;
-        for (let i = 0; i < 15; i++) {
-          let digit = Number(value[i]);
-          if (i % 2 === 1) {
-            digit *= 2;
-            if (digit > 9) digit -= 9;
-          }
-          sum += digit;
-        }
-        return sum % 10 === 0;
+        refreshExportBox();
       }
 
-      form.addEventListener("submit", async function (event) {
-        event.preventDefault();
-        errorEl.textContent = "";
-        const dict = translations[currentLang] || translations.en;
-        const imei = input.value.trim().replace(/\s+/g, "");
+      function collectConfigFromForm() {
+        const items = servicesContainer.querySelectorAll(".service-item");
+        const updatedServices = currentConfig.services.map((srv, idx) => {
+          const el = items[idx];
+          return {
+            ...srv,
+            enabled: el.querySelector(".srv-enabled").checked,
+            titleFr: el.querySelector(".srv-title-fr").value.trim() || srv.titleFr,
+            subtitleFr: el.querySelector(".srv-sub-fr").value.trim() || srv.subtitleFr,
+            titleAr: el.querySelector(".srv-title-ar").value.trim() || srv.titleAr,
+            ctaFr: el.querySelector(".srv-cta-fr").value.trim() || srv.ctaFr
+          };
+        });
 
-        if (!isValidImei(imei)) {
-          errorEl.textContent = dict.invalidImei;
-          return;
-        }
+        return {
+          whatsappPhone: waPhoneInput.value.trim().replace(/[^\d]/g, "") || defaultConfig.whatsappPhone,
+          freeCheckCaptcha: freeCaptchaSelect.value === "true",
+          services: updatedServices
+        };
+      }
 
-        const data =
-          window.Generator && typeof window.Generator.lookupImei === "function"
-            ? await window.Generator.lookupImei(imei)
-            : {
-                imei,
-                status: dict.defaultStatus,
-                checkedAt: new Date().toLocaleString()
-              };
+      function refreshExportBox() {
+        exportOutput.value =
+          "window.GSM_YASSER_OPTIONS = " + JSON.stringify(currentConfig, null, 2) + ";";
+      }
 
-        lastReport = data;
-        renderResult(data);
-        resultBox.hidden = false;
-        updateWhatsAppLinks();
+      saveBtn.addEventListener("click", function () {
+        currentConfig = collectConfigFromForm();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentConfig));
+        refreshExportBox();
+        statusMsg.textContent = "تم حفظ التعديلات بنجاح في المتصفح.";
       });
 
-      applyLanguage(currentLang);
-      applyTheme(currentTheme);
+      resetBtn.addEventListener("click", function () {
+        currentConfig = JSON.parse(JSON.stringify(defaultConfig));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentConfig));
+        renderServices();
+        statusMsg.textContent = "تمت استعادة الإعدادات الافتراضية.";
+      });
+
+      copyBtn.addEventListener("click", function () {
+        exportOutput.select();
+        navigator.clipboard?.writeText(exportOutput.value);
+        statusMsg.textContent = "تم نسخ كود الإعدادات.";
+      });
+
+      renderServices();
     })();
   </script>
 </body>
