@@ -1,320 +1,617 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="fr" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel - GSMYasser Server</title>
+  <title>GSM YASSER - iPhone IMEI Check</title>
   <style>
+    :root {
+      --bg-color: #0b1120;
+      --card-bg: #131c31;
+      --input-bg: #0f172a;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #1e293b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+
+    body.light {
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --input-bg: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #cbd5e1;
+    }
+
     * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
-    body { margin: 0; background: #0f172a; color: #f8fafc; padding: 20px; }
-    .container { max-width: 1020px; margin: 0 auto; }
-    .card { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-    h1, h2 { margin-top: 0; color: #38bdf8; }
-    .login-card { max-width: 420px; margin: 60px auto; }
-    .pass-wrap { position: relative; margin: 12px 0; }
-    input[type="password"], input[type="text"] {
-      width: 100%; padding: 12px 68px 12px 12px; border-radius: 8px;
-      border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 16px;
+    body {
+      margin: 0;
+      background: var(--bg-color);
+      color: var(--text-main);
+      padding: 16px 14px 40px;
+      transition: background 0.2s, color 0.2s;
     }
-    .toggle-eye {
-      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-      background: transparent; color: #94a3b8; padding: 4px 8px; font-size: 13px;
+
+    .container { max-width: 560px; margin: 0 auto; }
+
+    /* Top Bar */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
     }
-    button, .btn-link {
-      padding: 10px 16px; border: none; border-radius: 8px; text-decoration: none;
-      cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s; display: inline-block;
+
+    .lang-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
     }
-    button:disabled { opacity: 0.6; cursor: not-allowed; }
-    .btn-primary { background: #0284c7; color: #fff; width: 100%; padding: 12px; }
-    .btn-primary:hover:not(:disabled) { background: #0369a1; }
-    .btn-refresh { background: #10b981; color: #fff; }
-    .btn-refresh:hover:not(:disabled) { background: #059669; }
-    .btn-whatsapp-top { background: #16a34a; color: #fff; }
-    .btn-whatsapp-top:hover { background: #15803d; }
-    .btn-logout { background: #475569; color: #fff; }
-    .btn-logout:hover:not(:disabled) { background: #334155; }
-    .btn-danger { background: #ef4444; color: #fff; }
-    .btn-danger:hover:not(:disabled) { background: #dc2626; }
-    .btn-wa { background: #22c55e; color: #052e16; padding: 6px 10px; font-size: 12px; }
-    .btn-wa:hover { background: #16a34a; color: #fff; }
-    .btn-del-one { background: #dc2626; color: #fff; padding: 6px 10px; font-size: 12px; }
-    .toolbar { display: flex; gap: 10px; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 15px; }
-    .actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    .row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #334155; font-size: 14px; vertical-align: middle; }
-    th { background: #0f172a; color: #38bdf8; }
-    .badge {
-      background: #334155; color: #e2e8f0; padding: 4px 8px;
-      border-radius: 6px; font-family: monospace; display: inline-block;
+
+    .lang-btn, .theme-btn, .guide-pill {
+      background: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
-    .empty { text-align: center; padding: 30px; color: #94a3b8; }
-    .hidden { display: none; }
-    .error-msg { color: #f87171; font-size: 13px; margin-top: 10px; min-height: 18px; }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .guide-pill {
+      border-color: rgba(59, 130, 246, 0.45);
+      color: #60a5fa;
+    }
+
+    .guide-pill:hover {
+      background: rgba(37, 99, 235, 0.14);
+    }
+
+    /* Header */
+    .hero { text-align: center; margin-bottom: 18px; }
+    .brand-icon {
+      width: 34px; height: 34px; margin: 0 auto 10px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: bold; font-size: 16px;
+    }
+    .hero h1 { margin: 0 0 6px; font-size: 26px; }
+    .hero p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+    }
+
+    .free-title {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 20px; font-weight: bold; margin: 0 0 6px; text-align: center;
+    }
+    .check-badge {
+      width: 22px; height: 22px; border-radius: 6px;
+      background: var(--success); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 13px;
+    }
+    .free-sub { text-align: center; color: var(--text-muted); font-size: 13px; margin: 0 0 14px; }
+
+    .imei-input {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 15px;
+      text-align: center;
+      margin-bottom: 12px;
+      outline: none;
+    }
+    .imei-input:focus { border-color: var(--primary); }
+
+    .captcha-box {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      font-size: 13px;
+    }
+
+    .captcha-code {
+      background: #ffffff;
+      color: #0f172a;
+      font-weight: 800;
+      letter-spacing: 2px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-family: monospace;
+      user-select: none;
+    }
+
+    .captcha-input {
+      width: 82px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: var(--text-main);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .refresh-captcha {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 9px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .btn-main {
+      width: 100%;
+      padding: 13px 16px;
+      border: none;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+    .btn-main:hover { background: var(--primary-hover); }
+
+    .result-box {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      font-size: 13px;
+      line-height: 1.6;
+      display: none;
+    }
+
+    /* Service Cards */
+    .service-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .service-icon {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-weight: bold; flex-shrink: 0;
+    }
+    .service-title { margin: 0 0 3px; font-size: 17px; font-weight: bold; }
+    .service-desc { margin: 0; color: var(--text-muted); font-size: 12px; }
+
+    /* Modal for Usage Guide */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(2, 6, 23, 0.78);
+      display: none; align-items: center; justify-content: center;
+      padding: 16px; z-index: 999;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-card {
+      width: 100%; max-width: 500px;
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: 16px; padding: 20px;
+    }
+    .modal-head {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px;
+    }
+    .modal-head h3 { margin: 0; font-size: 18px; }
+    .close-btn {
+      background: transparent; border: 1px solid var(--border-color);
+      color: var(--text-main); border-radius: 8px; padding: 4px 10px; cursor: pointer;
+    }
+    .guide-list { margin: 0 0 16px; padding-inline-start: 18px; font-size: 14px; line-height: 1.7; color: var(--text-muted); }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Login Screen -->
-    <div id="loginBox" class="card login-card">
-      <h2>Admin Login - GSMYasser</h2>
-      <p style="color:#94a3b8; font-size:14px; margin-bottom:6px;">Enter the admin password to access IMEI orders:</p>
-      <form onsubmit="handleLogin(event)">
-        <div class="pass-wrap">
-          <input type="password" id="adminPass" placeholder="Password" autocomplete="current-password" required />
-          <button type="button" class="toggle-eye" onclick="togglePasswordVisibility()">Show</button>
-        </div>
-        <button type="submit" class="btn-primary">Sign In</button>
-      </form>
-      <p id="loginError" class="error-msg"></p>
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="lang-group">
+        <button type="button" class="lang-btn" data-lang="ar" onclick="setLanguage('ar')">العربية</button>
+        <button type="button" class="lang-btn active" data-lang="fr" onclick="setLanguage('fr')">FR</button>
+        <button type="button" class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+        <button type="button" class="guide-pill" onclick="openGuideModal()">
+          <span id="guideIconText">📖</span>
+          <span id="guideLinkLabel">Guide d'utilisation</span>
+        </button>
+      </div>
+
+      <button type="button" class="theme-btn" onclick="toggleTheme()">
+        <span>☀️</span>
+        <span id="themeLabel">Clair</span>
+      </button>
     </div>
 
-    <!-- Admin Dashboard -->
-    <div id="dashboardBox" class="hidden">
-      <div class="card">
-        <div class="toolbar">
-          <div>
-            <h1 style="margin-bottom:4px;">iPhone IMEI Lookup Orders</h1>
-            <small id="statusText" style="color:#94a3b8;">Ready to sync with cloud database</small>
-          </div>
-          <div class="actions">
-            <a id="topWhatsappLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-link btn-whatsapp-top">
-              WhatsApp (0657.241710)
-            </a>
-            <button type="button" id="refreshBtn" class="btn-refresh" onclick="loadOrders()">Refresh</button>
-            <button type="button" id="clearAllBtn" class="btn-danger" onclick="clearOrders()">Clear All</button>
-            <button type="button" class="btn-logout" onclick="logout()">Logout</button>
-          </div>
-        </div>
+    <!-- Hero -->
+    <div class="hero">
+      <div class="brand-icon"></div>
+      <h1 id="heroTitle">Vérification IMEI</h1>
+      <p id="heroSubtitle">Vérifiez votre appareil facilement</p>
+    </div>
 
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>IMEI Number</th>
-                <th>Service / Details</th>
-                <th>Date &amp; Time</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="ordersTableBody">
-              <tr><td colspan="5" class="empty">Loading orders...</td></tr>
-            </tbody>
-          </table>
+    <!-- Free Check Card -->
+    <div class="card">
+      <div class="free-title">
+        <span class="check-badge">✓</span>
+        <span id="freeTitleText">Vérification Gratuite</span>
+      </div>
+      <p class="free-sub" id="freeSubText">Connaissez votre modèle - 100% Gratuit -</p>
+
+      <input type="text" id="imeiInput" class="imei-input" maxlength="15" inputmode="numeric" placeholder="Entrez IMEI - 15 chiffres" />
+
+      <div class="captcha-box">
+        <span id="captchaLabel">🤖 Je ne suis pas un robot:</span>
+        <span id="captchaDisplay" class="captcha-code">NMKLU</span>
+        <input type="text" id="captchaInput" class="captcha-input" maxlength="6" placeholder="Code" />
+        <button type="button" class="refresh-captcha" onclick="generateCaptcha()" title="Refresh">↻</button>
+      </div>
+
+      <button type="button" class="btn-main" id="freeCheckBtn" onclick="handleFreeCheck()">Vérifier Gratuitement</button>
+      <div id="checkResultBox" class="result-box"></div>
+    </div>
+
+    <!-- Service 1: Network Lock -->
+    <div class="card">
+      <div class="service-head">
+        <div class="service-icon"></div>
+        <div>
+          <h2 class="service-title" id="srv1Title">Vérification Verrou Réseau</h2>
+          <p class="service-desc" id="srv1Desc">Verrou réseau - État SIM</p>
         </div>
       </div>
+      <a class="btn-main" href="#" onclick="openServiceWhatsapp(event, 'Network Lock Check')">
+        <span id="srv1Btn">Contactez-nous ↗</span>
+      </a>
+    </div>
+
+    <!-- Service 2: iCloud -->
+    <div class="card">
+      <div class="service-head">
+        <div class="service-icon"></div>
+        <div>
+          <h2 class="service-title" id="srv2Title">Vérification iCloud</h2>
+          <p class="service-desc" id="srv2Desc">Verrou iCloud - Find My</p>
+        </div>
+      </div>
+      <a class="btn-main" href="#" onclick="openServiceWhatsapp(event, 'iCloud Status Check')">
+        <span id="srv2Btn">Contactez-nous ↗</span>
+      </a>
+    </div>
+
+    <!-- Service 3: Blacklist -->
+    <div class="card">
+      <div class="service-head">
+        <div class="service-icon"></div>
+        <div>
+          <h2 class="service-title" id="srv3Title">Vérification Liste Noire</h2>
+          <p class="service-desc" id="srv3Desc">Volé - Perdu - Bloqué</p>
+        </div>
+      </div>
+      <a class="btn-main" href="#" onclick="openServiceWhatsapp(event, 'Blacklist Check')">
+        <span id="srv3Btn">Contactez-nous ↗</span>
+      </a>
+    </div>
+
+    <!-- Service 4: Full PRO -->
+    <div class="card">
+      <div class="service-head">
+        <div class="service-icon"></div>
+        <div>
+          <h2 class="service-title" id="srv4Title">Vérification Complète PRO</h2>
+          <p class="service-desc" id="srv4Desc">Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud</p>
+        </div>
+      </div>
+      <a class="btn-main" href="#" onclick="openServiceWhatsapp(event, 'Full PRO Report')">
+        <span id="srv4Btn">Contactez-nous ↗</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Usage Guide Modal -->
+  <div id="guideModal" class="modal-backdrop" onclick="closeGuideModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-head">
+        <h3 id="modalTitle">Guide d'utilisation</h3>
+        <button type="button" class="close-btn" onclick="closeGuideModal()">✕</button>
+      </div>
+      <ol class="guide-list" id="modalSteps"></ol>
+      <a id="modalWhatsappBtn" class="btn-main" target="_blank" rel="noopener noreferrer">
+        <span id="modalWhatsappText">WhatsApp (0657.24.17.10)</span>
+      </a>
     </div>
   </div>
 
   <script>
     const DB_URL = "https://gsm-yasser-default-rtdb.firebaseio.com";
-    const ADMIN_PASSWORD = "wP5t5B3d";
-    const WHATSAPP_NUMBER = "213657241710"; // 0657.241710
-    const AUTH_KEY = "gsm_yasser_admin_session_en_wa_v1";
+    const WHATSAPP_PHONE = "213657241710";
+    let currentLang = "fr";
+    let currentCaptcha = "";
 
-    function buildWhatsappUrl(messageText) {
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(messageText)}`;
+    const TRANSLATIONS = {
+      fr: {
+        dir: "ltr",
+        guideLabel: "Guide d'utilisation",
+        themeLight: "Clair",
+        themeDark: "Sombre",
+        heroTitle: "Vérification IMEI",
+        heroSubtitle: "Vérifiez votre appareil facilement",
+        freeTitle: "Vérification Gratuite",
+        freeSub: "Connaissez votre modèle - 100% Gratuit -",
+        imeiPlaceholder: "Entrez IMEI - 15 chiffres",
+        captchaLabel: "🤖 Je ne suis pas un robot:",
+        captchaPlaceholder: "Code",
+        freeCheckBtn: "Vérifier Gratuitement",
+        srv1Title: "Vérification Verrou Réseau",
+        srv1Desc: "Verrou réseau - État SIM",
+        srv2Title: "Vérification iCloud",
+        srv2Desc: "Verrou iCloud - Find My",
+        srv3Title: "Vérification Liste Noire",
+        srv3Desc: "Volé - Perdu - Bloqué",
+        srv4Title: "Vérification Complète PRO",
+        srv4Desc: "Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud",
+        contactBtn: "Contactez-nous ↗",
+        modalTitle: "Guide d'utilisation - GSM YASSER",
+        modalSteps: [
+          "Composez *#06# sur votre iPhone pour afficher le numéro IMEI à 15 chiffres.",
+          "Saisissez le numéro IMEI dans le champ prévu et recopiez le code anti-robot.",
+          "Cliquez sur « Vérifier Gratuitement » pour enregistrer votre demande et lancer le contrôle.",
+          "Pour les rapports détaillés (iCloud, Réseau, Liste Noire, PRO), cliquez sur « Contactez-nous » via WhatsApp."
+        ],
+        errImei: "Veuillez saisir un numéro IMEI valide de 15 chiffres.",
+        errCaptcha: "Code de vérification incorrect. Veuillez réessayer.",
+        savedMsg: "Demande enregistrée pour l'IMEI : "
+      },
+      en: {
+        dir: "ltr",
+        guideLabel: "Usage Guide",
+        themeLight: "Light",
+        themeDark: "Dark",
+        heroTitle: "IMEI Check",
+        heroSubtitle: "Check your iPhone easily",
+        freeTitle: "Free Check",
+        freeSub: "Know your model - 100% Free -",
+        imeiPlaceholder: "Enter IMEI - 15 digits",
+        captchaLabel: "🤖 I'm not a robot:",
+        captchaPlaceholder: "Code",
+        freeCheckBtn: "Check for Free",
+        srv1Title: "Network Lock Check",
+        srv1Desc: "Carrier lock - SIM status",
+        srv2Title: "iCloud Check",
+        srv2Desc: "iCloud lock - Find My",
+        srv3Title: "Blacklist Check",
+        srv3Desc: "Stolen - Lost - Blocked",
+        srv4Title: "Full PRO Check",
+        srv4Desc: "Complete PDF report - GSX - Warranty - Purchase date - Carrier - iCloud",
+        contactBtn: "Contact Us ↗",
+        modalTitle: "Usage Guide - GSM YASSER",
+        modalSteps: [
+          "Dial *#06# on your iPhone to view the 15-digit IMEI number.",
+          "Enter the 15-digit IMEI number and type the security code shown.",
+          "Click « Check for Free » to log your lookup request.",
+          "For detailed reports (iCloud, Carrier Lock, Blacklist, PRO), click « Contact Us » on WhatsApp."
+        ],
+        errImei: "Please enter a valid 15-digit IMEI number.",
+        errCaptcha: "Incorrect captcha code. Please try again.",
+        savedMsg: "Order submitted for IMEI: "
+      },
+      ar: {
+        dir: "rtl",
+        guideLabel: "طريقة الاستخدام",
+        themeLight: "فاتح",
+        themeDark: "داكن",
+        heroTitle: "فحص IMEI للآيفون",
+        heroSubtitle: "تحقق من حالة جهازك بسهولة",
+        freeTitle: "فحص مجاني",
+        freeSub: "اعرف موديل جهازك - مجاني 100% -",
+        imeiPlaceholder: "أدخل رقم IMEI - 15 رقماً",
+        captchaLabel: "🤖 أنا لست روبوتاً:",
+        captchaPlaceholder: "الرمز",
+        freeCheckBtn: "فحص مجاني الآن",
+        srv1Title: "فحص قفل الشبكة",
+        srv1Desc: "قفل الشبكة - حالة شريحة SIM",
+        srv2Title: "فحص iCloud",
+        srv2Desc: "قفل iCloud - ميزة Find My",
+        srv3Title: "فحص القائمة السوداء",
+        srv3Desc: "مسروق - مفقود - محظور",
+        srv4Title: "فحص شامل PRO",
+        srv4Desc: "تقرير PDF كامل - GSX - الضمان - تاريخ الشراء - الشبكة - iCloud",
+        contactBtn: "تواصل معنا ↗",
+        modalTitle: "طريقة الاستخدام - GSM YASSER",
+        modalSteps: [
+          "اطلب الرمز *#06# على هاتف iPhone لإظهار رقم IMEI المكوّن من 15 رقماً.",
+          "أدخل رقم IMEI في الخانة المخصصة ثم اكتب رمز التحقق الظاهر أمامك.",
+          "اضغط على زر الفحص المجاني لتسجيل الطلب وعرض النتيجة.",
+          "للحصول على التقارير التفصيلية (iCloud، الشبكة، القائمة السوداء، PRO)، اضغط «تواصل معنا» عبر واتساب."
+        ],
+        errImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
+        errCaptcha: "رمز التحقق غير صحيح، حاول مرة أخرى.",
+        savedMsg: "تم تسجيل طلب الفحص للرقم: "
+      }
+    };
+
+    function setLanguage(lang) {
+      const dict = TRANSLATIONS[lang] || TRANSLATIONS.fr;
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = dict.dir;
+
+      document.querySelectorAll(".lang-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.lang === lang);
+      });
+
+      document.getElementById("guideLinkLabel").textContent = dict.guideLabel;
+      document.getElementById("heroTitle").textContent = dict.heroTitle;
+      document.getElementById("heroSubtitle").textContent = dict.heroSubtitle;
+      document.getElementById("freeTitleText").textContent = dict.freeTitle;
+      document.getElementById("freeSubText").textContent = dict.freeSub;
+      document.getElementById("imeiInput").placeholder = dict.imeiPlaceholder;
+      document.getElementById("captchaLabel").textContent = dict.captchaLabel;
+      document.getElementById("captchaInput").placeholder = dict.captchaPlaceholder;
+      document.getElementById("freeCheckBtn").textContent = dict.freeCheckBtn;
+
+      document.getElementById("srv1Title").textContent = dict.srv1Title;
+      document.getElementById("srv1Desc").textContent = dict.srv1Desc;
+      document.getElementById("srv2Title").textContent = dict.srv2Title;
+      document.getElementById("srv2Desc").textContent = dict.srv2Desc;
+      document.getElementById("srv3Title").textContent = dict.srv3Title;
+      document.getElementById("srv3Desc").textContent = dict.srv3Desc;
+      document.getElementById("srv4Title").textContent = dict.srv4Title;
+      document.getElementById("srv4Desc").textContent = dict.srv4Desc;
+
+      document.querySelectorAll("#srv1Btn, #srv2Btn, #srv3Btn, #srv4Btn").forEach(el => {
+        el.textContent = dict.contactBtn;
+      });
+
+      updateThemeLabel();
+      renderGuideModalContent();
     }
 
-    function initTopWhatsappLink() {
-      const link = document.getElementById("topWhatsappLink");
-      if (link) {
-        link.href = buildWhatsappUrl("Hello GSMYasser Server, I am following up on iPhone IMEI lookup orders.");
+    function updateThemeLabel() {
+      const isLight = document.body.classList.contains("light");
+      const dict = TRANSLATIONS[currentLang] || TRANSLATIONS.fr;
+      document.getElementById("themeLabel").textContent = isLight ? dict.themeDark : dict.themeLight;
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("light");
+      updateThemeLabel();
+    }
+
+    function generateCaptcha() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let code = "";
+      for (let i = 0; i < 5; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      currentCaptcha = code;
+      document.getElementById("captchaDisplay").textContent = code;
+      document.getElementById("captchaInput").value = "";
+    }
+
+    async function saveOrderToFirebase(imei, serviceName) {
+      const payload = {
+        imei: String(imei || "").trim(),
+        service: String(serviceName || "iPhone IMEI Check").trim(),
+        lang: currentLang,
+        timestamp: new Date().toISOString()
+      };
+      try {
+        await fetch(`${DB_URL}/orders.json`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.error("Firebase save error:", err);
       }
     }
 
-    function togglePasswordVisibility() {
-      const input = document.getElementById("adminPass");
-      const btn = document.querySelector(".toggle-eye");
-      if (input.type === "password") {
-        input.type = "text";
-        btn.textContent = "Hide";
-      } else {
-        input.type = "password";
-        btn.textContent = "Show";
+    async function handleFreeCheck() {
+      const dict = TRANSLATIONS[currentLang] || TRANSLATIONS.fr;
+      const imei = document.getElementById("imeiInput").value.replace(/\D/g, "").trim();
+      const cap = document.getElementById("captchaInput").value.trim().toUpperCase();
+      const box = document.getElementById("checkResultBox");
+
+      box.style.display = "block";
+      box.style.color = "var(--danger)";
+
+      if (imei.length !== 15) {
+        box.textContent = dict.errImei;
+        return;
       }
+
+      if (!cap || cap !== currentCaptcha) {
+        box.textContent = dict.errCaptcha;
+        generateCaptcha();
+        return;
+      }
+
+      box.style.color = "var(--success)";
+      box.innerHTML = `✅ ${dict.savedMsg}<strong>${imei}</strong>`;
+      await saveOrderToFirebase(imei, "Free IMEI Check");
+      generateCaptcha();
     }
 
-    function handleLogin(event) {
+    function openServiceWhatsapp(event, serviceName) {
       event.preventDefault();
-      const input = document.getElementById("adminPass");
-      const err = document.getElementById("loginError");
-      err.textContent = "";
+      const imei = document.getElementById("imeiInput").value.replace(/\D/g, "").trim();
+      const text = imei
+        ? `Hello GSM YASSER, Service: ${serviceName} | IMEI: ${imei}`
+        : `Hello GSM YASSER, I need help with: ${serviceName}`;
 
-      if (input.value === ADMIN_PASSWORD) {
-        sessionStorage.setItem(AUTH_KEY, "authenticated");
-        input.value = "";
-        showDashboard();
-      } else {
-        err.textContent = "Invalid password.";
-        input.focus();
+      if (imei) {
+        saveOrderToFirebase(imei, serviceName);
+      }
+      window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+    }
+
+    function renderGuideModalContent() {
+      const dict = TRANSLATIONS[currentLang] || TRANSLATIONS.fr;
+      document.getElementById("modalTitle").textContent = dict.modalTitle;
+      document.getElementById("modalSteps").innerHTML = dict.modalSteps.map(step => `<li>${step}</li>`).join("");
+      document.getElementById("modalWhatsappText").textContent = `${dict.guideLabel} — WhatsApp (0657.24.17.10)`;
+      document.getElementById("modalWhatsappBtn").href = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent("Hello GSM YASSER, I need help using the IMEI server.")}`;
+    }
+
+    function openGuideModal() {
+      renderGuideModalContent();
+      document.getElementById("guideModal").classList.add("open");
+    }
+
+    function closeGuideModal(event) {
+      if (!event || event.target.id === "guideModal") {
+        document.getElementById("guideModal").classList.remove("open");
       }
     }
 
-    function logout() {
-      sessionStorage.removeItem(AUTH_KEY);
-      document.getElementById("dashboardBox").classList.add("hidden");
-      document.getElementById("loginBox").classList.remove("hidden");
-      document.getElementById("adminPass").value = "";
-      document.getElementById("loginError").textContent = "";
-    }
-
-    function showDashboard() {
-      document.getElementById("loginBox").classList.add("hidden");
-      document.getElementById("dashboardBox").classList.remove("hidden");
-      initTopWhatsappLink();
-      loadOrders();
-    }
-
-    function formatOrderDate(rawDate) {
-      if (!rawDate) return "-";
-      const parsed = new Date(rawDate);
-      if (!Number.isNaN(parsed.getTime())) {
-        return parsed.toLocaleString("en-GB", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit"
-        });
-      }
-      return String(rawDate);
-    }
-
-    async function loadOrders() {
-      const tbody = document.getElementById("ordersTableBody");
-      const status = document.getElementById("statusText");
-      const refreshBtn = document.getElementById("refreshBtn");
-
-      refreshBtn.disabled = true;
-      status.textContent = "Syncing orders from Firebase...";
-
-      try {
-        const res = await fetch(`${DB_URL}/orders.json`, { cache: "no-store" });
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
-        }
-
-        const data = await res.json();
-
-        if (!data || typeof data !== "object") {
-          tbody.innerHTML = '<tr><td colspan="5" class="empty">No orders found yet.</td></tr>';
-          status.textContent = "Last updated: " + new Date().toLocaleTimeString("en-GB");
-          return;
-        }
-
-        const entries = Object.entries(data)
-          .filter(([, item]) => item && typeof item === "object")
-          .sort((a, b) => {
-            const ta = new Date(a[1].timestamp || a[1].date || 0).getTime();
-            const tb = new Date(b[1].timestamp || b[1].date || 0).getTime();
-            if (!Number.isNaN(ta) && !Number.isNaN(tb) && ta !== tb) {
-              return tb - ta;
-            }
-            return 0;
-          });
-
-        if (entries.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5" class="empty">No valid orders available.</td></tr>';
-          status.textContent = "Last updated: " + new Date().toLocaleTimeString("en-GB");
-          return;
-        }
-
-        tbody.innerHTML = entries.map(([id, item], index) => {
-          const imeiText = String(item.imei || item.IMEI || "-");
-          const serviceText = String(item.service || item.model || item.info || "iPhone IMEI Check");
-          const formattedDate = formatOrderDate(item.timestamp || item.date);
-          const waMessage = `Hello GSMYasser Server, Order #${index + 1} | IMEI: ${imeiText} | Service: ${serviceText}`;
-          const waHref = buildWhatsappUrl(waMessage);
-
-          return `
-            <tr>
-              <td>${index + 1}</td>
-              <td><span class="badge">${escapeHtml(imeiText)}</span></td>
-              <td>${escapeHtml(serviceText)}</td>
-              <td>${escapeHtml(formattedDate)}</td>
-              <td>
-                <div class="row-actions">
-                  <a href="${escapeHtml(waHref)}" target="_blank" rel="noopener noreferrer" class="btn-link btn-wa">WhatsApp</a>
-                  <button type="button" class="btn-del-one" onclick="deleteOrder('${encodeURIComponent(id)}')">Delete</button>
-                </div>
-              </td>
-            </tr>
-          `;
-        }).join("");
-
-        status.textContent = `Total orders: ${entries.length} | Last updated: ${new Date().toLocaleTimeString("en-GB")}`;
-      } catch (error) {
-        console.error("Load orders error:", error);
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="5" class="empty" style="color:#f87171;">
-              Failed to load orders. Check your network connection or Firebase Realtime Database security rules.
-            </td>
-          </tr>
-        `;
-        status.textContent = "Database connection error";
-      } finally {
-        refreshBtn.disabled = false;
-      }
-    }
-
-    async function deleteOrder(encodedId) {
-      if (!confirm("Are you sure you want to delete this order?")) return;
-
-      const status = document.getElementById("statusText");
-      try {
-        const res = await fetch(`${DB_URL}/orders/${encodedId}.json`, {
-          method: "DELETE"
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        await loadOrders();
-      } catch (error) {
-        console.error("Delete order error:", error);
-        status.textContent = "Failed to delete order";
-        alert("An error occurred while deleting the order.");
-      }
-    }
-
-    async function clearOrders() {
-      if (!confirm("This will permanently delete all orders from the database. Continue?")) return;
-
-      const clearBtn = document.getElementById("clearAllBtn");
-      const status = document.getElementById("statusText");
-      clearBtn.disabled = true;
-
-      try {
-        const res = await fetch(`${DB_URL}/orders.json`, {
-          method: "DELETE"
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        await loadOrders();
-      } catch (error) {
-        console.error("Clear orders error:", error);
-        status.textContent = "Failed to clear orders";
-        alert("An error occurred while clearing all orders.");
-      } finally {
-        clearBtn.disabled = false;
-      }
-    }
-
-    function escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      }[char]));
-    }
-
-    initTopWhatsappLink();
-    if (sessionStorage.getItem(AUTH_KEY) === "authenticated") {
-      showDashboard();
-    }
+    generateCaptcha();
+    setLanguage("fr");
   </script>
 </body>
 </html>
