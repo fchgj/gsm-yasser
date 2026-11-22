@@ -1,563 +1,486 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GSM YASSER - Vérification IMEI</title>
+  <title>iPhone IMEI Lookup &amp; Inspection Tool</title>
   <style>
     :root {
-      --bg-color: #0b1120;
-      --card-bg: #131c31;
-      --input-bg: #0f172a;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border-color: #1e293b;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --success: #10b981;
-      --danger: #ef4444;
-    }
-
-    body.light {
-      --bg-color: #f1f5f9;
-      --card-bg: #ffffff;
-      --input-bg: #f8fafc;
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --border-color: #cbd5e1;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-alt: #162032;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dark: #082f49;
+      --whatsapp: #22c55e;
+      --whatsapp-dark: #052e16;
+      --border: #334155;
+      --error: #f87171;
+      --radius: 14px;
     }
 
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      padding: 16px;
-      transition: background-color 0.25s, color 0.25s;
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
     }
 
     .container {
-      max-width: 480px;
+      max-width: 820px;
       margin: 0 auto;
+      padding: 24px 16px 56px;
     }
 
-    /* Top Bar */
-    .top-bar {
+    /* Header & Navigation */
+    header {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      gap: 14px;
+      padding-bottom: 18px;
       margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .lang-group {
+    .brand h1 {
+      margin: 0;
+      font-size: 1.55rem;
+      letter-spacing: -0.01em;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .top-nav {
       display: flex;
-      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
     }
 
-    .pill-btn {
-      background-color: var(--card-bg);
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 13px;
+    .nav-link {
+      color: var(--accent);
+      text-decoration: none;
       font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
+      font-size: 0.9rem;
+      padding: 8px 13px;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
     }
 
-    .pill-btn.active {
-      background-color: var(--primary);
-      color: #ffffff;
-      border-color: var(--primary);
+    .nav-link:hover {
+      background-color: rgba(56, 189, 248, 0.12);
+      border-color: var(--accent);
     }
 
-    /* Header */
-    .header {
-      text-align: center;
-      margin-bottom: 22px;
-    }
-
-    .header h1 {
-      font-size: 24px;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .header p {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    /* Cards */
+    /* Main Lookup Card */
     .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
 
-    .free-card-title {
-      text-align: center;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 6px;
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .input-row {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .free-card-sub {
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-
-    .input-field {
-      width: 100%;
-      background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 14px;
-      outline: none;
-      margin-bottom: 12px;
-      text-align: center;
-      letter-spacing: 0.5px;
-    }
-
-    .input-field:focus {
-      border-color: var(--primary);
-    }
-
-    /* Captcha Box */
-    .captcha-box {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      padding: 8px 10px;
-      border-radius: 10px;
-      margin-bottom: 14px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    .captcha-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .captcha-code-display {
-      background: #ffffff;
-      color: #0f172a;
-      font-weight: 900;
-      font-family: monospace;
-      font-size: 16px;
-      letter-spacing: 3px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      user-select: none;
-      text-decoration: line-through;
-    }
-
-    .captcha-input {
-      width: 78px;
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 6px 8px;
-      border-radius: 6px;
-      font-size: 13px;
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    .refresh-btn {
-      background-color: var(--primary);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 9px;
-      cursor: pointer;
-      font-size: 13px;
-    }
-
-    /* Primary Button */
-    .btn-primary {
-      width: 100%;
-      background-color: var(--primary);
-      color: #ffffff;
-      border: none;
-      padding: 12px;
+    input[type="text"] {
+      flex: 1 1 260px;
+      background-color: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
       border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
+      padding: 12px 14px;
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      transition: border-color 0.2s ease;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .helper-text {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .error-msg {
+      margin: 10px 0 0;
+      color: var(--error);
+      font-size: 0.88rem;
+      min-height: 1.2em;
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      color: var(--accent-dark);
+      border: none;
+      border-radius: 10px;
+      padding: 11px 18px;
+      font-size: 0.95rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s;
-      display: block;
-      text-align: center;
-      text-decoration: none;
+      transition: filter 0.2s ease, transform 0.15s ease;
     }
 
     .btn-primary:hover {
-      background-color: var(--primary-hover);
+      filter: brightness(1.06);
     }
 
-    /* Result & Error */
-    .status-msg {
-      margin-top: 12px;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 13px;
-      display: none;
-      line-height: 1.5;
+    .btn-primary:active {
+      transform: scale(0.99);
     }
 
-    .status-msg.error {
-      display: block;
-      background: rgba(239, 68, 68, 0.15);
-      color: #f87171;
-      border: 1px solid rgba(239, 68, 68, 0.3);
+    .help-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      transition: background-color 0.2s ease;
     }
 
-    .status-msg.success {
-      display: block;
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+    .help-link:hover {
+      background-color: rgba(56, 189, 248, 0.12);
+      text-decoration: underline;
     }
 
-    /* Service Cards */
-    .service-header {
+    /* Result Box */
+    .result-box {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .result-box h2 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      color: var(--accent);
+    }
+
+    .result-box p {
+      margin: 6px 0;
+      font-size: 0.93rem;
+    }
+
+    /* Numbered Steps Cards */
+    .steps-section {
+      margin-top: 28px;
+    }
+
+    .section-head {
       display: flex;
-      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
       gap: 10px;
       margin-bottom: 14px;
     }
 
-    .service-icon {
-      font-size: 18px;
-      margin-top: 2px;
+    .section-head h2 {
+      margin: 0;
+      font-size: 1.15rem;
     }
 
-    .service-title {
-      font-size: 15px;
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .step-card {
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .step-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      color: var(--accent-dark);
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .step-card h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .step-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    /* WhatsApp Support Bar */
+    .support-bar {
+      margin-top: 24px;
+      padding: 16px 18px;
+      border-radius: var(--radius);
+      background-color: var(--card-alt);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .support-info p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .support-info a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--whatsapp);
+      color: var(--whatsapp-dark);
+      text-decoration: none;
       font-weight: 700;
-      margin-bottom: 3px;
+      font-size: 0.92rem;
+      padding: 10px 16px;
+      border-radius: 10px;
+      transition: filter 0.2s ease;
     }
 
-    .service-desc {
-      font-size: 12px;
-      color: var(--text-muted);
+    .btn-whatsapp:hover {
+      filter: brightness(1.06);
+    }
+
+    /* Footer Quick Navigation */
+    footer.page-footer {
+      margin-top: 26px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .footer-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
-<body>
-
+<body id="top">
   <div class="container">
-    <!-- Top Bar: Languages & Theme -->
-    <div class="top-bar">
-      <div class="lang-group">
-        <button class="pill-btn" data-lang="ar" onclick="setLang('ar')">العربية</button>
-        <button class="pill-btn active" data-lang="fr" onclick="setLang('fr')">FR</button>
-        <button class="pill-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    <header>
+      <div class="brand">
+        <h1>iPhone IMEI Lookup</h1>
+        <p>Check iPhone IMEI information quickly and clearly.</p>
       </div>
-      <button class="pill-btn" id="themeBtn" onclick="toggleTheme()">☀️ Clair</button>
-    </div>
+      <nav class="top-nav" aria-label="Primary Navigation">
+        <a href="#lookup-section" class="nav-link">Start Lookup</a>
+        <a href="steps.html" class="nav-link">Full Steps Guide</a>
+      </nav>
+    </header>
 
-    <!-- Header -->
-    <div class="header">
-      <div style="font-size: 20px; margin-bottom: 4px;">📱</div>
-      <h1 id="mainTitle">Vérification IMEI</h1>
-      <p id="mainSub">Vérifiez votre appareil facilement</p>
-    </div>
-
-    <!-- Free Check Card -->
-    <div class="card">
-      <div class="free-card-title">
-        <span>✅</span>
-        <span id="freeTitle">Vérification Gratuite</span>
-      </div>
-      <div class="free-card-sub" id="freeSub">Connaissez votre modèle - 100% Gratuit -</div>
-
-      <input
-        type="text"
-        id="imeiInput"
-        class="input-field"
-        maxlength="15"
-        inputmode="numeric"
-        placeholder="Entrez IMEI - 15 chiffres"
-      />
-
-      <!-- Captcha -->
-      <div class="captcha-box">
-        <span class="captcha-label">🔒 <span id="robotText">Je ne suis pas un robot:</span></span>
-        <span class="captcha-code-display" id="captchaDisplay">NMKLU</span>
-        <input type="text" id="captchaInput" class="captcha-input" maxlength="5" placeholder="Code" />
-        <button type="button" class="refresh-btn" onclick="generateCaptcha()" title="Refresh">🔄</button>
-      </div>
-
-      <button type="button" class="btn-primary" id="freeBtn" onclick="checkFreeIMEI()">
-        Vérifier Gratuitement
-      </button>
-
-      <div id="resultBox" class="status-msg"></div>
-    </div>
-
-    <!-- Service 1: Carrier / Network Lock -->
-    <div class="card">
-      <div class="service-header">
-        <span class="service-icon">📡</span>
-        <div>
-          <div class="service-title" id="srv1Title">Vérification Verrou Réseau</div>
-          <div class="service-desc" id="srv1Desc">Verrou réseau - État SIM</div>
+    <main id="lookup-section" class="card">
+      <form id="imei-form" novalidate>
+        <label for="imei-input">Enter 15-digit iPhone IMEI</label>
+        <div class="input-row">
+          <input
+            type="text"
+            id="imei-input"
+            name="imei"
+            inputmode="numeric"
+            maxlength="15"
+            placeholder="e.g. 350000000000000"
+            autocomplete="off"
+          />
         </div>
-      </div>
-      <a href="https://wa.me/213000000000?text=Bonjour,%20je%20veux%20v%C3%A9rifier%20le%20Verrou%20R%C3%A9seau%20IMEI" target="_blank" class="btn-primary contact-btn">
-        Contactez-nous ↗
-      </a>
-    </div>
 
-    <!-- Service 2: iCloud -->
-    <div class="card">
-      <div class="service-header">
-        <span class="service-icon">☁️</span>
-        <div>
-          <div class="service-title" id="srv2Title">Vérification iCloud</div>
-          <div class="service-desc" id="srv2Desc">Verrou iCloud - Find My</div>
-        </div>
-      </div>
-      <a href="https://wa.me/213000000000?text=Bonjour,%20je%20veux%20v%C3%A9rifier%20l%27%C3%A9tat%20iCloud%20IMEI" target="_blank" class="btn-primary contact-btn">
-        Contactez-nous ↗
-      </a>
-    </div>
+        <p class="helper-text">Dial <strong>*#06#</strong> on your iPhone to view your 15-digit IMEI.</p>
+        <p id="imei-error" class="error-msg" role="alert"></p>
 
-    <!-- Service 3: Blacklist -->
-    <div class="card">
-      <div class="service-header">
-        <span class="service-icon">🚫</span>
-        <div>
-          <div class="service-title" id="srv3Title">Vérification Liste Noire</div>
-          <div class="service-desc" id="srv3Desc">Volé - Perdu - Bloqué</div>
+        <div class="form-actions">
+          <button type="submit" id="check-btn" class="btn-primary">Lookup IMEI</button>
+          <a href="steps.html" class="help-link">How to use? (Steps Page)</a>
         </div>
-      </div>
-      <a href="https://wa.me/213000000000?text=Bonjour,%20je%20veux%20v%C3%A9rifier%20la%20Liste%20Noire%20IMEI" target="_blank" class="btn-primary contact-btn">
-        Contactez-nous ↗
-      </a>
-    </div>
+      </form>
 
-    <!-- Service 4: Complete PRO Check -->
-    <div class="card">
-      <div class="service-header">
-        <span class="service-icon">📄</span>
-        <div>
-          <div class="service-title" id="srv4Title">Vérification Complète PRO</div>
-          <div class="service-desc" id="srv4Desc">Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud</div>
-        </div>
+      <section id="result-box" class="result-box" hidden aria-live="polite">
+        <h2>IMEI Lookup Result</h2>
+        <div id="result-content"></div>
+      </section>
+    </main>
+
+    <section class="steps-section" aria-label="Quick Numbered Steps">
+      <div class="section-head">
+        <h2>Quick Steps</h2>
+        <a href="steps.html" class="nav-link">Open Detailed Steps</a>
       </div>
-      <a href="https://wa.me/213000000000?text=Bonjour,%20je%20veux%20le%20Rapport%20Complet%20PRO%20IMEI" target="_blank" class="btn-primary contact-btn">
-        Contactez-nous ↗
+
+      <div class="steps-grid">
+        <article class="step-card">
+          <div class="step-badge">1</div>
+          <h3>Find Your IMEI</h3>
+          <p>Open the Phone app on your iPhone and dial <strong>*#06#</strong> to display the 15-digit IMEI.</p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-badge">2</div>
+          <h3>Enter &amp; Check</h3>
+          <p>Paste or type the 15-digit number into the lookup box above and click <strong>Lookup IMEI</strong>.</p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-badge">3</div>
+          <h3>Review Details</h3>
+          <p>Inspect the returned IMEI details right on the page or contact support if you need assistance.</p>
+        </article>
+      </div>
+    </section>
+
+    <aside class="support-bar" aria-label="WhatsApp Support">
+      <div class="support-info">
+        <strong>WhatsApp Support</strong>
+        <p>Direct line: <a href="https://wa.me/213657241710" target="_blank" rel="noopener noreferrer">+213 657 241 710</a></p>
+      </div>
+      <a
+        href="https://wa.me/213657241710?text=Hello%2C%20I%20need%20help%20with%20iPhone%20IMEI%20lookup."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-whatsapp"
+      >
+        WhatsApp (+213657241710)
       </a>
-    </div>
+    </aside>
+
+    <footer class="page-footer">
+      <span>iPhone IMEI Lookup Tool</span>
+      <div class="footer-links">
+        <a href="#lookup-section">Start Lookup Now</a>
+        <a href="steps.html">Steps</a>
+        <a href="#top">Back to Top</a>
+      </div>
+    </footer>
   </div>
 
+  <script src="generator.js"></script>
   <script>
-    let currentLang = "fr";
-    let currentCaptcha = "";
+    (function () {
+      const form = document.getElementById("imei-form");
+      const input = document.getElementById("imei-input");
+      const errorEl = document.getElementById("imei-error");
+      const resultBox = document.getElementById("result-box");
+      const resultContent = document.getElementById("result-content");
 
-    const translations = {
-      ar: {
-        dir: "rtl",
-        mainTitle: "فحص رقم IMEI",
-        mainSub: "تحقق من معلومات جهازك بكل سهولة",
-        freeTitle: "فحص مجاني",
-        freeSub: "تعرف على موديل جهازك - مجاني 100% -",
-        imeiPlaceholder: "أدخل رقم IMEI - 15 رقماً",
-        robotText: "أنا لست روبوت:",
-        codePlaceholder: "الرمز",
-        freeBtn: "فحص مجاني الآن",
-        srv1Title: "فحص قفل الشبكة",
-        srv1Desc: "حالة الشبكة - شريحة SIM",
-        srv2Title: "فحص حالة iCloud",
-        srv2Desc: "قفل الآيكلود - Find My",
-        srv3Title: "فحص القائمة السوداء",
-        srv3Desc: "مسروق - مفقود - محظور",
-        srv4Title: "فحص شامل PRO",
-        srv4Desc: "تقرير PDF كامل - GSX - الضمان - تاريخ الشراء - الشبكة - iCloud",
-        contactBtn: "تواصل معنا ↗",
-        lightMode: "☀️ فاتح",
-        darkMode: "🌙 داكن",
-        errImei: "يرجى إدخال رقم IMEI صحيح مكون من 15 رقماً.",
-        errCaptcha: "رمز التحقق غير صحيح، حاول مرة أخرى.",
-        okMsg: "✅ رقم IMEI صحيح! جاري جلب بيانات الموديل..."
-      },
-      fr: {
-        dir: "ltr",
-        mainTitle: "Vérification IMEI",
-        mainSub: "Vérifiez votre appareil facilement",
-        freeTitle: "Vérification Gratuite",
-        freeSub: "Connaissez votre modèle - 100% Gratuit -",
-        imeiPlaceholder: "Entrez IMEI - 15 chiffres",
-        robotText: "Je ne suis pas un robot:",
-        codePlaceholder: "Code",
-        freeBtn: "Vérifier Gratuitement",
-        srv1Title: "Vérification Verrou Réseau",
-        srv1Desc: "Verrou réseau - État SIM",
-        srv2Title: "Vérification iCloud",
-        srv2Desc: "Verrou iCloud - Find My",
-        srv3Title: "Vérification Liste Noire",
-        srv3Desc: "Volé - Perdu - Bloqué",
-        srv4Title: "Vérification Complète PRO",
-        srv4Desc: "Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud",
-        contactBtn: "Contactez-nous ↗",
-        lightMode: "☀️ Clair",
-        darkMode: "🌙 Sombre",
-        errImei: "Veuillez entrer un numéro IMEI valide à 15 chiffres.",
-        errCaptcha: "Code de sécurité incorrect.",
-        okMsg: "✅ IMEI valide ! Recherche du modèle en cours..."
-      },
-      en: {
-        dir: "ltr",
-        mainTitle: "IMEI Verification",
-        mainSub: "Check your device easily",
-        freeTitle: "Free Check",
-        freeSub: "Know your model - 100% Free -",
-        imeiPlaceholder: "Enter IMEI - 15 digits",
-        robotText: "I am not a robot:",
-        codePlaceholder: "Code",
-        freeBtn: "Check for Free",
-        srv1Title: "Network Lock Check",
-        srv1Desc: "Carrier Lock - SIM Status",
-        srv2Title: "iCloud Status Check",
-        srv2Desc: "iCloud Lock - Find My",
-        srv3Title: "Blacklist Check",
-        srv3Desc: "Stolen - Lost - Blocked",
-        srv4Title: "Complete PRO Check",
-        srv4Desc: "Full PDF Report - GSX - Warranty - Purchase Date - Carrier - iCloud",
-        contactBtn: "Contact us ↗",
-        lightMode: "☀️ Light",
-        darkMode: "🌙 Dark",
-        errImei: "Please enter a valid 15-digit IMEI number.",
-        errCaptcha: "Incorrect security code.",
-        okMsg: "✅ Valid IMEI! Fetching device model..."
-      }
-    };
-
-    function generateCaptcha() {
-      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      let code = "";
-      for (let i = 0; i < 5; i++) {
-        code += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      currentCaptcha = code;
-      document.getElementById("captchaDisplay").textContent = code;
-      document.getElementById("captchaInput").value = "";
-    }
-
-    function setLang(lang) {
-      currentLang = lang;
-      const t = translations[lang];
-      document.documentElement.lang = lang;
-      document.documentElement.dir = t.dir;
-
-      document.querySelectorAll(".lang-group .pill-btn").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.lang === lang);
-      });
-
-      document.getElementById("mainTitle").textContent = t.mainTitle;
-      document.getElementById("mainSub").textContent = t.mainSub;
-      document.getElementById("freeTitle").textContent = t.freeTitle;
-      document.getElementById("freeSub").textContent = t.freeSub;
-      document.getElementById("imeiInput").placeholder = t.imeiPlaceholder;
-      document.getElementById("robotText").textContent = t.robotText;
-      document.getElementById("captchaInput").placeholder = t.codePlaceholder;
-      document.getElementById("freeBtn").textContent = t.freeBtn;
-
-      document.getElementById("srv1Title").textContent = t.srv1Title;
-      document.getElementById("srv1Desc").textContent = t.srv1Desc;
-      document.getElementById("srv2Title").textContent = t.srv2Title;
-      document.getElementById("srv2Desc").textContent = t.srv2Desc;
-      document.getElementById("srv3Title").textContent = t.srv3Title;
-      document.getElementById("srv3Desc").textContent = t.srv3Desc;
-      document.getElementById("srv4Title").textContent = t.srv4Title;
-      document.getElementById("srv4Desc").textContent = t.srv4Desc;
-
-      document.querySelectorAll(".contact-btn").forEach(btn => {
-        btn.textContent = t.contactBtn;
-      });
-
-      updateThemeButtonText();
-    }
-
-    function toggleTheme() {
-      document.body.classList.toggle("light");
-      updateThemeButtonText();
-    }
-
-    function updateThemeButtonText() {
-      const t = translations[currentLang];
-      const isLight = document.body.classList.contains("light");
-      document.getElementById("themeBtn").textContent = isLight ? t.darkMode : t.lightMode;
-    }
-
-    function isValidIMEI(imei) {
-      if (!/^\d{15}$/.test(imei)) return false;
-      let sum = 0;
-      for (let i = 0; i < 15; i++) {
-        let digit = parseInt(imei.charAt(i), 10);
-        if (i % 2 === 1) {
-          digit *= 2;
-          if (digit > 9) digit -= 9;
+      function isValidImei(value) {
+        if (!/^\d{15}$/.test(value)) return false;
+        let sum = 0;
+        for (let i = 0; i < 15; i++) {
+          let digit = Number(value[i]);
+          if (i % 2 === 1) {
+            digit *= 2;
+            if (digit > 9) digit -= 9;
+          }
+          sum += digit;
         }
-        sum += digit;
-      }
-      return sum % 10 === 0;
-    }
-
-    function checkFreeIMEI() {
-      const imei = document.getElementById("imeiInput").value.trim();
-      const userCaptcha = document.getElementById("captchaInput").value.trim().toUpperCase();
-      const resultBox = document.getElementById("resultBox");
-      const t = translations[currentLang];
-
-      if (!isValidIMEI(imei)) {
-        resultBox.className = "status-msg error";
-        resultBox.textContent = t.errImei;
-        return;
+        return sum % 10 === 0;
       }
 
-      if (userCaptcha !== currentCaptcha) {
-        resultBox.className = "status-msg error";
-        resultBox.textContent = t.errCaptcha;
-        generateCaptcha();
-        return;
-      }
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        errorEl.textContent = "";
+        const imei = input.value.trim().replace(/\s+/g, "");
 
-      // هنا يمكنك ربط الـ API الخاص بك أو قاعدة بيانات TAC
-      const tac = imei.substring(0, 8);
-      resultBox.className = "status-msg success";
-      resultBox.innerHTML = `${t.okMsg}<br><strong>IMEI:</strong> ${imei}<br><strong>TAC:</strong> ${tac}`;
-      generateCaptcha();
-    }
+        if (!isValidImei(imei)) {
+          errorEl.textContent = "Please enter a valid 15-digit IMEI number.";
+          return;
+        }
 
-    generateCaptcha();
+        const data =
+          window.Generator && typeof window.Generator.lookupImei === "function"
+            ? await window.Generator.lookupImei(imei)
+            : {
+                imei,
+                status: "Checked",
+                checkedAt: new Date().toLocaleString()
+              };
+
+        resultContent.innerHTML =
+          "<p><strong>IMEI:</strong> " + data.imei + "</p>" +
+          "<p><strong>Status:</strong> " + (data.status || "Checked") + "</p>" +
+          "<p><strong>Time:</strong> " + (data.checkedAt || new Date().toLocaleString()) + "</p>";
+        resultBox.hidden = false;
+      });
+    })();
   </script>
 </body>
 </html>
