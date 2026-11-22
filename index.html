@@ -1,552 +1,323 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-theme="dark">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GSM Yasser — iPhone IMEI Check</title>
+  <title>How It Works - GSM YASSER SERVER</title>
   <style>
     :root {
-      --bg: #0b1220;
-      --card: #131c2e;
-      --card-2: #182338;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --border: #24324d;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --whatsapp: #22c55e;
-      --danger: #ef4444;
-      --paid-bg: rgba(245, 158, 11, 0.16);
-      --paid-text: #fbbf24;
+      --bg-main: #090e1a;
+      --bg-card: #111a2e;
+      --bg-btn: #1c2740;
+      --bg-btn-hover: #253454;
+      --border: #1e293b;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --brand: #3b82f6;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --notice-bg: #10213f;
+      --notice-border: #1d3b70;
     }
 
-    [data-theme="light"] {
-      --bg: #f1f5f9;
-      --card: #ffffff;
-      --card-2: #f8fafc;
-      --text: #0f172a;
-      --muted: #475569;
-      --border: #cbd5e1;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --whatsapp: #16a34a;
-      --danger: #dc2626;
-      --paid-bg: rgba(217, 119, 6, 0.14);
-      --paid-text: #b45309;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      padding: 20px;
-      line-height: 1.6;
-      transition: background 0.25s ease, color 0.25s ease;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      padding: 20px 16px 36px;
+      line-height: 1.65;
     }
 
-    .container { max-width: 780px; margin: 0 auto; }
+    .wrap {
+      max-width: 540px;
+      margin: 0 auto;
+    }
 
-    .topbar {
+    .lang-bar {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 16px;
+      justify-content: center;
+      gap: 8px;
       margin-bottom: 18px;
     }
 
-    .btn-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-
-    button, a.btn {
+    .lang-btn {
+      background: var(--bg-card);
+      color: var(--text-muted);
       border: 1px solid var(--border);
-      background: var(--card-2);
-      color: var(--text);
-      padding: 8px 12px;
+      padding: 7px 14px;
       border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
-      text-decoration: none;
-      font-size: 13.5px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       transition: 0.2s ease;
     }
 
-    button:hover, a.btn:hover { border-color: var(--primary); }
-    button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-      width: 100%;
-      justify-content: center;
-      padding: 12px;
-      font-size: 15px;
-    }
-    .btn-primary:hover { background: var(--primary-hover); }
-
-    .btn-wa {
-      background: var(--whatsapp);
-      color: #fff;
-      border-color: var(--whatsapp);
-      justify-content: center;
+    .lang-btn:hover {
+      border-color: var(--brand);
+      color: var(--text-main);
     }
 
-    .hero { text-align: center; margin-bottom: 18px; }
-    .hero h1 { font-size: 25px; margin-bottom: 6px; }
-    .hero p { color: var(--muted); font-size: 14px; }
+    .lang-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
 
-    .card {
-      background: var(--card);
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .brand {
+      color: var(--brand);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      margin-bottom: 8px;
+    }
+
+    .page-title {
+      font-size: 25px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      max-width: 430px;
+      margin: 0 auto;
+    }
+
+    .step-card {
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 16px;
+      padding: 18px 16px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color 0.2s ease;
     }
 
-    .card-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-    .card-sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+    .step-card:hover {
+      border-color: #2c3e5e;
+    }
 
-    .input-box {
-      width: 100%;
+    .step-num {
+      min-width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .step-content h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .step-content p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+    }
+
+    .notice-card {
+      background: var(--notice-bg);
+      border: 1px solid var(--notice-border);
+      border-radius: 14px;
+      padding: 18px 16px;
+      margin-top: 18px;
+      margin-bottom: 20px;
+    }
+
+    .notice-card h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .notice-card p {
+      font-size: 13.5px;
+      color: #cbd5e1;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
       padding: 12px 14px;
       border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--card-2);
-      color: var(--text);
-      font-size: 15px;
-      margin-bottom: 12px;
-    }
-
-    .captcha-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .captcha-box {
-      background: var(--card-2);
-      border: 1px dashed var(--primary);
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 800;
-      letter-spacing: 3px;
-      user-select: none;
-    }
-
-    .imei-hint {
-      margin-top: 10px;
-      font-size: 13px;
-      color: var(--muted);
-      text-align: center;
-    }
-    .imei-hint a {
-      color: #60a5fa;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .imei-hint a:hover { text-decoration: underline; }
-
-    .result-box {
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: 10px;
-      background: var(--card-2);
-      border: 1px solid var(--border);
-      display: none;
       font-size: 14px;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-    }
-
-    .service-card {
-      background: var(--card-2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .service-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 8px;
-    }
-
-    .service-card h3 { font-size: 15px; }
-    .service-card p { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
-
-    .paid-badge {
-      background: var(--paid-bg);
-      color: var(--paid-text);
-      font-size: 11px;
       font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 999px;
-      white-space: nowrap;
+      transition: 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-home {
+      background: var(--accent);
+      color: #ffffff;
+      border: 1px solid var(--accent);
+    }
+
+    .btn-home:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-support {
+      background: var(--bg-btn);
+      color: #ffffff;
+      border: 1px solid #2b3b5c;
+    }
+
+    .btn-support:hover {
+      background: var(--bg-btn-hover);
     }
 
     .footer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 16px;
+      text-align: center;
+      font-size: 12.5px;
+      color: #64748b;
+      padding-top: 6px;
+    }
+
+    @media (max-width: 440px) {
+      .actions {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="topbar">
-      <div class="btn-group">
-        <button type="button" data-lang="ar" onclick="setClientLang('ar')">العربية</button>
-        <button type="button" data-lang="fr" onclick="setClientLang('fr')">FR</button>
-        <button type="button" data-lang="en" class="active" onclick="setClientLang('en')">EN</button>
-      </div>
+  <div class="wrap">
+    <div class="lang-bar">
+      <button type="button" class="lang-btn" data-lang="ar" onclick="setStepsLang('ar')">العربية</button>
+      <button type="button" class="lang-btn" data-lang="fr" onclick="setStepsLang('fr')">FR</button>
+      <button type="button" class="lang-btn active" data-lang="en" onclick="setStepsLang('en')">EN</button>
+    </div>
 
-      <div class="btn-group">
-        <a href="steps.html" class="btn" title="How to Use">📖</a>
-        <button type="button" id="themeBtn" onclick="toggleClientTheme()">🌙 <span data-i18n="theme_dark">Dark</span></button>
-      </div>
+    <header class="header">
+      <div class="brand">GSM YASSER SERVER</div>
+      <h1 class="page-title" id="titleText">How It Works</h1>
+      <p class="subtitle" id="subtitleText">Follow these simple steps to use our iPhone checking services.</p>
     </header>
 
-    <section class="hero">
-      <h1 data-i18n="title">GSM Yasser — iPhone IMEI Check</h1>
-      <p data-i18n="subtitle">Instant iPhone IMEI check & paid check services</p>
-    </section>
-
-    <section class="card">
-      <div class="card-title" data-i18n="free_title">✅ Free Check</div>
-      <div class="card-sub" data-i18n="free_sub">Check your iPhone IMEI format & generate report</div>
-
-      <input
-        type="text"
-        id="imeiInput"
-        class="input-box"
-        maxlength="15"
-        inputmode="numeric"
-        data-i18n-placeholder="imei_ph"
-        placeholder="Enter 15-digit iPhone IMEI"
-      />
-
-      <div class="captcha-row">
-        <span data-i18n="cap_label">Verification code:</span>
-        <span class="captcha-box" id="capCode">NMKLU</span>
-        <input
-          type="text"
-          id="capInput"
-          class="input-box"
-          style="width: 130px; margin-bottom: 0;"
-          data-i18n-placeholder="cap_ph"
-          placeholder="Code"
-        />
-        <button type="button" onclick="newCaptcha()" title="Refresh">🔄</button>
-      </div>
-
-      <button type="button" class="btn-primary" onclick="checkFree()" data-i18n="free_btn">
-        Check Free
-      </button>
-
-      <div class="imei-hint" id="imeiHint">
-        <span data-i18n="no_imei">Don't know your IMEI? Dial *#06#.</span>
-        <a href="steps.html" data-i18n="where_imei">Where do I find IMEI?</a>
-      </div>
-
-      <div id="resultBox" class="result-box"></div>
-    </section>
-
-    <section class="card">
-      <div class="card-title" data-i18n="extra_title">Paid Check Services</div>
-      <div class="card-sub" data-i18n="extra_sub">Paid checks ordered via WhatsApp +213657241710</div>
-
-      <div class="services-grid">
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_net">🔒 Network Lock Check</h3>
-              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
-            </div>
-            <p data-i18n="s_net_d">Carrier lock & SIM status</p>
-          </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Network Lock Check [PAID]')">WhatsApp</a>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_ic">☁️ iCloud Check</h3>
-              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
-            </div>
-            <p data-i18n="s_ic_d">iCloud lock & Find My status</p>
-          </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('iCloud Check [PAID]')">WhatsApp</a>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_bl">🚫 Blacklist Check</h3>
-              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
-            </div>
-            <p data-i18n="s_bl_d">Lost, stolen, or blocked status</p>
-          </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Blacklist Check [PAID]')">WhatsApp</a>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_pro">⭐ Full Check PRO</h3>
-              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
-            </div>
-            <p data-i18n="s_pro_d">Full PDF report: GSX, Warranty, Purchase Date, Carrier, iCloud</p>
-          </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Full Check PRO [PAID]')">WhatsApp</a>
-        </div>
+    <section class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h2 id="s1Title">Enter Your IMEI</h2>
+        <p id="s1Desc">Enter your device's 15-digit IMEI number in the checking tool. Make sure the number is correct before continuing.</p>
       </div>
     </section>
 
-    <footer class="footer">
-      <a href="steps.html" class="btn" title="How to Use">📖</a>
-      <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="btn btn-wa">+213657241710</a>
-    </footer>
+    <section class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h2 id="s2Title">Select Your Check Type</h2>
+        <p id="s2Desc">Choose the available checking service: Basic Check, iCloud / FMI, Carrier Check, Blacklist GSMA or Full PRO Report.</p>
+      </div>
+    </section>
+
+    <section class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h2 id="s3Title">Submit Your Request</h2>
+        <p id="s3Desc">Submit your request and wait for the checking process or manual verification, depending on the service.</p>
+      </div>
+    </section>
+
+    <section class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h2 id="s4Title">Receive Your Report</h2>
+        <p id="s4Desc">Review your available device information and receive your report when the service is completed.</p>
+      </div>
+    </section>
+
+    <section class="notice-card">
+      <h2 id="noticeTitle">Important Notice</h2>
+      <p id="noticeDesc">IMEI reports depend on the available data sources. Results may vary depending on the device and service. Always verify important information before purchasing a device.</p>
+    </section>
+
+    <div class="actions">
+      <a href="index.html" class="btn-action btn-home" id="homeBtn">Back to Home</a>
+      <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="btn-action btn-support" id="supportBtn">Contact Support</a>
+    </div>
+
+    <footer class="footer" id="footerText">© 2026 GSM YASSER SERVER. All Rights Reserved.</footer>
   </div>
 
   <script>
-    const WA_PHONE = "213657241710";
-
-    const TEXTS = {
+    const STEPS_I18N = {
       en: {
         dir: "ltr",
-        theme_dark: "Dark",
-        theme_light: "Light",
-        title: "GSM Yasser — iPhone IMEI Check",
-        subtitle: "Instant iPhone IMEI check & paid check services",
-        free_title: "✅ Free Check",
-        free_sub: "Check your iPhone IMEI format & generate report",
-        imei_ph: "Enter 15-digit iPhone IMEI",
-        cap_label: "Verification code:",
-        cap_ph: "Code",
-        free_btn: "Check Free",
-        no_imei: "Don't know your IMEI? Dial *#06#.",
-        where_imei: "Where do I find IMEI?",
-        extra_title: "Paid Check Services",
-        extra_sub: "Paid checks ordered via WhatsApp +213657241710",
-        paid_badge: "PAID",
-        s_net: "🔒 Network Lock Check",
-        s_net_d: "Carrier lock & SIM status",
-        s_ic: "☁️ iCloud Check",
-        s_ic_d: "iCloud lock & Find My status",
-        s_bl: "🚫 Blacklist Check",
-        s_bl_d: "Lost, stolen, or blocked status",
-        s_pro: "⭐ Full Check PRO",
-        s_pro_d: "Full PDF report: GSX, Warranty, Purchase Date, Carrier, iCloud",
-        err_imei: "Please enter a valid 15-digit IMEI.",
-        err_cap: "Invalid verification code.",
-        valid_msg: "Valid 15-digit iPhone IMEI format.",
-        pdf_btn: "Print / Save PDF",
-        wa_btn: "Send via WhatsApp (+213657241710)"
+        title: "How It Works",
+        subtitle: "Follow these simple steps to use our iPhone checking services.",
+        s1Title: "Enter Your IMEI",
+        s1Desc: "Enter your device's 15-digit IMEI number in the checking tool. Make sure the number is correct before continuing.",
+        s2Title: "Select Your Check Type",
+        s2Desc: "Choose the available checking service: Basic Check, iCloud / FMI, Carrier Check, Blacklist GSMA or Full PRO Report.",
+        s3Title: "Submit Your Request",
+        s3Desc: "Submit your request and wait for the checking process or manual verification, depending on the service.",
+        s4Title: "Receive Your Report",
+        s4Desc: "Review your available device information and receive your report when the service is completed.",
+        noticeTitle: "Important Notice",
+        noticeDesc: "IMEI reports depend on the available data sources. Results may vary depending on the device and service. Always verify important information before purchasing a device.",
+        homeBtn: "Back to Home",
+        supportBtn: "Contact Support",
+        footerText: "© 2026 GSM YASSER SERVER. All Rights Reserved."
       },
       ar: {
         dir: "rtl",
-        theme_dark: "داكن",
-        theme_light: "فاتح",
-        title: "GSM Yasser — فحص IMEI لـ iPhone",
-        subtitle: "فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة",
-        free_title: "✅ فحص مجاني",
-        free_sub: "تحقق من صيغة رقم IMEI واطبع أو احفظ التقرير",
-        imei_ph: "أدخل رقم IMEI المكوّن من 15 رقماً",
-        cap_label: "رمز التحقق:",
-        cap_ph: "الرمز",
-        free_btn: "فحص مجاني",
-        no_imei: "لا تعرف IMEI؟ اطلب ‎*#06#‎.",
-        where_imei: "أين أجد IMEI؟",
-        extra_title: "خدمات الفحص المدفوعة",
-        extra_sub: "خدمات فحص مدفوعة عبر واتساب +213657241710",
-        paid_badge: "مدفوع",
-        s_net: "🔒 فحص قفل الشبكة",
-        s_net_d: "حالة قفل المشغل وشريحة SIM",
-        s_ic: "☁️ فحص iCloud",
-        s_ic_d: "حالة قفل iCloud وميزة Find My",
-        s_bl: "🚫 فحص القائمة السوداء",
-        s_bl_d: "حالة الفقدان أو السرقة أو الحظر",
-        s_pro: "⭐ فحص شامل PRO",
-        s_pro_d: "تقرير PDF كامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud",
-        err_imei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
-        err_cap: "رمز التحقق غير صحيح.",
-        valid_msg: "صيغة رقم IMEI لـ iPhone (15 رقماً) صحيحة.",
-        pdf_btn: "طباعة / حفظ PDF",
-        wa_btn: "إرسال عبر واتساب (+213657241710)"
+        title: "كيف يعمل",
+        subtitle: "اتبع هذه الخطوات البسيطة لاستخدام خدمات فحص iPhone الخاصة بنا.",
+        s1Title: "أدخل رقم IMEI الخاص بك",
+        s1Desc: "أدخل رقم IMEI المكوّن من 15 رقماً الخاص بجهازك في أداة الفحص. تأكد من صحة الرقم قبل المتابعة.",
+        s2Title: "اختر نوع الفحص",
+        s2Desc: "اختر خدمة الفحص المتاحة: الفحص الأساسي، أو iCloud / FMI، أو فحص الشبكة، أو القائمة السوداء GSMA، أو التقرير الكامل PRO.",
+        s3Title: "أرسل طلبك",
+        s3Desc: "أرسل طلبك وانتظر عملية الفحص أو التحقق اليدوي حسب نوع الخدمة.",
+        s4Title: "استلم تقريرك",
+        s4Desc: "راجع معلومات جهازك المتاحة واستلم تقريرك عند اكتمال الخدمة.",
+        noticeTitle: "تنبيه مهم",
+        noticeDesc: "تعتمد تقارير IMEI على مصادر البيانات المتاحة. قد تختلف النتائج حسب الجهاز والخدمة. تحقق دائماً من المعلومات المهمة قبل شراء أي جهاز.",
+        homeBtn: "العودة إلى الصفحة الرئيسية",
+        supportBtn: "تواصل مع الدعم",
+        footerText: "© 2026 GSM YASSER SERVER. جميع الحقوق محفوظة."
       },
       fr: {
         dir: "ltr",
-        theme_dark: "Sombre",
-        theme_light: "Clair",
-        title: "GSM Yasser — Vérification IMEI iPhone",
-        subtitle: "Vérification IMEI iPhone et services payants",
-        free_title: "✅ Vérification Gratuite",
-        free_sub: "Vérifiez le format IMEI et imprimez/enregistrez le rapport",
-        imei_ph: "Entrez l'IMEI iPhone à 15 chiffres",
-        cap_label: "Code de vérification :",
-        cap_ph: "Code",
-        free_btn: "Vérifier Gratuitement",
-        no_imei: "IMEI inconnu ? Composez *#06#.",
-        where_imei: "Où trouver l'IMEI ?",
-        extra_title: "Services de Vérification Payants",
-        extra_sub: "Vérifications payantes via WhatsApp +213657241710",
-        paid_badge: "PAYANT",
-        s_net: "🔒 Vérification Verrou Réseau",
-        s_net_d: "Verrouillage opérateur et état SIM",
-        s_ic: "☁️ Vérification iCloud",
-        s_ic_d: "Verrouillage iCloud et état Find My",
-        s_bl: "🚫 Vérification Liste Noire",
-        s_bl_d: "État perdu, volé ou bloqué",
-        s_pro: "⭐ Vérification Complète PRO",
-        s_pro_d: "Rapport PDF complet : GSX, Garantie, Date d'achat, Réseau, iCloud",
-        err_imei: "Veuillez saisir un IMEI valide à 15 chiffres.",
-        err_cap: "Code de vérification invalide.",
-        valid_msg: "Format IMEI iPhone (15 chiffres) valide.",
-        pdf_btn: "Imprimer / PDF",
-        wa_btn: "Envoyer sur WhatsApp (+213657241710)"
-      }
-    };
-
-    let lang = localStorage.getItem("gsm_lang") || "en";
-    let theme = localStorage.getItem("gsm_theme") || "dark";
-    let capValue = "NMKLU";
-
-    function setClientLang(nextLang) {
-      if (!TEXTS[nextLang]) return;
-      lang = nextLang;
-      localStorage.setItem("gsm_lang", lang);
-      const t = TEXTS[lang];
-      document.documentElement.lang = lang;
-      document.documentElement.dir = t.dir;
-      document.querySelectorAll("[data-i18n]").forEach((el) => {
-        const k = el.getAttribute("data-i18n");
-        if (t[k]) el.textContent = t[k];
-      });
-      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
-        const k = el.getAttribute("data-i18n-placeholder");
-        if (t[k]) el.placeholder = t[k];
-      });
-      document.querySelectorAll("[data-lang]").forEach((b) => {
-        b.classList.toggle("active", b.getAttribute("data-lang") === lang);
-      });
-      refreshThemeBtn();
-    }
-
-    function toggleClientTheme() {
-      theme = theme === "dark" ? "light" : "dark";
-      localStorage.setItem("gsm_theme", theme);
-      document.documentElement.setAttribute("data-theme", theme);
-      refreshThemeBtn();
-    }
-
-    function refreshThemeBtn() {
-      const t = TEXTS[lang];
-      const btn = document.getElementById("themeBtn");
-      if (!btn) return;
-      btn.innerHTML = `${theme === "dark" ? "🌙" : "☀️"} <span>${theme === "dark" ? t.theme_dark : t.theme_light}</span>`;
-    }
-
-    function newCaptcha() {
-      const pool = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      let out = "";
-      for (let i = 0; i < 5; i++) out += pool.charAt(Math.floor(Math.random() * pool.length));
-      capValue = out;
-      const el = document.getElementById("capCode");
-      if (el) el.textContent = capValue;
-    }
-
-    function validImei(imei) {
-      if (!/^\d{15}$/.test(imei)) return false;
-      let sum = 0;
-      for (let i = 0; i < 15; i++) {
-        let d = parseInt(imei[i], 10);
-        if (i % 2 === 1) {
-          d *= 2;
-          if (d > 9) d -= 9;
-        }
-        sum += d;
-      }
-      return sum % 10 === 0;
-    }
-
-    function printReport(imei) {
-      const win = window.open("", "_blank");
-      if (!win) return;
-      win.document.write(`
-        <!DOCTYPE html><html><head><meta charset="UTF-8"><title>iPhone IMEI Report</title></head>
-        <body style="font-family:Arial,sans-serif;padding:28px;">
-          <h2>GSM Yasser — iPhone IMEI Report</h2>
-          <p><strong>IMEI:</strong> ${imei}</p>
-          <p><strong>WhatsApp:</strong> +${WA_PHONE}</p>
-          <script>window.onload=()=>window.print();<\/script>
-        </body></html>
-      `);
-      win.document.close();
-    }
-
-    function checkFree() {
-      const t = TEXTS[lang];
-      const imei = (document.getElementById("imeiInput")?.value || "").trim();
-      const cap = (document.getElementById("capInput")?.value || "").trim().toUpperCase();
-      const box = document.getElementById("resultBox");
-
-      if (!validImei(imei)) {
-        box.style.display = "block";
-        box.innerHTML = `<span style="color:var(--danger);">${t.err_imei}</span>`;
-        return;
-      }
-
-      if (cap !== capValue) {
-        box.style.display = "block";
-        box.innerHTML = `<span style="color:var(--danger);">${t.err_cap}</span>`;
-        newCaptcha();
-        return;
-      }
-
-      const waUrl = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(`iPhone IMEI: ${imei}`)}`;
-      box.style.display = "block";
-      box.innerHTML = `
-        <div><strong>IMEI:</strong> <code>${imei}</code></div>
-        <div style="color:var(--whatsapp);margin-top:4px;">${t.valid_msg}</div>
-        <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">
-          <button type="button" onclick="printReport('${imei}')">📄 ${t.pdf_btn}</button>
-          <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-wa">💬 ${t.wa_btn}</a>
-        </div>
-      `;
-      newCaptcha();
-    }
-
-    function orderService(serviceName) {
-      const imei = (document.getElementById("imeiInput")?.value || "").trim();
-      const msg = encodeURIComponent(`Service: ${serviceName}${imei ? `\niPhone IMEI: ${imei}` : ""}`);
-      window.open(`https://wa.me/${WA_PHONE}?text=${msg}`, "_blank", "noopener");
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      document.documentElement.setAttribute("data-theme", theme);
-      setClientLang(lang);
-    });
-  </script>
-</body>
-</html>
+        title: "Comment ça marche",
+        subtitle: "Suivez ces étapes simples pour utiliser nos services de vérification iPhone.",
+        s1Title: "Entrez votre IMEI",
+        s1Desc: "Saisissez le numéro IMEI à 15 chiffres de votre appareil dans l'outil. Vérifiez qu'il est exact avant de continuer.",
+        s2Title: "Choisissez le type de vérification",
+        s2Desc: "Sélectionnez le service disponible : Vérification de base, iCloud / FMI, Opérateur, Liste noire GSMA ou Rapport PRO complet.",
+        s3Title: "Soumettez votre demande",
+        s3Desc: "
