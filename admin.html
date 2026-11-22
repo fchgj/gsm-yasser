@@ -1,40 +1,34 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr" data-theme="dark">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vérification IMEI - gsm-yasser</title>
+  <title>إدارة خيارات الواجهة - gsm-yasser</title>
   <style>
     :root[data-theme="dark"] {
       --bg: #080e1c;
       --card: #11192c;
       --input-bg: #1b2438;
-      --pill-bg: #151e33;
       --text: #f8fafc;
       --muted: #94a3b8;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --accent-link: #60a5fa;
-      --check-badge: #84cc16;
       --border: #233047;
-      --error: #f87171;
-      --shadow: 0 10px 25px rgba(0, 0, 0, 0.28);
+      --success: #22c55e;
+      --link: #60a5fa;
     }
 
     :root[data-theme="light"] {
       --bg: #f1f5f9;
       --card: #ffffff;
       --input-bg: #f8fafc;
-      --pill-bg: #e2e8f0;
       --text: #0f172a;
       --muted: #475569;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --accent-link: #0284c7;
-      --check-badge: #65a30d;
       --border: #cbd5e1;
-      --error: #dc2626;
-      --shadow: 0 8px 20px rgba(15, 23, 42, 0.07);
+      --success: #16a34a;
+      --link: #0284c7;
     }
 
     *,
@@ -43,255 +37,456 @@
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       margin: 0;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Tahoma, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.55;
-      transition: background-color 0.25s ease, color 0.25s ease;
+      line-height: 1.6;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     .container {
-      max-width: 540px;
+      max-width: 880px;
       margin: 0 auto;
-      padding: 16px 14px 48px;
+      padding: 20px 14px 52px;
     }
 
-    /* Top Bar: Languages, Steps Icon Shortcut & Theme */
-    .top-controls {
+    header {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-
-    .right-actions {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .lang-pills {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background-color: var(--pill-bg);
-      padding: 4px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-    }
-
-    .lang-btn {
-      background: transparent;
-      color: var(--text);
-      border: none;
-      border-radius: 999px;
-      padding: 5px 11px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
-
-    .lang-btn.active {
-      background-color: var(--primary);
-      color: #ffffff;
-    }
-
-    .steps-icon-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background-color: var(--pill-bg);
-      color: var(--accent-link);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      text-decoration: none;
-      transition: border-color 0.2s ease, background-color 0.2s ease;
-    }
-
-    .steps-icon-link:hover {
-      border-color: var(--primary);
-      background-color: rgba(37, 99, 235, 0.12);
-    }
-
-    .theme-btn {
-      background-color: var(--pill-bg);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: border-color 0.2s ease;
-    }
-
-    .theme-btn:hover {
-      border-color: var(--primary);
-    }
-
-    /* Hero */
-    .hero {
-      text-align: center;
+      gap: 12px;
+      padding-bottom: 16px;
       margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #ef4444, #f8fafc);
-      color: #0f172a;
-      font-weight: 900;
-      font-size: 0.85rem;
-      margin-bottom: 6px;
-    }
-
-    .hero h1 {
+    header h1 {
       margin: 0;
-      font-size: 1.55rem;
-      font-weight: 800;
+      font-size: 1.4rem;
     }
 
-    .hero p {
+    header p {
       margin: 4px 0 0;
       color: var(--muted);
       font-size: 0.88rem;
     }
 
-    /* Cards */
+    .nav-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--link);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: 10px;
+      background-color: var(--card);
+      border: 1px solid var(--border);
+    }
+
+    .nav-link:hover {
+      border-color: var(--primary);
+    }
+
     .card {
       background-color: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 18px;
       margin-bottom: 14px;
-      box-shadow: var(--shadow);
     }
 
-    .free-header {
-      text-align: center;
-      margin-bottom: 14px;
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 1.08rem;
     }
 
-    .free-header h2 {
-      margin: 0;
-      font-size: 1.18rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
     }
 
-    .check-badge {
-      display: inline-grid;
-      place-items: center;
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
-      background-color: var(--check-badge);
-      color: #0f172a;
+    label {
+      display: block;
       font-size: 0.85rem;
-      font-weight: 900;
-    }
-
-    .free-header p {
-      margin: 5px 0 0;
+      font-weight: 600;
+      margin-bottom: 5px;
       color: var(--muted);
-      font-size: 0.86rem;
     }
 
-    .imei-input {
+    input[type="text"],
+    select,
+    textarea {
       width: 100%;
       background-color: var(--input-bg);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 0.95rem;
-      text-align: center;
-      letter-spacing: 0.04em;
+      padding: 10px 12px;
+      font-size: 0.9rem;
     }
 
-    .imei-input:focus {
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
       outline: none;
       border-color: var(--primary);
     }
 
-    .captcha-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+    .option-box {
       background-color: var(--input-bg);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 8px 10px;
-      margin-top: 10px;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
     }
 
-    .captcha-label {
-      font-size: 0.82rem;
+    .option-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .option-title {
+      font-weight: 700;
+      color: var(--link);
+      font-size: 0.94rem;
+    }
+
+    .check-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
       color: var(--text);
+      cursor: pointer;
+      font-size: 0.88rem;
       font-weight: 600;
     }
 
-    .captcha-code-box {
-      background-color: #ffffff;
-      color: #1e293b;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-weight: 900;
-      font-size: 0.95rem;
-      letter-spacing: 0.14em;
-      padding: 4px 10px;
-      border-radius: 6px;
-      user-select: none;
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
     }
 
-    .captcha-input {
-      width: 80px;
-      background-color: var(--card);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 6px 8px;
-      font-size: 0.88rem;
-      text-align: center;
-      text-transform: uppercase;
-    }
-
-    .captcha-refresh {
-      background-color: #0284c7;
-      color: #ffffff;
+    button {
       border: none;
-      border-radius: 7px;
-      width: 30px;
-      height: 30px;
-      font-weight: 800;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      font-weight: 700;
       cursor: pointer;
     }
 
-    .btn-full {
-      width: 100%;
-      margin-top: 12px;
+    .btn-primary {
       background-color: var(--primary);
       color: #ffffff;
-      border: none;
-      border-radius: 10px;
-      padding: 12px 16px;
-  
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-ghost {
+      background-color: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .status-line {
+      margin-top: 10px;
+      color: var(--success);
+      font-size: 0.88rem;
+      min-height: 1.2em;
+    }
+
+    textarea.export-area {
+      min-height: 180px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.8rem;
+      direction: ltr;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>إعدادات لوحة الإدارة - gsm-yasser</h1>
+        <p>تخصيص خيارات الفحص المجاني وخدمات التحقق الظاهرة في الواجهة</p>
+      </div>
+      <nav class="nav-bar">
+        <a href="index.html" class="nav-link">الواجهة الرئيسية</a>
+        <a href="steps.html" class="nav-link">📋 خطوات العمل</a>
+        <button type="button" id="admin-theme-btn" class="btn-ghost">☀️ فاتح</button>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h2>الإعدادات العامة والواجهة</h2>
+      <div class="grid-2">
+        <div>
+          <label for="cfg-wa">رقم واتساب للتواصل (دولي)</label>
+          <input type="text" id="cfg-wa" value="213657241710" />
+        </div>
+        <div>
+          <label for="cfg-lang">اللغة الافتراضية للواجهة</label>
+          <select id="cfg-lang">
+            <option value="fr" selected>FR (الفرنسية)</option>
+            <option value="ar">العربية (AR)</option>
+            <option value="en">EN (الإنجليزية)</option>
+          </select>
+        </div>
+        <div>
+          <label for="cfg-theme">الوضع الافتراضي للواجهة</label>
+          <select id="cfg-theme">
+            <option value="dark" selected>داكن (Dark)</option>
+            <option value="light">فاتح (Light / Clair)</option>
+          </select>
+        </div>
+        <div>
+          <label for="cfg-captcha">رمز التحقق البشري في الفحص المجاني</label>
+          <select id="cfg-captcha">
+            <option value="true" selected>مفعّل (Je ne suis pas un robot)</option>
+            <option value="false">معطّل</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>خيارات الفحص والخدمات (حسب الصورة المرفقة)</h2>
+      <div id="options-list"></div>
+
+      <div class="actions">
+        <button type="button" id="btn-save" class="btn-primary">حفظ الإعدادات</button>
+        <button type="button" id="btn-reset" class="btn-ghost">استعادة الافتراضي</button>
+      </div>
+      <p id="status-line" class="status-line" role="status"></p>
+    </section>
+
+    <section class="card">
+      <h2>تصدير كود الإعدادات</h2>
+      <textarea id="export-box" class="export-area" readonly></textarea>
+      <div class="actions">
+        <button type="button" id="btn-copy" class="btn-ghost">نسخ الكود</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="generator.js"></script>
+  <script>
+    (function () {
+      const STORAGE_KEY = "gsm_yasser_admin_options_v1";
+
+      const defaultState = {
+        whatsappPhone: "213657241710",
+        defaultLang: "fr",
+        defaultTheme: "dark",
+        freeCheckCaptcha: true,
+        services: [
+          {
+            id: "free_check",
+            enabled: true,
+            label: "Vérification Gratuite",
+            titleFr: "Vérification Gratuite",
+            subtitleFr: "Connaissez votre modèle - 100% Gratuit -",
+            ctaFr: "Vérifier Gratuitement",
+            titleAr: "فحص مجاني",
+            subtitleAr: "اعرف طراز جهازك - مجاني 100% -",
+            ctaAr: "فحص مجاناً"
+          },
+          {
+            id: "network_lock",
+            enabled: true,
+            label: "Vérification Verrou Réseau",
+            titleFr: "Vérification Verrou Réseau",
+            subtitleFr: "Verrou réseau - État SIM",
+            ctaFr: "Contactez-nous ↗",
+            titleAr: "فحص قفل الشبكة",
+            subtitleAr: "قفل الشبكة - حالة الشريحة SIM",
+            ctaAr: "تواصل معنا ↗"
+          },
+          {
+            id: "icloud_check",
+            enabled: true,
+            label: "Vérification iCloud",
+            titleFr: "Vérification iCloud",
+            subtitleFr: "Verrou iCloud - Find My",
+            ctaFr: "Contactez-nous ↗",
+            titleAr: "فحص iCloud",
+            subtitleAr: "قفل iCloud - ميزة Find My",
+            ctaAr: "تواصل معنا ↗"
+          },
+          {
+            id: "blacklist_check",
+            enabled: true,
+            label: "Vérification Liste Noire",
+            titleFr: "Vérification Liste Noire",
+            subtitleFr: "Volé - Perdu - Bloqué",
+            ctaFr: "Contactez-nous ↗",
+            titleAr: "فحص القائمة السوداء",
+            subtitleAr: "مسروق - مفقود - محظور",
+            ctaAr: "تواصل معنا ↗"
+          },
+          {
+            id: "pro_report",
+            enabled: true,
+            label: "Vérification Complète PRO",
+            titleFr: "Vérification Complète PRO",
+            subtitleFr: "Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud",
+            ctaFr: "Contactez-nous ↗",
+            titleAr: "فحص شامل PRO",
+            subtitleAr: "تقرير PDF كامل - GSX - الضمان - تاريخ الشراء - الشبكة - iCloud",
+            ctaAr: "تواصل معنا ↗"
+          }
+        ]
+      };
+
+      const optionsList = document.getElementById("options-list");
+      const cfgWa = document.getElementById("cfg-wa");
+      const cfgLang = document.getElementById("cfg-lang");
+      const cfgTheme = document.getElementById("cfg-theme");
+      const cfgCaptcha = document.getElementById("cfg-captcha");
+      const btnSave = document.getElementById("btn-save");
+      const btnReset = document.getElementById("btn-reset");
+      const btnCopy = document.getElementById("btn-copy");
+      const statusLine = document.getElementById("status-line");
+      const exportBox = document.getElementById("export-box");
+      const adminThemeBtn = document.getElementById("admin-theme-btn");
+
+      function loadState() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
+          if (parsed && Array.isArray(parsed.services)) {
+            return { ...defaultState, ...parsed };
+          }
+        } catch (e) {}
+        return JSON.parse(JSON.stringify(defaultState));
+      }
+
+      let state = loadState();
+
+      function applyAdminTheme(theme) {
+        const mode = theme === "light" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", mode);
+        adminThemeBtn.textContent = mode === "dark" ? "☀️ فاتح" : "🌙 داكن";
+      }
+
+      function renderOptions() {
+        cfgWa.value = state.whatsappPhone;
+        cfgLang.value = state.defaultLang;
+        cfgTheme.value = state.defaultTheme;
+        cfgCaptcha.value = String(state.freeCheckCaptcha);
+
+        optionsList.innerHTML = state.services
+          .map(
+            (srv, i) => `
+          <div class="option-box" data-idx="${i}">
+            <div class="option-head">
+              <span class="option-title">${srv.label}</span>
+              <label class="check-toggle">
+                <input type="checkbox" class="opt-enabled" ${srv.enabled ? "checked" : ""} />
+                إظهار في الواجهة
+              </label>
+            </div>
+            <div class="grid-2">
+              <div>
+                <label>العنوان (FR)</label>
+                <input type="text" class="opt-title-fr" value="${srv.titleFr}" />
+              </div>
+              <div>
+                <label>الوصف المختصر (FR)</label>
+                <input type="text" class="opt-sub-fr" value="${srv.subtitleFr}" />
+              </div>
+              <div>
+                <label>العنوان (العربية)</label>
+                <input type="text" class="opt-title-ar" value="${srv.titleAr}" />
+              </div>
+              <div>
+                <label>نص الزر (FR)</label>
+                <input type="text" class="opt-cta-fr" value="${srv.ctaFr}" />
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+
+        updateExport();
+      }
+
+      function gatherState() {
+        const boxes = optionsList.querySelectorAll(".option-box");
+        const updated = state.services.map((srv, i) => {
+          const el = boxes[i];
+          return {
+            ...srv,
+            enabled: el.querySelector(".opt-enabled").checked,
+            titleFr: el.querySelector(".opt-title-fr").value.trim() || srv.titleFr,
+            subtitleFr: el.querySelector(".opt-sub-fr").value.trim() || srv.subtitleFr,
+            titleAr: el.querySelector(".opt-title-ar").value.trim() || srv.titleAr,
+            ctaFr: el.querySelector(".opt-cta-fr").value.trim() || srv.ctaFr
+          };
+        });
+
+        return {
+          whatsappPhone: cfgWa.value.trim().replace(/[^\d]/g, "") || defaultState.whatsappPhone,
+          defaultLang: cfgLang.value,
+          defaultTheme: cfgTheme.value,
+          freeCheckCaptcha: cfgCaptcha.value === "true",
+          services: updated
+        };
+      }
+
+      function updateExport() {
+        exportBox.value =
+          "window.GSM_YASSER_OPTIONS = " + JSON.stringify(state, null, 2) + ";";
+      }
+
+      adminThemeBtn.addEventListener("click", function () {
+        const cur = document.documentElement.getAttribute("data-theme");
+        applyAdminTheme(cur === "dark" ? "light" : "dark");
+      });
+
+      btnSave.addEventListener("click", function () {
+        state = gatherState();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        updateExport();
+        statusLine.textContent = "تم حفظ الإعدادات بنجاح.";
+      });
+
+      btnReset.addEventListener("click", function () {
+        state = JSON.parse(JSON.stringify(defaultState));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        renderOptions();
+        statusLine.textContent = "تمت استعادة الإعدادات الافتراضية.";
+      });
+
+      btnCopy.addEventListener("click", function () {
+        exportBox.select();
+        navigator.clipboard?.writeText(exportBox.value);
+        statusLine.textContent = "تم نسخ كود الإعدادات.";
+      });
+
+      applyAdminTheme(state.defaultTheme);
+      renderOptions();
+    })();
+  </script>
+</body>
+</html>
