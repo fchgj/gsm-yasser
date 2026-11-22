@@ -1,34 +1,40 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="dark">
+<html lang="en" dir="ltr" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>إدارة خيارات الواجهة - gsm-yasser</title>
+  <title>iPhone IMEI Lookup - gsm-yasser</title>
   <style>
     :root[data-theme="dark"] {
       --bg: #080e1c;
       --card: #11192c;
       --input-bg: #1b2438;
+      --pill-bg: #151e33;
       --text: #f8fafc;
       --muted: #94a3b8;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
+      --accent: #60a5fa;
+      --check-badge: #84cc16;
       --border: #233047;
-      --success: #22c55e;
-      --link: #60a5fa;
+      --error: #f87171;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.28);
     }
 
     :root[data-theme="light"] {
       --bg: #f1f5f9;
       --card: #ffffff;
       --input-bg: #f8fafc;
+      --pill-bg: #e2e8f0;
       --text: #0f172a;
       --muted: #475569;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
+      --accent: #0284c7;
+      --check-badge: #65a30d;
       --border: #cbd5e1;
-      --success: #16a34a;
-      --link: #0284c7;
+      --error: #dc2626;
+      --shadow: 0 8px 20px rgba(15, 23, 42, 0.07);
     }
 
     *,
@@ -37,488 +43,608 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Tahoma, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      transition: background-color 0.2s ease, color 0.2s ease;
+      line-height: 1.55;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     .container {
-      max-width: 880px;
+      max-width: 540px;
       margin: 0 auto;
-      padding: 20px 14px 52px;
+      padding: 16px 14px 48px;
     }
 
-    header {
+    /* Top Bar: Languages, Steps Icon Link & Theme */
+    .top-bar {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      padding-bottom: 16px;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .top-right {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background-color: var(--pill-bg);
+      padding: 4px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+
+    .lang-btn {
+      background: transparent;
+      color: var(--text);
+      border: none;
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .lang-btn.active {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .steps-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--pill-bg);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .steps-icon-btn:hover {
+      border-color: var(--primary);
+      background-color: rgba(37, 99, 235, 0.12);
+    }
+
+    .theme-btn {
+      background-color: var(--pill-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .theme-btn:hover {
+      border-color: var(--primary);
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
       margin-bottom: 20px;
-      border-bottom: 1px solid var(--border);
     }
 
-    header h1 {
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #ef4444, #f8fafc);
+      color: #0f172a;
+      font-weight: 900;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+
+    .hero h1 {
       margin: 0;
-      font-size: 1.4rem;
+      font-size: 1.55rem;
+      font-weight: 800;
     }
 
-    header p {
+    .hero p {
       margin: 4px 0 0;
       color: var(--muted);
       font-size: 0.88rem;
     }
 
-    .nav-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .nav-link {
-      color: var(--link);
-      text-decoration: none;
-      font-size: 0.88rem;
-      font-weight: 700;
-      padding: 7px 12px;
-      border-radius: 10px;
-      background-color: var(--card);
-      border: 1px solid var(--border);
-    }
-
-    .nav-link:hover {
-      border-color: var(--primary);
-    }
-
+    /* Lookup Card */
     .card {
       background-color: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 18px;
       margin-bottom: 14px;
+      box-shadow: var(--shadow);
     }
 
-    .card h2 {
-      margin: 0 0 12px;
-      font-size: 1.08rem;
+    .card-header {
+      text-align: center;
+      margin-bottom: 14px;
     }
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.18rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
-    label {
-      display: block;
+    .check-badge {
+      display: inline-grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background-color: var(--check-badge);
+      color: #0f172a;
       font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 5px;
-      color: var(--muted);
+      font-weight: 900;
     }
 
-    input[type="text"],
-    select,
-    textarea {
+    .card-header p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .imei-input {
       width: 100%;
       background-color: var(--input-bg);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 0.9rem;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      text-align: center;
+      letter-spacing: 0.04em;
     }
 
-    input[type="text"]:focus,
-    select:focus,
-    textarea:focus {
+    .imei-input:focus {
       outline: none;
       border-color: var(--primary);
     }
 
-    .option-box {
+    .captcha-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       background-color: var(--input-bg);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 12px;
+      border-radius: 10px;
+      padding: 8px 10px;
+      margin-top: 10px;
     }
 
-    .option-head {
+    .captcha-label {
+      font-size: 0.82rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .captcha-code-box {
+      background-color: #ffffff;
+      color: #1e293b;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 900;
+      font-size: 0.95rem;
+      letter-spacing: 0.14em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      user-select: none;
+    }
+
+    .captcha-input {
+      width: 80px;
+      background-color: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-size: 0.88rem;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .captcha-refresh {
+      background-color: #0284c7;
+      color: #ffffff;
+      border: none;
+      border-radius: 7px;
+      width: 30px;
+      height: 30px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-full {
+      width: 100%;
+      margin-top: 12px;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-full:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .error-msg {
+      margin: 8px 0 0;
+      color: var(--error);
+      font-size: 0.85rem;
+      text-align: center;
+      min-height: 1.1em;
+    }
+
+    .result-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .result-box p {
+      margin: 4px 0;
+    }
+
+    /* Footer */
+    .footer-bar {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
+      gap: 10px;
+      font-size: 0.84rem;
     }
 
-    .option-title {
-      font-weight: 700;
-      color: var(--link);
-      font-size: 0.94rem;
-    }
-
-    .check-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin: 0;
-      color: var(--text);
-      cursor: pointer;
-      font-size: 0.88rem;
+    .link-accent {
+      color: var(--accent);
+      text-decoration: none;
       font-weight: 600;
     }
 
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    button {
-      border: none;
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background-color: var(--primary);
-      color: #ffffff;
-    }
-
-    .btn-primary:hover {
-      background-color: var(--primary-hover);
-    }
-
-    .btn-ghost {
-      background-color: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .status-line {
-      margin-top: 10px;
-      color: var(--success);
-      font-size: 0.88rem;
-      min-height: 1.2em;
-    }
-
-    textarea.export-area {
-      min-height: 190px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.8rem;
-      direction: ltr;
-      text-align: left;
+    .link-accent:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
-<body>
+<body id="top">
   <div class="container">
-    <header>
-      <div>
-        <h1>إعدادات لوحة الإدارة - gsm-yasser</h1>
-        <p>تخصيص خيارات الفحص المجاني وخدمات التحقق الظاهرة في الواجهة</p>
+    <!-- Top Bar: Language Selector + Short Steps Icon Link + Theme Toggle -->
+    <div class="top-bar">
+      <div class="lang-group" role="group" aria-label="Language Selector">
+        <button type="button" class="lang-btn active" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="fr">FR</button>
+        <button type="button" class="lang-btn" data-lang="ar">العربية</button>
       </div>
-      <nav class="nav-bar">
-        <a href="index.html" class="nav-link">الواجهة الرئيسية</a>
-        <a href="steps.html" class="nav-link">📋 خطوات العمل</a>
-        <button type="button" id="admin-theme-btn" class="btn-ghost">☀️ فاتح</button>
-      </nav>
+
+      <div class="top-right">
+        <a href="steps.html" class="steps-icon-btn" title="Short Steps Guide" data-i18n-title="stepsTitle">
+          <span aria-hidden="true">📋</span>
+          <span data-i18n="stepsLabel">Steps</span>
+        </a>
+        <button type="button" id="theme-toggle" class="theme-btn">☀️ Light</button>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="hero">
+      <div class="hero-badge">U</div>
+      <h1 data-i18n="heroTitle">iPhone IMEI Lookup</h1>
+      <p data-i18n="heroSub">Check your iPhone IMEI details easily</p>
     </header>
 
-    <section class="card">
-      <h2>الإعدادات العامة والواجهة</h2>
-      <div class="grid-2">
-        <div>
-          <label for="cfg-wa">رقم واتساب للتواصل (دولي)</label>
-          <input type="text" id="cfg-wa" value="213657241710" />
-        </div>
-        <div>
-          <label for="cfg-lang">اللغة الافتراضية للواجهة</label>
-          <select id="cfg-lang">
-            <option value="fr" selected>FR (الفرنسية)</option>
-            <option value="ar">العربية (AR)</option>
-            <option value="en">EN (الإنجليزية)</option>
-          </select>
-        </div>
-        <div>
-          <label for="cfg-theme">الوضع الافتراضي للواجهة</label>
-          <select id="cfg-theme">
-            <option value="dark" selected>داكن (Dark)</option>
-            <option value="light">فاتح (Light / Clair)</option>
-          </select>
-        </div>
-        <div>
-          <label for="cfg-captcha">رمز التحقق البشري في الفحص المجاني</label>
-          <select id="cfg-captcha">
-            <option value="true" selected>مفعّل (Je ne suis pas un robot)</option>
-            <option value="false">معطّل</option>
-          </select>
-        </div>
-        <div>
-          <label for="cfg-hero-fr">عنوان الواجهة الرئيسي (FR)</label>
-          <input type="text" id="cfg-hero-fr" value="Vérification IMEI" />
-        </div>
-        <div>
-          <label for="cfg-sub-fr">الوصف أسفل العنوان (FR)</label>
-          <input type="text" id="cfg-sub-fr" value="Vérifiez votre appareil facilement" />
-        </div>
+    <!-- Free IMEI Check Card -->
+    <main id="lookup-section" class="card">
+      <div class="card-header">
+        <h2>
+          <span class="check-badge">✓</span>
+          <span data-i18n="freeTitle">Free IMEI Check</span>
+        </h2>
+        <p data-i18n="freeSub">Know your device model - 100% Free -</p>
       </div>
-    </section>
 
-    <section class="card">
-      <h2>خيارات الفحص والخدمات (حسب الصورة المرفقة)</h2>
-      <div id="options-list"></div>
+      <form id="imei-form" novalidate>
+        <input
+          type="text"
+          id="imei-input"
+          class="imei-input"
+          inputmode="numeric"
+          maxlength="15"
+          placeholder="Enter IMEI - 15 digits"
+          autocomplete="off"
+        />
 
-      <div class="actions">
-        <button type="button" id="btn-save" class="btn-primary">حفظ الإعدادات</button>
-        <button type="button" id="btn-reset" class="btn-ghost">استعادة الافتراضي</button>
-      </div>
-      <p id="status-line" class="status-line" role="status"></p>
-    </section>
+        <div class="captcha-row">
+          <span class="captcha-label" data-i18n="robotLabel">🔒 I am not a robot:</span>
+          <span id="captcha-code" class="captcha-code-box">NMKLU</span>
+          <input type="text" id="captcha-input" class="captcha-input" maxlength="5" placeholder="Code" autocomplete="off" />
+          <button type="button" id="captcha-refresh" class="captcha-refresh" title="Refresh">↻</button>
+        </div>
 
-    <section class="card">
-      <h2>تصدير كود الإعدادات</h2>
-      <textarea id="export-box" class="export-area" readonly></textarea>
-      <div class="actions">
-        <button type="button" id="btn-copy" class="btn-ghost">نسخ الكود</button>
-      </div>
-    </section>
+        <p id="form-error" class="error-msg" role="alert"></p>
+
+        <button type="submit" class="btn-full" data-i18n="freeBtn">Check for Free</button>
+      </form>
+
+      <div id="result-box" class="result-box" hidden aria-live="polite"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bar">
+      <a
+        id="wa-link"
+        href="https://wa.me/213657241710?text=Hello%2C%20I%20need%20help%20with%20iPhone%20IMEI%20lookup."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-accent"
+      >
+        WhatsApp: +213 657 241 710
+      </a>
+      <a href="steps.html" class="link-accent">
+        <span aria-hidden="true">📋</span>
+        <span data-i18n="stepsLabel">Steps</span>
+      </a>
+    </footer>
   </div>
 
   <script src="generator.js"></script>
   <script>
     (function () {
-      const STORAGE_KEY = "gsm_yasser_admin_options_v1";
+      const WA_NUMBER = "213657241710";
 
-      const defaultState = {
-        whatsappPhone: "213657241710",
-        defaultLang: "fr",
-        defaultTheme: "dark",
-        freeCheckCaptcha: true,
-        heroTitleFr: "Vérification IMEI",
-        heroSubtitleFr: "Vérifiez votre appareil facilement",
-        imeiPlaceholderFr: "Entrez IMEI - 15 chiffres",
-        services: [
-          {
-            id: "free_check",
-            enabled: true,
-            label: "Vérification Gratuite",
-            titleFr: "Vérification Gratuite",
-            subtitleFr: "Connaissez votre modèle - 100% Gratuit -",
-            ctaFr: "Vérifier Gratuitement",
-            titleAr: "فحص مجاني",
-            subtitleAr: "اعرف طراز جهازك - مجاني 100% -",
-            ctaAr: "فحص مجاناً",
-            titleEn: "Free Check",
-            subtitleEn: "Know your model - 100% Free -",
-            ctaEn: "Check for Free"
-          },
-          {
-            id: "network_lock",
-            enabled: true,
-            label: "Vérification Verrou Réseau",
-            titleFr: "Vérification Verrou Réseau",
-            subtitleFr: "Verrou réseau - État SIM",
-            ctaFr: "Contactez-nous ↗",
-            titleAr: "فحص قفل الشبكة",
-            subtitleAr: "قفل الشبكة - حالة الشريحة SIM",
-            ctaAr: "تواصل معنا ↗",
-            titleEn: "Network Lock Check",
-            subtitleEn: "Carrier lock - SIM status",
-            ctaEn: "Contact us ↗"
-          },
-          {
-            id: "icloud_check",
-            enabled: true,
-            label: "Vérification iCloud",
-            titleFr: "Vérification iCloud",
-            subtitleFr: "Verrou iCloud - Find My",
-            ctaFr: "Contactez-nous ↗",
-            titleAr: "فحص iCloud",
-            subtitleAr: "قفل iCloud - ميزة Find My",
-            ctaAr: "تواصل معنا ↗",
-            titleEn: "iCloud Check",
-            subtitleEn: "iCloud lock - Find My",
-            ctaEn: "Contact us ↗"
-          },
-          {
-            id: "blacklist_check",
-            enabled: true,
-            label: "Vérification Liste Noire",
-            titleFr: "Vérification Liste Noire",
-            subtitleFr: "Volé - Perdu - Bloqué",
-            ctaFr: "Contactez-nous ↗",
-            titleAr: "فحص القائمة السوداء",
-            subtitleAr: "مسروق - مفقود - محظور",
-            ctaAr: "تواصل معنا ↗",
-            titleEn: "Blacklist Check",
-            subtitleEn: "Stolen - Lost - Blocked",
-            ctaEn: "Contact us ↗"
-          },
-          {
-            id: "pro_report",
-            enabled: true,
-            label: "Vérification Complète PRO",
-            titleFr: "Vérification Complète PRO",
-            subtitleFr: "Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud",
-            ctaFr: "Contactez-nous ↗",
-            titleAr: "فحص شامل PRO",
-            subtitleAr: "تقرير PDF كامل - GSX - الضمان - تاريخ الشراء - الشبكة - iCloud",
-            ctaAr: "تواصل معنا ↗",
-            titleEn: "Complete PRO Check",
-            subtitleEn: "Full PDF report - GSX - Warranty - Purchase date - Carrier - iCloud",
-            ctaEn: "Contact us ↗"
-          }
-        ]
+      const translations = {
+        en: {
+          dir: "ltr",
+          title: "iPhone IMEI Lookup - gsm-yasser",
+          heroTitle: "iPhone IMEI Lookup",
+          heroSub: "Check your iPhone IMEI details easily",
+          freeTitle: "Free IMEI Check",
+          freeSub: "Know your device model - 100% Free -",
+          imeiPlaceholder: "Enter IMEI - 15 digits",
+          robotLabel: "🔒 I am not a robot:",
+          codePlaceholder: "Code",
+          freeBtn: "Check for Free",
+          stepsLabel: "Steps",
+          stepsTitle: "Short Steps Guide",
+          themeLight: "☀️ Light",
+          themeDark: "🌙 Dark",
+          errImei: "Please enter a valid 15-digit IMEI number.",
+          errCaptcha: "Incorrect verification code.",
+          lblImei: "IMEI",
+          lblModel: "Model",
+          lblStatus: "Status",
+          defaultModel: "iPhone",
+          defaultStatus: "Checked for free",
+          waMsg: "Hello, I need help with iPhone IMEI lookup."
+        },
+        fr: {
+          dir: "ltr",
+          title: "Vérification IMEI iPhone - gsm-yasser",
+          heroTitle: "Vérification IMEI iPhone",
+          heroSub: "Vérifiez les détails IMEI de votre iPhone facilement",
+          freeTitle: "Vérification Gratuite",
+          freeSub: "Connaissez votre modèle - 100% Gratuit -",
+          imeiPlaceholder: "Entrez IMEI - 15 chiffres",
+          robotLabel: "🔒 Je ne suis pas un robot:",
+          codePlaceholder: "Code",
+          freeBtn: "Vérifier Gratuitement",
+          stepsLabel: "Étapes",
+          stepsTitle: "Guide court des étapes",
+          themeLight: "☀️ Clair",
+          themeDark: "🌙 Sombre",
+          errImei: "Veuillez saisir un numéro IMEI valide à 15 chiffres.",
+          errCaptcha: "Code de vérification incorrect.",
+          lblImei: "IMEI",
+          lblModel: "Modèle",
+          lblStatus: "Statut",
+          defaultModel: "iPhone",
+          defaultStatus: "Vérifié gratuitement",
+          waMsg: "Bonjour, j'ai besoin d'aide pour la vérification IMEI iPhone."
+        },
+        ar: {
+          dir: "rtl",
+          title: "فحص IMEI لهواتف iPhone - gsm-yasser",
+          heroTitle: "فحص رقم IMEI لهواتف iPhone",
+          heroSub: "تحقق من بيانات رقم IMEI لهاتف iPhone بسهولة",
+          freeTitle: "فحص مجاني",
+          freeSub: "اعرف طراز جهازك - مجاني 100% -",
+          imeiPlaceholder: "أدخل رقم IMEI - 15 رقماً",
+          robotLabel: "🔒 أنا لست روبوت:",
+          codePlaceholder: "الكود",
+          freeBtn: "فحص مجاناً",
+          stepsLabel: "الخطوات",
+          stepsTitle: "شرح مختصر للخطوات",
+          themeLight: "☀️ فاتح",
+          themeDark: "🌙 داكن",
+          errImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
+          errCaptcha: "رمز التحقق غير صحيح.",
+          lblImei: "رقم IMEI",
+          lblModel: "الطراز",
+          lblStatus: "الحالة",
+          defaultModel: "iPhone",
+          defaultStatus: "تم الفحص مجاناً",
+          waMsg: "مرحباً، أحتاج إلى مساعدة بخصوص فحص IMEI لهاتف iPhone."
+        }
       };
 
-      const optionsList = document.getElementById("options-list");
-      const cfgWa = document.getElementById("cfg-wa");
-      const cfgLang = document.getElementById("cfg-lang");
-      const cfgTheme = document.getElementById("cfg-theme");
-      const cfgCaptcha = document.getElementById("cfg-captcha");
-      const cfgHeroFr = document.getElementById("cfg-hero-fr");
-      const cfgSubFr = document.getElementById("cfg-sub-fr");
-      const btnSave = document.getElementById("btn-save");
-      const btnReset = document.getElementById("btn-reset");
-      const btnCopy = document.getElementById("btn-copy");
-      const statusLine = document.getElementById("status-line");
-      const exportBox = document.getElementById("export-box");
-      const adminThemeBtn = document.getElementById("admin-theme-btn");
+      const htmlEl = document.documentElement;
+      const langBtns = document.querySelectorAll(".lang-btn");
+      const themeToggle = document.getElementById("theme-toggle");
+      const imeiInput = document.getElementById("imei-input");
+      const captchaCodeEl = document.getElementById("captcha-code");
+      const captchaInput = document.getElementById("captcha-input");
+      const captchaRefresh = document.getElementById("captcha-refresh");
+      const form = document.getElementById("imei-form");
+      const formError = document.getElementById("form-error");
+      const resultBox = document.getElementById("result-box");
+      const waLink = document.getElementById("wa-link");
 
-      function loadState() {
-        try {
-          const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
-          if (parsed && Array.isArray(parsed.services)) {
-            return { ...defaultState, ...parsed };
-          }
-        } catch (e) {}
-        return JSON.parse(JSON.stringify(defaultState));
+      let currentLang = localStorage.getItem("gsm_lang") || "en";
+      let currentTheme = localStorage.getItem("gsm_theme") || "dark";
+      let generatedCaptcha = "NMKLU";
+      let lastResult = null;
+
+      function generateCaptcha() {
+        const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        let code = "";
+        for (let i = 0; i < 5; i++) {
+          code += chars[Math.floor(Math.random() * chars.length)];
+        }
+        generatedCaptcha = code;
+        captchaCodeEl.textContent = code;
       }
 
-      let state = loadState();
-
-      function applyAdminTheme(theme) {
-        const mode = theme === "light" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", mode);
-        adminThemeBtn.textContent = mode === "dark" ? "☀️ فاتح" : "🌙 داكن";
+      function renderResult(data) {
+        if (!data) return;
+        const dict = translations[currentLang] || translations.en;
+        resultBox.innerHTML =
+          "<p><strong>" + dict.lblImei + ":</strong> " + data.imei + "</p>" +
+          "<p><strong>" + dict.lblModel + ":</strong> " + (data.model || dict.defaultModel) + "</p>" +
+          "<p><strong>" + dict.lblStatus + ":</strong> " + (data.status || dict.defaultStatus) + "</p>";
       }
 
-      function renderOptions() {
-        cfgWa.value = state.whatsappPhone;
-        cfgLang.value = state.defaultLang;
-        cfgTheme.value = state.defaultTheme;
-        cfgCaptcha.value = String(state.freeCheckCaptcha);
-        cfgHeroFr.value = state.heroTitleFr || defaultState.heroTitleFr;
-        cfgSubFr.value = state.heroSubtitleFr || defaultState.heroSubtitleFr;
-
-        optionsList.innerHTML = state.services
-          .map(
-            (srv, i) => `
-          <div class="option-box" data-idx="${i}">
-            <div class="option-head">
-              <span class="option-title">${srv.label}</span>
-              <label class="check-toggle">
-                <input type="checkbox" class="opt-enabled" ${srv.enabled ? "checked" : ""} />
-                إظهار في الواجهة
-              </label>
-            </div>
-            <div class="grid-2">
-              <div>
-                <label>العنوان (FR)</label>
-                <input type="text" class="opt-title-fr" value="${srv.titleFr}" />
-              </div>
-              <div>
-                <label>الوصف المختصر (FR)</label>
-                <input type="text" class="opt-sub-fr" value="${srv.subtitleFr}" />
-              </div>
-              <div>
-                <label>العنوان (العربية)</label>
-                <input type="text" class="opt-title-ar" value="${srv.titleAr}" />
-              </div>
-              <div>
-                <label>نص الزر (FR)</label>
-                <input type="text" class="opt-cta-fr" value="${srv.ctaFr}" />
-              </div>
-            </div>
-          </div>
-        `
-          )
-          .join("");
-
-        updateExport();
+      function applyTheme(theme) {
+        currentTheme = theme === "light" ? "light" : "dark";
+        htmlEl.setAttribute("data-theme", currentTheme);
+        localStorage.setItem("gsm_theme", currentTheme);
+        const dict = translations[currentLang] || translations.en;
+        themeToggle.textContent = currentTheme === "dark" ? dict.themeLight : dict.themeDark;
       }
 
-      function gatherState() {
-        const boxes = optionsList.querySelectorAll(".option-box");
-        const updated = state.services.map((srv, i) => {
-          const el = boxes[i];
-          return {
-            ...srv,
-            enabled: el.querySelector(".opt-enabled").checked,
-            titleFr: el.querySelector(".opt-title-fr").value.trim() || srv.titleFr,
-            subtitleFr: el.querySelector(".opt-sub-fr").value.trim() || srv.subtitleFr,
-            titleAr: el.querySelector(".opt-title-ar").value.trim() || srv.titleAr,
-            ctaFr: el.querySelector(".opt-cta-fr").value.trim() || srv.ctaFr
-          };
+      function applyLanguage(lang) {
+        currentLang = translations[lang] ? lang : "en";
+        const dict = translations[currentLang];
+        htmlEl.setAttribute("lang", currentLang);
+        htmlEl.setAttribute("dir", dict.dir);
+        document.title = dict.title;
+        localStorage.setItem("gsm_lang", currentLang);
+
+        langBtns.forEach((btn) => btn.classList.toggle("active", btn.dataset.lang === currentLang));
+
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (dict[key]) el.textContent = dict[key];
         });
 
-        return {
-          whatsappPhone: cfgWa.value.trim().replace(/[^\d]/g, "") || defaultState.whatsappPhone,
-          defaultLang: cfgLang.value,
-          defaultTheme: cfgTheme.value,
-          freeCheckCaptcha: cfgCaptcha.value === "true",
-          heroTitleFr: cfgHeroFr.value.trim() || defaultState.heroTitleFr,
-          heroSubtitleFr: cfgSubFr.value.trim() || defaultState.heroSubtitleFr,
-          imeiPlaceholderFr: defaultState.imeiPlaceholderFr,
-          services: updated
-        };
+        document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+          const key = el.getAttribute("data-i18n-title");
+          if (dict[key]) el.setAttribute("title", dict[key]);
+        });
+
+        imeiInput.placeholder = dict.imeiPlaceholder;
+        captchaInput.placeholder = dict.codePlaceholder;
+        themeToggle.textContent = currentTheme === "dark" ? dict.themeLight : dict.themeDark;
+        waLink.href = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(dict.waMsg);
+
+        if (!resultBox.hidden && lastResult) {
+          renderResult(lastResult);
+        }
       }
 
-      function updateExport() {
-        exportBox.value =
-          "window.GSM_YASSER_OPTIONS = " + JSON.stringify(state, null, 2) + ";";
+      function isValidImei(value) {
+        if (!/^\d{15}$/.test(value)) return false;
+        let sum = 0;
+        for (let i = 0; i < 15; i++) {
+          let digit = Number(value[i]);
+          if (i % 2 === 1) {
+            digit *= 2;
+            if (digit > 9) digit -= 9;
+          }
+          sum += digit;
+        }
+        return sum % 10 === 0;
       }
 
-      adminThemeBtn.addEventListener("click", function () {
-        const cur = document.documentElement.getAttribute("data-theme");
-        applyAdminTheme(cur === "dark" ? "light" : "dark");
+      captchaRefresh.addEventListener("click", generateCaptcha);
+
+      themeToggle.addEventListener("click", function () {
+        applyTheme(currentTheme === "dark" ? "light" : "dark");
       });
 
-      btnSave.addEventListener("click", function () {
-        state = gatherState();
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        updateExport();
-        statusLine.textContent = "تم حفظ الإعدادات بنجاح.";
+      langBtns.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          applyLanguage(btn.dataset.lang);
+        });
       });
 
-      btnReset.addEventListener("click", function () {
-        state = JSON.parse(JSON.stringify(defaultState));
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        renderOptions();
-        statusLine.textContent = "تمت استعادة الإعدادات الافتراضية.";
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        formError.textContent = "";
+        const dict = translations[currentLang] || translations.en;
+        const imei = imeiInput.value.trim().replace(/\s+/g, "");
+
+        if (!isValidImei(imei)) {
+          formError.textContent = dict.errImei;
+          return;
+        }
+
+        if (captchaInput.value.trim().toUpperCase() !== generatedCaptcha) {
+          formError.textContent = dict.errCaptcha;
+          generateCaptcha();
+          return;
+        }
+
+        const data =
+          window.Generator && typeof window.Generator.lookupImei === "function"
+            ? await window.Generator.lookupImei(imei)
+            : {
+                imei,
+                model: dict.defaultModel,
+                status: dict.defaultStatus
+              };
+
+        lastResult = data;
+        renderResult(data);
+        resultBox.hidden = false;
+        generateCaptcha();
+        captchaInput.value = "";
       });
 
-      btnCopy.addEventListener("click", function () {
-        exportBox.select();
-        navigator.clipboard?.writeText(exportBox.value);
-        statusLine.textContent = "تم نسخ كود الإعدادات.";
-      });
-
-      applyAdminTheme(state.defaultTheme);
-      renderOptions();
+      generateCaptcha();
+      applyLanguage(currentLang);
+      applyTheme(currentTheme);
     })();
   </script>
 </body>
