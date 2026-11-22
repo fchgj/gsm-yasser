@@ -58,7 +58,7 @@
       padding: 24px 16px 56px;
     }
 
-    /* Toolbar for Language & Theme */
+    /* Language & Theme Controls */
     .controls-bar {
       display: flex;
       flex-wrap: wrap;
@@ -416,7 +416,7 @@
       </div>
       <nav class="top-nav" aria-label="Primary Navigation">
         <a href="#lookup-section" class="nav-link" data-i18n="navStart">Start Lookup</a>
-        <a href="steps.html" class="nav-link" data-i18n="navSteps">Full Steps Guide</a>[span_0](start_span)[span_0](end_span)
+        <a href="steps.html" class="nav-link" data-i18n="navSteps">Full Steps Guide</a>[span_1](start_span)[span_1](end_span)
       </nav>
     </header>
 
@@ -440,7 +440,7 @@
 
         <div class="form-actions">
           <button type="submit" id="check-btn" class="btn-primary" data-i18n="lookupBtn">Lookup IMEI</button>
-          <a href="steps.html" class="help-link" data-i18n="howToUse">How to use? (Steps Page)</a>[span_1](start_span)[span_1](end_span)
+          <a href="steps.html" class="help-link" data-i18n="howToUse">How to use? (Steps Page)</a>[span_2](start_span)[span_2](end_span)
         </div>
       </form>
 
@@ -453,7 +453,7 @@
     <section class="steps-section" aria-label="Quick Numbered Steps">
       <div class="section-head">
         <h2 data-i18n="quickStepsTitle">Quick Steps</h2>
-        <a href="steps.html" class="nav-link" data-i18n="openSteps">Open Detailed Steps</a>[span_2](start_span)[span_2](end_span)
+        <a href="steps.html" class="nav-link" data-i18n="openSteps">Open Detailed Steps</a>[span_3](start_span)[span_3](end_span)
       </div>
 
       <div class="steps-grid">
@@ -482,7 +482,7 @@
         <strong data-i18n="waTitle">WhatsApp Support</strong>
         <p>
           <span data-i18n="waLine">Direct line:</span>
-          <a href="https://wa.me/213657241710" target="_blank" rel="noopener noreferrer">+213 657 241 710</a>
+          <a id="wa-phone-link" href="https://wa.me/213657241710" target="_blank" rel="noopener noreferrer">+213 657 241 710</a>
         </p>
       </div>
       <a
@@ -501,15 +501,17 @@
       <span data-i18n="footerBrand">iPhone IMEI Lookup Tool</span>
       <div class="footer-links">
         <a href="#lookup-section" data-i18n="startNow">Start Lookup Now</a>
-        <a href="steps.html" data-i18n="stepsShort">Steps</a>[span_3](start_span)[span_3](end_span)
+        <a href="steps.html" data-i18n="stepsShort">Steps</a>[span_4](start_span)[span_4](end_span)
         <a href="#top" data-i18n="backTop">Back to Top</a>
       </div>
     </footer>
   </div>
 
-  <script src="generator.js"></script>[span_4](start_span)[span_4](end_span)
+  <script src="generator.js"></script>[span_5](start_span)[span_5](end_span)
   <script>
     (function () {
+      const WA_NUMBER = "213657241710";
+
       const translations = {
         en: {
           dir: "ltr",
@@ -544,7 +546,8 @@
           defaultStatus: "Checked",
           themeLight: "Light Mode",
           themeDark: "Dark Mode",
-          waMsg: "Hello, I need help with iPhone IMEI lookup."
+          waMsg: "Hello, I need help with iPhone IMEI lookup.",
+          waMsgWithImei: "Hello, I need help with iPhone IMEI: "
         },
         fr: {
           dir: "ltr",
@@ -579,7 +582,8 @@
           defaultStatus: "Vérifié",
           themeLight: "Mode clair",
           themeDark: "Mode sombre",
-          waMsg: "Bonjour, j'ai besoin d'aide pour la vérification IMEI iPhone."
+          waMsg: "Bonjour, j'ai besoin d'aide pour la vérification IMEI iPhone.",
+          waMsgWithImei: "Bonjour, j'ai besoin d'aide pour l'IMEI iPhone : "
         },
         ar: {
           dir: "rtl",
@@ -614,7 +618,8 @@
           defaultStatus: "تم الفحص",
           themeLight: "الوضع الفاتح",
           themeDark: "الوضع الداكن",
-          waMsg: "مرحباً، أحتاج إلى مساعدة بخصوص فحص IMEI لهاتف iPhone."
+          waMsg: "مرحباً، أحتاج إلى مساعدة بخصوص فحص IMEI لهاتف iPhone.",
+          waMsgWithImei: "مرحباً، أحتاج إلى مساعدة بخصوص رقم IMEI: "
         }
       };
 
@@ -622,6 +627,7 @@
       const themeToggle = document.getElementById("theme-toggle");
       const langButtons = document.querySelectorAll(".lang-btn");
       const waBtn = document.getElementById("wa-btn");
+      const waPhoneLink = document.getElementById("wa-phone-link");
       const form = document.getElementById("imei-form");
       const input = document.getElementById("imei-input");
       const errorEl = document.getElementById("imei-error");
@@ -631,6 +637,15 @@
       let currentLang = localStorage.getItem("imei_lang") || "en";
       let currentTheme = localStorage.getItem("imei_theme") || "dark";
       let lastReport = null;
+
+      function updateWhatsAppLinks() {
+        const dict = translations[currentLang] || translations.en;
+        const cleanImei = input.value.trim().replace(/\s+/g, "");
+        const message = cleanImei ? dict.waMsgWithImei + cleanImei : dict.waMsg;
+        const url = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(message);
+        waBtn.href = url;
+        waPhoneLink.href = url;
+      }
 
       function applyTheme(theme) {
         currentTheme = theme === "light" ? "light" : "dark";
@@ -668,7 +683,7 @@
           }
         });
 
-        waBtn.href = "https://wa.me/213657241710?text=" + encodeURIComponent(dict.waMsg);
+        updateWhatsAppLinks();
         themeToggle.textContent = currentTheme === "dark" ? dict.themeLight : dict.themeDark;
 
         if (!resultBox.hidden && lastReport) {
@@ -685,6 +700,8 @@
           applyLanguage(btn.dataset.lang);
         });
       });
+
+      input.addEventListener("input", updateWhatsAppLinks);
 
       function isValidImei(value) {
         if (!/^\d{15}$/.test(value)) return false;
@@ -723,6 +740,7 @@
         lastReport = data;
         renderResult(data);
         resultBox.hidden = false;
+        updateWhatsAppLinks();
       });
 
       applyLanguage(currentLang);
