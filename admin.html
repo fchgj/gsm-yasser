@@ -8,36 +8,38 @@
     :root[data-theme="dark"] {
       --bg: #080e1c;
       --card: #11192c;
-      --step-card: #192234;
-      --step-circle: #29b6f6;
-      --step-circle-text: #061322;
       --input-bg: #1b2438;
+      --pill-bg: #151e33;
       --text: #f8fafc;
       --muted: #94a3b8;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --pill-bg: #151e33;
+      --accent-link: #60a5fa;
+      --check-badge: #84cc16;
       --border: #233047;
       --error: #f87171;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.28);
     }
 
     :root[data-theme="light"] {
       --bg: #f1f5f9;
       --card: #ffffff;
-      --step-card: #ffffff;
-      --step-circle: #0284c7;
-      --step-circle-text: #ffffff;
       --input-bg: #f8fafc;
+      --pill-bg: #e2e8f0;
       --text: #0f172a;
       --muted: #475569;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --pill-bg: #e2e8f0;
+      --accent-link: #0284c7;
+      --check-badge: #65a30d;
       --border: #cbd5e1;
       --error: #dc2626;
+      --shadow: 0 8px 20px rgba(15, 23, 42, 0.07);
     }
 
-    * {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
 
@@ -60,19 +62,26 @@
       padding: 16px 14px 48px;
     }
 
-    /* Top Bar (Languages + Theme) */
+    /* Top Bar: Languages, Steps Icon Shortcut & Theme */
     .top-controls {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 18px;
+    }
+
+    .right-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .lang-pills {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       background-color: var(--pill-bg);
       padding: 4px;
       border-radius: 999px;
@@ -84,10 +93,11 @@
       color: var(--text);
       border: none;
       border-radius: 999px;
-      padding: 5px 12px;
+      padding: 5px 11px;
       font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     .lang-btn.active {
@@ -95,18 +105,43 @@
       color: #ffffff;
     }
 
+    .steps-icon-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--pill-bg);
+      color: var(--accent-link);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .steps-icon-link:hover {
+      border-color: var(--primary);
+      background-color: rgba(37, 99, 235, 0.12);
+    }
+
     .theme-btn {
       background-color: var(--pill-bg);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 6px 13px;
+      padding: 6px 12px;
       font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
+      transition: border-color 0.2s ease;
     }
 
-    /* Hero Title */
+    .theme-btn:hover {
+      border-color: var(--primary);
+    }
+
+    /* Hero */
     .hero {
       text-align: center;
       margin-bottom: 20px;
@@ -138,13 +173,14 @@
       font-size: 0.88rem;
     }
 
-    /* Cards */
+    /* Free Check Card */
     .card {
       background-color: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 18px;
       margin-bottom: 14px;
+      box-shadow: var(--shadow);
     }
 
     .free-header {
@@ -157,6 +193,7 @@
       font-size: 1.18rem;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
     }
 
@@ -166,7 +203,7 @@
       width: 22px;
       height: 22px;
       border-radius: 6px;
-      background-color: #84cc16;
+      background-color: var(--check-badge);
       color: #0f172a;
       font-size: 0.85rem;
       font-weight: 900;
@@ -195,7 +232,6 @@
       border-color: var(--primary);
     }
 
-    /* Captcha Box */
     .captcha-row {
       display: flex;
       flex-wrap: wrap;
@@ -228,7 +264,7 @@
     }
 
     .captcha-input {
-      width: 78px;
+      width: 80px;
       background-color: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
@@ -261,9 +297,6 @@
       font-size: 0.95rem;
       font-weight: 700;
       cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      text-align: center;
       transition: background-color 0.2s ease;
     }
 
@@ -281,7 +314,7 @@
 
     .result-box {
       margin-top: 12px;
-      padding: 12px;
+      padding: 12px 14px;
       border-radius: 10px;
       background-color: var(--input-bg);
       border: 1px solid var(--border);
@@ -292,107 +325,9 @@
       margin: 4px 0;
     }
 
-    /* Service Cards */
-    .service-head {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .shield-icon {
-      flex: 0 0 24px;
-      height: 24px;
-      border-radius: 6px;
-      background: linear-gradient(135deg, #ef4444, #f8fafc);
-      color: #0f172a;
-      font-size: 0.78rem;
-      font-weight: 900;
-      display: grid;
-      place-items: center;
-      margin-top: 2px;
-    }
-
-    .service-head h3 {
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .service-head p {
-      margin: 3px 0 0;
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-
-    /* Replaced Steps Interface (Matching 1000123650.jpg) */
-    .steps-section {
+    /* Footer */
+    .footer-bar {
       margin-top: 20px;
-    }
-
-    .steps-top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .steps-top-bar h2 {
-      margin: 0;
-      font-size: 1.02rem;
-    }
-
-    .steps-stack {
-      display: grid;
-      gap: 14px;
-    }
-
-    .step-panel {
-      background-color: var(--step-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px 18px;
-    }
-
-    .step-circle {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background-color: var(--step-circle);
-      color: var(--step-circle-text);
-      font-weight: 800;
-      font-size: 0.92rem;
-      display: grid;
-      place-items: center;
-      margin-bottom: 14px;
-    }
-
-    .step-panel h3 {
-      margin: 0 0 8px;
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
-
-    .step-panel p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.55;
-    }
-
-    .link-accent {
-      color: #60a5fa;
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .link-accent:hover {
-      text-decoration: underline;
-    }
-
-    .footer-nav {
-      margin-top: 22px;
       padding-top: 14px;
       border-top: 1px solid var(--border);
       display: flex;
@@ -403,23 +338,34 @@
       font-size: 0.84rem;
     }
 
-    .footer-nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
+    .link-accent {
+      color: var(--accent-link);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .link-accent:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body id="top">
   <div class="container">
-    <!-- Top Language & Theme Bar -->
+    <!-- Top Controls: Languages + Workflow Icon Shortcut + Theme -->
     <div class="top-controls">
       <div class="lang-pills" role="group" aria-label="Language Selector">
         <button type="button" class="lang-btn" data-lang="ar">العربية</button>
         <button type="button" class="lang-btn active" data-lang="fr">FR</button>
         <button type="button" class="lang-btn" data-lang="en">EN</button>
       </div>
-      <button type="button" id="theme-toggle" class="theme-btn">☀️ Clair</button>
+
+      <div class="right-actions">
+        <a href="steps.html" class="steps-icon-link" title="Workflow Steps" data-i18n-title="stepsTitle">
+          <span aria-hidden="true">📋</span>
+          <span data-i18n="stepsShortcut">Étapes</span>
+        </a>
+        <button type="button" id="theme-toggle" class="theme-btn">☀️ Clair</button>
+      </div>
     </div>
 
     <!-- Header -->
@@ -429,7 +375,7 @@
       <p data-i18n="heroSub">Vérifiez votre appareil facilement</p>
     </header>
 
-    <!-- Free Check Card -->
+    <!-- Free IMEI Check Card -->
     <main id="lookup-section" class="card">
       <div class="free-header">
         <h2>
@@ -450,7 +396,7 @@
           autocomplete="off"
         />
 
-        <div id="captcha-box" class="captcha-row">
+        <div class="captcha-row">
           <span class="captcha-label" data-i18n="robotLabel">🔒 Je ne suis pas un robot:</span>
           <span id="captcha-code" class="captcha-code-box">NMKLU</span>
           <input type="text" id="captcha-input" class="captcha-input" maxlength="5" placeholder="Code" autocomplete="off" />
@@ -465,132 +411,32 @@
       <div id="result-box" class="result-box" hidden aria-live="polite"></div>
     </main>
 
-    <!-- Dynamic Service Cards (Network, iCloud, Blacklist, PRO) -->
-    <section id="services-list" aria-label="Verification Services"></section>
-
-    <!-- Replaced Steps Interface -->
-    <section class="steps-section" aria-label="Steps Guide">
-      <div class="steps-top-bar">
-        <h2 data-i18n="stepsHeading">Steps Guide</h2>
-        <a href="steps.html" class="link-accent" data-i18n="stepsLink">steps.html →</a>
-      </div>
-
-      <div class="steps-stack">
-        <article class="step-panel">
-          <div class="step-circle">1</div>
-          <h3 data-i18n="step1Title">Find Your IMEI</h3>
-          <p data-i18n="step1Desc">Open the Phone app on your iPhone and dial *#06# to display the 15-digit IMEI.</p>
-        </article>
-
-        <article class="step-panel">
-          <div class="step-circle">2</div>
-          <h3 data-i18n="step2Title">Enter &amp; Check</h3>
-          <p data-i18n="step2Desc">Paste or type the 15-digit number into the lookup box above and click Lookup IMEI.</p>
-        </article>
-
-        <article class="step-panel">
-          <div class="step-circle">3</div>
-          <h3 data-i18n="step3Title">Review Details</h3>
-          <p data-i18n="step3Desc">Inspect the returned IMEI details right on the page or contact support if you need assistance.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Footer Navigation -->
-    <footer class="footer-nav">
-      <a href="https://wa.me/213657241710" target="_blank" rel="noopener noreferrer" class="link-accent">
+    <!-- Footer -->
+    <footer class="footer-bar">
+      <a
+        id="wa-link"
+        href="https://wa.me/213657241710?text=Bonjour%2C%20j%27ai%20besoin%20d%27aide%20pour%20la%20v%C3%A9rification%20IMEI."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-accent"
+      >
         WhatsApp: +213 657 241 710
       </a>
-      <div class="footer-nav-links">
-        <a href="#lookup-section" class="link-accent" data-i18n="navLookup">Vérifier</a>
-        <a href="steps.html" class="link-accent" data-i18n="navSteps">Étapes</a>
-        <a href="#top" class="link-accent" data-i18n="navTop">Haut ↑</a>
-      </div>
+      <a href="steps.html" class="link-accent">
+        <span>📋</span> <span data-i18n="stepsShortcut">Étapes</span>
+      </a>
     </footer>
   </div>
 
   <script src="generator.js"></script>
   <script>
     (function () {
-      const STORAGE_KEY = "gsm_yasser_admin_options_v1";
-      const DEFAULT_WA = "213657241710";
-
-      const defaultServices = [
-        {
-          id: "network_lock",
-          enabled: true,
-          titleFr: "Vérification Verrou Réseau",
-          subtitleFr: "Verrou réseau - État SIM",
-          ctaFr: "Contactez-nous ↗",
-          titleEn: "Network Lock Check",
-          subtitleEn: "Carrier lock - SIM status",
-          ctaEn: "Contact us ↗",
-          titleAr: "فحص قفل الشبكة",
-          subtitleAr: "قفل الشبكة - حالة الشريحة SIM",
-          ctaAr: "تواصل معنا ↗"
-        },
-        {
-          id: "icloud_check",
-          enabled: true,
-          titleFr: "Vérification iCloud",
-          subtitleFr: "Verrou iCloud - Find My",
-          ctaFr: "Contactez-nous ↗",
-          titleEn: "iCloud Check",
-          subtitleEn: "iCloud lock - Find My",
-          ctaEn: "Contact us ↗",
-          titleAr: "فحص iCloud",
-          subtitleAr: "قفل iCloud - ميزة Find My",
-          ctaAr: "تواصل معنا ↗"
-        },
-        {
-          id: "blacklist_check",
-          enabled: true,
-          titleFr: "Vérification Liste Noire",
-          subtitleFr: "Volé - Perdu - Bloqué",
-          ctaFr: "Contactez-nous ↗",
-          titleEn: "Blacklist Check",
-          subtitleEn: "Stolen - Lost - Blocked",
-          ctaEn: "Contact us ↗",
-          titleAr: "فحص القائمة السوداء",
-          subtitleAr: "مسروق - مفقود - محظور",
-          ctaAr: "تواصل معنا ↗"
-        },
-        {
-          id: "pro_report",
-          enabled: true,
-          titleFr: "Vérification Complète PRO",
-          subtitleFr: "Rapport PDF complet - GSX - Garantie - Date achat - Réseau - iCloud",
-          ctaFr: "Contactez-nous ↗",
-          titleEn: "Complete PRO Check",
-          subtitleEn: "Full PDF report - GSX - Warranty - Purchase date - Carrier - iCloud",
-          ctaEn: "Contact us ↗",
-          titleAr: "فحص شامل PRO",
-          subtitleAr: "تقرير PDF كامل - GSX - الضمان - تاريخ الشراء - الشبكة - iCloud",
-          ctaAr: "تواصل معنا ↗"
-        }
-      ];
-
-      function getAdminConfig() {
-        try {
-          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-          if (saved && Array.isArray(saved.services)) {
-            return {
-              whatsappPhone: saved.whatsappPhone || DEFAULT_WA,
-              freeCheckCaptcha: typeof saved.freeCheckCaptcha === "boolean" ? saved.freeCheckCaptcha : true,
-              services: saved.services.filter((s) => s.id !== "free_check")
-            };
-          }
-        } catch (e) {}
-        return {
-          whatsappPhone: DEFAULT_WA,
-          freeCheckCaptcha: true,
-          services: defaultServices
-        };
-      }
+      const WA_NUMBER = "213657241710";
 
       const translations = {
         fr: {
           dir: "ltr",
+          title: "Vérification IMEI - gsm-yasser",
           heroTitle: "Vérification IMEI",
           heroSub: "Vérifiez votre appareil facilement",
           freeTitle: "Vérification Gratuite",
@@ -599,98 +445,85 @@
           robotLabel: "🔒 Je ne suis pas un robot:",
           codePlaceholder: "Code",
           freeBtn: "Vérifier Gratuitement",
-          stepsHeading: "Étapes d'utilisation",
-          stepsLink: "steps.html →",
-          step1Title: "Find Your IMEI",
-          step1Desc: "Open the Phone app on your iPhone and dial *#06# to display the 15-digit IMEI.",
-          step2Title: "Enter & Check",
-          step2Desc: "Paste or type the 15-digit number into the lookup box above and click Lookup IMEI.",
-          step3Title: "Review Details",
-          step3Desc: "Inspect the returned IMEI details right on the page or contact support if you need assistance.",
-          navLookup: "Vérifier",
-          navSteps: "Étapes",
-          navTop: "Haut ↑",
+          stepsShortcut: "Étapes",
+          stepsTitle: "Étapes de travail",
           themeLight: "☀️ Clair",
           themeDark: "🌙 Sombre",
           errImei: "Veuillez saisir un numéro IMEI valide à 15 chiffres.",
           errCaptcha: "Code de vérification incorrect.",
-          waIntro: "Bonjour, je souhaite demander le service : "
+          lblImei: "IMEI",
+          lblModel: "Modèle",
+          lblStatus: "Statut",
+          defaultModel: "iPhone",
+          defaultStatus: "Vérifié gratuitement",
+          waMsg: "Bonjour, j'ai besoin d'aide pour la vérification IMEI."
         },
         en: {
           dir: "ltr",
-          heroTitle: "IMEI Verification",
+          title: "IMEI Check - gsm-yasser",
+          heroTitle: "IMEI Check",
           heroSub: "Check your device easily",
-          freeTitle: "Free Verification",
+          freeTitle: "Free Check",
           freeSub: "Know your model - 100% Free -",
           imeiPlaceholder: "Enter IMEI - 15 digits",
           robotLabel: "🔒 I am not a robot:",
           codePlaceholder: "Code",
           freeBtn: "Check for Free",
-          stepsHeading: "Steps Guide",
-          stepsLink: "steps.html →",
-          step1Title: "Find Your IMEI",
-          step1Desc: "Open the Phone app on your iPhone and dial *#06# to display the 15-digit IMEI.",
-          step2Title: "Enter & Check",
-          step2Desc: "Paste or type the 15-digit number into the lookup box above and click Lookup IMEI.",
-          step3Title: "Review Details",
-          step3Desc: "Inspect the returned IMEI details right on the page or contact support if you need assistance.",
-          navLookup: "Lookup",
-          navSteps: "Steps",
-          navTop: "Top ↑",
+          stepsShortcut: "Steps",
+          stepsTitle: "Workflow Steps",
           themeLight: "☀️ Light",
           themeDark: "🌙 Dark",
           errImei: "Please enter a valid 15-digit IMEI number.",
           errCaptcha: "Incorrect verification code.",
-          waIntro: "Hello, I would like to request the service: "
+          lblImei: "IMEI",
+          lblModel: "Model",
+          lblStatus: "Status",
+          defaultModel: "iPhone",
+          defaultStatus: "Checked for free",
+          waMsg: "Hello, I need help with IMEI check."
         },
         ar: {
           dir: "rtl",
+          title: "فحص IMEI - gsm-yasser",
           heroTitle: "فحص رقم IMEI",
-          heroSub: "تحقق من جهازك بكل سهولة",
+          heroSub: "تحقق من جهازك بسهولة",
           freeTitle: "فحص مجاني",
           freeSub: "اعرف طراز جهازك - مجاني 100% -",
           imeiPlaceholder: "أدخل رقم IMEI - 15 رقماً",
           robotLabel: "🔒 أنا لست روبوت:",
           codePlaceholder: "الكود",
           freeBtn: "فحص مجاناً",
-          stepsHeading: "خطوات الاستخدام",
-          stepsLink: "steps.html ←",
-          step1Title: "Find Your IMEI",
-          step1Desc: "Open the Phone app on your iPhone and dial *#06# to display the 15-digit IMEI.",
-          step2Title: "Enter & Check",
-          step2Desc: "Paste or type the 15-digit number into the lookup box above and click Lookup IMEI.",
-          step3Title: "Review Details",
-          step3Desc: "Inspect the returned IMEI details right on the page or contact support if you need assistance.",
-          navLookup: "الفحص",
-          navSteps: "الخطوات",
-          navTop: "الأعلى ↑",
+          stepsShortcut: "الخطوات",
+          stepsTitle: "خطوات العمل",
           themeLight: "☀️ فاتح",
           themeDark: "🌙 داكن",
           errImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
           errCaptcha: "رمز التحقق غير صحيح.",
-          waIntro: "مرحباً، أرغب في طلب خدمة: "
+          lblImei: "رقم IMEI",
+          lblModel: "الطراز",
+          lblStatus: "الحالة",
+          defaultModel: "iPhone",
+          defaultStatus: "تم الفحص مجاناً",
+          waMsg: "مرحباً، أحتاج إلى مساعدة بخصوص فحص IMEI."
         }
       };
 
-      const adminConfig = getAdminConfig();
       const htmlEl = document.documentElement;
       const langBtns = document.querySelectorAll(".lang-btn");
       const themeToggle = document.getElementById("theme-toggle");
       const imeiInput = document.getElementById("imei-input");
-      const captchaBox = document.getElementById("captcha-box");
       const captchaCodeEl = document.getElementById("captcha-code");
       const captchaInput = document.getElementById("captcha-input");
       const captchaRefresh = document.getElementById("captcha-refresh");
       const form = document.getElementById("imei-form");
       const formError = document.getElementById("form-error");
       const resultBox = document.getElementById("result-box");
-      const servicesList = document.getElementById("services-list");
+      const waLink = document.getElementById("wa-link");
 
       let currentLang = localStorage.getItem("gsm_lang") || "fr";
       let currentTheme = localStorage.getItem("gsm_theme") || "dark";
       let generatedCaptcha = "NMKLU";
-
-      captchaBox.hidden = !adminConfig.freeCheckCaptcha;
+      let lastResult = null;
 
       function generateCaptcha() {
         const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -702,45 +535,13 @@
         captchaCodeEl.textContent = code;
       }
 
-      function renderServices() {
+      function renderResult(data) {
+        if (!data) return;
         const dict = translations[currentLang] || translations.fr;
-        const cleanImei = imeiInput.value.trim().replace(/\s+/g, "");
-
-        servicesList.innerHTML = adminConfig.services
-          .filter((s) => s.enabled !== false)
-          .map((srv) => {
-            const title =
-              currentLang === "ar" ? srv.titleAr : currentLang === "en" ? srv.titleEn : srv.titleFr;
-            const sub =
-              currentLang === "ar"
-                ? srv.subtitleAr
-                : currentLang === "en"
-                ? srv.subtitleEn
-                : srv.subtitleFr;
-            const cta =
-              currentLang === "ar" ? srv.ctaAr : currentLang === "en" ? srv.ctaEn : srv.ctaFr;
-
-            const waText =
-              dict.waIntro + title + (cleanImei ? " | IMEI: " + cleanImei : "");
-            const waHref =
-              "https://wa.me/" + adminConfig.whatsappPhone + "?text=" + encodeURIComponent(waText);
-
-            return `
-              <article class="card">
-                <div class="service-head">
-                  <div class="shield-icon">U</div>
-                  <div>
-                    <h3>${title}</h3>
-                    <p>${sub}</p>
-                  </div>
-                </div>
-                <a href="${waHref}" target="_blank" rel="noopener noreferrer" class="btn-full">
-                  ${cta}
-                </a>
-              </article>
-            `;
-          })
-          .join("");
+        resultBox.innerHTML =
+          "<p><strong>" + dict.lblImei + ":</strong> " + data.imei + "</p>" +
+          "<p><strong>" + dict.lblModel + ":</strong> " + (data.model || dict.defaultModel) + "</p>" +
+          "<p><strong>" + dict.lblStatus + ":</strong> " + (data.status || dict.defaultStatus) + "</p>";
       }
 
       function applyTheme(theme) {
@@ -756,19 +557,29 @@
         const dict = translations[currentLang];
         htmlEl.setAttribute("lang", currentLang);
         htmlEl.setAttribute("dir", dict.dir);
+        document.title = dict.title;
         localStorage.setItem("gsm_lang", currentLang);
 
-        langBtns.forEach((b) => b.classList.toggle("active", b.dataset.lang === currentLang));
+        langBtns.forEach((btn) => btn.classList.toggle("active", btn.dataset.lang === currentLang));
 
         document.querySelectorAll("[data-i18n]").forEach((el) => {
           const key = el.getAttribute("data-i18n");
           if (dict[key]) el.textContent = dict[key];
         });
 
+        document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+          const key = el.getAttribute("data-i18n-title");
+          if (dict[key]) el.setAttribute("title", dict[key]);
+        });
+
         imeiInput.placeholder = dict.imeiPlaceholder;
         captchaInput.placeholder = dict.codePlaceholder;
         themeToggle.textContent = currentTheme === "dark" ? dict.themeLight : dict.themeDark;
-        renderServices();
+        waLink.href = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(dict.waMsg);
+
+        if (!resultBox.hidden && lastResult) {
+          renderResult(lastResult);
+        }
       }
 
       function isValidImei(value) {
@@ -786,7 +597,6 @@
       }
 
       captchaRefresh.addEventListener("click", generateCaptcha);
-      imeiInput.addEventListener("input", renderServices);
 
       themeToggle.addEventListener("click", function () {
         applyTheme(currentTheme === "dark" ? "light" : "dark");
@@ -809,12 +619,10 @@
           return;
         }
 
-        if (adminConfig.freeCheckCaptcha) {
-          if (captchaInput.value.trim().toUpperCase() !== generatedCaptcha) {
-            formError.textContent = dict.errCaptcha;
-            generateCaptcha();
-            return;
-          }
+        if (captchaInput.value.trim().toUpperCase() !== generatedCaptcha) {
+          formError.textContent = dict.errCaptcha;
+          generateCaptcha();
+          return;
         }
 
         const data =
@@ -822,14 +630,12 @@
             ? await window.Generator.lookupImei(imei)
             : {
                 imei,
-                model: "iPhone (Verified Format)",
-                status: "OK"
+                model: dict.defaultModel,
+                status: dict.defaultStatus
               };
 
-        resultBox.innerHTML =
-          "<p><strong>IMEI:</strong> " + data.imei + "</p>" +
-          "<p><strong>Model:</strong> " + (data.model || "iPhone") + "</p>" +
-          "<p><strong>Status:</strong> " + (data.status || "OK") + "</p>";
+        lastResult = data;
+        renderResult(data);
         resultBox.hidden = false;
         generateCaptcha();
         captchaInput.value = "";
