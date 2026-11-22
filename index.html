@@ -1,463 +1,565 @@
+
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GSM Yasser Server — iPhone IMEI Checker</title>
-  <style>
-    :root {
-      --bg: #070d19;
-      --surface: #0f172a;
-      --card: #131f35;
-      --card-hover: #182742;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --border: rgba(148, 163, 184, 0.16);
-      --badge-bg: rgba(245, 158, 11, 0.16);
-      --badge-text: #fbbf24;
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body.light {
-      --bg: #f1f5f9;
-      --surface: #ffffff;
-      --card: #ffffff;
-      --card-hover: #f8fafc;
-      --text: #0f172a;
-      --muted: #475569;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --success: #059669;
-      --warning: #d97706;
-      --danger: #dc2626;
-      --border: rgba(15, 23, 42, 0.12);
-      --badge-bg: rgba(217, 119, 6, 0.12);
-      --badge-text: #b45309;
-      --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
-    }
+<title>GSM YASSER SERVER | iPhone IMEI Checker</title>
+<meta name="description" content="Validate your 15-digit iPhone IMEI online for free. Request professional iPhone network, iCloud and blacklist checks from GSM YASSER SERVER.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://fchgj.github.io/gsm-yasser/">
+<meta property="og:title" content="GSM YASSER SERVER - iPhone IMEI Check">
+<meta property="og:description" content="Free online IMEI validation and professional iPhone checking services.">
+<meta property="og:url" content="https://fchgj.github.io/gsm-yasser/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#070d19">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
-    }
-
-    body {
-      background: radial-gradient(circle at top, rgba(37, 99, 235, 0.12), transparent 45%), var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.65;
-      transition: background 0.25s ease, color 0.25s ease;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    /* شريط علوي عالمي متجاوب */
-    .topbar {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      border-radius: 16px;
-      padding: 12px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 28px;
-    }
-
-    .brand-mini {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 1rem;
-    }
-
-    .brand-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--success);
-      box-shadow: 0 0 10px var(--success);
-    }
-
-    .topbar-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .topbar-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-pill {
-      background: var(--card);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 7px 14px;
-      font-size: 0.86rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.18s ease;
-    }
-
-    .btn-pill:hover {
-      background: var(--card-hover);
-      border-color: var(--primary);
-    }
-
-    .btn-pill.active {
-      background: var(--primary);
-      color: #ffffff;
-      border-color: var(--primary);
-    }
-
-    /* ترويسة الموقع */
-    .hero {
-      text-align: center;
-      max-width: 760px;
-      margin: 0 auto 32px;
-    }
-
-    .hero h1 {
-      font-size: clamp(1.55rem, 3vw, 2.3rem);
-      font-weight: 800;
-      margin-bottom: 8px;
-      letter-spacing: -0.3px;
-    }
-
-    .hero p {
-      color: var(--muted);
-      font-size: clamp(0.95rem, 1.5vw, 1.08rem);
-    }
-
-    /* شبكة سطح المكتب الرئيسية */
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    @media (min-width: 900px) {
-      .main-grid {
-        grid-template-columns: 420px 1fr;
-        gap: 28px;
-      }
-    }
-
-    .panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      border-radius: 20px;
-      padding: 24px;
-    }
-
-    .panel h2 {
-      font-size: 1.22rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .panel .sub {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 18px;
-    }
-
-    .input {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 12px;
-      padding: 13px 15px;
-      font-size: 0.96rem;
-      margin-bottom: 14px;
-      outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-    }
-
-    .captcha-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .captcha-row .input {
-      margin-bottom: 0;
-      flex: 1;
-    }
-
-    .captcha-box {
-      background: #0b1324;
-      color: #e2e8f0;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 11px 16px;
-      font-weight: 800;
-      font-size: 0.95rem;
-      letter-spacing: 3px;
-      user-select: none;
-      white-space: nowrap;
-    }
-
-    .btn-primary {
-      width: 100%;
-      background: var(--primary);
-      color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      padding: 13px 18px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.1s ease;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-hover);
-    }
-
-    .btn-primary:active {
-      transform: scale(0.99);
-    }
-
-    .help-link {
-      display: block;
-      text-align: center;
-      margin-top: 14px;
-      font-size: 0.86rem;
-      color: #3b82f6;
-      text-decoration: none;
-    }
-
-    .help-link:hover {
-      text-decoration: underline;
-    }
-
-    .result-box {
-      margin-top: 16px;
-      padding: 14px;
-      border-radius: 12px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      font-size: 0.9rem;
-      display: none;
-    }
-
-    .result-actions {
-      margin-top: 12px;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      padding: 7px 12px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--primary);
-    }
-
-    /* شبكة الخدمات المدفوعة على الشاشات الكبيرة */
-    .services-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-
-    @media (min-width: 640px) {
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .service-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-    }
-
-    .service-card:hover {
-      transform: translateY(-2px);
-      background: var(--card-hover);
-      border-color: rgba(37, 99, 235, 0.45);
-    }
-
-    .service-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-
-    .service-title {
-      font-weight: 700;
-      font-size: 1rem;
-    }
-
-    .badge {
-      background: var(--badge-bg);
-      color: var(--badge-text);
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .service-desc {
-      color: var(--muted);
-      font-size: 0.86rem;
-      margin-bottom: 16px;
-    }
-
-    .btn-wa {
-      display: block;
-      width: 100%;
-      text-align: center;
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      padding: 10px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.9rem;
-      transition: all 0.18s ease;
-    }
-
-    .btn-wa:hover {
-      background: #16a34a;
-      color: #ffffff;
-      border-color: #16a34a;
-    }
-
-    /* التذييل */
-    .footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.84rem;
-      margin-top: 36px;
-      padding-bottom: 24px;
-    }
-
-    .footer-pill {
-      display: inline-block;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 7px 16px;
-      color: var(--text);
-      margin-bottom: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.88rem;
-      direction: ltr;
-    }
-
-    /* تنسيق الطباعة على ويندوز */
-    @media print {
-      .topbar, .services-panel, .captcha-row, .btn-primary, .help-link, .result-actions, .footer-pill {
-        display: none !important;
-      }
-      body {
-        background: #ffffff;
-        color: #000000;
-      }
-      .panel {
-        box-shadow: none;
-        border: 1px solid #cbd5e1;
-      }
-      .result-box {
-        display: block !important;
-      }
-    }
-  </style>
+<style>
+:root{
+--bg:#070d19;
+--surface:#0f172a;
+--card:#131f35;
+--hover:#1b2b46;
+--text:#f8fafc;
+--muted:#94a3b8;
+--primary:#2563eb;
+--success:#10b981;
+--danger:#ef4444;
+--border:rgba(148,163,184,.16);
+--shadow:0 10px 30px rgba(0,0,0,.3);
+}
+body.light{
+--bg:#f1f5f9;
+--surface:#fff;
+--card:#fff;
+--hover:#f1f5f9;
+--text:#0f172a;
+--muted:#475569;
+--primary:#2563eb;
+--success:#059669;
+--danger:#dc2626;
+--border:rgba(15,23,42,.12);
+--shadow:0 8px 25px rgba(15,23,42,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+background:radial-gradient(circle at top,rgba(37,99,235,.13),transparent 45%),var(--bg);
+color:var(--text);
+font-family:Arial,"Segoe UI",sans-serif;
+line-height:1.65;
+min-height:100vh;
+transition:.2s;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.container{max-width:1150px;width:100%;margin:auto;padding:20px}
+.topbar{
+display:flex;justify-content:space-between;align-items:center;
+gap:15px;flex-wrap:wrap;padding:15px 18px;
+background:var(--surface);border:1px solid var(--border);
+border-radius:16px;box-shadow:var(--shadow);margin-bottom:35px
+}
+.brand{font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:10px}
+.brand-dot{width:10px;height:10px;background:var(--success);border-radius:50%;box-shadow:0 0 12px var(--success)}
+.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn{
+border:1px solid var(--border);background:var(--card);
+color:var(--text);padding:8px 13px;border-radius:10px;
+font-weight:700;transition:.2s
+}
+.btn:hover{border-color:var(--primary);background:var(--hover)}
+.btn.active{background:var(--primary);color:white;border-color:var(--primary)}
+.hero{text-align:center;margin:0 auto 35px;max-width:800px}
+.hero h1{font-size:clamp(1.6rem,4vw,2.5rem);font-weight:800;margin-bottom:8px}
+.hero p{color:var(--muted)}
+.main-grid{display:grid;grid-template-columns:1fr;gap:24px;align-items:start}
+@media(min-width:900px){.main-grid{grid-template-columns:400px 1fr;gap:28px}}
+.panel{
+background:var(--surface);border:1px solid var(--border);
+border-radius:20px;padding:24px;box-shadow:var(--shadow)
+}
+.panel h2{font-size:1.2rem;margin-bottom:5px}
+.sub{font-size:.9rem;color:var(--muted);margin-bottom:18px}
+.input{
+width:100%;padding:13px 15px;border-radius:12px;
+background:var(--card);border:1px solid var(--border);
+color:var(--text);outline:none;margin-bottom:14px
+}
+.input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.18)}
+.captcha-row{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.captcha-row .input{margin:0;min-width:0}
+.captcha-box{
+background:#0b1324;color:#fff;padding:11px 15px;
+border-radius:12px;font-weight:800;letter-spacing:3px;
+white-space:nowrap;user-select:none
+}
+.primary{
+width:100%;background:var(--primary);color:#fff;
+border:0;padding:13px;border-radius:12px;font-weight:800
+}
+.primary:hover{filter:brightness(1.12)}
+.result{
+display:none;margin-top:16px;padding:15px;border-radius:12px;
+background:var(--card);border:1px solid var(--border)
+}
+.result.success{border-color:var(--success)}
+.result.error{border-color:var(--danger)}
+.result-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.secondary{
+padding:8px 12px;border-radius:9px;background:transparent;
+border:1px solid var(--border);color:var(--text);font-weight:700
+}
+.services-panel h2{margin-bottom:6px}
+.services-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:18px}
+@media(min-width:600px){.services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.service-card{
+background:var(--card);border:1px solid var(--border);
+padding:18px;border-radius:16px;display:flex;
+flex-direction:column;justify-content:space-between;gap:12px;
+transition:.2s
+}
+.service-card:hover{transform:translateY(-3px);border-color:var(--primary);background:var(--hover)}
+.service-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.service-title{font-weight:800}
+.badge{font-size:.72rem;padding:3px 9px;border-radius:30px;background:rgba(245,158,11,.15);color:#fbbf24}
+.service-desc{font-size:.86rem;color:var(--muted)}
+.wa-btn{
+display:block;text-align:center;text-decoration:none;
+background:#128c4a;color:white;padding:10px;border-radius:10px;
+font-weight:800
+}
+.wa-btn:hover{background:#16a34a}
+.help-link{display:block;text-align:center;margin-top:14px;color:#60a5fa;text-decoration:none;font-size:.9rem}
+.footer{text-align:center;color:var(--muted);font-size:.85rem;margin-top:35px;padding-bottom:20px}
+.footer a{color:var(--muted);text-decoration:none}
+.report-title{display:none}
+[hidden]{display:none!important}
+@media(max-width:480px){
+.container{padding:12px}
+.panel{padding:17px}
+.topbar{padding:12px}
+.controls{width:100%}
+.controls .btn{flex:1}
+}
+@media print{
+@page{margin:15mm}
+body{background:#fff!important;color:#000!important;font-family:Arial,sans-serif}
+.topbar,.hero,.services-panel,.captcha-row,.primary,.help-link,
+.result-actions,.footer,.input,.no-print{display:none!important}
+.container{max-width:100%;padding:0}
+.main-grid{display:block}
+.panel{background:#fff!important;color:#000!important;box-shadow:none;border:1px solid #bbb;padding:20px}
+.panel h2,.sub{color:#000!important}
+.result{display:block!important;background:#fff!important;color:#000!important;border:1px solid #bbb}
+.report-title{display:block;text-align:center;margin-bottom:20px}
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <!-- الشريط العلوي -->
-    <div class="topbar">
-      <div class="brand-mini">
-        <span class="brand-dot"></span>
-        <span>GSM Yasser Server</span>
-      </div>
+<div class="container">
 
-      <div class="topbar-controls">
-        <div class="topbar-group">
-          <button class="btn-pill" id="themeBtn" type="button" onclick="toggleTheme()">🌙 داكن</button>
-        </div>
-        <div class="topbar-group">
-          <button class="btn-pill" id="langEn" type="button" onclick="setLang('en')">EN</button>
-          <button class="btn-pill" id="langFr" type="button" onclick="setLang('fr')">FR</button>
-          <button class="btn-pill active" id="langAr" type="button" onclick="setLang('ar')">العربية</button>
-        </div>
-      </div>
-    </div>
+<header class="topbar">
+<div class="brand">
+<span class="brand-dot"></span>
+<span>GSM YASSER SERVER</span>
+</div>
 
-    <!-- العنوان الرئيسي -->
-    <header class="hero">
-      <h1 id="heroTitle">GSM Yasser Server — فحص IMEI لـ iPhone</h1>
-      <p id="heroSubtitle">فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة</p>
-    </header>
+<div class="controls">
+<button class="btn" id="themeBtn" type="button">🌙 Dark</button>
+<button class="btn" data-lang="en" type="button">EN</button>
+<button class="btn" data-lang="fr" type="button">FR</button>
+<button class="btn active" data-lang="ar" type="button">العربية</button>
+</div>
+</header>
 
-    <!-- المحتوى الرئيسي -->
-    <main class="main-grid">
-      <!-- قسم الفحص المجاني -->
-      <section class="panel">
-        <h2 id="freeTitle">فحص مجاني</h2>
-        <p class="sub" id="freeSub">تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</p>
+<header class="hero">
+<h1 data-i18n="heroTitle">iPhone IMEI Checker</h1>
+<p data-i18n="heroSub">Free IMEI validation and professional checking services</p>
+</header>
 
-        <input
-          type="text"
-          id="imeiInput"
-          class="input"
-          maxlength="15"
-          placeholder="أدخل رقم IMEI المكوّن من 15 رقماً"
-          oninput="this.value = this.value.replace(/\D/g, '')"
-        />
+<main class="main-grid">
 
-        <div class="captcha-row">
-          <input type="text" id="captchaInput" class="input" placeholder="الرمز" />
-          <div class="captcha-box" id="captchaDisplay">NMKLU
+<section class="panel">
+<div class="report-title">
+<h1>GSM YASSER SERVER</h1>
+<p>IMEI CHECK REPORT</p>
+<hr>
+</div>
+
+<h2 data-i18n="freeTitle">Free IMEI Check</h2>
+<p class="sub" data-i18n="freeSub">Validate your 15-digit IMEI number.</p>
+
+<label for="imeiInput" data-i18n="imeiLabel">IMEI Number</label>
+<input id="imeiInput" class="input" type="text" inputmode="numeric"
+maxlength="15" autocomplete="off" placeholder="Enter 15-digit IMEI">
+
+<div class="captcha-row">
+<input id="captchaInput" class="input" type="text" autocomplete="off"
+placeholder="Captcha">
+<div class="captcha-box" id="captchaDisplay">A7K9M</div>
+<button class="btn" id="refreshCaptcha" type="button" aria-label="Refresh CAPTCHA">↻</button>
+</div>
+
+<button class="primary" id="checkBtn" type="button" data-i18n="checkBtn">Check IMEI</button>
+
+<a class="help-link" href="steps.html" data-i18n="helpLink">❔ How to use this website?</a>
+
+<div id="resultBox" class="result" aria-live="polite">
+<h3 id="resultTitle"></h3>
+<p id="resultMessage"></p>
+<div class="result-actions">
+<button class="secondary" id="printBtn" type="button" data-i18n="printBtn">Print / Save PDF</button>
+<button class="secondary" id="copyBtn" type="button" data-i18n="copyBtn">Copy Report</button>
+</div>
+</div>
+</section>
+
+<section class="panel services-panel">
+<h2 data-i18n="servicesTitle">Professional Services</h2>
+<p class="sub" data-i18n="servicesSub">Request a professional iPhone check.</p>
+
+<div class="services-grid" id="servicesGrid">
+
+<article class="service-card">
+<div>
+<div class="service-top">
+<span class="service-title" data-i18n="networkTitle">Network Lock Check</span>
+<span class="badge" data-i18n="paid">PAID</span>
+</div>
+<p class="service-desc" data-i18n="networkDesc">Check carrier and network lock status.</p>
+</div>
+<button class="wa-btn service-request" data-service="network" type="button" data-i18n="request">Request Service</button>
+</article>
+
+<article class="service-card">
+<div>
+<div class="service-top">
+<span class="service-title" data-i18n="icloudTitle">iCloud / FMI Check</span>
+<span class="badge" data-i18n="paid">PAID</span>
+</div>
+<p class="service-desc" data-i18n="icloudDesc">Check iCloud and Find My iPhone status.</p>
+</div>
+<button class="wa-btn service-request" data-service="icloud" type="button" data-i18n="request">Request Service</button>
+</article>
+
+<article class="service-card">
+<div>
+<div class="service-top">
+<span class="service-title" data-i18n="blacklistTitle">Blacklist GSMA Check</span>
+<span class="badge" data-i18n="paid">PAID</span>
+</div>
+<p class="service-desc" data-i18n="blacklistDesc">Check blacklist status of your device.</p>
+</div>
+<button class="wa-btn service-request" data-service="blacklist" type="button" data-i18n="request">Request Service</button>
+</article>
+
+<article class="service-card">
+<div>
+<div class="service-top">
+<span class="service-title" data-i18n="fullTitle">Full Check PRO</span>
+<span class="badge" data-i18n="paid">PAID</span>
+</div>
+<p class="service-desc" data-i18n="fullDesc">Comprehensive professional iPhone report.</p>
+</div>
+<button class="wa-btn service-request" data-service="full" type="button" data-i18n="request">Request Service</button>
+</article>
+
+</div>
+</section>
+</main>
+
+<footer class="footer">
+<p>© <span id="year"></span> GSM YASSER SERVER. <span data-i18n="rights">All rights reserved.</span></p>
+<p><a href="steps.html" data-i18n="footerHelp">Help & Instructions</a></p>
+</footer>
+</div>
+
+<script>
+"use strict";
+
+const WHATSAPP_NUMBER = "213657241710";
+
+const translations = {
+en:{
+heroTitle:"iPhone IMEI Checker",
+heroSub:"Free IMEI validation and professional checking services",
+freeTitle:"Free IMEI Check",
+freeSub:"Validate your 15-digit IMEI number.",
+imeiLabel:"IMEI Number",
+imeiPlaceholder:"Enter 15-digit IMEI",
+captchaPlaceholder:"Captcha",
+checkBtn:"Check IMEI",
+helpLink:"❔ How to use this website?",
+servicesTitle:"Professional Services",
+servicesSub:"Request a professional iPhone check.",
+networkTitle:"Network Lock Check",
+networkDesc:"Check carrier and network lock status.",
+icloudTitle:"iCloud / FMI Check",
+icloudDesc:"Check iCloud and Find My iPhone status.",
+blacklistTitle:"Blacklist GSMA Check",
+blacklistDesc:"Check blacklist status of your device.",
+fullTitle:"Full Check PRO",
+fullDesc:"Comprehensive professional iPhone report.",
+paid:"PAID",request:"Request Service",
+printBtn:"Print / Save PDF",copyBtn:"Copy Report",
+rights:"All rights reserved.",footerHelp:"Help & Instructions",
+invalidIMEI:"Invalid IMEI. Enter a valid 15-digit number.",
+validIMEI:"IMEI format is valid.",
+captchaError:"Incorrect CAPTCHA. Please try again.",
+reportLabel:"IMEI validation report",
+imeiResult:"IMEI",
+statusLabel:"Status",
+validStatus:"Valid format (Luhn check passed)",
+invalidStatus:"Invalid IMEI format",
+notDevice:"This check validates the IMEI format only. It does not retrieve device, iCloud, carrier or blacklist information.",
+waIntro:"Hello GSM YASSER SERVER, I would like to request:",
+waIMEI:"IMEI",
+waService:"Service",
+services:{network:"Network Lock Check",icloud:"iCloud / FMI Check",blacklist:"Blacklist GSMA Check",full:"Full Check PRO"}
+},
+fr:{
+heroTitle:"Vérificateur IMEI iPhone",
+heroSub:"Validation IMEI gratuite et services professionnels",
+freeTitle:"Vérification IMEI gratuite",
+freeSub:"Vérifiez votre numéro IMEI à 15 chiffres.",
+imeiLabel:"Numéro IMEI",
+imeiPlaceholder:"Entrez l'IMEI à 15 chiffres",
+captchaPlaceholder:"Captcha",
+checkBtn:"Vérifier IMEI",
+helpLink:"❔ Comment utiliser ce site ?",
+servicesTitle:"Services professionnels",
+servicesSub:"Demandez une vérification professionnelle.",
+networkTitle:"Vérification réseau",
+networkDesc:"Vérifier le verrouillage opérateur.",
+icloudTitle:"Vérification iCloud / FMI",
+icloudDesc:"Vérifier iCloud et Localiser mon iPhone.",
+blacklistTitle:"Vérification liste noire GSMA",
+blacklistDesc:"Vérifier le statut de la liste noire.",
+fullTitle:"Vérification complète PRO",
+fullDesc:"Rapport professionnel complet pour iPhone.",
+paid:"PAYANT",request:"Demander le service",
+printBtn:"Imprimer / Enregistrer PDF",copyBtn:"Copier le rapport",
+rights:"Tous droits réservés.",footerHelp:"Aide et instructions",
+invalidIMEI:"IMEI invalide. Entrez un numéro valide à 15 chiffres.",
+validIMEI:"Le format IMEI est valide.",
+captchaError:"Captcha incorrect. Veuillez réessayer.",
+reportLabel:"Rapport de validation IMEI",
+imeiResult:"IMEI",
+statusLabel:"Statut",
+validStatus:"Format valide (contrôle Luhn réussi)",
+invalidStatus:"Format IMEI invalide",
+notDevice:"Cette vérification valide uniquement le format IMEI. Elle ne récupère pas les informations de l'appareil, iCloud, opérateur ou liste noire.",
+waIntro:"Bonjour GSM YASSER SERVER, je souhaite demander :",
+waIMEI:"IMEI",
+waService:"Service",
+services:{network:"Vérification réseau",icloud:"Vérification iCloud / FMI",blacklist:"Vérification liste noire GSMA",full:"Vérification complète PRO"}
+},
+ar:{
+heroTitle:"فحص IMEI لهواتف iPhone",
+heroSub:"التحقق المجاني من IMEI والخدمات الاحترافية",
+freeTitle:"الفحص المجاني",
+freeSub:"تحقق من صحة رقم IMEI المكون من 15 رقماً.",
+imeiLabel:"رقم IMEI",
+imeiPlaceholder:"أدخل رقم IMEI المكون من 15 رقماً",
+captchaPlaceholder:"رمز التحقق",
+checkBtn:"فحص IMEI",
+helpLink:"❔ كيفية استخدام الموقع؟",
+servicesTitle:"الخدمات الاحترافية",
+servicesSub:"اطلب فحصاً احترافياً لهاتف iPhone.",
+networkTitle:"فحص قفل الشبكة",
+networkDesc:"التحقق من حالة قفل الشبكة والمشغل.",
+icloudTitle:"فحص iCloud / FMI",
+icloudDesc:"التحقق من حالة iCloud وخدمة Find My.",
+blacklistTitle:"فحص القائمة السوداء GSMA",
+blacklistDesc:"التحقق من حالة القائمة السوداء للجهاز.",
+fullTitle:"الفحص الشامل PRO",
+fullDesc:"تقرير احترافي شامل لهاتف iPhone.",
+paid:"مدفوع",request:"اطلب الخدمة",
+printBtn:"طباعة / حفظ PDF",copyBtn:"نسخ التقرير",
+rights:"جميع الحقوق محفوظة.",footerHelp:"المساعدة والتعليمات",
+invalidIMEI:"رقم IMEI غير صالح. أدخل رقماً صحيحاً من 15 خانة.",
+validIMEI:"صيغة رقم IMEI صحيحة.",
+captchaError:"رمز التحقق غير صحيح. حاول مرة أخرى.",
+reportLabel:"تقرير التحقق من IMEI",
+imeiResult:"رقم IMEI",
+statusLabel:"الحالة",
+validStatus:"صيغة صحيحة (اجتاز اختبار Luhn)",
+invalidStatus:"رقم IMEI غير صالح",
+notDevice:"هذا الفحص يتحقق من صيغة IMEI فقط، ولا يستخرج معلومات الجهاز أو iCloud أو الشبكة أو القائمة السوداء.",
+waIntro:"مرحباً GSM YASSER SERVER، أريد طلب الخدمة التالية:",
+waIMEI:"رقم IMEI",
+waService:"الخدمة",
+services:{network:"فحص قفل الشبكة",icloud:"فحص iCloud / FMI",blacklist:"فحص القائمة السوداء GSMA",full:"الفحص الشامل PRO"}
+}
+};
+
+let currentLang="en";
+let currentCaptcha="";
+let lastReport="";
+
+const $=id=>document.getElementById(id);
+
+function t(key){
+return translations[currentLang][key] || key;
+}
+
+function setLang(lang){
+if(!translations[lang]) return;
+currentLang=lang;
+
+document.documentElement.lang=lang;
+document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+
+document.querySelectorAll("[data-i18n]").forEach(el=>{
+const key=el.dataset.i18n;
+if(translations[lang][key]) el.textContent=translations[lang][key];
+});
+
+$("imeiInput").placeholder=t("imeiPlaceholder");
+$("captchaInput").placeholder=t("captchaPlaceholder");
+
+document.querySelectorAll("[data-lang]").forEach(btn=>{
+btn.classList.toggle("active",btn.dataset.lang===lang);
+});
+
+if($("resultBox").style.display==="block" && lastReport){
+renderResult(lastReport);
+}
+}
+
+function toggleTheme(){
+const light=document.body.classList.toggle("light");
+$("themeBtn").textContent=light?"☀️ Light":"🌙 Dark";
+}
+
+function generateCaptcha(){
+const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+let value="";
+for(let i=0;i<5;i++){
+value+=chars[Math.floor(Math.random()*chars.length)];
+}
+currentCaptcha=value;
+$("captchaDisplay").textContent=value;
+$("captchaInput").value="";
+}
+
+function validateIMEI(imei){
+if(!/^\d{15}$/.test(imei)) return false;
+let sum=0;
+for(let i=0;i<15;i++){
+let digit=Number(imei[i]);
+if(i%2===1){
+digit*=2;
+if(digit>9) digit-=9;
+}
+sum+=digit;
+}
+return sum%10===0;
+}
+
+function renderResult(status){
+const imei=$("imeiInput").value.trim();
+const valid=status==="valid";
+$("resultBox").className="result "+(valid?"success":"error");
+$("resultTitle").textContent=valid?t("validIMEI"):t("invalidIMEI");
+$("resultMessage").textContent=
+t("imeiResult")+": "+imei+"\n"+
+t("statusLabel")+": "+(valid?t("validStatus"):t("invalidStatus"))+"\n"+
+t("notDevice");
+$("resultBox").style.display="block";
+lastReport=status;
+}
+
+function checkIMEI(){
+const imei=$("imeiInput").value.trim();
+const captcha=$("captchaInput").value.trim().toUpperCase();
+
+if(captcha!==currentCaptcha){
+$("resultBox").className="result error";
+$("resultTitle").textContent=t("captchaError");
+$("resultMessage").textContent="";
+$("resultBox").style.display="block";
+generateCaptcha();
+return;
+}
+
+if(!/^\d{15}$/.test(imei)){
+renderResult("invalid");
+generateCaptcha();
+return;
+}
+
+renderResult(validateIMEI(imei)?"valid":"invalid");
+generateCaptcha();
+}
+
+function buildWhatsApp(service){
+const imei=$("imeiInput").value.trim();
+const serviceName=translations[currentLang].services[service];
+const message=
+t("waIntro")+"\n"+
+t("waService")+": "+serviceName+"\n"+
+t("waIMEI")+": "+(imei||"Not provided");
+const url="https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message);
+window.open(url,"_blank","noopener,noreferrer");
+}
+
+function copyReport(){
+if(!lastReport) return;
+const imei=$("imeiInput").value.trim();
+const valid=lastReport==="valid";
+const report=
+t("reportLabel")+"\n"+
+t("imeiResult")+": "+imei+"\n"+
+t("statusLabel")+": "+(valid?t("validStatus"):t("invalidStatus"))+"\n"+
+t("notDevice");
+if(navigator.clipboard && navigator.clipboard.writeText){
+navigator.clipboard.writeText(report).then(()=>{
+$("copyBtn").textContent="✓";
+setTimeout(()=>$("copyBtn").textContent=t("copyBtn"),1500);
+}).catch(()=>window.prompt("Copy report:",report));
+}else{
+window.prompt("Copy report:",report);
+}
+}
+
+$("checkBtn").addEventListener("click",checkIMEI);
+$("printBtn").addEventListener("click",()=>window.print());
+$("copyBtn").addEventListener("click",copyReport);
+$("refreshCaptcha").addEventListener("click",generateCaptcha);
+$("themeBtn").addEventListener("click",toggleTheme);
+
+document.querySelectorAll("[data-lang]").forEach(btn=>{
+btn.addEventListener("click",()=>setLang(btn.dataset.lang));
+});
+
+document.querySelectorAll(".service-request").forEach(btn=>{
+btn.addEventListener("click",()=>buildWhatsApp(btn.dataset.service));
+});
+
+$("imeiInput").addEventListener("input",function(){
+this.value=this.value.replace(/\D/g,"").slice(0,15);
+});
+
+$("imeiInput").addEventListener("keydown",function(event){
+if(event.key==="Enter"){
+event.preventDefault();
+$("captchaInput").focus();
+}
+});
+
+$("captchaInput").addEventListener("keydown",function(event){
+if(event.key==="Enter"){
+event.preventDefault();
+checkIMEI();
+}
+});
+
+$("year").textContent=new Date().getFullYear();
+generateCaptcha();
+setLang("en");
+</script>
+</body>
+</html>
