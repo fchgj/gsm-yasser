@@ -1,51 +1,74 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-theme="dark">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GSM Yasser — iPhone IMEI Check</title>
+  <title>GSM Yasser Server — لوحة إدارة المالك (Cloudflare D1)</title>
   <style>
     :root {
-      --bg: #0b1220;
-      --card: #131c2e;
-      --card-2: #182338;
-      --text: #f1f5f9;
+      --bg: #070d19;
+      --panel: #0f172a;
+      --panel-2: #162238;
+      --text: #f8fafc;
       --muted: #94a3b8;
-      --border: #24324d;
+      --border: #23324d;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --whatsapp: #22c55e;
-      --danger: #ef4444;
-      --paid-bg: rgba(245, 158, 11, 0.16);
-      --paid-text: #fbbf24;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --wa: #22c55e;
     }
 
     [data-theme="light"] {
       --bg: #f1f5f9;
-      --card: #ffffff;
-      --card-2: #f8fafc;
+      --panel: #ffffff;
+      --panel-2: #f8fafc;
       --text: #0f172a;
       --muted: #475569;
       --border: #cbd5e1;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
-      --whatsapp: #16a34a;
-      --danger: #dc2626;
-      --paid-bg: rgba(217, 119, 6, 0.14);
-      --paid-text: #b45309;
+      --success: #15803d;
+      --warning: #b45309;
+      --danger: #b91c1c;
+      --wa: #16a34a;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
 
     body {
       background: var(--bg);
       color: var(--text);
-      padding: 20px;
+      min-height: 100vh;
       line-height: 1.6;
       transition: background 0.25s ease, color 0.25s ease;
     }
 
-    .container { max-width: 780px; margin: 0 auto; }
+    /* Lock Screen */
+    .lock-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lock-card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    .lock-card h1 { font-size: 20px; margin-bottom: 6px; }
+    .lock-card p { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+
+    .app { display: none; padding: 18px 16px 48px; }
+    .container { max-width: 1180px; margin: 0 auto; }
 
     .topbar {
       display: flex;
@@ -53,25 +76,27 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      background: var(--card);
+      background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 12px 16px;
       margin-bottom: 18px;
     }
 
+    .brand { font-size: 17px; font-weight: 800; color: #3b82f6; }
+
     .btn-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
     button, a.btn {
-      border: 1px solid var(--border);
-      background: var(--card-2);
+      background: var(--panel-2);
       color: var(--text);
+      border: 1px solid var(--border);
       padding: 8px 12px;
-      border-radius: 8px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
       text-decoration: none;
-      font-size: 13.5px;
-      font-weight: 600;
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -79,449 +104,762 @@
     }
 
     button:hover, a.btn:hover { border-color: var(--primary); }
-    button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-      width: 100%;
-      justify-content: center;
-      padding: 12px;
-      font-size: 15px;
-    }
+    .btn-primary { background: var(--primary); border-color: var(--primary); color: #fff; }
     .btn-primary:hover { background: var(--primary-hover); }
+    .btn-success { background: var(--success); border-color: var(--success); color: #fff; }
+    .btn-danger { background: var(--danger); border-color: var(--danger); color: #fff; }
+    .btn-wa { background: var(--wa); border-color: var(--wa); color: #fff; }
 
-    .btn-wa {
-      background: var(--whatsapp);
-      color: #fff;
-      border-color: var(--whatsapp);
-      justify-content: center;
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
     }
 
-    .hero { text-align: center; margin-bottom: 18px; }
-    .hero h1 { font-size: 25px; margin-bottom: 6px; }
-    .hero p { color: var(--muted); font-size: 14px; }
+    .tab-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .stat-label { font-size: 12.5px; color: var(--muted); }
+    .stat-value { font-size: 24px; font-weight: 800; margin-top: 4px; }
 
     .card {
-      background: var(--card);
+      background: var(--panel);
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 18px;
       margin-bottom: 16px;
     }
 
-    .card-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-    .card-sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+    .card-title { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+    .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
 
-    .input-box {
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 5px; font-weight: 600; }
+
+    input, select, textarea {
       width: 100%;
-      padding: 12px 14px;
-      border-radius: 10px;
+      padding: 10px 12px;
+      border-radius: 9px;
       border: 1px solid var(--border);
-      background: var(--card-2);
+      background: var(--panel-2);
       color: var(--text);
-      font-size: 15px;
-      margin-bottom: 12px;
+      font-size: 13.5px;
     }
 
-    .captcha-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 12px;
-    }
+    textarea { min-height: 85px; }
 
-    .captcha-box {
-      background: var(--card-2);
-      border: 1px dashed var(--primary);
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 800;
-      letter-spacing: 3px;
-      user-select: none;
-    }
-
-    .result-box {
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: 10px;
-      background: var(--card-2);
-      border: 1px solid var(--border);
-      display: none;
-      font-size: 14px;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-    }
-
-    .service-card {
-      background: var(--card-2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .service-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 8px;
-    }
-
-    .service-card h3 { font-size: 15px; }
-    .service-card p { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
-
-    .paid-badge {
-      background: var(--paid-bg);
-      color: var(--paid-text);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 999px;
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: start;
       white-space: nowrap;
     }
+    th { color: var(--muted); font-weight: 700; background: var(--panel-2); }
 
-    .footer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 16px;
+    .badge {
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-block;
     }
+    .b-pending { background: rgba(217, 119, 6, 0.2); color: #fbbf24; }
+    .b-completed { background: rgba(22, 163, 74, 0.2); color: #4ade80; }
+    .b-rejected { background: rgba(220, 38, 38, 0.2); color: #f87171; }
+
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    .msg { font-size: 13px; margin-top: 8px; min-height: 18px; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="topbar">
-      <div class="btn-group">
-        <button type="button" data-lang="ar" onclick="setClientLang('ar')">العربية</button>
-        <button type="button" data-lang="fr" onclick="setClientLang('fr')">FR</button>
-        <button type="button" data-lang="en" class="active" onclick="setClientLang('en')">EN</button>
+  <!-- Login Screen -->
+  <section class="lock-screen" id="lockScreen">
+    <form class="lock-card" onsubmit="unlockPanel(event)">
+      <h1>GSM Yasser Server</h1>
+      <p>لوحة إدارة المالك — أدخل كلمة المرور للوصول إلى الإدارة وقاعدة Cloudflare D1.</p>
+      <div class="field">
+        <label for="passInput">كلمة المرور</label>
+        <input type="password" id="passInput" placeholder="••••••••" required autocomplete="current-password" />
       </div>
+      <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:11px;">دخول إلى لوحة الإدارة</button>
+      <div class="msg" id="lockMsg" style="color:#f87171;"></div>
+    </form>
+  </section>
 
-      <div class="btn-group">
-        <a href="steps.html" class="btn" title="How to Use">📖</a>
-        <button type="button" id="themeBtn" onclick="toggleClientTheme()">🌙 <span data-i18n="theme_dark">Dark</span></button>
-      </div>
-    </header>
+  <!-- Main Admin App -->
+  <main class="app" id="adminApp">
+    <div class="container">
+      <header class="topbar">
+        <div class="brand">GSM YASSER SERVER — ADMIN & D1</div>
+        <div class="btn-group">
+          <a href="index.html" class="btn">صفحة العملاء</a>
+          <a href="steps.html" class="btn">📖</a>
+          <button type="button" onclick="toggleTheme()" id="themeBtn">🌙</button>
+          <button type="button" class="btn-danger" onclick="lockPanel()">قفل</button>
+        </div>
+      </header>
 
-    <section class="hero">
-      <h1 data-i18n="title">GSM Yasser — iPhone IMEI Check</h1>
-      <p data-i18n="subtitle">Instant iPhone IMEI check & paid check services</p>
-    </section>
+      <!-- Statistics -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">إجمالي الطلبات</div>
+          <div class="stat-value" id="statOrders">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">الطلبات المكتملة</div>
+          <div class="stat-value" id="statCompleted" style="color:#4ade80;">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">قيد الانتظار</div>
+          <div class="stat-value" id="statPending" style="color:#fbbf24;">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">إجمالي المبيعات ($)</div>
+          <div class="stat-value" id="statSales" style="color:#60a5fa;">$0.00</div>
+        </div>
+      </section>
 
-    <section class="card">
-      <div class="card-title" data-i18n="free_title">✅ Free Check</div>
-      <div class="card-sub" data-i18n="free_sub">Check your iPhone IMEI format & generate report</div>
+      <!-- Navigation Tabs -->
+      <nav class="tabs">
+        <button type="button" class="tab-btn active" data-tab="orders" onclick="switchTab('orders')">متابعة طلبات الفحص</button>
+        <button type="button" class="tab-btn" data-tab="clients" onclick="switchTab('clients')">إدارة العملاء</button>
+        <button type="button" class="tab-btn" data-tab="reports" onclick="switchTab('reports')">إدارة التقارير PDF</button>
+        <button type="button" class="tab-btn" data-tab="services" onclick="switchTab('services')">إدارة الأسعار والخدمات</button>
+        <button type="button" class="tab-btn" data-tab="d1" onclick="switchTab('d1')">ربط Cloudflare D1</button>
+      </nav>
 
-      <input
-        type="text"
-        id="imeiInput"
-        class="input-box"
-        maxlength="15"
-        inputmode="numeric"
-        data-i18n-placeholder="imei_ph"
-        placeholder="Enter 15-digit iPhone IMEI"
-      />
+      <!-- 1. Orders Tab -->
+      <section class="tab-pane active" id="tab-orders">
+        <div class="card">
+          <div class="card-title">إضافة ومتابعة طلبات فحص IMEI (iPhone)</div>
+          <div class="card-sub">تتبع حالة الطلبات وتحديثها ومزامنتها مع Cloudflare D1 أو واتساب +213657241710</div>
 
-      <div class="captcha-row">
-        <span data-i18n="cap_label">Verification code:</span>
-        <span class="captcha-box" id="capCode">NMKLU</span>
-        <input
-          type="text"
-          id="capInput"
-          class="input-box"
-          style="width: 130px; margin-bottom: 0;"
-          data-i18n-placeholder="cap_ph"
-          placeholder="Code"
-        />
-        <button type="button" onclick="newCaptcha()" title="Refresh">🔄</button>
-      </div>
-
-      <button type="button" class="btn-primary" onclick="checkFree()" data-i18n="free_btn">
-        Check Free
-      </button>
-
-      <div id="resultBox" class="result-box"></div>
-    </section>
-
-    <section class="card">
-      <div class="card-title" data-i18n="extra_title">Paid Check Services</div>
-      <div class="card-sub" data-i18n="extra_sub">Paid checks ordered via WhatsApp +213657241710</div>
-
-      <div class="services-grid">
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_net">🔒 Network Lock Check</h3>
-              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
+          <form class="grid-3" onsubmit="addOrder(event)">
+            <div class="field">
+              <label>اسم العميل</label>
+              <input type="text" id="ordClientName" placeholder="مثال: كريم" required />
             </div>
-            <p data-i18n="s_net_d">Carrier lock & SIM status</p>
-          </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Network Lock Check [PAID]')">WhatsApp</a>
+            <div class="field">
+              <label>رقم الهاتف / واتساب</label>
+              <input type="text" id="ordClientPhone" placeholder="+213..." required />
+            </div>
+            <div class="field">
+              <label>رقم IMEI (15 رقماً)</label>
+              <input type="text" id="ordImei" maxlength="15" inputmode="numeric" placeholder="350000000000006" required />
+            </div>
+            <div class="field">
+              <label>نوع الخدمة</label>
+              <select id="ordService" onchange="syncOrderPrice()">
+                <option value="Free Check">فحص مجاني (Free Check)</option>
+                <option value="Network Lock Check">فحص قفل الشبكة (Network Lock Check)</option>
+                <option value="iCloud Check">فحص iCloud (iCloud Check)</option>
+                <option value="Blacklist Check">فحص القائمة السوداء (Blacklist Check)</option>
+                <option value="Full Check PRO">فحص شامل PRO (Full Check PRO)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>السعر ($)</label>
+              <input type="number" step="0.01" id="ordPrice" value="0.00" required />
+            </div>
+            <div class="field">
+              <label>الحالة</label>
+              <select id="ordStatus">
+                <option value="pending">قيد الانتظار</option>
+                <option value="completed">مكتمل</option>
+                <option value="rejected">مرفوض</option>
+              </select>
+            </div>
+            <div class="field" style="grid-column: 1 / -1;">
+              <button type="submit" class="btn-primary">إضافة الطلب</button>
+            </div>
+          </form>
+          <div class="msg" id="ordMsg"></div>
         </div>
 
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_ic">☁️ iCloud Check</h3>
-              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
-            </div>
-            <p data-i18n="s_ic_d">iCloud lock & Find My status</p>
+        <div class="card">
+          <div class="card-title">سجل الطلبات</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>الرقم</th>
+                  <th>العميل</th>
+                  <th>IMEI</th>
+                  <th>الخدمة</th>
+                  <th>السعر</th>
+                  <th>الحالة</th>
+                  <th>إجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="ordersBody"></tbody>
+            </table>
           </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('iCloud Check [PAID]')">WhatsApp</a>
         </div>
+      </section>
 
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_bl">🚫 Blacklist Check</h3>
-              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
+      <!-- 2. Clients Tab -->
+      <section class="tab-pane" id="tab-clients">
+        <div class="card">
+          <div class="card-title">إدارة العملاء</div>
+          <div class="card-sub">إضافة عملاء جدد والبحث في قاعدة العملاء</div>
+
+          <form class="grid-3" onsubmit="addClient(event)">
+            <div class="field">
+              <label>اسم العميل</label>
+              <input type="text" id="cliName" required />
             </div>
-            <p data-i18n="s_bl_d">Lost, stolen, or blocked status</p>
-          </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Blacklist Check [PAID]')">WhatsApp</a>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_pro">⭐ Full Check PRO</h3>
-              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
+            <div class="field">
+              <label>رقم واتساب / هاتف</label>
+              <input type="text" id="cliPhone" required />
             </div>
-            <p data-i18n="s_pro_d">Full PDF report: GSX, Warranty, Purchase Date, Carrier, iCloud</p>
-          </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Full Check PRO [PAID]')">WhatsApp</a>
-        </div>
-      </div>
-    </section>
+            <div class="field">
+              <label>ملاحظات</label>
+              <input type="text" id="cliNote" placeholder="عميل دائم / تقني..." />
+            </div>
+            <div class="field" style="grid-column: 1 / -1;">
+              <button type="submit" class="btn-primary">حفظ العميل</button>
+            </div>
+          </form>
 
-    <footer class="footer">
-      <a href="steps.html" class="btn" title="How to Use">📖</a>
-      <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="btn btn-wa">+213657241710</a>
-    </footer>
-  </div>
+          <div class="field" style="margin-top:10px;">
+            <input type="text" id="clientSearch" oninput="renderClients()" placeholder="ابحث باسم العميل أو رقم الهاتف..." />
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>الاسم</th>
+                  <th>الهاتف</th>
+                  <th>ملاحظات</th>
+                  <th>إجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="clientsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. PDF Reports Tab -->
+      <section class="tab-pane" id="tab-reports">
+        <div class="card">
+          <div class="card-title">إدارة وتوليد التقارير PDF</div>
+          <div class="card-sub">إعداد تفاصيل تقرير iPhone IMEI وتصديره أو طباعته بصيغة PDF</div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label>رقم IMEI (15 رقماً)</label>
+              <input type="text" id="repImei" maxlength="15" inputmode="numeric" placeholder="350000000000006" />
+            </div>
+            <div class="field">
+              <label>طراز iPhone</label>
+              <input type="text" id="repModel" placeholder="iPhone 15 Pro Max" />
+            </div>
+            <div class="field">
+              <label>حالة iCloud / FMI</label>
+              <input type="text" id="repIcloud" placeholder="Off / On" />
+            </div>
+            <div class="field">
+              <label>حالة الشبكة / القائمة السوداء</label>
+              <input type="text" id="repCarrier" placeholder="Unlocked / Clean" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>ملاحظات التقرير</label>
+            <textarea id="repNotes" placeholder="تفاصيل إضافية عن الضمان أو تاريخ الشراء أو GSX..."></textarea>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn-primary" onclick="generatePdfReport()">توليد وطباعة / حفظ PDF</button>
+          </div>
+          <div class="msg" id="repMsg" style="color:#f87171;"></div>
+        </div>
+      </section>
+
+      <!-- 4. Services & Prices Tab -->
+      <section class="tab-pane" id="tab-services">
+        <div class="card">
+          <div class="card-title">إدارة الأسعار والخدمات</div>
+          <div class="card-sub">تعديل أسعار خدمات الفحص وحالة التفعيل (فحص مجاني، فحص قفل الشبكة، فحص iCloud، فحص القائمة السوداء، فحص شامل PRO)</div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>الخدمة</th>
+                  <th>النوع</th>
+                  <th>السعر ($)</th>
+                  <th>الحالة</th>
+                  <th>حفظ</th>
+                </tr>
+              </thead>
+              <tbody id="servicesBody"></tbody>
+            </table>
+          </div>
+          <div class="msg" id="srvMsg" style="color:#4ade80;"></div>
+        </div>
+      </section>
+
+      <!-- 5. Cloudflare D1 Tab -->
+      <section class="tab-pane" id="tab-d1">
+        <div class="card">
+          <div class="card-title">ربط قاعدة بيانات Cloudflare D1</div>
+          <div class="card-sub">ربط اللوحة بـ Cloudflare Worker متصل بقاعدة D1 لمزامنة العملاء والطلبات والخدمات</div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label>رابط Cloudflare Worker API</label>
+              <input type="url" id="d1WorkerUrl" placeholder="https://gsm-yasser-d1.<subdomain>.workers.dev" />
+            </div>
+            <div class="field">
+              <label>رمز الوصول (API Token / Header)</label>
+              <input type="password" id="d1ApiKey" placeholder="Bearer / Secret Key" />
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn-primary" onclick="saveD1Config()">حفظ إعدادات D1</button>
+            <button type="button" class="btn-success" onclick="syncToD1()">مزامنة البيانات إلى D1</button>
+            <button type="button" onclick="pullFromD1()">جلب البيانات من D1</button>
+          </div>
+          <div class="msg" id="d1Msg"></div>
+
+          <div class="field" style="margin-top:16px;">
+            <label>مخطط جداول SQL المقترح لقاعدة Cloudflare D1 (schema.sql)</label>
+            <textarea readonly id="d1SchemaBox">CREATE TABLE IF NOT EXISTS clients (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  note TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS services (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  is_paid INTEGER NOT NULL DEFAULT 1,
+  price REAL NOT NULL DEFAULT 0,
+  active INTEGER NOT NULL DEFAULT 1
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  client_name TEXT NOT NULL,
+  client_phone TEXT NOT NULL,
+  imei TEXT NOT NULL,
+  service_name TEXT NOT NULL,
+  price REAL NOT NULL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'pending',
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);</textarea>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
 
   <script>
-    const WA_PHONE = "213657241710";
+    const ADMIN_PASS = "wP5t5B3d";
+    const WA_SUPPORT = "213657241710";
 
-    const TEXTS = {
-      en: {
-        dir: "ltr",
-        theme_dark: "Dark",
-        theme_light: "Light",
-        title: "GSM Yasser — iPhone IMEI Check",
-        subtitle: "Instant iPhone IMEI check & paid check services",
-        free_title: "✅ Free Check",
-        free_sub: "Check your iPhone IMEI format & generate report",
-        imei_ph: "Enter 15-digit iPhone IMEI",
-        cap_label: "Verification code:",
-        cap_ph: "Code",
-        free_btn: "Check Free",
-        extra_title: "Paid Check Services",
-        extra_sub: "Paid checks ordered via WhatsApp +213657241710",
-        paid_badge: "PAID",
-        s_net: "🔒 Network Lock Check",
-        s_net_d: "Carrier lock & SIM status",
-        s_ic: "☁️ iCloud Check",
-        s_ic_d: "iCloud lock & Find My status",
-        s_bl: "🚫 Blacklist Check",
-        s_bl_d: "Lost, stolen, or blocked status",
-        s_pro: "⭐ Full Check PRO",
-        s_pro_d: "Full PDF report: GSX, Warranty, Purchase Date, Carrier, iCloud",
-        err_imei: "Please enter a valid 15-digit IMEI.",
-        err_cap: "Invalid verification code.",
-        valid_msg: "Valid 15-digit iPhone IMEI format.",
-        pdf_btn: "Print / Save PDF",
-        wa_btn: "Send via WhatsApp (+213657241710)"
-      },
-      ar: {
-        dir: "rtl",
-        theme_dark: "داكن",
-        theme_light: "فاتح",
-        title: "GSM Yasser — فحص IMEI لـ iPhone",
-        subtitle: "فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة",
-        free_title: "✅ فحص مجاني",
-        free_sub: "تحقق من صيغة رقم IMEI واطبع أو احفظ التقرير",
-        imei_ph: "أدخل رقم IMEI المكوّن من 15 رقماً",
-        cap_label: "رمز التحقق:",
-        cap_ph: "الرمز",
-        free_btn: "فحص مجاني",
-        extra_title: "خدمات الفحص المدفوعة",
-        extra_sub: "خدمات فحص مدفوعة عبر واتساب +213657241710",
-        paid_badge: "مدفوع",
-        s_net: "🔒 فحص قفل الشبكة",
-        s_net_d: "حالة قفل المشغل وشريحة SIM",
-        s_ic: "☁️ فحص iCloud",
-        s_ic_d: "حالة قفل iCloud وميزة Find My",
-        s_bl: "🚫 فحص القائمة السوداء",
-        s_bl_d: "حالة الفقدان أو السرقة أو الحظر",
-        s_pro: "⭐ فحص شامل PRO",
-        s_pro_d: "تقرير PDF كامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud",
-        err_imei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
-        err_cap: "رمز التحقق غير صحيح.",
-        valid_msg: "صيغة رقم IMEI لـ iPhone (15 رقماً) صحيحة.",
-        pdf_btn: "طباعة / حفظ PDF",
-        wa_btn: "إرسال عبر واتساب (+213657241710)"
-      },
-      fr: {
-        dir: "ltr",
-        theme_dark: "Sombre",
-        theme_light: "Clair",
-        title: "GSM Yasser — Vérification IMEI iPhone",
-        subtitle: "Vérification IMEI iPhone et services payants",
-        free_title: "✅ Vérification Gratuite",
-        free_sub: "Vérifiez le format IMEI et imprimez/enregistrez le rapport",
-        imei_ph: "Entrez l'IMEI iPhone à 15 chiffres",
-        cap_label: "Code de vérification :",
-        cap_ph: "Code",
-        free_btn: "Vérifier Gratuitement",
-        extra_title: "Services de Vérification Payants",
-        extra_sub: "Vérifications payantes via WhatsApp +213657241710",
-        paid_badge: "PAYANT",
-        s_net: "🔒 Vérification Verrou Réseau",
-        s_net_d: "Verrouillage opérateur et état SIM",
-        s_ic: "☁️ Vérification iCloud",
-        s_ic_d: "Verrouillage iCloud et état Find My",
-        s_bl: "🚫 Vérification Liste Noire",
-        s_bl_d: "État perdu, volé ou bloqué",
-        s_pro: "⭐ Vérification Complète PRO",
-        s_pro_d: "Rapport PDF complet : GSX, Garantie, Date d'achat, Réseau, iCloud",
-        err_imei: "Veuillez saisir un IMEI valide à 15 chiffres.",
-        err_cap: "Code de vérification invalide.",
-        valid_msg: "Format IMEI iPhone (15 chiffres) valide.",
-        pdf_btn: "Imprimer / PDF",
-        wa_btn: "Envoyer sur WhatsApp (+213657241710)"
-      }
+    const DEFAULT_SERVICES = [
+      { id: "free", name: "Free Check (فحص مجاني)", isPaid: false, price: 0, active: true },
+      { id: "network", name: "Network Lock Check (فحص قفل الشبكة)", isPaid: true, price: 3, active: true },
+      { id: "icloud", name: "iCloud Check (فحص iCloud)", isPaid: true, price: 4, active: true },
+      { id: "blacklist", name: "Blacklist Check (فحص القائمة السوداء)", isPaid: true, price: 5, active: true },
+      { id: "pro", name: "Full Check PRO (فحص شامل PRO)", isPaid: true, price: 9, active: true }
+    ];
+
+    let state = {
+      theme: localStorage.getItem("gsm_admin_theme") || "dark",
+      orders: JSON.parse(localStorage.getItem("gsm_d1_orders") || "[]"),
+      clients: JSON.parse(localStorage.getItem("gsm_d1_clients") || "[]"),
+      services: JSON.parse(localStorage.getItem("gsm_d1_services") || "null") || DEFAULT_SERVICES,
+      d1Url: localStorage.getItem("gsm_d1_url") || "",
+      d1Key: localStorage.getItem("gsm_d1_key") || ""
     };
 
-    let lang = localStorage.getItem("gsm_lang") || "en";
-    let theme = localStorage.getItem("gsm_theme") || "dark";
-    let capValue = "NMKLU";
-
-    function setClientLang(nextLang) {
-      if (!TEXTS[nextLang]) return;
-      lang = nextLang;
-      localStorage.setItem("gsm_lang", lang);
-      const t = TEXTS[lang];
-      document.documentElement.lang = lang;
-      document.documentElement.dir = t.dir;
-      document.querySelectorAll("[data-i18n]").forEach((el) => {
-        const k = el.getAttribute("data-i18n");
-        if (t[k]) el.textContent = t[k];
-      });
-      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
-        const k = el.getAttribute("data-i18n-placeholder");
-        if (t[k]) el.placeholder = t[k];
-      });
-      document.querySelectorAll("[data-lang]").forEach((b) => {
-        b.classList.toggle("active", b.getAttribute("data-lang") === lang);
-      });
-      refreshThemeBtn();
+    function unlockPanel(e) {
+      e.preventDefault();
+      const val = document.getElementById("passInput").value;
+      if (val === ADMIN_PASS) {
+        sessionStorage.setItem("gsm_admin_auth", "1");
+        document.getElementById("lockScreen").style.display = "none";
+        document.getElementById("adminApp").style.display = "block";
+        renderAll();
+      } else {
+        document.getElementById("lockMsg").textContent = "كلمة المرور غير صحيحة.";
+      }
     }
 
-    function toggleClientTheme() {
-      theme = theme === "dark" ? "light" : "dark";
-      localStorage.setItem("gsm_theme", theme);
-      document.documentElement.setAttribute("data-theme", theme);
-      refreshThemeBtn();
+    function lockPanel() {
+      sessionStorage.removeItem("gsm_admin_auth");
+      document.getElementById("passInput").value = "";
+      document.getElementById("adminApp").style.display = "none";
+      document.getElementById("lockScreen").style.display = "flex";
     }
 
-    function refreshThemeBtn() {
-      const t = TEXTS[lang];
-      const btn = document.getElementById("themeBtn");
-      if (!btn) return;
-      btn.innerHTML = `${theme === "dark" ? "🌙" : "☀️"} <span>${theme === "dark" ? t.theme_dark : t.theme_light}</span>`;
+    function toggleTheme() {
+      state.theme = state.theme === "dark" ? "light" : "dark";
+      localStorage.setItem("gsm_admin_theme", state.theme);
+      document.documentElement.setAttribute("data-theme", state.theme);
+      document.getElementById("themeBtn").textContent = state.theme === "dark" ? "🌙" : "☀️";
     }
 
-    function newCaptcha() {
-      const pool = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      let out = "";
-      for (let i = 0; i < 5; i++) out += pool.charAt(Math.floor(Math.random() * pool.length));
-      capValue = out;
-      const el = document.getElementById("capCode");
-      if (el) el.textContent = capValue;
+    function switchTab(tabName) {
+      document.querySelectorAll(".tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.tab === tabName));
+      document.querySelectorAll(".tab-pane").forEach((p) => p.classList.toggle("active", p.id === `tab-${tabName}`));
+    }
+
+    function persistLocal() {
+      localStorage.setItem("gsm_d1_orders", JSON.stringify(state.orders));
+      localStorage.setItem("gsm_d1_clients", JSON.stringify(state.clients));
+      localStorage.setItem("gsm_d1_services", JSON.stringify(state.services));
+      renderStats();
+    }
+
+    function renderStats() {
+      const total = state.orders.length;
+      const completed = state.orders.filter((o) => o.status === "completed").length;
+      const pending = state.orders.filter((o) => o.status === "pending").length;
+      const sales = state.orders
+        .filter((o) => o.status === "completed")
+        .reduce((acc, o) => acc + Number(o.price || 0), 0);
+
+      document.getElementById("statOrders").textContent = total;
+      document.getElementById("statCompleted").textContent = completed;
+      document.getElementById("statPending").textContent = pending;
+      document.getElementById("statSales").textContent = `$${sales.toFixed(2)}`;
+    }
+
+    function syncOrderPrice() {
+      const selected = document.getElementById("ordService").value;
+      const map = {
+        "Free Check": 0,
+        "Network Lock Check": (state.services.find((s) => s.id === "network") || {}).price ?? 3,
+        "iCloud Check": (state.services.find((s) => s.id === "icloud") || {}).price ?? 4,
+        "Blacklist Check": (state.services.find((s) => s.id === "blacklist") || {}).price ?? 5,
+        "Full Check PRO": (state.services.find((s) => s.id === "pro") || {}).price ?? 9
+      };
+      document.getElementById("ordPrice").value = Number(map[selected] ?? 0).toFixed(2);
     }
 
     function validImei(imei) {
-      if (!/^\d{15}$/.test(imei)) return false;
-      let sum = 0;
-      for (let i = 0; i < 15; i++) {
-        let d = parseInt(imei[i], 10);
-        if (i % 2 === 1) {
-          d *= 2;
-          if (d > 9) d -= 9;
-        }
-        sum += d;
-      }
-      return sum % 10 === 0;
+      return /^\d{15}$/.test(imei);
     }
 
-    function printReport(imei) {
+    function addOrder(e) {
+      e.preventDefault();
+      const clientName = document.getElementById("ordClientName").value.trim();
+      const clientPhone = document.getElementById("ordClientPhone").value.trim();
+      const imei = document.getElementById("ordImei").value.trim();
+      const serviceName = document.getElementById("ordService").value;
+      const price = parseFloat(document.getElementById("ordPrice").value || "0");
+      const status = document.getElementById("ordStatus").value;
+      const msgEl = document.getElementById("ordMsg");
+
+      if (!validImei(imei)) {
+        msgEl.style.color = "#f87171";
+        msgEl.textContent = "يجب أن يتكون رقم IMEI من 15 رقماً.";
+        return;
+      }
+
+      const order = {
+        id: Date.now(),
+        clientName,
+        clientPhone,
+        imei,
+        serviceName,
+        price,
+        status,
+        createdAt: new Date().toISOString().slice(0, 16).replace("T", " ")
+      };
+
+      state.orders.unshift(order);
+      if (!state.clients.some((c) => c.phone === clientPhone)) {
+        state.clients.unshift({ id: Date.now() + 1, name: clientName, phone: clientPhone, note: "مضاف من الطلبات" });
+      }
+
+      persistLocal();
+      renderOrders();
+      renderClients();
+      e.target.reset();
+      syncOrderPrice();
+      msgEl.style.color = "#4ade80";
+      msgEl.textContent = "تمت إضافة الطلب بنجاح.";
+    }
+
+    function updateOrderStatus(id, status) {
+      const target = state.orders.find((o) => o.id === id);
+      if (!target) return;
+      target.status = status;
+      persistLocal();
+      renderOrders();
+    }
+
+    function deleteOrder(id) {
+      state.orders = state.orders.filter((o) => o.id !== id);
+      persistLocal();
+      renderOrders();
+    }
+
+    function sendOrderWa(id) {
+      const o = state.orders.find((x) => x.id === id);
+      if (!o) return;
+      const txt = encodeURIComponent(`GSM Yasser Server\nOrder #${o.id}\nIMEI: ${o.imei}\nService: ${o.serviceName}\nStatus: ${o.status}`);
+      window.open(`https://wa.me/${WA_SUPPORT}?text=${txt}`, "_blank", "noopener");
+    }
+
+    function renderOrders() {
+      const tbody = document.getElementById("ordersBody");
+      if (!state.orders.length) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--muted);">لا توجد طلبات مسجلة بعد.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = state.orders.map((o) => {
+        const badgeClass = o.status === "completed" ? "b-completed" : o.status === "rejected" ? "b-rejected" : "b-pending";
+        const statusLabel = o.status === "completed" ? "مكتمل" : o.status === "rejected" ? "مرفوض" : "قيد الانتظار";
+        return `
+          <tr>
+            <td>#${String(o.id).slice(-5)}</td>
+            <td>${o.clientName} (${o.clientPhone})</td>
+            <td><code>${o.imei}</code></td>
+            <td>${o.serviceName}</td>
+            <td>$${Number(o.price).toFixed(2)}</td>
+            <td><span class="badge ${badgeClass}">${statusLabel}</span></td>
+            <td>
+              <select onchange="updateOrderStatus(${o.id}, this.value)" style="width:auto;padding:5px 8px;">
+                <option value="pending" ${o.status === "pending" ? "selected" : ""}>قيد الانتظار</option>
+                <option value="completed" ${o.status === "completed" ? "selected" : ""}>مكتمل</option>
+                <option value="rejected" ${o.status === "rejected" ? "selected" : ""}>مرفوض</option>
+              </select>
+              <button type="button" class="btn-wa" onclick="sendOrderWa(${o.id})">واتساب</button>
+              <button type="button" class="btn-danger" onclick="deleteOrder(${o.id})">حذف</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function addClient(e) {
+      e.preventDefault();
+      const name = document.getElementById("cliName").value.trim();
+      const phone = document.getElementById("cliPhone").value.trim();
+      const note = document.getElementById("cliNote").value.trim();
+      state.clients.unshift({ id: Date.now(), name, phone, note });
+      persistLocal();
+      renderClients();
+      e.target.reset();
+    }
+
+    function deleteClient(id) {
+      state.clients = state.clients.filter((c) => c.id !== id);
+      persistLocal();
+      renderClients();
+    }
+
+    function renderClients() {
+      const q = (document.getElementById("clientSearch")?.value || "").trim().toLowerCase();
+      const list = state.clients.filter((c) =>
+        !q || c.name.toLowerCase().includes(q) || c.phone.toLowerCase().includes(q)
+      );
+      const tbody = document.getElementById("clientsBody");
+      if (!list.length) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted);">لا يوجد عملاء مطابقون.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = list.map((c) => `
+        <tr>
+          <td>${c.name}</td>
+          <td>${c.phone}</td>
+          <td>${c.note || "-"}</td>
+          <td><button type="button" class="btn-danger" onclick="deleteClient(${c.id})">حذف</button></td>
+        </tr>
+      `).join("");
+    }
+
+    function renderServices() {
+      const tbody = document.getElementById("servicesBody");
+      tbody.innerHTML = state.services.map((s, idx) => `
+        <tr>
+          <td>${s.name}</td>
+          <td>${s.isPaid ? "مدفوع" : "مجاني"}</td>
+          <td><input type="number" step="0.01" id="srvPrice_${idx}" value="${Number(s.price).toFixed(2)}" style="width:110px;" /></td>
+          <td>
+            <select id="srvActive_${idx}" style="width:auto;">
+              <option value="1" ${s.active ? "selected" : ""}>مفعل</option>
+              <option value="0" ${!s.active ? "selected" : ""}>معطل</option>
+            </select>
+          </td>
+          <td><button type="button" class="btn-primary" onclick="saveServiceRow(${idx})">حفظ</button></td>
+        </tr>
+      `).join("");
+    }
+
+    function saveServiceRow(idx) {
+      const price = parseFloat(document.getElementById(`srvPrice_${idx}`).value || "0");
+      const active = document.getElementById(`srvActive_${idx}`).value === "1";
+      state.services[idx].price = price;
+      state.services[idx].active = active;
+      persistLocal();
+      syncOrderPrice();
+      document.getElementById("srvMsg").textContent = `تم حفظ إعدادات الخدمة: ${state.services[idx].name}`;
+    }
+
+    function generatePdfReport() {
+      const imei = document.getElementById("repImei").value.trim();
+      const model = document.getElementById("repModel").value.trim() || "iPhone";
+      const icloud = document.getElementById("repIcloud").value.trim() || "N/A";
+      const carrier = document.getElementById("repCarrier").value.trim() || "N/A";
+      const notes = document.getElementById("repNotes").value.trim() || "-";
+      const msgEl = document.getElementById("repMsg");
+
+      if (!validImei(imei)) {
+        msgEl.textContent = "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.";
+        return;
+      }
+      msgEl.textContent = "";
+
       const win = window.open("", "_blank");
       if (!win) return;
       win.document.write(`
-        <!DOCTYPE html><html><head><meta charset="UTF-8"><title>iPhone IMEI Report</title></head>
-        <body style="font-family:Arial,sans-serif;padding:28px;">
-          <h2>GSM Yasser — iPhone IMEI Report</h2>
-          <p><strong>IMEI:</strong> ${imei}</p>
-          <p><strong>WhatsApp:</strong> +${WA_PHONE}</p>
-          <script>window.onload=()=>window.print();<\/script>
-        </body></html>
+        <!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+          <meta charset="UTF-8" />
+          <title>تقرير فحص IMEI - ${imei}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 30px; color: #0f172a; }
+            h1 { margin-bottom: 14px; border-bottom: 2px solid #2563eb; padding-bottom: 8px; }
+            .row { margin: 10px 0; font-size: 15px; }
+          </style>
+        </head>
+        <body>
+          <h1>GSM YASSER SERVER — تقرير فحص iPhone IMEI</h1>
+          <div class="row"><strong>رقم IMEI:</strong> ${imei}</div>
+          <div class="row"><strong>الطراز:</strong> ${model}</div>
+          <div class="row"><strong>حالة iCloud / FMI:</strong> ${icloud}</div>
+          <div class="row"><strong>الشبكة / القائمة السوداء:</strong> ${carrier}</div>
+          <div class="row"><strong>ملاحظات:</strong> ${notes}</div>
+          <div class="row"><strong>الدعم:</strong> +${WA_SUPPORT}</div>
+          <script>window.onload = () => window.print();<\/script>
+        </body>
+        </html>
       `);
       win.document.close();
     }
 
-    function checkFree() {
-      const t = TEXTS[lang];
-      const imei = (document.getElementById("imeiInput")?.value || "").trim();
-      const cap = (document.getElementById("capInput")?.value || "").trim().toUpperCase();
-      const box = document.getElementById("resultBox");
-
-      if (!validImei(imei)) {
-        box.style.display = "block";
-        box.innerHTML = `<span style="color:var(--danger);">${t.err_imei}</span>`;
-        return;
-      }
-
-      if (cap !== capValue) {
-        box.style.display = "block";
-        box.innerHTML = `<span style="color:var(--danger);">${t.err_cap}</span>`;
-        newCaptcha();
-        return;
-      }
-
-      const waUrl = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(`iPhone IMEI: ${imei}`)}`;
-      box.style.display = "block";
-      box.innerHTML = `
-        <div><strong>IMEI:</strong> <code>${imei}</code></div>
-        <div style="color:var(--whatsapp);margin-top:4px;">${t.valid_msg}</div>
-        <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">
-          <button type="button" onclick="printReport('${imei}')">📄 ${t.pdf_btn}</button>
-          <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-wa">💬 ${t.wa_btn}</a>
-        </div>
-      `;
-      newCaptcha();
+    function saveD1Config() {
+      state.d1Url = document.getElementById("d1WorkerUrl").value.trim();
+      state.d1Key = document.getElementById("d1ApiKey").value.trim();
+      localStorage.setItem("gsm_d1_url", state.d1Url);
+      localStorage.setItem("gsm_d1_key", state.d1Key);
+      const el = document.getElementById("d1Msg");
+      el.style.color = "#4ade80";
+      el.textContent = "تم حفظ إعدادات Cloudflare D1.";
     }
 
-    function orderService(serviceName) {
-      const imei = (document.getElementById("imeiInput")?.value || "").trim();
-      const msg = encodeURIComponent(`Service: ${serviceName}${imei ? `\niPhone IMEI: ${imei}` : ""}`);
-      window.open(`https://wa.me/${WA_PHONE}?text=${msg}`, "_blank", "noopener");
+    async function syncToD1() {
+      const el = document.getElementById("d1Msg");
+      if (!state.d1Url) {
+        el.style.color = "#f87171";
+        el.textContent = "أدخل رابط Cloudflare Worker أولاً.";
+        return;
+      }
+      try {
+        const res = await fetch(`${state.d1Url}/api/sync`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(state.d1Key ? { "Authorization": `Bearer ${state.d1Key}` } : {})
+          },
+          body: JSON.stringify({
+            orders: state.orders,
+            clients: state.clients,
+            services: state.services
+          })
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        el.style.color = "#4ade80";
+        el.textContent = "تمت مزامنة البيانات بنجاح مع Cloudflare D1.";
+      } catch (err) {
+        el.style.color = "#f87171";
+        el.textContent = `تعذرت المزامنة مع D1: ${err.message}`;
+      }
+    }
+
+    async function pullFromD1() {
+      const el = document.getElementById("d1Msg");
+      if (!state.d1Url) {
+        el.style.color = "#f87171";
+        el.textContent = "أدخل رابط Cloudflare Worker أولاً.";
+        return;
+      }
+      try {
+        const res = await fetch(`${state.d1Url}/api/state`, {
+          headers: state.d1Key ? { "Authorization": `Bearer ${state.d1Key}` } : {}
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (Array.isArray(data.orders)) state.orders = data.orders;
+        if (Array.isArray(data.clients)) state.clients = data.clients;
+        if (Array.isArray(data.services) && data.services.length) state.services = data.services;
+        persistLocal();
+        renderAll();
+        el.style.color = "#4ade80";
+        el.textContent = "تم جلب البيانات من Cloudflare D1.";
+      } catch (err) {
+        el.style.color = "#f87171";
+        el.textContent = `تعذر الجلب من D1: ${err.message}`;
+      }
+    }
+
+    function renderAll() {
+      document.getElementById("d1WorkerUrl").value = state.d1Url;
+      document.getElementById("d1ApiKey").value = state.d1Key;
+      renderStats();
+      renderOrders();
+      renderClients();
+      renderServices();
+      syncOrderPrice();
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      document.documentElement.setAttribute("data-theme", theme);
-      setClientLang(lang);
+      document.documentElement.setAttribute("data-theme", state.theme);
+      document.getElementById("themeBtn").textContent = state.theme === "dark" ? "🌙" : "☀️";
+      if (sessionStorage.getItem("gsm_admin_auth") === "1") {
+        document.getElementById("lockScreen").style.display = "none";
+        document.getElementById("adminApp").style.display = "block";
+        renderAll();
+      }
     });
   </script>
 </body>
