@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,6 +18,23 @@
       --text-muted: #94a3b8;
       --notice-bg: #10213f;
       --notice-border: #1d3b70;
+      --notice-text: #cbd5e1;
+    }
+
+    [data-theme="light"] {
+      --bg-main: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-btn: #e2e8f0;
+      --bg-btn-hover: #cbd5e1;
+      --border: #cbd5e1;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --brand: #1d4ed8;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --notice-bg: #eff6ff;
+      --notice-border: #bfdbfe;
+      --notice-text: #1e3a8a;
     }
 
     * {
@@ -32,6 +49,7 @@
       color: var(--text-main);
       padding: 20px 16px 36px;
       line-height: 1.65;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     .wrap {
@@ -39,18 +57,39 @@
       margin: 0 auto;
     }
 
-    .lang-bar {
+    /* Top Control Bar: Language Switcher & Theme Toggle */
+    .topbar {
       display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 18px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 20px;
     }
 
-    .lang-btn {
-      background: var(--bg-card);
+    .lang-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .lang-label {
+      font-size: 12.5px;
       color: var(--text-muted);
+      font-weight: 600;
+      margin-inline-end: 4px;
+    }
+
+    .lang-btn, .theme-btn {
+      background: var(--bg-btn);
+      color: var(--text-main);
       border: 1px solid var(--border);
-      padding: 7px 14px;
+      padding: 7px 12px;
       border-radius: 8px;
       font-size: 13px;
       font-weight: 700;
@@ -58,9 +97,8 @@
       transition: 0.2s ease;
     }
 
-    .lang-btn:hover {
+    .lang-btn:hover, .theme-btn:hover {
       border-color: var(--brand);
-      color: var(--text-main);
     }
 
     .lang-btn.active {
@@ -85,7 +123,6 @@
     .page-title {
       font-size: 25px;
       font-weight: 800;
-      color: #ffffff;
       margin-bottom: 8px;
     }
 
@@ -105,11 +142,6 @@
       display: flex;
       align-items: flex-start;
       gap: 14px;
-      transition: border-color 0.2s ease;
-    }
-
-    .step-card:hover {
-      border-color: #2c3e5e;
     }
 
     .step-num {
@@ -130,7 +162,6 @@
     .step-content h2 {
       font-size: 16px;
       font-weight: 700;
-      color: #ffffff;
       margin-bottom: 6px;
     }
 
@@ -151,13 +182,12 @@
     .notice-card h2 {
       font-size: 16px;
       font-weight: 700;
-      color: #ffffff;
       margin-bottom: 6px;
     }
 
     .notice-card p {
       font-size: 13.5px;
-      color: #cbd5e1;
+      color: var(--notice-text);
     }
 
     .actions {
@@ -177,7 +207,6 @@
       font-size: 14px;
       font-weight: 700;
       transition: 0.2s ease;
-      cursor: pointer;
     }
 
     .btn-home {
@@ -192,8 +221,8 @@
 
     .btn-support {
       background: var(--bg-btn);
-      color: #ffffff;
-      border: 1px solid #2b3b5c;
+      color: var(--text-main);
+      border: 1px solid var(--border);
     }
 
     .btn-support:hover {
@@ -203,8 +232,7 @@
     .footer {
       text-align: center;
       font-size: 12.5px;
-      color: #64748b;
-      padding-top: 6px;
+      color: var(--text-muted);
     }
 
     @media (max-width: 440px) {
@@ -216,10 +244,15 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="lang-bar">
-      <button type="button" class="lang-btn" data-lang="ar" onclick="setStepsLang('ar')">العربية</button>
-      <button type="button" class="lang-btn" data-lang="fr" onclick="setStepsLang('fr')">FR</button>
-      <button type="button" class="lang-btn active" data-lang="en" onclick="setStepsLang('en')">EN</button>
+    <!-- Language Switcher & Theme Bar -->
+    <div class="topbar">
+      <div class="lang-group">
+        <span class="lang-label" id="langLabel">🌐</span>
+        <button type="button" class="lang-btn" data-lang="ar" onclick="setStepsLang('ar')">العربية</button>
+        <button type="button" class="lang-btn" data-lang="fr" onclick="setStepsLang('fr')">Français</button>
+        <button type="button" class="lang-btn active" data-lang="en" onclick="setStepsLang('en')">English</button>
+      </div>
+      <button type="button" class="theme-btn" id="themeToggleBtn" onclick="toggleStepsTheme()">🌙</button>
     </div>
 
     <header class="header">
@@ -280,44 +313,4 @@
         title: "How It Works",
         subtitle: "Follow these simple steps to use our iPhone checking services.",
         s1Title: "Enter Your IMEI",
-        s1Desc: "Enter your device's 15-digit IMEI number in the checking tool. Make sure the number is correct before continuing.",
-        s2Title: "Select Your Check Type",
-        s2Desc: "Choose the available checking service: Basic Check, iCloud / FMI, Carrier Check, Blacklist GSMA or Full PRO Report.",
-        s3Title: "Submit Your Request",
-        s3Desc: "Submit your request and wait for the checking process or manual verification, depending on the service.",
-        s4Title: "Receive Your Report",
-        s4Desc: "Review your available device information and receive your report when the service is completed.",
-        noticeTitle: "Important Notice",
-        noticeDesc: "IMEI reports depend on the available data sources. Results may vary depending on the device and service. Always verify important information before purchasing a device.",
-        homeBtn: "Back to Home",
-        supportBtn: "Contact Support",
-        footerText: "© 2026 GSM YASSER SERVER. All Rights Reserved."
-      },
-      ar: {
-        dir: "rtl",
-        title: "كيف يعمل",
-        subtitle: "اتبع هذه الخطوات البسيطة لاستخدام خدمات فحص iPhone الخاصة بنا.",
-        s1Title: "أدخل رقم IMEI الخاص بك",
-        s1Desc: "أدخل رقم IMEI المكوّن من 15 رقماً الخاص بجهازك في أداة الفحص. تأكد من صحة الرقم قبل المتابعة.",
-        s2Title: "اختر نوع الفحص",
-        s2Desc: "اختر خدمة الفحص المتاحة: الفحص الأساسي، أو iCloud / FMI، أو فحص الشبكة، أو القائمة السوداء GSMA، أو التقرير الكامل PRO.",
-        s3Title: "أرسل طلبك",
-        s3Desc: "أرسل طلبك وانتظر عملية الفحص أو التحقق اليدوي حسب نوع الخدمة.",
-        s4Title: "استلم تقريرك",
-        s4Desc: "راجع معلومات جهازك المتاحة واستلم تقريرك عند اكتمال الخدمة.",
-        noticeTitle: "تنبيه مهم",
-        noticeDesc: "تعتمد تقارير IMEI على مصادر البيانات المتاحة. قد تختلف النتائج حسب الجهاز والخدمة. تحقق دائماً من المعلومات المهمة قبل شراء أي جهاز.",
-        homeBtn: "العودة إلى الصفحة الرئيسية",
-        supportBtn: "تواصل مع الدعم",
-        footerText: "© 2026 GSM YASSER SERVER. جميع الحقوق محفوظة."
-      },
-      fr: {
-        dir: "ltr",
-        title: "Comment ça marche",
-        subtitle: "Suivez ces étapes simples pour utiliser nos services de vérification iPhone.",
-        s1Title: "Entrez votre IMEI",
-        s1Desc: "Saisissez le numéro IMEI à 15 chiffres de votre appareil dans l'outil. Vérifiez qu'il est exact avant de continuer.",
-        s2Title: "Choisissez le type de vérification",
-        s2Desc: "Sélectionnez le service disponible : Vérification de base, iCloud / FMI, Opérateur, Liste noire GSMA ou Rapport PRO complet.",
-        s3Title: "Soumettez votre demande",
-        s3Desc: "
+        s1
