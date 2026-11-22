@@ -3,89 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GSM Yasser Server — iPhone IMEI Check</title>
+  <title>Owner — GSM Yasser Server</title>
   <style>
     :root {
       --bg: #070d19;
-      --surface: #0f172a;
-      --surface-2: #162238;
+      --card: #0f172a;
+      --card-2: #162238;
       --text: #f8fafc;
       --muted: #94a3b8;
       --border: #23324d;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
       --wa: #22c55e;
-      --wa-hover: #16a34a;
-      --danger: #ef4444;
-      --paid-bg: rgba(245, 158, 11, 0.16);
-      --paid-text: #fbbf24;
-      --shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
     }
 
     [data-theme="light"] {
       --bg: #f1f5f9;
-      --surface: #ffffff;
-      --surface-2: #f8fafc;
+      --card: #ffffff;
+      --card-2: #f8fafc;
       --text: #0f172a;
       --muted: #475569;
       --border: #cbd5e1;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
       --wa: #16a34a;
-      --wa-hover: #15803d;
-      --danger: #dc2626;
-      --paid-bg: rgba(217, 119, 6, 0.14);
-      --paid-text: #b45309;
-      --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
       background: var(--bg);
       color: var(--text);
-      min-height: 100vh;
-      padding: 24px 16px 48px;
+      padding: 20px 16px 40px;
       line-height: 1.65;
       transition: background 0.25s ease, color 0.25s ease;
     }
 
-    .ltr-isolate {
-      direction: ltr;
-      unicode-bidi: isolate;
-      display: inline-block;
-    }
-
     .container {
-      max-width: 1040px;
+      max-width: 720px;
       margin: 0 auto;
     }
 
-    /* Top Bar */
     .topbar {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      background: var(--surface);
+      gap: 10px;
+      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 18px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow);
-    }
-
-    .brand-tag {
-      font-size: 14px;
-      font-weight: 800;
-      color: #3b82f6;
-      letter-spacing: 0.4px;
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 18px;
     }
 
     .btn-group {
@@ -96,40 +70,35 @@
     }
 
     button, a.btn {
-      background: var(--surface-2);
+      background: var(--card-2);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 8px 13px;
-      border-radius: 10px;
-      font-size: 13.5px;
+      padding: 8px 12px;
+      border-radius: 9px;
+      font-size: 13px;
       font-weight: 700;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 6px;
       transition: 0.2s ease;
     }
 
     button:hover, a.btn:hover {
       border-color: var(--primary);
-      transform: translateY(-1px);
     }
 
     button.active {
       background: var(--primary);
       border-color: var(--primary);
-      color: #ffffff;
+      color: #fff;
     }
 
     .btn-primary {
       background: var(--primary);
       border-color: var(--primary);
-      color: #ffffff;
-      width: 100%;
-      padding: 13px 16px;
-      font-size: 15px;
+      color: #fff;
     }
 
     .btn-primary:hover {
@@ -139,458 +108,173 @@
     .btn-wa {
       background: var(--wa);
       border-color: var(--wa);
-      color: #ffffff;
+      color: #fff;
     }
 
-    .btn-wa:hover {
-      background: var(--wa-hover);
-      border-color: var(--wa-hover);
-    }
-
-    /* Hero */
-    .hero {
-      text-align: center;
-      max-width: 720px;
-      margin: 0 auto 26px;
-    }
-
-    .hero-badge {
-      display: inline-block;
-      background: rgba(37, 99, 235, 0.15);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .hero h1 {
-      font-size: clamp(24px, 3.2vw, 34px);
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .hero p {
-      color: var(--muted);
-      font-size: 15px;
-    }
-
-    /* Cards */
     .card {
-      background: var(--surface);
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 22px;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .card-header {
+      padding: 22px 18px;
       margin-bottom: 16px;
     }
 
-    .card-title {
-      font-size: 19px;
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-
-    .card-sub {
-      color: var(--muted);
-      font-size: 13.5px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 14px;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-
-    .input-box {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--surface-2);
-      color: var(--text);
-      font-size: 15px;
-    }
-
-    .input-box:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    .captcha-box {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 8px 12px;
-    }
-
-    .captcha-code {
-      font-weight: 800;
-      letter-spacing: 3px;
+    .badge {
+      display: inline-block;
+      background: rgba(37, 99, 235, 0.16);
       color: #60a5fa;
-      user-select: none;
-      font-size: 15px;
-    }
-
-    .imei-hint {
-      margin-top: 12px;
-      font-size: 13.5px;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .imei-hint a {
-      color: #60a5fa;
-      text-decoration: none;
-      font-weight: 700;
-      margin-inline-start: 4px;
-    }
-
-    .imei-hint a:hover {
-      text-decoration: underline;
-    }
-
-    .result-box {
-      margin-top: 16px;
-      padding: 16px;
-      border-radius: 12px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      display: none;
-      font-size: 14px;
-    }
-
-    /* Paid Services Grid */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-
-    .service-card {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 14px;
-      transition: border-color 0.2s ease, transform 0.2s ease;
-    }
-
-    .service-card:hover {
-      border-color: #3b82f6;
-      transform: translateY(-2px);
-    }
-
-    .service-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .service-card h3 {
-      font-size: 16px;
+      font-size: 12px;
       font-weight: 800;
-    }
-
-    .service-card p {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 5px;
-    }
-
-    .paid-badge {
-      background: var(--paid-bg);
-      color: var(--paid-text);
-      font-size: 11px;
-      font-weight: 800;
-      padding: 3px 9px;
+      padding: 4px 10px;
       border-radius: 999px;
-      white-space: nowrap;
+      margin-bottom: 10px;
     }
 
-    /* Footer */
-    .footer {
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+    h1 {
+      font-size: 23px;
+      margin-bottom: 8px;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .info-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .info-item {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px 14px;
+      font-size: 13.5px;
+    }
+
+    .info-item strong {
+      display: block;
+      margin-bottom: 2px;
       font-size: 13px;
+    }
+
+    .info-item span {
       color: var(--muted);
     }
 
-    @media (max-width: 720px) {
-      .form-grid,
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer {
-        justify-content: center;
-        text-align: center;
-      }
+    .footer {
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 18px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header class="topbar">
-      <div class="brand-tag">GSM YASSER SERVER</div>
-
       <div class="btn-group">
-        <button type="button" data-lang="ar" class="active" onclick="setLang('ar')">العربية</button>
-        <button type="button" data-lang="fr" onclick="setLang('fr')">FR</button>
-        <button type="button" data-lang="en" onclick="setLang('en')">EN</button>
+        <button type="button" data-lang="ar" class="active" onclick="setOwnerLang('ar')">العربية</button>
+        <button type="button" data-lang="fr" onclick="setOwnerLang('fr')">FR</button>
+        <button type="button" data-lang="en" onclick="setOwnerLang('en')">EN</button>
       </div>
 
       <div class="btn-group">
         <a href="steps.html" class="btn" title="How to Use">📖</a>
-        <button type="button" id="themeBtn" onclick="toggleTheme()">🌙 <span data-i18n="theme_dark">داكن</span></button>
+        <button type="button" id="themeBtn" onclick="toggleOwnerTheme()">🌙</button>
       </div>
     </header>
 
-    <section class="hero">
-      <div class="hero-badge" data-i18n="badge">iPhone IMEI Verification</div>
-      <h1 data-i18n="title">GSM Yasser Server — فحص IMEI لـ iPhone</h1>
-      <p data-i18n="subtitle">فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة عبر واتساب</p>
-    </section>
-
     <section class="card">
-      <div class="card-header">
-        <div class="card-title" data-i18n="free_title">فحص مجاني</div>
-        <div class="card-sub" data-i18n="free_sub">تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</div>
-      </div>
+      <span class="badge" data-i18n="badge">GSM YASSER SERVER — OWNER</span>
+      <h1 data-i18n="title">هوية المالك وأداة جلب العملاء</h1>
+      <p class="sub" data-i18n="subtitle">أداة مخصصة للاستعلام عن بيانات ومعلومات هواتف iPhone عبر رقم IMEI لجذب العملاء والتواصل المباشر.</p>
 
-      <div class="form-grid">
-        <input
-          type="text"
-          id="imeiInput"
-          class="input-box"
-          style="margin-bottom: 0;"
-          maxlength="15"
-          inputmode="numeric"
-          data-i18n-placeholder="imei_ph"
-          placeholder="أدخل رقم IMEI المكوّن من 15 رقماً"
-        />
+      <ul class="info-list">
+        <li class="info-item">
+          <strong data-i18n="scope_title">تخصص الأداة</strong>
+          <span data-i18n="scope_desc">فحص بيانات ومعلومات هواتف iPhone فقط برقم IMEI (15 رقماً) مع توفير الفحص المجاني وخدمات الفحص المدفوعة.</span>
+        </li>
+        <li class="info-item">
+          <strong data-i18n="goal_title">الغرض من الأداة</strong>
+          <span data-i18n="goal_desc">تصميم مخصص لجذب العملاء وتسهيل طلب خدمات الفحص والتواصل المباشر مع المالك.</span>
+        </li>
+        <li class="info-item">
+          <strong data-i18n="wa_title">واتساب المباشر</strong>
+          <span>+213657241710</span>
+        </li>
+      </ul>
 
-        <div class="captcha-box">
-          <span class="captcha-code ltr-isolate" id="capCode">NMKLU</span>
-          <input
-            type="text"
-            id="capInput"
-            class="input-box"
-            style="width: 105px; margin-bottom: 0; padding: 8px 10px; font-size: 13.5px;"
-            data-i18n-placeholder="cap_ph"
-            placeholder="الرمز"
-          />
-          <button type="button" onclick="refreshCaptcha()" title="Refresh">🔄</button>
-        </div>
-      </div>
-
-      <button type="button" class="btn-primary" onclick="checkFree()" data-i18n="free_btn">
-        فحص مجاني
-      </button>
-
-      <div class="imei-hint">
-        <span data-i18n="no_imei">لا تعرف IMEI؟ اطلب</span>
-        <code class="ltr-isolate">*#06#</code>.
-        <a href="steps.html" data-i18n="where_imei">أين أجد IMEI؟</a>
-      </div>
-
-      <div id="resultBox" class="result-box"></div>
-    </section>
-
-    <section class="card">
-      <div class="card-header">
-        <div class="card-title" data-i18n="paid_title">خدمات الفحص المدفوعة</div>
-        <div class="card-sub">
-          <span data-i18n="paid_sub">اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب</span>
-          <span class="ltr-isolate">+213657241710</span>
-        </div>
-      </div>
-
-      <div class="services-grid">
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_net">فحص قفل الشبكة</h3>
-              <span class="paid-badge" data-i18n="paid_badge">مدفوع</span>
-            </div>
-            <p data-i18n="s_net_d">حالة قفل المشغل وشريحة SIM</p>
-          </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Network Lock Check [PAID]')">WhatsApp</a>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_ic">فحص iCloud</h3>
-              <span class="paid-badge" data-i18n="paid_badge">مدفوع</span>
-            </div>
-            <p data-i18n="s_ic_d">حالة قفل iCloud وميزة Find My</p>
-          </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('iCloud Check [PAID]')">WhatsApp</a>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_bl">فحص القائمة السوداء</h3>
-              <span class="paid-badge" data-i18n="paid_badge">مدفوع</span>
-            </div>
-            <p data-i18n="s_bl_d">حالة الفقدان أو السرقة أو الحظر</p>
-          </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Blacklist Check [PAID]')">WhatsApp</a>
-        </div>
-
-        <div class="service-card">
-          <div>
-            <div class="service-top">
-              <h3 data-i18n="s_pro">فحص شامل PRO</h3>
-              <span class="paid-badge" data-i18n="paid_badge">مدفوع</span>
-            </div>
-            <p data-i18n="s_pro_d">تقرير PDF كامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud</p>
-          </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Full Check PRO [PAID]')">WhatsApp</a>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
       <div class="btn-group">
-        <a href="steps.html" class="btn" title="How to Use">📖</a>
-        <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="btn btn-wa ltr-isolate">+213657241710</a>
+        <a href="https://wa.me/213657241710?text=GSM%20Yasser%20Server%20-%20iPhone%20IMEI%20Inquiry" target="_blank" rel="noopener" class="btn btn-wa" data-i18n="btn_wa">تواصل عبر واتساب (+213657241710)</a>
+        <a href="index.html" class="btn btn-primary" data-i18n="btn_home">صفحة العملاء</a>
+        <a href="admin.html" class="btn" data-i18n="btn_admin">لوحة الإدارة</a>
       </div>
-      <span class="ltr-isolate">© 2026 GSM YASSER SERVER. All Rights Reserved.</span>
-    </footer>
+    </section>
+
+    <footer class="footer" data-i18n="footer">© 2026 GSM YASSER SERVER. All Rights Reserved.</footer>
   </div>
 
   <script>
-    const WA_PHONE = "213657241710";
-
-    const I18N = {
+    const OWNER_I18N = {
       ar: {
         dir: "rtl",
-        badge: "فحص IMEI لهواتف iPhone",
-        theme_dark: "داكن",
-        theme_light: "فاتح",
-        title: "GSM Yasser Server — فحص IMEI لـ iPhone",
-        subtitle: "فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة عبر واتساب",
-        free_title: "فحص مجاني",
-        free_sub: "تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير",
-        imei_ph: "أدخل رقم IMEI المكوّن من 15 رقماً",
-        cap_ph: "الرمز",
-        free_btn: "فحص مجاني",
-        no_imei: "لا تعرف IMEI؟ اطلب",
-        where_imei: "أين أجد IMEI؟",
-        paid_title: "خدمات الفحص المدفوعة",
-        paid_sub: "اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب",
-        paid_badge: "مدفوع",
-        s_net: "فحص قفل الشبكة",
-        s_net_d: "حالة قفل المشغل وشريحة SIM",
-        s_ic: "فحص iCloud",
-        s_ic_d: "حالة قفل iCloud وميزة Find My",
-        s_bl: "فحص القائمة السوداء",
-        s_bl_d: "حالة الفقدان أو السرقة أو الحظر",
-        s_pro: "فحص شامل PRO",
-        s_pro_d: "تقرير PDF كامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud",
-        err_imei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
-        err_cap: "رمز التحقق غير صحيح.",
-        valid_msg: "صيغة رقم IMEI لـ iPhone (15 رقماً) صحيحة.",
-        pdf_btn: "طباعة / حفظ PDF",
-        wa_btn: "إرسال عبر واتساب (+213657241710)"
+        badge: "GSM YASSER SERVER — المالك",
+        title: "هوية المالك وأداة جلب العملاء",
+        subtitle: "أداة مخصصة للاستعلام عن بيانات ومعلومات هواتف iPhone عبر رقم IMEI لجذب العملاء والتواصل المباشر.",
+        scope_title: "تخصص الأداة",
+        scope_desc: "فحص بيانات ومعلومات هواتف iPhone فقط برقم IMEI (15 رقماً) مع توفير الفحص المجاني وخدمات الفحص المدفوعة.",
+        goal_title: "الغرض من الأداة",
+        goal_desc: "تصميم مخصص لجذب العملاء وتسهيل طلب خدمات الفحص والتواصل المباشر مع المالك.",
+        wa_title: "واتساب المباشر",
+        btn_wa: "تواصل عبر واتساب (+213657241710)",
+        btn_home: "صفحة العملاء",
+        btn_admin: "لوحة الإدارة",
+        footer: "© 2026 GSM YASSER SERVER. جميع الحقوق محفوظة."
       },
       fr: {
         dir: "ltr",
-        badge: "Vérification IMEI iPhone",
-        theme_dark: "Sombre",
-        theme_light: "Clair",
-        title: "GSM Yasser Server — Vérification IMEI iPhone",
-        subtitle: "Vérification IMEI iPhone et services payants via WhatsApp",
-        free_title: "Vérification Gratuite",
-        free_sub: "Vérifiez l'IMEI à 15 chiffres de votre iPhone et générez un rapport",
-        imei_ph: "Entrez l'IMEI iPhone à 15 chiffres",
-        cap_ph: "Code",
-        free_btn: "Vérifier Gratuitement",
-        no_imei: "IMEI inconnu ? Composez",
-        where_imei: "Où trouver l'IMEI ?",
-        paid_title: "Services de Vérification Payants",
-        paid_sub: "Commandez via WhatsApp",
-        paid_badge: "PAYANT",
-        s_net: "Vérification Verrou Réseau",
-        s_net_d: "Verrouillage opérateur et état SIM",
-        s_ic: "Vérification iCloud",
-        s_ic_d: "Verrouillage iCloud et état Find My",
-        s_bl: "Vérification Liste Noire",
-        s_bl_d: "État perdu, volé ou bloqué",
-        s_pro: "Vérification Complète PRO",
-        s_pro_d: "Rapport PDF complet : GSX, Garantie, Date d'achat, Réseau, iCloud",
-        err_imei: "Veuillez saisir un numéro IMEI valide à 15 chiffres.",
-        err_cap: "Code de vérification invalide.",
-        valid_msg: "Format IMEI iPhone (15 chiffres) valide.",
-        pdf_btn: "Exporter / Imprimer PDF",
-        wa_btn: "Envoyer sur WhatsApp (+213657241710)"
+        badge: "GSM YASSER SERVER — PROPRIÉTAIRE",
+        title: "Identité du Propriétaire & Acquisition Clients",
+        subtitle: "Outil dédié à la vérification des données iPhone par IMEI pour attirer des clients et faciliter le contact direct.",
+        scope_title: "Spécialité de l'outil",
+        scope_desc: "Vérification des informations iPhone uniquement par IMEI (15 chiffres) avec contrôle gratuit et services payants.",
+        goal_title: "Objectif",
+        goal_desc: "Outil conçu pour attirer des clients et simplifier les demandes de vérification via WhatsApp.",
+        wa_title: "WhatsApp Direct",
+        btn_wa: "Contacter sur WhatsApp (+213657241710)",
+        btn_home: "Espace Client",
+        btn_admin: "Panneau Admin",
+        footer: "© 2026 GSM YASSER SERVER. Tous droits réservés."
       },
       en: {
         dir: "ltr",
-        badge: "iPhone IMEI Verification",
-        theme_dark: "Dark",
-        theme_light: "Light",
-        title: "GSM Yasser Server — iPhone IMEI Check",
-        subtitle: "Instant iPhone IMEI check & paid check services via WhatsApp",
-        free_title: "Free Check",
-        free_sub: "Check your 15-digit iPhone IMEI and generate an instant report",
-        imei_ph: "Enter 15-digit iPhone IMEI",
-        cap_ph: "Code",
-        free_btn: "Check Free",
-        no_imei: "Don't know your IMEI? Dial",
-        where_imei: "Where do I find IMEI?",
-        paid_title: "Paid Check Services",
-        paid_sub: "Order paid checks directly via WhatsApp",
-        paid_badge: "PAID",
-        s_net: "Network Lock Check",
-        s_net_d: "Carrier lock and SIM status",
-        s_ic: "iCloud Check",
-        s_ic_d: "iCloud lock and Find My iPhone status",
-        s_bl: "Blacklist Check",
-        s_bl_d: "Lost, stolen, or blocked status",
-        s_pro: "Full Check PRO",
-        s_pro_d: "Full PDF report: GSX, Warranty, Purchase Date, Carrier, iCloud",
-        err_imei: "Please enter a valid 15-digit IMEI number.",
-        err_cap: "Invalid verification code.",
-        valid_msg: "Valid 15-digit iPhone IMEI format.",
-        pdf_btn: "Export / Print PDF",
-        wa_btn: "Send via WhatsApp (+213657241710)"
+        badge: "GSM YASSER SERVER — OWNER",
+        title: "Owner Profile & Client Acquisition Tool",
+        subtitle: "Dedicated tool for checking iPhone IMEI data and information to attract clients and enable direct contact.",
+        scope_title: "Tool Scope",
+        scope_desc: "iPhone IMEI (15-digit) lookup with free check and paid check services.",
+        goal_title: "Purpose",
+        goal_desc: "Designed to attract clients and streamline check requests via WhatsApp.",
+        wa_title: "Direct WhatsApp",
+        btn_wa: "Contact on WhatsApp (+213657241710)",
+        btn_home: "Client Page",
+        btn_admin: "Admin Panel",
+        footer: "© 2026 GSM YASSER SERVER. All Rights Reserved."
       }
     };
 
-    let currentLang = localStorage.getItem("gsm_lang") || "ar";
-    let currentTheme = localStorage.getItem("gsm_theme") || "dark";
-    let captchaVal = "NMKLU";
+    let ownerLang = localStorage.getItem("gsm_lang") || "ar";
+    let ownerTheme = localStorage.getItem("gsm_theme") || "dark";
 
-    function setLang(lang) {
-      const dict = I18N[lang];
+    function setOwnerLang(lang) {
+      const dict = OWNER_I18N[lang];
       if (!dict) return;
-      currentLang = lang;
+      ownerLang = lang;
       localStorage.setItem("gsm_lang", lang);
       document.documentElement.lang = lang;
       document.documentElement.dir = dict.dir;
@@ -600,118 +284,22 @@
         if (dict[key]) el.textContent = dict[key];
       });
 
-      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
-        const key = el.getAttribute("data-i18n-placeholder");
-        if (dict[key]) el.placeholder = dict[key];
-      });
-
       document.querySelectorAll("[data-lang]").forEach((btn) => {
         btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
       });
-
-      syncThemeBtn();
     }
 
-    function toggleTheme() {
-      currentTheme = currentTheme === "dark" ? "light" : "dark";
-      localStorage.setItem("gsm_theme", currentTheme);
-      document.documentElement.setAttribute("data-theme", currentTheme);
-      syncThemeBtn();
-    }
-
-    function syncThemeBtn() {
-      const dict = I18N[currentLang];
-      const btn = document.getElementById("themeBtn");
-      if (!btn) return;
-      const icon = currentTheme === "dark" ? "🌙" : "☀️";
-      const text = currentTheme === "dark" ? dict.theme_dark : dict.theme_light;
-      btn.innerHTML = `${icon} <span>${text}</span>`;
-    }
-
-    function refreshCaptcha() {
-      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      let out = "";
-      for (let i = 0; i < 5; i++) out += chars.charAt(Math.floor(Math.random() * chars.length));
-      captchaVal = out;
-      const el = document.getElementById("capCode");
-      if (el) el.textContent = captchaVal;
-    }
-
-    function isValidImei(imei) {
-      if (!/^\d{15}$/.test(imei)) return false;
-      let sum = 0;
-      for (let i = 0; i < 15; i++) {
-        let d = parseInt(imei[i], 10);
-        if (i % 2 === 1) {
-          d *= 2;
-          if (d > 9) d -= 9;
-        }
-        sum += d;
-      }
-      return sum % 10 === 0;
-    }
-
-    function printReport(imei) {
-      const win = window.open("", "_blank");
-      if (!win) return;
-      win.document.write(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head><meta charset="UTF-8"><title>iPhone IMEI Report - ${imei}</title></head>
-        <body style="font-family:Arial,sans-serif;padding:28px;">
-          <h2>GSM Yasser Server — iPhone IMEI Report</h2>
-          <p><strong>IMEI:</strong> ${imei}</p>
-          <p><strong>WhatsApp:</strong> +${WA_PHONE}</p>
-          <script>window.onload=()=>window.print();<\/script>
-        </body>
-        </html>
-      `);
-      win.document.close();
-    }
-
-    function checkFree() {
-      const dict = I18N[currentLang];
-      const imei = (document.getElementById("imeiInput")?.value || "").trim();
-      const cap = (document.getElementById("capInput")?.value || "").trim().toUpperCase();
-      const box = document.getElementById("resultBox");
-
-      if (!isValidImei(imei)) {
-        box.style.display = "block";
-        box.innerHTML = `<span style="color:var(--danger);">${dict.err_imei}</span>`;
-        return;
-      }
-
-      if (cap !== captchaVal) {
-        box.style.display = "block";
-        box.innerHTML = `<span style="color:var(--danger);">${dict.err_cap}</span>`;
-        refreshCaptcha();
-        return;
-      }
-
-      const waUrl = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(`GSM Yasser Server\niPhone IMEI: ${imei}`)}`;
-      box.style.display = "block";
-      box.innerHTML = `
-        <div><strong>IMEI:</strong> <code class="ltr-isolate">${imei}</code></div>
-        <div style="color:var(--wa);margin-top:4px;">${dict.valid_msg}</div>
-        <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:10px;">
-          <button type="button" onclick="printReport('${imei}')">📄 ${dict.pdf_btn}</button>
-          <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-wa">💬 ${dict.wa_btn}</a>
-        </div>
-      `;
-      refreshCaptcha();
-    }
-
-    function orderService(serviceName) {
-      const imei = (document.getElementById("imeiInput")?.value || "").trim();
-      const msg = encodeURIComponent(
-        `GSM Yasser Server\nService: ${serviceName}${imei ? `\niPhone IMEI: ${imei}` : ""}`
-      );
-      window.open(`https://wa.me/${WA_PHONE}?text=${msg}`, "_blank", "noopener");
+    function toggleOwnerTheme() {
+      ownerTheme = ownerTheme === "dark" ? "light" : "dark";
+      localStorage.setItem("gsm_theme", ownerTheme);
+      document.documentElement.setAttribute("data-theme", ownerTheme);
+      document.getElementById("themeBtn").textContent = ownerTheme === "dark" ? "🌙" : "☀️";
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      document.documentElement.setAttribute("data-theme", currentTheme);
-      setLang(currentLang);
+      document.documentElement.setAttribute("data-theme", ownerTheme);
+      document.getElementById("themeBtn").textContent = ownerTheme === "dark" ? "🌙" : "☀️";
+      setOwnerLang(ownerLang);
     });
   </script>
 </body>
