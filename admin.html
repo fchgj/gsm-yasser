@@ -16,6 +16,8 @@
       --primary-hover: #1d4ed8;
       --whatsapp: #22c55e;
       --danger: #ef4444;
+      --paid-bg: rgba(245, 158, 11, 0.16);
+      --paid-text: #fbbf24;
     }
 
     [data-theme="light"] {
@@ -29,6 +31,8 @@
       --primary-hover: #1d4ed8;
       --whatsapp: #16a34a;
       --danger: #dc2626;
+      --paid-bg: rgba(217, 119, 6, 0.14);
+      --paid-text: #b45309;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
@@ -163,11 +167,28 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
+    }
+
+    .service-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
     }
 
     .service-card h3 { font-size: 15px; }
-    .service-card p { font-size: 12.5px; color: var(--muted); }
+    .service-card p { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+
+    .paid-badge {
+      background: var(--paid-bg);
+      color: var(--paid-text);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
 
     .footer {
       display: flex;
@@ -188,14 +209,14 @@
       </div>
 
       <div class="btn-group">
-        <a href="steps.html" class="btn">📖 <span data-i18n="how_to_use">How to Use</span></a>
+        <a href="steps.html" class="btn" title="How to Use">📖</a>
         <button type="button" id="themeBtn" onclick="toggleClientTheme()">🌙 <span data-i18n="theme_dark">Dark</span></button>
       </div>
     </header>
 
     <section class="hero">
       <h1 data-i18n="title">GSM Yasser — iPhone IMEI Check</h1>
-      <p data-i18n="subtitle">Instant iPhone IMEI check & service requests</p>
+      <p data-i18n="subtitle">Instant iPhone IMEI check & paid check services</p>
     </section>
 
     <section class="card">
@@ -234,46 +255,58 @@
     </section>
 
     <section class="card">
-      <div class="card-title" data-i18n="extra_title">Additional Check Services</div>
-      <div class="card-sub" data-i18n="extra_sub">Order directly via WhatsApp +213657241710</div>
+      <div class="card-title" data-i18n="extra_title">Paid Check Services</div>
+      <div class="card-sub" data-i18n="extra_sub">Paid checks ordered via WhatsApp +213657241710</div>
 
       <div class="services-grid">
         <div class="service-card">
           <div>
-            <h3 data-i18n="s_net">🔒 Network Lock Check</h3>
+            <div class="service-top">
+              <h3 data-i18n="s_net">🔒 Network Lock Check</h3>
+              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
+            </div>
             <p data-i18n="s_net_d">Carrier lock & SIM status</p>
           </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Network Lock Check')">WhatsApp</a>
+          <a href="#" class="btn btn-wa" onclick="orderService('Network Lock Check [PAID]')">WhatsApp</a>
         </div>
 
         <div class="service-card">
           <div>
-            <h3 data-i18n="s_ic">☁️ iCloud Check</h3>
+            <div class="service-top">
+              <h3 data-i18n="s_ic">☁️ iCloud Check</h3>
+              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
+            </div>
             <p data-i18n="s_ic_d">iCloud lock & Find My status</p>
           </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('iCloud Check')">WhatsApp</a>
+          <a href="#" class="btn btn-wa" onclick="orderService('iCloud Check [PAID]')">WhatsApp</a>
         </div>
 
         <div class="service-card">
           <div>
-            <h3 data-i18n="s_bl">🚫 Blacklist Check</h3>
+            <div class="service-top">
+              <h3 data-i18n="s_bl">🚫 Blacklist Check</h3>
+              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
+            </div>
             <p data-i18n="s_bl_d">Lost, stolen, or blocked status</p>
           </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Blacklist Check')">WhatsApp</a>
+          <a href="#" class="btn btn-wa" onclick="orderService('Blacklist Check [PAID]')">WhatsApp</a>
         </div>
 
         <div class="service-card">
           <div>
-            <h3 data-i18n="s_pro">⭐ Full Check PRO</h3>
+            <div class="service-top">
+              <h3 data-i18n="s_pro">⭐ Full Check PRO</h3>
+              <span class="paid-badge" data-i18n="paid_badge">PAID</span>
+            </div>
             <p data-i18n="s_pro_d">Full PDF report: GSX, Warranty, Purchase Date, Carrier, iCloud</p>
           </div>
-          <a href="#" class="btn btn-wa" onclick="orderService('Full Check PRO')">WhatsApp</a>
+          <a href="#" class="btn btn-wa" onclick="orderService('Full Check PRO [PAID]')">WhatsApp</a>
         </div>
       </div>
     </section>
 
     <footer class="footer">
-      <a href="steps.html" class="btn" data-i18n="how_to_use">How to Use</a>
+      <a href="steps.html" class="btn" title="How to Use">📖</a>
       <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="btn btn-wa">+213657241710</a>
     </footer>
   </div>
@@ -284,19 +317,19 @@
     const TEXTS = {
       en: {
         dir: "ltr",
-        how_to_use: "How to Use",
         theme_dark: "Dark",
         theme_light: "Light",
         title: "GSM Yasser — iPhone IMEI Check",
-        subtitle: "Instant iPhone IMEI check & service requests",
+        subtitle: "Instant iPhone IMEI check & paid check services",
         free_title: "✅ Free Check",
         free_sub: "Check your iPhone IMEI format & generate report",
         imei_ph: "Enter 15-digit iPhone IMEI",
         cap_label: "Verification code:",
         cap_ph: "Code",
         free_btn: "Check Free",
-        extra_title: "Additional Check Services",
-        extra_sub: "Order directly via WhatsApp +213657241710",
+        extra_title: "Paid Check Services",
+        extra_sub: "Paid checks ordered via WhatsApp +213657241710",
+        paid_badge: "PAID",
         s_net: "🔒 Network Lock Check",
         s_net_d: "Carrier lock & SIM status",
         s_ic: "☁️ iCloud Check",
@@ -313,19 +346,19 @@
       },
       ar: {
         dir: "rtl",
-        how_to_use: "طريقة الاستخدام",
         theme_dark: "داكن",
         theme_light: "فاتح",
         title: "GSM Yasser — فحص IMEI لـ iPhone",
-        subtitle: "فحص رقم IMEI لهواتف iPhone وطلب الخدمات مباشرة",
+        subtitle: "فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة",
         free_title: "✅ فحص مجاني",
         free_sub: "تحقق من صيغة رقم IMEI واطبع أو احفظ التقرير",
         imei_ph: "أدخل رقم IMEI المكوّن من 15 رقماً",
         cap_label: "رمز التحقق:",
         cap_ph: "الرمز",
         free_btn: "فحص مجاني",
-        extra_title: "خدمات فحص إضافية",
-        extra_sub: "اطلب الخدمة مباشرة عبر واتساب +213657241710",
+        extra_title: "خدمات الفحص المدفوعة",
+        extra_sub: "خدمات فحص مدفوعة عبر واتساب +213657241710",
+        paid_badge: "مدفوع",
         s_net: "🔒 فحص قفل الشبكة",
         s_net_d: "حالة قفل المشغل وشريحة SIM",
         s_ic: "☁️ فحص iCloud",
@@ -342,19 +375,19 @@
       },
       fr: {
         dir: "ltr",
-        how_to_use: "Mode d'emploi",
         theme_dark: "Sombre",
         theme_light: "Clair",
         title: "GSM Yasser — Vérification IMEI iPhone",
-        subtitle: "Vérification IMEI iPhone et commande de services",
+        subtitle: "Vérification IMEI iPhone et services payants",
         free_title: "✅ Vérification Gratuite",
         free_sub: "Vérifiez le format IMEI et imprimez/enregistrez le rapport",
         imei_ph: "Entrez l'IMEI iPhone à 15 chiffres",
         cap_label: "Code de vérification :",
         cap_ph: "Code",
         free_btn: "Vérifier Gratuitement",
-        extra_title: "Services de Vérification Supplémentaires",
-        extra_sub: "Commande directe via WhatsApp +213657241710",
+        extra_title: "Services de Vérification Payants",
+        extra_sub: "Vérifications payantes via WhatsApp +213657241710",
+        paid_badge: "PAYANT",
         s_net: "🔒 Vérification Verrou Réseau",
         s_net_d: "Verrouillage opérateur et état SIM",
         s_ic: "☁️ Vérification iCloud",
