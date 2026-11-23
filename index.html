@@ -3,422 +3,737 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GSMYasser Server - استعلام بيانات iPhone عبر IMEI</title>
+  <title>GSM Yasser Server — فحص IMEI لـ iPhone</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --surface-2: #273549;
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-2: #1e293b;
       --text: #f8fafc;
       --muted: #94a3b8;
-      --accent: #38bdf8;
-      --border: #334155;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --border: #1f2937;
+      --badge-bg: #292524;
+      --badge-text: #f59e0b;
       --ok: #22c55e;
       --err: #ef4444;
     }
 
     [data-theme="light"] {
-      --bg: #f8fafc;
+      --bg: #f1f5f9;
       --surface: #ffffff;
-      --surface-2: #f1f5f9;
+      --surface-2: #f8fafc;
       --text: #0f172a;
       --muted: #475569;
-      --accent: #0284c7;
-      --border: #e2e8f0;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --border: #cbd5e1;
+      --badge-bg: #fef3c7;
+      --badge-text: #b45309;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
     }
 
     body {
       background: var(--bg);
       color: var(--text);
-      line-height: 1.7;
+      line-height: 1.65;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
       transition: background 0.2s ease, color 0.2s ease;
     }
 
-    .container {
+    .wrap {
       width: 100%;
-      max-width: 820px;
+      max-width: 680px;
       margin: 0 auto;
-      padding: 24px 16px;
-      flex: 1;
+      padding: 18px 14px 36px;
     }
 
-    header {
+    .topbar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
-    .brand {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .controls {
+    .top-group {
       display: flex;
+      align-items: center;
       gap: 8px;
       flex-wrap: wrap;
     }
 
-    select, button, input {
-      font-size: 0.95rem;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-
-    select, button {
-      background: var(--surface);
+    .chip-btn {
+      background: var(--surface-2);
       color: var(--text);
-      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    button.primary {
+    .chip-btn.active {
       background: var(--accent);
       color: #ffffff;
       border-color: var(--accent);
-      font-weight: 700;
-      padding: 12px 18px;
     }
 
-    button.primary:hover {
-      opacity: 0.92;
+    .hero {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 0.98rem;
     }
 
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 20px;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 18px;
     }
 
-    h1 {
-      font-size: 1.55rem;
-      margin-bottom: 8px;
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 4px;
     }
 
-    .subtitle {
+    .card-sub {
       color: var(--muted);
-      margin-bottom: 20px;
+      font-size: 0.92rem;
+      margin-bottom: 16px;
     }
 
-    .form-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    input[type="text"] {
-      flex: 1;
-      min-width: 220px;
-      padding: 12px 14px;
+    .field {
+      width: 100%;
       background: var(--surface-2);
       color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.98rem;
       outline: none;
     }
 
-    input[type="text"]:focus {
+    .field:focus {
       border-color: var(--accent);
     }
 
-    .msg {
+    .captcha-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .captcha-label {
+      font-size: 0.92rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .captcha-input {
+      width: 115px;
+      text-align: center;
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 0.95rem;
+    }
+
+    .captcha-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      font-size: 1rem;
+      user-select: none;
+    }
+
+    .refresh-btn {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .primary-btn {
+      width: 100%;
+      margin-top: 16px;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    .help-line {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .help-line a {
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .help-line a:hover {
+      text-decoration: underline;
+    }
+
+    .msg {
+      margin-top: 10px;
       font-size: 0.9rem;
+      font-weight: 600;
     }
 
     .msg.err { color: var(--err); }
     .msg.ok { color: var(--ok); }
 
-    .result-box {
+    .result-panel {
       display: none;
-      margin-top: 20px;
-      padding-top: 18px;
+      margin-top: 16px;
+      padding-top: 14px;
       border-top: 1px solid var(--border);
     }
 
-    .result-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-      margin: 14px 0;
-    }
-
-    .item {
+    .service-item {
       background: var(--surface-2);
-      padding: 12px;
-      border-radius: 10px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
     }
 
-    .item span {
-      display: block;
-      font-size: 0.8rem;
+    .service-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .service-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .service-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .badge {
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .service-desc {
       color: var(--muted);
-    }
-
-    .item strong {
-      font-size: 1rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px 12px;
-      margin-top: 30px;
-      border-top: 1px solid var(--border);
       font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+
+    .wa-btn {
+      width: 100%;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+
+    .wa-btn:hover {
+      border-color: var(--accent);
+    }
+
+    .footer-box {
+      text-align: center;
+      margin-top: 22px;
+      font-size: 0.88rem;
       color: var(--muted);
     }
 
-    footer a {
-      color: inherit;
-      text-decoration: none;
-      margin: 0 8px;
+    .footer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 14px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: var(--text);
     }
 
-    footer a:hover {
-      color: var(--accent);
+    .legal-links {
+      margin: 10px 0;
+    }
+
+    .legal-links a {
+      color: var(--muted);
+      text-decoration: none;
+      margin: 0 6px;
+      font-size: 0.86rem;
+    }
+
+    .legal-links a:hover {
+      color: var(--text);
       text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.45rem; }
+      .card { padding: 16px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <a href="index.html" class="brand" id="brandName">GSMYasser Server</a>
-      <div class="controls">
-        <select id="langSelect" aria-label="Language">
-          <option value="ar">العربية</option>
-          <option value="fr">Français</option>
-          <option value="en">English</option>
-        </select>
-
-        <select id="currencySelect" aria-label="Currency">
-          <option value="DZD">DZD</option>
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-        </select>
-
-        <button type="button" id="themeBtn">🌓</button>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="top-group">
+        <button type="button" class="chip-btn" id="themeToggle">
+          <span id="themeIcon">🌙</span>
+          <span id="themeText">داكن</span>
+        </button>
+        <a href="steps.html" class="chip-btn" title="خطوات الاستخدام" id="stepsTopBtn">📖</a>
       </div>
+
+      <div class="top-group">
+        <button type="button" class="chip-btn" data-lang="en">EN</button>
+        <button type="button" class="chip-btn" data-lang="fr">FR</button>
+        <button type="button" class="chip-btn active" data-lang="ar">العربية</button>
+      </div>
+    </div>
+
+    <header class="hero">
+      <h1 id="mainTitle">GSM Yasser Server — فحص IMEI لـ iPhone</h1>
+      <p id="mainSub">فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة</p>
     </header>
 
-    <main class="card">
-      <h1 id="pageTitle">استعلام بيانات ومعلومات iPhone عبر IMEI</h1>
-      <p class="subtitle" id="pageSubtitle">أداة مخصصة لفحص وعرض معلومات هواتف iPhone برقم IMEI المكون من 15 رقماً.</p>
+    <section class="card">
+      <h2 class="card-title" id="freeTitle">فحص مجاني</h2>
+      <p class="card-sub" id="freeSub">تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</p>
 
-      <form id="imeiForm" class="form-row">
+      <form id="imeiForm">
         <input
           type="text"
           id="imeiInput"
+          class="field"
           maxlength="15"
           inputmode="numeric"
-          placeholder="أدخل رقم IMEI (15 رقماً)..."
+          placeholder="أدخل رقم IMEI المكوّن من 15 رقماً"
           required
         />
-        <button type="submit" class="primary" id="checkBtn">فحص الجهاز</button>
+
+        <div class="captcha-row">
+          <label for="captchaInput" class="captcha-label" id="captchaLabel">رمز التحقق:</label>
+          <input
+            type="text"
+            id="captchaInput"
+            class="captcha-input"
+            maxlength="6"
+            placeholder="الرمز"
+            required
+          />
+          <span id="captchaCode" class="captcha-box">NMKLU</span>
+          <button type="button" id="refreshCaptcha" class="refresh-btn" title="تحديث الرمز">↻</button>
+        </div>
+
+        <button type="submit" class="primary-btn" id="freeCheckBtn">فحص مجاني</button>
       </form>
 
       <div id="statusMsg" class="msg"></div>
 
-      <div id="resultBox" class="result-box">
-        <h2 id="resultHeading">ملخص الاستعلام</h2>
-        <div class="result-grid">
-          <div class="item">
-            <span id="lblImei">رقم IMEI</span>
-            <strong id="valImei">-</strong>
-          </div>
-          <div class="item">
-            <span id="lblDevice">الفئة المستهدفة</span>
-            <strong id="valDevice">iPhone</strong>
-          </div>
-          <div class="item">
-            <span id="lblPrice">التقدير السعري</span>
-            <strong id="valPrice">-</strong>
-          </div>
+      <div id="resultPanel" class="result-panel">
+        <p id="resultSummary"></p>
+        <div class="captcha-row">
+          <a href="report.html" class="chip-btn active" id="viewReportBtn">عرض التقرير</a>
+          <a href="steps.html" class="chip-btn" id="viewStepsBtn">خطوات الاستخدام</a>
         </div>
-        <button type="button" id="waBtn">تواصل عبر واتساب</button>
       </div>
-    </main>
+
+      <div class="help-line">
+        <span id="imeiHelpText">لا تعرف IMEI؟ اطلب #06#*</span> ·
+        <a href="steps.html" id="whereImeiLink">أين أجد IMEI؟</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title" id="paidTitle">خدمات الفحص المدفوعة</h2>
+      <p class="card-sub" id="paidSub">اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب +213657241710</p>
+
+      <div class="service-item">
+        <div class="service-top">
+          <span class="service-name" id="srv1Name">فحص قفل الشبكة</span>
+          <span class="badge" id="badge1">مدفوع</span>
+        </div>
+        <p class="service-desc" id="srv1Desc">حالة قفل المشغل وشريحة SIM</p>
+        <a class="wa-btn" data-service="فحص قفل الشبكة" href="https://wa.me/213657241710?text=%D9%81%D8%AD%D8%B5%20%D9%82%D9%81%D9%84%20%D8%A7%D9%84%D8%B4%D8%A8%D9%83%D8%A9" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+
+      <div class="service-item">
+        <div class="service-top">
+          <span class="service-name" id="srv2Name">فحص iCloud</span>
+          <span class="badge" id="badge2">مدفوع</span>
+        </div>
+        <p class="service-desc" id="srv2Desc">حالة قفل iCloud وميزة Find My</p>
+        <a class="wa-btn" data-service="فحص iCloud" href="https://wa.me/213657241710?text=%D9%81%D8%AD%D8%B5%20iCloud" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+
+      <div class="service-item">
+        <div class="service-top">
+          <span class="service-name" id="srv3Name">فحص القائمة السوداء</span>
+          <span class="badge" id="badge3">مدفوع</span>
+        </div>
+        <p class="service-desc" id="srv3Desc">حالة الفقدان أو السرقة أو الحظر</p>
+        <a class="wa-btn" data-service="فحص القائمة السوداء" href="https://wa.me/213657241710?text=%D9%81%D8%AD%D8%B5%20%D8%A7%D9%84%D9%82%D8%A7%D8%A6%D9%85%D8%A9%20%D8%A7%D9%84%D8%B3%D9%88%D8%AF%D8%A7%D8%A1" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+
+      <div class="service-item">
+        <div class="service-top">
+          <span class="service-name" id="srv4Name">فحص شامل PRO</span>
+          <span class="badge" id="badge4">مدفوع</span>
+        </div>
+        <p class="service-desc" id="srv4Desc">تقرير PDF كامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud</p>
+        <a class="wa-btn" data-service="فحص شامل PRO" href="https://wa.me/213657241710?text=%D9%81%D8%AD%D8%B5%20%D8%B4%D8%A7%D9%85%D9%84%20PRO" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </section>
+
+    <footer class="footer-box">
+      <div class="footer-pill">
+        <span>+213657241710</span>
+        <span>📖</span>
+      </div>
+
+      <div class="legal-links">
+        <a href="legal.html#privacy" id="linkPrivacy">سياسة الخصوصية</a> |
+        <a href="legal.html#terms" id="linkTerms">شروط الاستخدام</a> |
+        <a href="legal.html#disclaimer" id="linkDisclaimer">إخلاء المسؤولية</a>
+      </div>
+
+      <div>© 2026 GSM YASSER SERVER. All Rights Reserved.</div>
+    </footer>
   </div>
 
-  <footer>
-    <div>
-      <a href="legal.html#privacy" id="linkPrivacy">سياسة الخصوصية</a> |
-      <a href="legal.html#terms" id="linkTerms">شروط الاستخدام</a> |
-      <a href="legal.html#disclaimer" id="linkDisclaimer">إخلاء المسؤولية</a>
-    </div>
-    <div style="margin-top: 8px; font-size: 0.8rem;">
-      © 2026 GSMYasser Server
-    </div>
-  </footer>
-
   <script>
-    const i18n = {
+    const texts = {
       ar: {
         dir: "rtl",
-        title: "استعلام بيانات ومعلومات iPhone عبر IMEI",
-        subtitle: "أداة مخصصة لفحص وعرض معلومات هواتف iPhone برقم IMEI المكون من 15 رقماً.",
-        placeholder: "أدخل رقم IMEI (15 رقماً)...",
-        checkBtn: "فحص الجهاز",
-        invalidImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
-        validImei: "تم التحقق من صيغة رقم IMEI بنجاح.",
-        resultHeading: "ملخص الاستعلام",
-        lblImei: "رقم IMEI",
-        lblDevice: "الفئة المستهدفة",
-        lblPrice: "التقدير السعري",
-        waBtn: "تواصل عبر واتساب",
+        themeDark: "داكن",
+        themeLight: "نهاري",
+        mainTitle: "GSM Yasser Server — فحص IMEI لـ iPhone",
+        mainSub: "فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة",
+        freeTitle: "فحص مجاني",
+        freeSub: "تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير",
+        imeiPlaceholder: "أدخل رقم IMEI المكوّن من 15 رقماً",
+        captchaLabel: "رمز التحقق:",
+        captchaPlaceholder: "الرمز",
+        freeCheckBtn: "فحص مجاني",
+        imeiHelpText: "لا تعرف IMEI؟ اطلب #06#*",
+        whereImeiLink: "أين أجد IMEI؟",
+        paidTitle: "خدمات الفحص المدفوعة",
+        paidSub: "اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب +213657241710",
+        badge: "مدفوع",
+        srv1Name: "فحص قفل الشبكة",
+        srv1Desc: "حالة قفل المشغل وشريحة SIM",
+        srv2Name: "فحص iCloud",
+        srv2Desc: "حالة قفل iCloud وميزة Find My",
+        srv3Name: "فحص القائمة السوداء",
+        srv3Desc: "حالة الفقدان أو السرقة أو الحظر",
+        srv4Name: "فحص شامل PRO",
+        srv4Desc: "تقرير PDF كامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud",
+        errCaptcha: "رمز التحقق غير صحيح.",
+        errImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
+        okImei: "تم التحقق من رقم IMEI بنجاح:",
+        viewReport: "عرض التقرير",
+        viewSteps: "خطوات الاستخدام",
         privacy: "سياسة الخصوصية",
         terms: "شروط الاستخدام",
         disclaimer: "إخلاء المسؤولية"
       },
       fr: {
         dir: "ltr",
-        title: "Vérification des informations iPhone par IMEI",
-        subtitle: "Outil dédié à la consultation des informations iPhone via l'IMEI à 15 chiffres.",
-        placeholder: "Entrez l'IMEI (15 chiffres)...",
-        checkBtn: "Vérifier",
-        invalidImei: "Veuillez saisir un numéro IMEI valide à 15 chiffres.",
-        validImei: "Format IMEI valide.",
-        resultHeading: "Résumé de la requête",
-        lblImei: "Numéro IMEI",
-        lblDevice: "Catégorie",
-        lblPrice: "Estimation tarifaire",
-        waBtn: "Contacter sur WhatsApp",
+        themeDark: "Sombre",
+        themeLight: "Clair",
+        mainTitle: "GSM Yasser Server — Vérification IMEI iPhone",
+        mainSub: "Vérification IMEI iPhone et services de diagnostic avancés",
+        freeTitle: "Vérification gratuite",
+        freeSub: "Vérifiez l'IMEI à 15 chiffres et imprimez ou enregistrez le rapport",
+        imeiPlaceholder: "Entrez l'IMEI à 15 chiffres",
+        captchaLabel: "Code CAPTCHA :",
+        captchaPlaceholder: "Code",
+        freeCheckBtn: "Vérification gratuite",
+        imeiHelpText: "IMEI inconnu ? Composez *#06#",
+        whereImeiLink: "Où trouver l'IMEI ?",
+        paidTitle: "Services de vérification",
+        paidSub: "Commandez directement via WhatsApp +213657241710",
+        badge: "Payant",
+        srv1Name: "Vérification verrouillage réseau",
+        srv1Desc: "État du verrouillage opérateur et carte SIM",
+        srv2Name: "Vérification iCloud",
+        srv2Desc: "État du verrouillage iCloud et Find My",
+        srv3Name: "Vérification liste noire",
+        srv3Desc: "État perdu, volé ou bloqué",
+        srv4Name: "Rapport complet PRO",
+        srv4Desc: "Rapport PDF complet : GSX, garantie, achat, réseau, iCloud",
+        errCaptcha: "Code CAPTCHA invalide.",
+        errImei: "Veuillez saisir un IMEI valide à 15 chiffres.",
+        okImei: "IMEI vérifié :",
+        viewReport: "عرض التقرير",
+        viewSteps: "خطوات الاستخدام",
         privacy: "Politique de confidentialité",
         terms: "Conditions d'utilisation",
         disclaimer: "Clause de non-responsabilité"
       },
       en: {
         dir: "ltr",
-        title: "iPhone Information Lookup by IMEI",
-        subtitle: "Tool dedicated to checking iPhone details using a 15-digit IMEI number.",
-        placeholder: "Enter 15-digit IMEI...",
-        checkBtn: "Check Device",
-        invalidImei: "Please enter a valid 15-digit IMEI number.",
-        validImei: "IMEI format is valid.",
-        resultHeading: "Lookup Summary",
-        lblImei: "IMEI Number",
-        lblDevice: "Target Category",
-        lblPrice: "Estimated Rate",
-        waBtn: "Contact on WhatsApp",
+        themeDark: "Dark",
+        themeLight: "Light",
+        mainTitle: "GSM Yasser Server — iPhone IMEI Check",
+        mainSub: "iPhone IMEI lookup and paid verification services",
+        freeTitle: "Free Check",
+        freeSub: "Verify a 15-digit IMEI number and print or save the report",
+        imeiPlaceholder: "Enter 15-digit IMEI number",
+        captchaLabel: "Captcha:",
+        captchaPlaceholder: "Code",
+        freeCheckBtn: "Free Check",
+        imeiHelpText: "Don't know IMEI? Dial *#06#",
+        whereImeiLink: "Where to find IMEI?",
+        paidTitle: "Paid Verification Services",
+        paidSub: "Order paid checks directly via WhatsApp +213657241710",
+        badge: "Paid",
+        srv1Name: "Carrier Lock Check",
+        srv1Desc: "Carrier lock and SIM status",
+        srv2Name: "iCloud Status Check",
+        srv2Desc: "iCloud lock and Find My status",
+        srv3Name: "Blacklist Check",
+        srv3Desc: "Lost, stolen, or barred status",
+        srv4Name: "Full Report PRO",
+        srv4Desc: "Full PDF report: GSX, warranty, purchase date, carrier, iCloud",
+        errCaptcha: "Invalid captcha code.",
+        errImei: "Please enter a valid 15-digit IMEI number.",
+        okImei: "IMEI validated:",
+        viewReport: "عرض التقرير",
+        viewSteps: "خطوات الاستخدام",
         privacy: "Privacy Policy",
         terms: "Terms of Use",
         disclaimer: "Disclaimer"
       }
     };
 
-    const rates = { DZD: "200 DZD", USD: "1.50 USD", EUR: "1.40 EUR" };
-
-    const langSelect = document.getElementById("langSelect");
-    const currencySelect = document.getElementById("currencySelect");
-    const themeBtn = document.getElementById("themeBtn");
+    const langBtns = document.querySelectorAll("[data-lang]");
+    const themeToggle = document.getElementById("themeToggle");
+    const themeText = document.getElementById("themeText");
+    const themeIcon = document.getElementById("themeIcon");
+    const captchaCodeEl = document.getElementById("captchaCode");
+    const refreshCaptcha = document.getElementById("refreshCaptcha");
     const imeiForm = document.getElementById("imeiForm");
     const imeiInput = document.getElementById("imeiInput");
+    const captchaInput = document.getElementById("captchaInput");
     const statusMsg = document.getElementById("statusMsg");
-    const resultBox = document.getElementById("resultBox");
-    const valImei = document.getElementById("valImei");
-    const valPrice = document.getElementById("valPrice");
-    const waBtn = document.getElementById("waBtn");
+    const resultPanel = document.getElementById("resultPanel");
+    const resultSummary = document.getElementById("resultSummary");
 
-    function applyLanguage(lang) {
-      const t = i18n[lang] || i18n.ar;
-      document.documentElement.lang = lang;
+    let currentLang = localStorage.getItem("gsm_yasser_lang") || "ar";
+
+    function generateCaptcha() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let code = "";
+      for (let i = 0; i < 5; i++) {
+        code += chars[Math.floor(Math.random() * chars.length)];
+      }
+      captchaCodeEl.textContent = code;
+    }
+
+    function updateThemeLabel() {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      const t = texts[currentLang] || texts.ar;
+      themeIcon.textContent = isDark ? "🌙" : "☀️";
+      themeText.textContent = isDark ? t.themeDark : t.themeLight;
+    }
+
+    function applyLang(lang) {
+      currentLang = texts[lang] ? lang : "ar";
+      const t = texts[currentLang];
+      document.documentElement.lang = currentLang;
       document.documentElement.dir = t.dir;
-      document.getElementById("pageTitle").textContent = t.title;
-      document.getElementById("pageSubtitle").textContent = t.subtitle;
-      imeiInput.placeholder = t.placeholder;
-      document.getElementById("checkBtn").textContent = t.checkBtn;
-      document.getElementById("resultHeading").textContent = t.resultHeading;
-      document.getElementById("lblImei").textContent = t.lblImei;
-      document.getElementById("lblDevice").textContent = t.lblDevice;
-      document.getElementById("lblPrice").textContent = t.lblPrice;
-      waBtn.textContent = t.waBtn;
+
+      document.getElementById("mainTitle").textContent = t.mainTitle;
+      document.getElementById("mainSub").textContent = t.mainSub;
+      document.getElementById("freeTitle").textContent = t.freeTitle;
+      document.getElementById("freeSub").textContent = t.freeSub;
+      imeiInput.placeholder = t.imeiPlaceholder;
+      document.getElementById("captchaLabel").textContent = t.captchaLabel;
+      captchaInput.placeholder = t.captchaPlaceholder;
+      document.getElementById("freeCheckBtn").textContent = t.freeCheckBtn;
+      document.getElementById("imeiHelpText").textContent = t.imeiHelpText;
+      document.getElementById("whereImeiLink").textContent = t.whereImeiLink;
+      document.getElementById("paidTitle").textContent = t.paidTitle;
+      document.getElementById("paidSub").textContent = t.paidSub;
+
+      document.getElementById("srv1Name").textContent = t.srv1Name;
+      document.getElementById("srv1Desc").textContent = t.srv1Desc;
+      document.getElementById("srv2Name").textContent = t.srv2Name;
+      document.getElementById("srv2Desc").textContent = t.srv2Desc;
+      document.getElementById("srv3Name").textContent = t.srv3Name;
+      document.getElementById("srv3Desc").textContent = t.srv3Desc;
+      document.getElementById("srv4Name").textContent = t.srv4Name;
+      document.getElementById("srv4Desc").textContent = t.srv4Desc;
+
+      ["badge1", "badge2", "badge3", "badge4"].forEach((id) => {
+        document.getElementById(id).textContent = t.badge;
+      });
+
+      document.getElementById("viewReportBtn").textContent = t.viewReport;
+      document.getElementById("viewStepsBtn").textContent = t.viewSteps;
       document.getElementById("linkPrivacy").textContent = t.privacy;
       document.getElementById("linkTerms").textContent = t.terms;
       document.getElementById("linkDisclaimer").textContent = t.disclaimer;
-      localStorage.setItem("gsm_yasser_lang", lang);
-    }
 
-    function applyCurrency(curr) {
-      valPrice.textContent = rates[curr] || rates.DZD;
-      localStorage.setItem("gsm_yasser_curr", curr);
+      langBtns.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.lang === currentLang);
+      });
+
+      updateThemeLabel();
+      localStorage.setItem("gsm_yasser_lang", currentLang);
     }
 
     function isValidLuhn(imei) {
       let sum = 0;
       for (let i = 0; i < imei.length; i++) {
-        let digit = parseInt(imei[i], 10);
+        let d = parseInt(imei[i], 10);
         if (i % 2 === 1) {
-          digit *= 2;
-          if (digit > 9) digit -= 9;
+          d *= 2;
+          if (d > 9) d -= 9;
         }
-        sum += digit;
+        sum += d;
       }
       return sum % 10 === 0;
     }
 
-    langSelect.addEventListener("change", (e) => applyLanguage(e.target.value));
-    currencySelect.addEventListener("change", (e) => applyCurrency(e.target.value));
+    langBtns.forEach((btn) => {
+      btn.addEventListener("click", () => applyLang(btn.dataset.lang));
+    });
 
-    themeBtn.addEventListener("click", () => {
+    themeToggle.addEventListener("click", () => {
       const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
       localStorage.setItem("gsm_yasser_theme", next);
+      updateThemeLabel();
     });
+
+    refreshCaptcha.addEventListener("click", generateCaptcha);
 
     imeiForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const lang = langSelect.value;
-      const t = i18n[lang] || i18n.ar;
-      const clean = imeiInput.value.replace(/\D/g, "");
+      const t = texts[currentLang] || texts.ar;
+      const cleanImei = imeiInput.value.replace(/\D/g, "");
+      const enteredCaptcha = captchaInput.value.trim().toUpperCase();
+      const expectedCaptcha = captchaCodeEl.textContent.trim().toUpperCase();
 
-      if (clean.length !== 15 || !isValidLuhn(clean)) {
-        statusMsg.textContent = t.invalidImei;
+      if (enteredCaptcha !== expectedCaptcha) {
+        statusMsg.textContent = t.errCaptcha;
         statusMsg.className = "msg err";
-        resultBox.style.display = "none";
+        resultPanel.style.display = "none";
+        generateCaptcha();
+        captchaInput.value = "";
         return;
       }
 
-      statusMsg.textContent = t.validImei;
+      if (cleanImei.length !== 15 || !isValidLuhn(cleanImei)) {
+        statusMsg.textContent = t.errImei;
+        statusMsg.className = "msg err";
+        resultPanel.style.display = "none";
+        return;
+      }
+
+      localStorage.setItem("gsm_yasser_last_imei", cleanImei);
+      statusMsg.textContent = `${t.okImei} ${cleanImei}`;
       statusMsg.className = "msg ok";
-      valImei.textContent = clean;
-      applyCurrency(currencySelect.value);
-      resultBox.style.display = "block";
+      resultSummary.textContent = `IMEI: ${cleanImei} — iPhone`;
+      resultPanel.style.display = "block";
+      generateCaptcha();
+      captchaInput.value = "";
     });
 
-    waBtn.addEventListener("click", () => {
-      const imei = valImei.textContent;
-      const text = encodeURIComponent(`GSMYasser Server - iPhone IMEI: ${imei}`);
-      window.open(`https://wa.me/?text=${text}`, "_blank", "noopener");
+    document.querySelectorAll(".wa-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        const srv = btn.dataset.service || "";
+        const imei = localStorage.getItem("gsm_yasser_last_imei") || "";
+        const msg = imei ? `${srv} - IMEI: ${imei}` : srv;
+        btn.href = `https://wa.me/213657241710?text=${encodeURIComponent(msg)}`;
+      });
     });
 
-    // استرجاع الإعدادات المحفوظة
     const savedTheme = localStorage.getItem("gsm_yasser_theme");
     if (savedTheme === "light" || savedTheme === "dark") {
       document.documentElement.setAttribute("data-theme", savedTheme);
     }
-
-    const savedLang = localStorage.getItem("gsm_yasser_lang") || "ar";
-    langSelect.value = savedLang;
-    applyLanguage(savedLang);
-
-    const savedCurr = localStorage.getItem("gsm_yasser_curr") || "DZD";
-    currencySelect.value = savedCurr;
-    applyCurrency(savedCurr);
+    applyLang(currentLang);
   </script>
+  <script src="generator.js"></script>
 </body>
 </html>
