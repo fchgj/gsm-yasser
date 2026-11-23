@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>المعلومات القانونية - GSMYasser Server</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-2: #273549;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --border: #334155;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-2: #f1f5f9;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0284c7;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      padding: 24px 16px;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .btn {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 6px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 20px 0;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--surface-2);
+      color: var(--muted);
+      border: 1px solid transparent;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      margin: 18px 0 8px;
+      color: var(--accent);
+    }
+
+    p {
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    ul {
+      padding-right: 20px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a href="index.html" class="brand">GSMYasser Server</a>
+      <div>
+        <button type="button" class="btn" id="themeToggle">الوضع النهاري / الليلي</button>
+        <a href="index.html" class="btn">العودة للرئيسية</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h1>الوثائق القانونية وسياسات المنصة</h1>
+      <div class="meta">آخر تحديث: نوفمبر 2026 — أداة استعلام بيانات ومعلومات أجهزة iPhone عبر رقم IMEI</div>
+
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab-btn active" data-tab="privacy">سياسة الخصوصية</button>
+        <button type="button" class="tab-btn" data-tab="terms">شروط الاستخدام</button>
+        <button type="button" class="tab-btn" data-tab="disclaimer">إخلاء المسؤولية</button>
+      </div>
+
+      <!-- سياسة الخصوصية -->
+      <section id="privacy" class="panel active">
+        <h2>1. البيانات التي يتم التعامل معها</h2>
+        <p>تتعامل منصة <strong>GSMYasser Server</strong> مع البيانات الضرورية فقط لتشغيل أداة الاستعلام عن بيانات ومعلومات أجهزة iPhone عبر رقم IMEI:</p>
+        <ul>
+          <li><strong>رقم IMEI:</strong> يُستخدم لتنفيذ عملية الفحص وعرض معلومات الجهاز وتوليد التقرير.</li>
+          <li><strong>بيانات التواصل:</strong> في حال اختار المستخدم التواصل معنا عبر قنوات التواصل المباشرة أو واتساب، فإن ما يشاركه يتم بناءً على مبادرته الشخصية.</li>
+          <li><strong>بيانات تقنية محدودة:</strong> قد تُسجَّل مؤشرات تقنية أساسية (مثل توقيت الطلب أو تفضيلات المتصفح) لأغراض الأداء ومنع الإساءة.</li>
+        </ul>
+
+        <h2>2. عدم جمع بيانات مالية</h2>
+        <p>لا يتضمن الموقع أي بوابات دفع إلكترونية ولا يطلب أو يخزّن أي بيانات بطاقات بنكية أو معلومات حسابات مالية.</p>
+
+        <h2>3. مشاركة البيانات وتخزين المتصفح</h2>
+        <ul>
+          <li>قد يُرسل رقم IMEI إلى مزودي خدمة الفحص المعتمدين لجلب بيانات الجهاز المطلوبة، ولا يتم بيعه لأغراض إعلانية.</li>
+          <li>قد يستخدم المتصفح التخزين المحلي (LocalStorage) لحفظ تفضيلات العرض مثل اللغة أو المظهر.</li>
+        </ul>
+      </section>
+
+      <!-- شروط الاستخدام -->
+      <section id="terms" class="panel">
+        <h2>1. طبيعة الخدمة ونطاقها</h2>
+        <p>تُعد <strong>GSMYasser Server</strong> أداة مخصصة للاستعلام عن بيانات ومعلومات أجهزة iPhone عبر رقم IMEI فقط.</p>
+
+        <h2>2. قواعد الاستخدام</h2>
+        <ul>
+          <li>يلتزم المستخدم باستخدام الأداة لأغراض مشروعة ومشروعة فقط، مثل التحقق من معلومات جهاز قبل الشراء أو المعاينة.</li>
+          <li>يُمنع استخدام أي أدوات آلية أو سكربتات لإغراق الموقع بالطلبات أو محاولة تعطيل الخدمة أو الالتفاف على آليات الحماية.</li>
+          <li>يتحمل المستخدم مسؤولية صحة رقم IMEI الذي يقوم بإدخاله.</li>
+        </ul>
+
+        <h2>3. تحديث الخدمة والشروط</h2>
+        <p>تحتفظ المنصة بحق تطوير أو تعديل واجهات الأداة وخصائصها أو تحديث هذه الشروط في أي وقت بما يتوافق مع طبيعة تشغيل الخدمة.</p>
+      </section>
+
+      <!-- إخلاء المسؤولية -->
+      <section id="disclaimer" class="panel">
+        <h2>1. دقة المعلومات</h2>
+        <p>تُعرض بيانات الفحص والتقارير استناداً إلى مصادر ومزودي بيانات خارجيين لأغراض معلوماتية واسترشادية فقط، دون تقديم ضمان مطلق لعدم حدوث تأخير أو اختلاف لاحق في حالة الجهاز.</p>
+
+        <h2>2. الاستقلالية عن شركة Apple</h2>
+        <p>منصة <strong>GSMYasser Server</strong> منصة مستقلة وغير تابعة لشركة Apple Inc. ولا تحظى برعايتها أو اعتمادها، وجميع الأسماء والعلامات التجارية المذكورة تعود لأصحابها.</p>
+
+        <h2>3. حدود المسؤولية</h2>
+        <p>لا تتحمل المنصة مسؤولية القرارات المتخذة بناءً على المعلومات المعروضة، ولا تقدم أي خدمات لتجاوز الحماية أو إزالة الحسابات أو التعامل مع الأجهزة المسروقة أو غير القانونية.</p>
+      </section>
+    </div>
+
+    <footer>
+      © 2026 GSMYasser Server — جميع الحقوق محفوظة
+    </footer>
+  </div>
+
+  <script>
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const panels = document.querySelectorAll(".panel");
+
+    function activateTab(tabName) {
+      tabButtons.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.tab === tabName);
+      });
+      panels.forEach((panel) => {
+        panel.classList.toggle("active", panel.id === tabName);
+      });
+    }
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.tab;
+        activateTab(target);
+        history.replaceState(null, "", "#" + target);
+      });
+    });
+
+    function syncFromHash() {
+      const hash = window.location.hash.replace("#", "");
+      if (["privacy", "terms", "disclaimer"].includes(hash)) {
+        activateTab(hash);
+      }
+    }
+
+    window.addEventListener("hashchange", syncFromHash);
+    syncFromHash();
+
+    // تبديل الوضع الليلي والنهاري وحفظه محلياً
+    const themeToggle = document.getElementById("themeToggle");
+    const savedTheme = localStorage.getItem("gsm_yasser_theme");
+    if (savedTheme === "light" || savedTheme === "dark") {
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme");
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("gsm_yasser_theme", next);
+    });
+  </script>
+</body>
+</html>
