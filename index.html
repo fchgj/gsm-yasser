@@ -244,6 +244,11 @@
       background: var(--accent-hover);
     }
 
+    .primary-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
     .help-line {
       text-align: center;
       margin-top: 14px;
@@ -565,7 +570,10 @@
     </footer>
   </div>
 
-  <script>
+  <script src="generator.js"></script>
+  <script type="module">
+    import { checkFreeImei, createServiceOrder } from "./api.js";
+
     const texts = {
       ar: {
         dir: "rtl",
@@ -579,6 +587,7 @@
         captchaLabel: "رمز التحقق:",
         captchaPlaceholder: "الرمز",
         freeCheckBtn: "فحص مجاني",
+        checkingBtn: "جاري الفحص...",
         imeiHelpText: "لا تعرف IMEI؟ اطلب #06#*",
         whereImeiLink: "أين أجد IMEI؟",
         paidTitle: "خدمات الفحص المدفوعة",
@@ -613,6 +622,7 @@
         captchaLabel: "Code CAPTCHA :",
         captchaPlaceholder: "Code",
         freeCheckBtn: "Vérification gratuite",
+        checkingBtn: "Vérification...",
         imeiHelpText: "IMEI inconnu ? Composez *#06#",
         whereImeiLink: "Où trouver l'IMEI ?",
         paidTitle: "Services de vérification",
@@ -647,6 +657,7 @@
         captchaLabel: "Captcha:",
         captchaPlaceholder: "Code",
         freeCheckBtn: "Free Check",
+        checkingBtn: "Checking...",
         imeiHelpText: "Don't know IMEI? Dial *#06#",
         whereImeiLink: "Where to find IMEI?",
         paidTitle: "Paid Verification Services",
@@ -680,6 +691,7 @@
     const imeiForm = document.getElementById("imeiForm");
     const imeiInput = document.getElementById("imeiInput");
     const captchaInput = document.getElementById("captchaInput");
+    const freeCheckBtn = document.getElementById("freeCheckBtn");
     const statusMsg = document.getElementById("statusMsg");
     const resultPanel = document.getElementById("resultPanel");
     const resultSummary = document.getElementById("resultSummary");
@@ -715,7 +727,7 @@
       imeiInput.placeholder = t.imeiPlaceholder;
       document.getElementById("captchaLabel").textContent = t.captchaLabel;
       captchaInput.placeholder = t.captchaPlaceholder;
-      document.getElementById("freeCheckBtn").textContent = t.freeCheckBtn;
+      freeCheckBtn.textContent = t.freeCheckBtn;
       document.getElementById("imeiHelpText").textContent = t.imeiHelpText;
       document.getElementById("whereImeiLink").textContent = t.whereImeiLink;
       document.getElementById("paidTitle").textContent = t.paidTitle;
@@ -775,7 +787,7 @@
 
     refreshCaptcha.addEventListener("click", generateCaptcha);
 
-    imeiForm.addEventListener("submit", (e) => {
+    imeiForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const t = texts[currentLang] || texts.ar;
       const cleanImei = imeiInput.value.replace(/\D/g, "");
@@ -805,6 +817,18 @@
       localStorage.setItem("gsm_yasser_last_imei", cleanImei);
       localStorage.setItem("gsm_yasser_report_data", JSON.stringify(reportData));
 
+      freeCheckBtn.disabled = true;
+      freeCheckBtn.textContent = t.checkingBtn;
+
+      try {
+        await checkFreeImei(cleanImei, reportData.tac, reportData.device || "iPhone");
+      } catch (err) {
+        console.warn("API check warning:", err);
+      } finally {
+        freeCheckBtn.disabled = false;
+        freeCheckBtn.textContent = t.freeCheckBtn;
+      }
+
       statusMsg.textContent = `${t.okImei} ${cleanImei}`;
       statusMsg.className = "msg ok";
       resultSummary.textContent = `IMEI: ${reportData.imei} | TAC: ${reportData.tac} | iPhone`;
@@ -814,11 +838,28 @@
     });
 
     document.querySelectorAll(".wa-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
         const srv = btn.dataset.service || "";
-        const imei = localStorage.getItem("gsm_yasser_last_imei") || "";
+        const currentInputImei = imeiInput.value.replace(/\D/g, "");
+        const imei = currentInputImei.length === 15
+          ? currentInputImei
+          : (localStorage.getItem("gsm_yasser_last_imei") || "");
         const msg = imei ? `${srv} - iPhone IMEI: ${imei}` : `${srv} - iPhone`;
-        btn.href = `https://wa.me/213657241710?text=${encodeURIComponent(msg)}`;
+        const waUrl = `https://wa.me/213657241710?text=${encodeURIComponent(msg)}`;
+        btn.href = waUrl;
+
+        if (imei) {
+          e.preventDefault();
+          createServiceOrder({
+            imei,
+            serviceName: srv,
+            notes: "Ordered via GSM Yasser Server UI",
+          })
+            .catch((err) => console.warn("Order API warning:", err))
+            .finally(() => {
+              window.open(waUrl, "_blank", "noopener");
+            });
+        }
       });
     });
 
@@ -826,8 +867,8 @@
     if (savedTheme === "light" || savedTheme === "dark") {
       document.documentElement.setAttribute("data-theme", savedTheme);
     }
+    generateCaptcha();
     applyLang(currentLang);
   </script>
-  <script src="generator.js"></script>
 </body>
 </html>
