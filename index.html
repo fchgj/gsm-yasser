@@ -50,7 +50,7 @@
 
     .wrap {
       width: 100%;
-      max-width: 760px;
+      max-width: 1140px;
       margin: 0 auto;
       padding: 18px 14px 40px;
     }
@@ -59,13 +59,21 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 10px 14px;
+      padding: 10px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
       margin-bottom: 24px;
+    }
+
+    .brand-tag {
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--text);
+      text-decoration: none;
+      display: none;
     }
 
     .top-group {
@@ -105,7 +113,7 @@
 
     .hero {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 26px;
     }
 
     .hero h1 {
@@ -119,12 +127,18 @@
       font-size: 0.98rem;
     }
 
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 22px;
-      margin-bottom: 18px;
     }
 
     .card-title {
@@ -263,16 +277,20 @@
       border-top: 1px solid var(--border);
     }
 
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
     .service-item {
       background: var(--surface-2);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 16px;
-      margin-bottom: 12px;
-    }
-
-    .service-item:last-child {
-      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .service-top {
@@ -280,7 +298,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .service-name {
@@ -301,7 +319,7 @@
     .service-desc {
       color: var(--muted);
       font-size: 0.9rem;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .wa-btn {
@@ -325,7 +343,9 @@
 
     .footer-box {
       text-align: center;
-      margin-top: 24px;
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
       font-size: 0.88rem;
       color: var(--muted);
     }
@@ -372,26 +392,27 @@
       text-decoration: underline;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 900px) {
       .wrap {
-        padding: 30px 20px 48px;
+        padding: 28px 28px 48px;
+      }
+      .brand-tag {
+        display: inline-flex;
+        align-items: center;
       }
       .hero h1 {
-        font-size: 2.15rem;
+        font-size: 2.25rem;
       }
-      .card {
-        padding: 26px;
+      .main-layout {
+        grid-template-columns: minmax(340px, 420px) 1fr;
+        gap: 24px;
       }
       .services-grid {
-        display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 14px;
       }
-      .service-item {
-        margin-bottom: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+      .card {
+        padding: 26px;
       }
     }
 
@@ -404,6 +425,8 @@
 <body>
   <div class="wrap">
     <div class="topbar">
+      <a href="index.html" class="brand-tag">GSM Yasser Server</a>
+
       <div class="top-group">
         <button type="button" class="chip-btn" id="themeToggle">
           <span id="themeIcon">🌙</span>
@@ -425,104 +448,106 @@
       <p id="mainSub">فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة</p>
     </header>
 
-    <section class="card">
-      <h2 class="card-title" id="freeTitle">فحص مجاني</h2>
-      <p class="card-sub" id="freeSub">تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</p>
+    <div class="main-layout">
+      <section class="card">
+        <h2 class="card-title" id="freeTitle">فحص مجاني</h2>
+        <p class="card-sub" id="freeSub">تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</p>
 
-      <form id="imeiForm">
-        <input
-          type="text"
-          id="imeiInput"
-          class="field"
-          maxlength="15"
-          inputmode="numeric"
-          placeholder="أدخل رقم IMEI المكوّن من 15 رقماً"
-          required
-        />
-
-        <div class="captcha-row">
-          <label for="captchaInput" class="captcha-label" id="captchaLabel">رمز التحقق:</label>
+        <form id="imeiForm">
           <input
             type="text"
-            id="captchaInput"
-            class="captcha-input"
-            maxlength="6"
-            placeholder="الرمز"
+            id="imeiInput"
+            class="field"
+            maxlength="15"
+            inputmode="numeric"
+            placeholder="أدخل رقم IMEI المكوّن من 15 رقماً"
             required
           />
-          <span id="captchaCode" class="captcha-box">NMKLU</span>
-          <button type="button" id="refreshCaptcha" class="refresh-btn" title="تحديث الرمز">↻</button>
-        </div>
 
-        <button type="submit" class="primary-btn" id="freeCheckBtn">فحص مجاني</button>
-      </form>
-
-      <div id="statusMsg" class="msg"></div>
-
-      <div id="resultPanel" class="result-panel">
-        <p id="resultSummary"></p>
-        <div class="captcha-row">
-          <a href="report.html" class="chip-btn active" id="viewReportBtn">عرض التقرير</a>
-          <a href="steps.html" class="chip-btn" id="viewStepsBtn">خطوات الاستخدام</a>
-        </div>
-      </div>
-
-      <div class="help-line">
-        <span id="imeiHelpText">لا تعرف IMEI؟ اطلب #06#*</span> ·
-        <a href="steps.html" id="whereImeiLink">أين أجد IMEI؟</a>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2 class="card-title" id="paidTitle">خدمات الفحص المدفوعة</h2>
-      <p class="card-sub" id="paidSub">اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب +213657241710</p>
-
-      <div class="services-grid">
-        <div class="service-item">
-          <div>
-            <div class="service-top">
-              <span class="service-name" id="srv1Name">فحص قفل الشبكة</span>
-              <span class="badge" id="badge1">مدفوع</span>
-            </div>
-            <p class="service-desc" id="srv1Desc">حالة قفل المشغل وشريحة SIM</p>
+          <div class="captcha-row">
+            <label for="captchaInput" class="captcha-label" id="captchaLabel">رمز التحقق:</label>
+            <input
+              type="text"
+              id="captchaInput"
+              class="captcha-input"
+              maxlength="6"
+              placeholder="الرمز"
+              required
+            />
+            <span id="captchaCode" class="captcha-box">NMKLU</span>
+            <button type="button" id="refreshCaptcha" class="refresh-btn" title="تحديث الرمز">↻</button>
           </div>
-          <a class="wa-btn" data-service="Carrier Lock Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+
+          <button type="submit" class="primary-btn" id="freeCheckBtn">فحص مجاني</button>
+        </form>
+
+        <div id="statusMsg" class="msg"></div>
+
+        <div id="resultPanel" class="result-panel">
+          <p id="resultSummary"></p>
+          <div class="captcha-row">
+            <a href="report.html" class="chip-btn active" id="viewReportBtn">عرض التقرير</a>
+            <a href="steps.html" class="chip-btn" id="viewStepsBtn">خطوات الاستخدام</a>
+          </div>
         </div>
 
-        <div class="service-item">
-          <div>
-            <div class="service-top">
-              <span class="service-name" id="srv2Name">فحص iCloud</span>
-              <span class="badge" id="badge2">مدفوع</span>
-            </div>
-            <p class="service-desc" id="srv2Desc">حالة قفل iCloud وميزة Find My</p>
-          </div>
-          <a class="wa-btn" data-service="iCloud Status Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+        <div class="help-line">
+          <span id="imeiHelpText">لا تعرف IMEI؟ اطلب #06#*</span> ·
+          <a href="steps.html" id="whereImeiLink">أين أجد IMEI؟</a>
         </div>
+      </section>
 
-        <div class="service-item">
-          <div>
-            <div class="service-top">
-              <span class="service-name" id="srv3Name">GSMA Blacklist Check</span>
-              <span class="badge" id="badge3">مدفوع</span>
-            </div>
-            <p class="service-desc" id="srv3Desc">حالة الفقدان أو السرقة أو الحظر في قاعدة GSMA</p>
-          </div>
-          <a class="wa-btn" data-service="GSMA Blacklist Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
-        </div>
+      <section class="card">
+        <h2 class="card-title" id="paidTitle">خدمات الفحص المدفوعة</h2>
+        <p class="card-sub" id="paidSub">اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب +213657241710</p>
 
-        <div class="service-item">
-          <div>
-            <div class="service-top">
-              <span class="service-name" id="srv4Name">Full PRO Complete Report</span>
-              <span class="badge" id="badge4">مدفوع</span>
+        <div class="services-grid">
+          <div class="service-item">
+            <div>
+              <div class="service-top">
+                <span class="service-name" id="srv1Name">فحص قفل الشبكة</span>
+                <span class="badge" id="badge1">مدفوع</span>
+              </div>
+              <p class="service-desc" id="srv1Desc">حالة قفل المشغل وشريحة SIM</p>
             </div>
-            <p class="service-desc" id="srv4Desc">تقرير كامل شامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud</p>
+            <a class="wa-btn" data-service="Carrier Lock Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
           </div>
-          <a class="wa-btn" data-service="Full PRO Complete Report" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+
+          <div class="service-item">
+            <div>
+              <div class="service-top">
+                <span class="service-name" id="srv2Name">فحص iCloud</span>
+                <span class="badge" id="badge2">مدفوع</span>
+              </div>
+              <p class="service-desc" id="srv2Desc">حالة قفل iCloud وميزة Find My</p>
+            </div>
+            <a class="wa-btn" data-service="iCloud Status Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+
+          <div class="service-item">
+            <div>
+              <div class="service-top">
+                <span class="service-name" id="srv3Name">GSMA Blacklist Check</span>
+                <span class="badge" id="badge3">مدفوع</span>
+              </div>
+              <p class="service-desc" id="srv3Desc">حالة الفقدان أو السرقة أو الحظر في قاعدة GSMA</p>
+            </div>
+            <a class="wa-btn" data-service="GSMA Blacklist Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+
+          <div class="service-item">
+            <div>
+              <div class="service-top">
+                <span class="service-name" id="srv4Name">Full PRO Complete Report</span>
+                <span class="badge" id="badge4">مدفوع</span>
+              </div>
+              <p class="service-desc" id="srv4Desc">تقرير كامل شامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud</p>
+            </div>
+            <a class="wa-btn" data-service="Full PRO Complete Report" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <footer class="footer-box">
       <div class="footer-pills">
