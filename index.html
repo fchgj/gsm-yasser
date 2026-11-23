@@ -50,7 +50,7 @@
 
     .wrap {
       width: 100%;
-      max-width: 720px;
+      max-width: 760px;
       margin: 0 auto;
       padding: 18px 14px 40px;
     }
@@ -59,11 +59,11 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 10px 12px;
+      padding: 10px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
       margin-bottom: 24px;
     }
@@ -80,14 +80,16 @@
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 7px 12px;
-      font-size: 0.9rem;
+      padding: 8px 13px;
+      font-size: 0.92rem;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
+      white-space: nowrap;
       transition: border-color 0.2s ease, background 0.2s ease;
     }
 
@@ -166,7 +168,7 @@
     }
 
     .captcha-input {
-      width: 120px;
+      width: 125px;
       text-align: center;
       background: var(--surface-2);
       color: var(--text);
@@ -198,9 +200,9 @@
       color: #ffffff;
       border: none;
       border-radius: 8px;
-      width: 34px;
-      height: 34px;
-      font-size: 1rem;
+      width: 36px;
+      height: 36px;
+      font-size: 1.05rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -372,13 +374,24 @@
 
     @media (min-width: 768px) {
       .wrap {
-        padding: 28px 20px 48px;
+        padding: 30px 20px 48px;
       }
       .hero h1 {
-        font-size: 2.1rem;
+        font-size: 2.15rem;
       }
       .card {
         padding: 26px;
+      }
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+      .service-item {
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
     }
 
@@ -397,6 +410,7 @@
           <span id="themeText">داكن</span>
         </button>
         <a href="steps.html" class="chip-btn" title="خطوات الاستخدام">📖</a>
+        <a href="report.html" class="chip-btn" id="topReportBtn">عرض التقرير</a>
       </div>
 
       <div class="top-group">
@@ -463,21 +477,332 @@
       <h2 class="card-title" id="paidTitle">خدمات الفحص المدفوعة</h2>
       <p class="card-sub" id="paidSub">اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب +213657241710</p>
 
-      <div class="service-item">
-        <div class="service-top">
-          <span class="service-name" id="srv1Name">فحص قفل الشبكة</span>
-          <span class="badge" id="badge1">مدفوع</span>
+      <div class="services-grid">
+        <div class="service-item">
+          <div>
+            <div class="service-top">
+              <span class="service-name" id="srv1Name">فحص قفل الشبكة</span>
+              <span class="badge" id="badge1">مدفوع</span>
+            </div>
+            <p class="service-desc" id="srv1Desc">حالة قفل المشغل وشريحة SIM</p>
+          </div>
+          <a class="wa-btn" data-service="Carrier Lock Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
         </div>
-        <p class="service-desc" id="srv1Desc">حالة قفل المشغل وشريحة SIM</p>
-        <a class="wa-btn" data-service="فحص قفل الشبكة" href="https://wa.me/213657241710?text=%D9%81%D8%AD%D8%B5%20%D9%82%D9%81%D9%84%20%D8%A7%D9%84%D8%B4%D8%A8%D9%83%D8%A9" target="_blank" rel="noopener">WhatsApp</a>
+
+        <div class="service-item">
+          <div>
+            <div class="service-top">
+              <span class="service-name" id="srv2Name">فحص iCloud</span>
+              <span class="badge" id="badge2">مدفوع</span>
+            </div>
+            <p class="service-desc" id="srv2Desc">حالة قفل iCloud وميزة Find My</p>
+          </div>
+          <a class="wa-btn" data-service="iCloud Status Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+
+        <div class="service-item">
+          <div>
+            <div class="service-top">
+              <span class="service-name" id="srv3Name">GSMA Blacklist Check</span>
+              <span class="badge" id="badge3">مدفوع</span>
+            </div>
+            <p class="service-desc" id="srv3Desc">حالة الفقدان أو السرقة أو الحظر في قاعدة GSMA</p>
+          </div>
+          <a class="wa-btn" data-service="GSMA Blacklist Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+
+        <div class="service-item">
+          <div>
+            <div class="service-top">
+              <span class="service-name" id="srv4Name">Full PRO Complete Report</span>
+              <span class="badge" id="badge4">مدفوع</span>
+            </div>
+            <p class="service-desc" id="srv4Desc">تقرير كامل شامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud</p>
+          </div>
+          <a class="wa-btn" data-service="Full PRO Complete Report" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-box">
+      <div class="footer-pills">
+        <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="footer-pill">+213657241710</a>
+        <a href="steps.html" class="footer-pill" title="خطوات الاستخدام">📖</a>
       </div>
 
-      <div class="service-item">
-        <div class="service-top">
-          <span class="service-name" id="srv2Name">فحص iCloud</span>
-          <span class="badge" id="badge2">مدفوع</span>
-        </div>
-        <p class="service-desc" id="srv2Desc">حالة قفل iCloud وميزة Find My
-<script src="generator.js"></script>
+      <div class="legal-links">
+        <a href="legal.html#privacy" id="linkPrivacy">سياسة الخصوصية</a> |
+        <a href="legal.html#terms" id="linkTerms">شروط الاستخدام</a> |
+        <a href="legal.html#disclaimer" id="linkDisclaimer">إخلاء المسؤولية</a>
+      </div>
+
+      <div>© 2026 GSM YASSER SERVER. All Rights Reserved.</div>
+    </footer>
+  </div>
+
+  <script>
+    const texts = {
+      ar: {
+        dir: "rtl",
+        themeDark: "داكن",
+        themeLight: "نهاري",
+        mainTitle: "GSM Yasser Server — فحص IMEI لـ iPhone",
+        mainSub: "فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة",
+        freeTitle: "فحص مجاني",
+        freeSub: "تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير",
+        imeiPlaceholder: "أدخل رقم IMEI المكوّن من 15 رقماً",
+        captchaLabel: "رمز التحقق:",
+        captchaPlaceholder: "الرمز",
+        freeCheckBtn: "فحص مجاني",
+        imeiHelpText: "لا تعرف IMEI؟ اطلب #06#*",
+        whereImeiLink: "أين أجد IMEI؟",
+        paidTitle: "خدمات الفحص المدفوعة",
+        paidSub: "اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب +213657241710",
+        badge: "مدفوع",
+        srv1Name: "فحص قفل الشبكة",
+        srv1Desc: "حالة قفل المشغل وشريحة SIM",
+        srv2Name: "فحص iCloud",
+        srv2Desc: "حالة قفل iCloud وميزة Find My",
+        srv3Name: "GSMA Blacklist Check",
+        srv3Desc: "حالة الفقدان أو السرقة أو الحظر في قاعدة GSMA",
+        srv4Name: "Full PRO Complete Report",
+        srv4Desc: "تقرير كامل شامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud",
+        errCaptcha: "رمز التحقق غير صحيح.",
+        errImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
+        okImei: "تم التحقق من رقم IMEI بنجاح:",
+        viewReport: "عرض التقرير",
+        viewSteps: "خطوات الاستخدام",
+        privacy: "سياسة الخصوصية",
+        terms: "شروط الاستخدام",
+        disclaimer: "إخلاء المسؤولية"
+      },
+      fr: {
+        dir: "ltr",
+        themeDark: "Sombre",
+        themeLight: "Clair",
+        mainTitle: "GSM Yasser Server — Vérification IMEI iPhone",
+        mainSub: "Vérification IMEI iPhone et services de diagnostic avancés",
+        freeTitle: "Vérification gratuite",
+        freeSub: "Vérifiez l'IMEI à 15 chiffres et imprimez ou enregistrez le rapport",
+        imeiPlaceholder: "Entrez l'IMEI à 15 chiffres",
+        captchaLabel: "Code CAPTCHA :",
+        captchaPlaceholder: "Code",
+        freeCheckBtn: "Vérification gratuite",
+        imeiHelpText: "IMEI inconnu ? Composez *#06#",
+        whereImeiLink: "Où trouver l'IMEI ?",
+        paidTitle: "Services de vérification",
+        paidSub: "Commandez directement via WhatsApp +213657241710",
+        badge: "Payant",
+        srv1Name: "Vérification verrouillage réseau",
+        srv1Desc: "État du verrouillage opérateur et carte SIM",
+        srv2Name: "Vérification iCloud",
+        srv2Desc: "État du verrouillage iCloud et Find My",
+        srv3Name: "GSMA Blacklist Check",
+        srv3Desc: "Statut perdu, volé ou bloqué GSMA",
+        srv4Name: "Full PRO Complete Report",
+        srv4Desc: "Rapport complet : GSX, garantie, achat, réseau, iCloud",
+        errCaptcha: "Code CAPTCHA invalide.",
+        errImei: "Veuillez saisir un IMEI valide à 15 chiffres.",
+        okImei: "IMEI vérifié :",
+        viewReport: "Voir le rapport",
+        viewSteps: "Étapes d'utilisation",
+        privacy: "Politique de confidentialité",
+        terms: "Conditions d'utilisation",
+        disclaimer: "Clause de non-responsabilité"
+      },
+      en: {
+        dir: "ltr",
+        themeDark: "Dark",
+        themeLight: "Light",
+        mainTitle: "GSM Yasser Server — iPhone IMEI Check",
+        mainSub: "iPhone IMEI lookup and paid verification services",
+        freeTitle: "Free Check",
+        freeSub: "Verify a 15-digit IMEI number and print or save the report",
+        imeiPlaceholder: "Enter 15-digit IMEI number",
+        captchaLabel: "Captcha:",
+        captchaPlaceholder: "Code",
+        freeCheckBtn: "Free Check",
+        imeiHelpText: "Don't know IMEI? Dial *#06#",
+        whereImeiLink: "Where to find IMEI?",
+        paidTitle: "Paid Verification Services",
+        paidSub: "Order paid checks directly via WhatsApp +213657241710",
+        badge: "Paid",
+        srv1Name: "Carrier Lock Check",
+        srv1Desc: "Carrier lock and SIM status",
+        srv2Name: "iCloud Status Check",
+        srv2Desc: "iCloud lock and Find My status",
+        srv3Name: "GSMA Blacklist Check",
+        srv3Desc: "Lost, stolen, or barred GSMA status",
+        srv4Name: "Full PRO Complete Report",
+        srv4Desc: "Complete report: GSX, warranty, purchase date, carrier, iCloud",
+        errCaptcha: "Invalid captcha code.",
+        errImei: "Please enter a valid 15-digit IMEI number.",
+        okImei: "IMEI validated:",
+        viewReport: "View Report",
+        viewSteps: "Usage Steps",
+        privacy: "Privacy Policy",
+        terms: "Terms of Use",
+        disclaimer: "Disclaimer"
+      }
+    };
+
+    const langBtns = document.querySelectorAll("[data-lang]");
+    const themeToggle = document.getElementById("themeToggle");
+    const themeText = document.getElementById("themeText");
+    const themeIcon = document.getElementById("themeIcon");
+    const captchaCodeEl = document.getElementById("captchaCode");
+    const refreshCaptcha = document.getElementById("refreshCaptcha");
+    const imeiForm = document.getElementById("imeiForm");
+    const imeiInput = document.getElementById("imeiInput");
+    const captchaInput = document.getElementById("captchaInput");
+    const statusMsg = document.getElementById("statusMsg");
+    const resultPanel = document.getElementById("resultPanel");
+    const resultSummary = document.getElementById("resultSummary");
+
+    let currentLang = localStorage.getItem("gsm_yasser_lang") || "ar";
+
+    function generateCaptcha() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let code = "";
+      for (let i = 0; i < 5; i++) {
+        code += chars[Math.floor(Math.random() * chars.length)];
+      }
+      captchaCodeEl.textContent = code;
+    }
+
+    function updateThemeLabel() {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      const t = texts[currentLang] || texts.ar;
+      themeIcon.textContent = isDark ? "🌙" : "☀️";
+      themeText.textContent = isDark ? t.themeDark : t.themeLight;
+    }
+
+    function applyLang(lang) {
+      currentLang = texts[lang] ? lang : "ar";
+      const t = texts[currentLang];
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = t.dir;
+
+      document.getElementById("mainTitle").textContent = t.mainTitle;
+      document.getElementById("mainSub").textContent = t.mainSub;
+      document.getElementById("freeTitle").textContent = t.freeTitle;
+      document.getElementById("freeSub").textContent = t.freeSub;
+      imeiInput.placeholder = t.imeiPlaceholder;
+      document.getElementById("captchaLabel").textContent = t.captchaLabel;
+      captchaInput.placeholder = t.captchaPlaceholder;
+      document.getElementById("freeCheckBtn").textContent = t.freeCheckBtn;
+      document.getElementById("imeiHelpText").textContent = t.imeiHelpText;
+      document.getElementById("whereImeiLink").textContent = t.whereImeiLink;
+      document.getElementById("paidTitle").textContent = t.paidTitle;
+      document.getElementById("paidSub").textContent = t.paidSub;
+
+      document.getElementById("srv1Name").textContent = t.srv1Name;
+      document.getElementById("srv1Desc").textContent = t.srv1Desc;
+      document.getElementById("srv2Name").textContent = t.srv2Name;
+      document.getElementById("srv2Desc").textContent = t.srv2Desc;
+      document.getElementById("srv3Name").textContent = t.srv3Name;
+      document.getElementById("srv3Desc").textContent = t.srv3Desc;
+      document.getElementById("srv4Name").textContent = t.srv4Name;
+      document.getElementById("srv4Desc").textContent = t.srv4Desc;
+
+      ["badge1", "badge2", "badge3", "badge4"].forEach((id) => {
+        document.getElementById(id).textContent = t.badge;
+      });
+
+      document.getElementById("topReportBtn").textContent = t.viewReport;
+      document.getElementById("viewReportBtn").textContent = t.viewReport;
+      document.getElementById("viewStepsBtn").textContent = t.viewSteps;
+      document.getElementById("linkPrivacy").textContent = t.privacy;
+      document.getElementById("linkTerms").textContent = t.terms;
+      document.getElementById("linkDisclaimer").textContent = t.disclaimer;
+
+      langBtns.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.lang === currentLang);
+      });
+
+      updateThemeLabel();
+      localStorage.setItem("gsm_yasser_lang", currentLang);
+    }
+
+    function isValidLuhn(imei) {
+      let sum = 0;
+      for (let i = 0; i < imei.length; i++) {
+        let d = parseInt(imei[i], 10);
+        if (i % 2 === 1) {
+          d *= 2;
+          if (d > 9) d -= 9;
+        }
+        sum += d;
+      }
+      return sum % 10 === 0;
+    }
+
+    langBtns.forEach((btn) => {
+      btn.addEventListener("click", () => applyLang(btn.dataset.lang));
+    });
+
+    themeToggle.addEventListener("click", () => {
+      const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("gsm_yasser_theme", next);
+      updateThemeLabel();
+    });
+
+    refreshCaptcha.addEventListener("click", generateCaptcha);
+
+    imeiForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const t = texts[currentLang] || texts.ar;
+      const cleanImei = imeiInput.value.replace(/\D/g, "");
+      const enteredCaptcha = captchaInput.value.trim().toUpperCase();
+      const expectedCaptcha = captchaCodeEl.textContent.trim().toUpperCase();
+
+      if (enteredCaptcha !== expectedCaptcha) {
+        statusMsg.textContent = t.errCaptcha;
+        statusMsg.className = "msg err";
+        resultPanel.style.display = "none";
+        generateCaptcha();
+        captchaInput.value = "";
+        return;
+      }
+
+      if (cleanImei.length !== 15 || !isValidLuhn(cleanImei)) {
+        statusMsg.textContent = t.errImei;
+        statusMsg.className = "msg err";
+        resultPanel.style.display = "none";
+        return;
+      }
+
+      const reportData = window.GSMGenerator
+        ? window.GSMGenerator.buildReport(cleanImei)
+        : { imei: cleanImei, tac: cleanImei.slice(0, 8), device: "iPhone" };
+
+      localStorage.setItem("gsm_yasser_last_imei", cleanImei);
+      localStorage.setItem("gsm_yasser_report_data", JSON.stringify(reportData));
+
+      statusMsg.textContent = `${t.okImei} ${cleanImei}`;
+      statusMsg.className = "msg ok";
+      resultSummary.textContent = `IMEI: ${reportData.imei} | TAC: ${reportData.tac} | iPhone`;
+      resultPanel.style.display = "block";
+      generateCaptcha();
+      captchaInput.value = "";
+    });
+
+    document.querySelectorAll(".wa-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const srv = btn.dataset.service || "";
+        const imei = localStorage.getItem("gsm_yasser_last_imei") || "";
+        const msg = imei ? `${srv} - iPhone IMEI: ${imei}` : `${srv} - iPhone`;
+        btn.href = `https://wa.me/213657241710?text=${encodeURIComponent(msg)}`;
+      });
+    });
+
+    const savedTheme = localStorage.getItem("gsm_yasser_theme");
+    if (savedTheme === "light" || savedTheme === "dark") {
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+    applyLang(currentLang);
+  </script>
+  <script src="generator.js"></script>
 </body>
 </html>
