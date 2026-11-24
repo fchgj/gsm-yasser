@@ -3,35 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>لوحة الإدارة - GSM Yasser Server</title>
+  <title>لوحة الإدارة الاحترافية - GSM Yasser Server</title>
   <style>
     :root {
-      --bg: #f1f5f9;
+      --bg: #eef2f6;
       --card: #ffffff;
+      --card-2: #f8fafc;
       --text: #0f172a;
       --muted: #64748b;
       --border: #e2e8f0;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --success: #16a34a;
-      --warning: #d97706;
-      --danger: #dc2626;
-      --input-bg: #ffffff;
+      --primary: #1d4ed8;
+      --primary-hover: #1e40af;
+      --success: #15803d;
+      --warning: #b45309;
+      --danger: #b91c1c;
+      --input: #ffffff;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
     }
     body.dark {
-      --bg: #0b1120;
-      --card: #1e293b;
+      --bg: #070d19;
+      --card: #111827;
+      --card-2: #1f2937;
       --text: #f8fafc;
       --muted: #94a3b8;
-      --border: #334155;
+      --border: #263244;
       --primary: #3b82f6;
       --primary-hover: #2563eb;
-      --input-bg: #0f172a;
+      --input: #0b1220;
+      --shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
     }
-    * { box-sizing: border-box; font-family: system-ui, -apple-system, Tahoma, Arial, sans-serif; }
-    body { margin: 0; background: var(--bg); color: var(--text); transition: 0.2s; }
 
-    /* شاشة القفل */
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text); transition: background 0.2s, color 0.2s; }
+
+    /* شاشة الدخول */
     #loginScreen {
       min-height: 100vh;
       display: flex;
@@ -39,223 +44,310 @@
       justify-content: center;
       padding: 20px;
     }
-    .login-box {
+    .login-card {
+      width: 100%;
+      max-width: 400px;
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px;
-      width: 100%;
-      max-width: 380px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border-radius: 18px;
+      padding: 30px 24px;
+      box-shadow: var(--shadow);
       text-align: center;
     }
-    .login-box h2 { margin: 0 0 8px; }
-    .login-box p { margin: 0 0 18px; color: var(--muted); font-size: 14px; }
+    .brand-pill {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .login-card h2 { margin: 0 0 6px; font-size: 22px; }
+    .login-card p { margin: 0 0 20px; color: var(--muted); font-size: 14px; }
 
-    /* الحاوية الرئيسية */
-    #appScreen { display: none; max-width: 1150px; margin: 0 auto; padding: 16px; }
+    /* الهيكل الرئيسي */
+    #appScreen { display: none; max-width: 1200px; margin: 0 auto; padding: 18px 14px 40px; }
 
-    .topbar {
+    .header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 20px;
+      box-shadow: var(--shadow);
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 14px 18px;
-      border-radius: 12px;
+      gap: 12px;
       margin-bottom: 16px;
     }
-    .topbar h1 { font-size: 18px; margin: 0; }
-    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .header-title h1 { margin: 0; font-size: 19px; }
+    .header-title small { color: var(--muted); font-size: 12px; }
+    .header-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
     .card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--shadow);
       margin-bottom: 16px;
     }
+    .card-title { margin: 0 0 14px; font-size: 16px; font-weight: 700; }
 
-    .grid-inputs {
+    .grid-form {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 10px;
-      margin-bottom: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 5px;
     }
     input, select {
       width: 100%;
       padding: 10px 12px;
       border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--input-bg);
+      border-radius: 10px;
+      background: var(--input);
       color: var(--text);
       font-size: 14px;
     }
-    input:focus, select:focus { outline: 2px solid var(--primary); border-color: transparent; }
+    input:focus, select:focus {
+      outline: 2px solid var(--primary);
+      border-color: transparent;
+    }
 
     button {
-      padding: 10px 14px;
+      padding: 10px 15px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       color: #fff;
       background: var(--primary);
-      transition: 0.15s;
+      transition: transform 0.08s, background 0.15s;
     }
     button:hover { background: var(--primary-hover); }
-    button.btn-success { background: var(--success); }
-    button.btn-warning { background: var(--warning); }
-    button.btn-danger { background: var(--danger); }
-    button.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
-
-    /* الإحصائيات */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .stat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-    }
-    .stat-card span { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
-    .stat-card strong { font-size: 20px; }
-
-    /* التبويبات */
-    .tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-    .tab-btn {
-      background: var(--card);
+    button:active { transform: scale(0.98); }
+    .btn-success { background: var(--success); }
+    .btn-success:hover { filter: brightness(1.08); }
+    .btn-warning { background: var(--warning); }
+    .btn-danger { background: var(--danger); }
+    .btn-outline {
+      background: var(--card-2);
       color: var(--text);
       border: 1px solid var(--border);
     }
-    .tab-btn.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
+    .btn-sm { padding: 6px 10px; font-size: 12px; border-radius: 8px; }
+
+    /* الإحصائيات */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
     }
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 15px;
+      box-shadow: var(--shadow);
+    }
+    .stat span { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .stat strong { font-size: 22px; font-weight: 800; }
+
+    /* التبويبات */
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .tab-btn { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+    .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
     /* الجداول */
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 650px; }
-    th, td { padding: 10px; border-bottom: 1px solid var(--border); text-align: right; }
-    th { color: var(--muted); font-weight: 600; background: rgba(100,116,139,0.06); }
+    .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 720px; }
+    th, td { padding: 11px 12px; border-bottom: 1px solid var(--border); text-align: right; vertical-align: middle; }
+    th { background: var(--card-2); color: var(--muted); font-weight: 700; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(59, 130, 246, 0.04); }
 
-    .badge {
-      padding: 4px 8px;
-      border-radius: 999px;
+    .paid-tag {
+      display: inline-block;
       font-size: 11px;
       font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(21, 128, 61, 0.14);
+      color: #16a34a;
+    }
+    .free-tag {
       display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(100, 116, 139, 0.16);
+      color: var(--muted);
     }
-    .st-pending { background: #fef3c7; color: #92400e; }
-    .st-processing { background: #dbeafe; color: #1e40af; }
-    .st-completed { background: #dcfce7; color: #166534; }
-    .st-rejected { background: #fee2e2; color: #991b1b; }
 
-    #statusBar {
+    .status-bar {
+      margin-top: 10px;
+      padding: 10px 14px;
+      border-radius: 10px;
       font-size: 13px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      background: rgba(37,99,235,0.1);
+      font-weight: 600;
+      background: rgba(59, 130, 246, 0.12);
       color: var(--primary);
-      margin-top: 8px;
     }
-    .unsaved { background: rgba(217,119,6,0.15) !important; color: var(--warning) !important; }
+    .status-bar.warn {
+      background: rgba(180, 83, 9, 0.14);
+      color: #f59e0b;
+    }
+    .imei-chip {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      padding: 3px 7px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
   <!-- شاشة تسجيل الدخول -->
   <div id="loginScreen">
-    <div class="login-box">
-      <h2>GSM Yasser Server</h2>
-      <p>أدخل كلمة مرور لوحة الإدارة للمتابعة</p>
-      <form onsubmit="handleLogin(event)">
+    <div class="login-card">
+      <div class="brand-pill">GSM YASSER SERVER</div>
+      <h2>لوحة الإدارة</h2>
+      <p>أدخل كلمة المرور للوصول إلى إدارة الطلبات والخدمات</p>
+      <form onsubmit="login(event)">
         <input id="passInput" type="password" placeholder="كلمة المرور" required style="margin-bottom:12px; text-align:center;" />
         <button type="submit" style="width:100%;">دخول اللوحة</button>
       </form>
-      <div id="loginErr" style="color:var(--danger); font-size:13px; margin-top:10px;"></div>
+      <div id="loginErr" style="color:#ef4444; font-size:13px; margin-top:10px; font-weight:600;"></div>
     </div>
   </div>
 
   <!-- لوحة الإدارة -->
   <div id="appScreen">
-    <div class="topbar">
-      <h1>لوحة الإدارة - GSM Yasser</h1>
-      <div class="actions">
-        <button class="btn-ghost" onclick="toggleTheme()">تبديل المظهر</button>
-        <button onclick="pullState()">جلب من السيرفر</button>
-        <button class="btn-success" onclick="pushSync()">حفظ ومزامنة (D1)</button>
+    <div class="header">
+      <div class="header-title">
+        <h1>لوحة الإدارة — GSM Yasser Server</h1>
+        <small>إدارة طلبات IMEI، العملاء، والخدمات المدفوعة</small>
+      </div>
+      <div class="header-actions">
+        <button class="btn-outline" onclick="toggleTheme()">الوضع الليلي / النهاري</button>
+        <button onclick="pullState()">جلب البيانات</button>
+        <button class="btn-success" onclick="pushSync()">مزامنة إلى D1</button>
         <button class="btn-danger" onclick="logout()">خروج</button>
       </div>
     </div>
 
-    <!-- إعدادات الربط -->
+    <!-- إعدادات الاتصال -->
     <div class="card">
-      <div class="grid-inputs" style="margin-bottom:0;">
-        <input id="workerUrl" type="url" placeholder="رابط Cloudflare Worker (مثال: https://api.yasserserver.com)" onchange="saveConfig()" />
-        <input id="adminToken" type="password" placeholder="ADMIN_TOKEN (اختياري)" onchange="saveConfig()" />
+      <div class="grid-form" style="margin-bottom:0;">
+        <div class="field">
+          <label>رابط Cloudflare Worker</label>
+          <input id="workerUrl" type="url" placeholder="https://your-worker.workers.dev" onchange="saveConfig()" />
+        </div>
+        <div class="field">
+          <label>ADMIN_TOKEN (اختياري)</label>
+          <input id="adminToken" type="password" placeholder="أدخل التوكن إذا كان مفعّلاً" onchange="saveConfig()" />
+        </div>
       </div>
-      <div id="statusBar">جاهز — أدخل رابط الـ Worker واضغط "جلب من السيرفر".</div>
+      <div id="statusBar" class="status-bar">جاهز للعمل — أدخل رابط الـ Worker واضغط "جلب البيانات".</div>
     </div>
 
     <!-- الإحصائيات -->
-    <div class="stats">
-      <div class="stat-card"><span>إجمالي الطلبات</span><strong id="statOrders">0</strong></div>
-      <div class="stat-card"><span>قيد الانتظار</span><strong id="statPending">0</strong></div>
-      <div class="stat-card"><span>المداخيل (المكتملة)</span><strong id="statRevenue">0</strong></div>
-      <div class="stat-card"><span>العملاء / الخدمات</span><strong id="statCounts">0 / 0</strong></div>
+    <div class="stats-grid">
+      <div class="stat"><span>إجمالي الطلبات</span><strong id="stTotal">0</strong></div>
+      <div class="stat"><span>قيد الانتظار / التنفيذ</span><strong id="stPending">0</strong></div>
+      <div class="stat"><span>الطلبات المكتملة</span><strong id="stCompleted">0</strong></div>
+      <div class="stat"><span>إجمالي المداخيل (المكتملة)</span><strong id="stRevenue">0</strong></div>
     </div>
 
-    <!-- أزرار التبويبات -->
+    <!-- التبويبات -->
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab('orders', this)">الطلبات (Orders)</button>
+      <button class="tab-btn" onclick="switchTab('services', this)">الخدمات المدفوعة (Services)</button>
       <button class="tab-btn" onclick="switchTab('clients', this)">العملاء (Clients)</button>
-      <button class="tab-btn" onclick="switchTab('services', this)">الخدمات (Services)</button>
     </div>
 
-    <!-- 1. قسم الطلبات -->
+    <!-- تبويب الطلبات -->
     <div id="tab-orders" class="tab-panel active">
       <div class="card">
-        <h3 style="margin-top:0;">إضافة طلب جديد</h3>
-        <div class="grid-inputs">
-          <input id="oClient" type="text" placeholder="اسم العميل *" />
-          <input id="oPhone" type="text" placeholder="رقم الهاتف / واتساب" />
-          <input id="oImei" type="text" placeholder="IMEI (15 رقم) *" maxlength="15" />
-          <select id="oServiceSelect" onchange="fillServicePrice()">
-            <option value="">-- اختر خدمة أو اكتبها --</option>
-          </select>
-          <input id="oServiceCustom" type="text" placeholder="اسم الخدمة *" />
-          <input id="oPrice" type="number" step="any" placeholder="السعر" />
-          <select id="oStatus">
-            <option value="pending">قيد الانتظار</option>
-            <option value="processing">قيد التنفيذ</option>
-            <option value="completed">مكتمل</option>
-            <option value="rejected">مرفوض</option>
-          </select>
+        <h3 class="card-title">إضافة طلب جديد (IMEI)</h3>
+        <div class="grid-form">
+          <div class="field">
+            <label>اسم العميل *</label>
+            <input id="oClient" type="text" placeholder="مثال: ياسر" />
+          </div>
+          <div class="field">
+            <label>رقم الهاتف</label>
+            <input id="oPhone" type="text" placeholder="0550xxxxxx" />
+          </div>
+          <div class="field">
+            <label>رقم IMEI (15 رقم) *</label>
+            <input id="oImei" type="text" placeholder="35xxxxxxxxxxxxx" maxlength="15" />
+          </div>
+          <div class="field">
+            <label>خيارات الخدمات المدفوعة (4 خيارات)</label>
+            <select id="oPaidPreset" onchange="applyPaidPreset()">
+              <option value="">-- اختر خدمة مدفوعة جاهزة --</option>
+              <option value="iCloud & FMI Deep Check (Paid)" data-price="5">1. iCloud & FMI Deep Check (مدفوعة - 5)</option>
+              <option value="Carrier & SIMLock Official Check (Paid)" data-price="8">2. Carrier & SIMLock Official Check (مدفوعة - 8)</option>
+              <option value="Soldby & AppleCare Coverage Check (Paid)" data-price="6">3. Soldby & AppleCare Coverage Check (مدفوعة - 6)</option>
+              <option value="Blacklist & GSMA Status Check (Paid)" data-price="7">4. Blacklist & GSMA Status Check (مدفوعة - 7)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>اسم الخدمة (قابل للتعديل) *</label>
+            <input id="oService" type="text" placeholder="اسم الخدمة" />
+          </div>
+          <div class="field">
+            <label>السعر</label>
+            <input id="oPrice" type="number" step="any" placeholder="0" />
+          </div>
+          <div class="field">
+            <label>حالة الطلب</label>
+            <select id="oStatus">
+              <option value="pending">قيد الانتظار</option>
+              <option value="processing">قيد التنفيذ</option>
+              <option value="completed">مكتمل</option>
+              <option value="rejected">مرفوض</option>
+            </select>
+          </div>
         </div>
-        <button onclick="addOrder()">+ إضافة الطلب</button>
+        <button onclick="addOrder()">+ إضافة الطلب إلى القائمة</button>
       </div>
 
       <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-          <h3 style="margin:0;">قائمة الطلبات</h3>
-          <input id="searchOrder" type="text" placeholder="بحث بالاسم، الهاتف أو IMEI..." onkeyup="renderAll()" style="max-width:260px;" />
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <h3 class="card-title" style="margin:0;">سجل الطلبات</h3>
+          <input id="searchBox" type="text" placeholder="بحث بالعميل، الهاتف، IMEI، أو الخدمة..." onkeyup="renderAll()" style="max-width:300px;" />
         </div>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>#</th><th>العميل</th><th>الهاتف</th><th>IMEI</th><th>الخدمة</th><th>السعر</th><th>الحالة</th><th>إجراء</th>
+                <th>ID</th>
+                <th>العميل</th>
+                <th>الهاتف</th>
+                <th>IMEI</th>
+                <th>الخدمة</th>
+                <th>السعر</th>
+                <th>الحالة</th>
+                <th>إجراء</th>
               </tr>
             </thead>
             <tbody id="ordersBody"></tbody>
@@ -264,54 +356,79 @@
       </div>
     </div>
 
-    <!-- 2. قسم العملاء -->
-    <div id="tab-clients" class="tab-panel">
+    <!-- تبويب الخدمات -->
+    <div id="tab-services" class="tab-panel">
       <div class="card">
-        <h3 style="margin-top:0;">إضافة عميل</h3>
-        <div class="grid-inputs">
-          <input id="cName" type="text" placeholder="اسم العميل *" />
-          <input id="cPhone" type="text" placeholder="رقم الهاتف *" />
-          <input id="cNote" type="text" placeholder="ملاحظة (اختياري)" />
+        <h3 class="card-title">إضافة خدمة جديدة</h3>
+        <div class="grid-form">
+          <div class="field">
+            <label>اسم الخدمة *</label>
+            <input id="sName" type="text" placeholder="مثال: iCloud & FMI Deep Check" />
+          </div>
+          <div class="field">
+            <label>نوع الخدمة</label>
+            <select id="sPaid">
+              <option value="1">مدفوعة (Paid)</option>
+              <option value="0">مجانية (Free)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>السعر</label>
+            <input id="sPrice" type="number" step="any" placeholder="0" />
+          </div>
+          <div class="field">
+            <label>الحالة</label>
+            <select id="sActive">
+              <option value="1">مفعلة</option>
+              <option value="0">معطلة</option>
+            </select>
+          </div>
         </div>
-        <button onclick="addClient()">+ إضافة العميل</button>
+        <button onclick="addService()">+ إضافة الخدمة</button>
       </div>
+
       <div class="card">
+        <h3 class="card-title">قائمة الخدمات</h3>
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>#</th><th>الاسم</th><th>الهاتف</th><th>ملاحظة</th><th>حذف</th></tr>
+              <tr><th>ID</th><th>الخدمة</th><th>النوع</th><th>السعر</th><th>الحالة</th><th>تحكم</th></tr>
             </thead>
-            <tbody id="clientsBody"></tbody>
+            <tbody id="servicesBody"></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- 3. قسم الخدمات -->
-    <div id="tab-services" class="tab-panel">
+    <!-- تبويب العملاء -->
+    <div id="tab-clients" class="tab-panel">
       <div class="card">
-        <h3 style="margin-top:0;">إضافة خدمة</h3>
-        <div class="grid-inputs">
-          <input id="sName" type="text" placeholder="اسم الخدمة (مثال: iCloud Check) *" />
-          <select id="sPaid">
-            <option value="1">مدفوعة</option>
-            <option value="0">مجانية</option>
-          </select>
-          <input id="sPrice" type="number" step="any" placeholder="السعر" />
-          <select id="sActive">
-            <option value="1">مفعلة</option>
-            <option value="0">معطلة</option>
-          </select>
+        <h3 class="card-title">إضافة عميل</h3>
+        <div class="grid-form">
+          <div class="field">
+            <label>اسم العميل *</label>
+            <input id="cName" type="text" placeholder="الاسم" />
+          </div>
+          <div class="field">
+            <label>رقم الهاتف *</label>
+            <input id="cPhone" type="text" placeholder="رقم الهاتف" />
+          </div>
+          <div class="field">
+            <label>ملاحظة</label>
+            <input id="cNote" type="text" placeholder="ملاحظات إضافية" />
+          </div>
         </div>
-        <button onclick="addService()">+ إضافة الخدمة</button>
+        <button onclick="addClient()">+ إضافة العميل</button>
       </div>
+
       <div class="card">
+        <h3 class="card-title">قائمة العملاء</h3>
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>#</th><th>الخدمة</th><th>النوع</th><th>السعر</th><th>الحالة</th><th>إجراء</th></tr>
+              <tr><th>ID</th><th>الاسم</th><th>الهاتف</th><th>ملاحظة</th><th>حذف</th></tr>
             </thead>
-            <tbody id="servicesBody"></tbody>
+            <tbody id="clientsBody"></tbody>
           </table>
         </div>
       </div>
@@ -319,96 +436,90 @@
   </div>
 
   <script>
-    const ADMIN_PASS = "wP5t5B3d.";
-    let state = { orders: [], clients: [], services: [] };
+    const PASSCODE = "wP5t5B3d.";
 
-    // التحقق من الجلسة عند التحميل
+    // 4 خدمات مدفوعة افتراضية لتظهر فوراً في تبويب الخدمات أيضاً
+    const DEFAULT_PAID_SERVICES = [
+      { id: 101, name: "iCloud & FMI Deep Check (Paid)", isPaid: true, price: 5, active: true },
+      { id: 102, name: "Carrier & SIMLock Official Check (Paid)", isPaid: true, price: 8, active: true },
+      { id: 103, name: "Soldby & AppleCare Coverage Check (Paid)", isPaid: true, price: 6, active: true },
+      { id: 104, name: "Blacklist & GSMA Status Check (Paid)", isPaid: true, price: 7, active: true }
+    ];
+
+    let state = {
+      orders: [],
+      clients: [],
+      services: [...DEFAULT_PAID_SERVICES]
+    };
+
     window.addEventListener("DOMContentLoaded", () => {
-      if (localStorage.getItem("gsm_theme") === "dark") document.body.classList.add("dark");
+      if (localStorage.getItem("gsm_dark_mode") === "1") {
+        document.body.classList.add("dark");
+      }
       document.getElementById("workerUrl").value = localStorage.getItem("gsm_worker_url") || "";
       document.getElementById("adminToken").value = localStorage.getItem("gsm_admin_token") || "";
 
-      if (sessionStorage.getItem("gsm_admin_auth") === "1") {
-        unlockApp();
+      if (sessionStorage.getItem("gsm_logged_in") === "1") {
+        openDashboard();
       }
     });
 
-    function handleLogin(e) {
+    function login(e) {
       e.preventDefault();
-      const val = document.getElementById("passInput").value;
-      if (val === ADMIN_PASS) {
-        sessionStorage.setItem("gsm_admin_auth", "1");
-        unlockApp();
+      const input = document.getElementById("passInput").value;
+      if (input === PASSCODE) {
+        sessionStorage.setItem("gsm_logged_in", "1");
+        openDashboard();
       } else {
-        document.getElementById("loginErr").textContent = "كلمة المرور غير صحيحة!";
+        document.getElementById("loginErr").textContent = "كلمة المرور غير صحيحة.";
       }
     }
 
-    function unlockApp() {
+    function openDashboard() {
       document.getElementById("loginScreen").style.display = "none";
       document.getElementById("appScreen").style.display = "block";
-      if (document.getElementById("workerUrl").value.trim()) {
-        pullState();
-      } else {
-        renderAll();
-      }
+      renderAll();
+      const url = document.getElementById("workerUrl").value.trim();
+      if (url) pullState();
     }
 
     function logout() {
-      sessionStorage.removeItem("gsm_admin_auth");
+      sessionStorage.removeItem("gsm_logged_in");
       location.reload();
     }
 
     function toggleTheme() {
       document.body.classList.toggle("dark");
-      localStorage.setItem("gsm_theme", document.body.classList.contains("dark") ? "dark" : "light");
+      localStorage.setItem("gsm_dark_mode", document.body.classList.contains("dark") ? "1" : "0");
     }
 
-    function switchTab(name, btn) {
+    function switchTab(tabName, btn) {
       document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
       document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
       btn.classList.add("active");
-      document.getElementById("tab-" + name).classList.add("active");
+      document.getElementById("tab-" + tabName).classList.add("active");
     }
 
     function saveConfig() {
-      const url = document.getElementById("workerUrl").value.trim().replace(/\/+$/, "");
-      const tok = document.getElementById("adminToken").value.trim();
-      localStorage.setItem("gsm_worker_url", url);
-      localStorage.setItem("gsm_admin_token", tok);
+      localStorage.setItem("gsm_worker_url", document.getElementById("workerUrl").value.trim().replace(/\/+$/, ""));
+      localStorage.setItem("gsm_admin_token", document.getElementById("adminToken").value.trim());
     }
 
-    function setStatus(msg, unsaved = false) {
-      const bar = document.getElementById("statusBar");
-      bar.textContent = msg;
-      bar.classList.toggle("unsaved", unsaved);
-    }
-
-    // التحقق من IMEI بخوارزمية Luhn
-    function isValidImei(imei) {
-      if (!/^\d{15}$/.test(imei)) return false;
-      let sum = 0;
-      for (let i = 0; i < 15; i++) {
-        let d = parseInt(imei[i], 10);
-        if (i % 2 === 1) {
-          d *= 2;
-          if (d > 9) d -= 9;
-        }
-        sum += d;
-      }
-      return sum % 10 === 0;
+    function setStatus(msg, isWarn = false) {
+      const el = document.getElementById("statusBar");
+      el.textContent = msg;
+      el.classList.toggle("warn", isWarn);
     }
 
     function nextId(arr) {
-      return arr.length ? Math.max(...arr.map(x => Number(x.id) || 0)) + 1 : 1;
+      return arr.length ? Math.max(...arr.map(item => Number(item.id) || 0)) + 1 : 1;
     }
 
-    // الطلبات
-    function fillServicePrice() {
-      const sel = document.getElementById("oServiceSelect");
+    function applyPaidPreset() {
+      const sel = document.getElementById("oPaidPreset");
       const opt = sel.options[sel.selectedIndex];
       if (opt && opt.value) {
-        document.getElementById("oServiceCustom").value = opt.value;
+        document.getElementById("oService").value = opt.value;
         document.getElementById("oPrice").value = opt.dataset.price || 0;
       }
     }
@@ -417,15 +528,12 @@
       const clientName = document.getElementById("oClient").value.trim();
       const clientPhone = document.getElementById("oPhone").value.trim();
       const imei = document.getElementById("oImei").value.trim();
-      const serviceName = document.getElementById("oServiceCustom").value.trim();
+      const serviceName = document.getElementById("oService").value.trim();
       const price = Number(document.getElementById("oPrice").value || 0);
       const status = document.getElementById("oStatus").value;
 
       if (!clientName || !imei || !serviceName) {
-        return setStatus("يرجى ملء اسم العميل ورقم IMEI واسم الخدمة.", true);
-      }
-      if (!isValidImei(imei)) {
-        if (!confirm("رقم IMEI لا يطابق فحص Luhn القياسي (15 رقم). هل تريد إضافته على أي حال؟")) return;
+        return setStatus("يرجى إدخال اسم العميل ورقم IMEI واسم الخدمة.", true);
       }
 
       state.orders.unshift({
@@ -441,47 +549,25 @@
 
       document.getElementById("oImei").value = "";
       renderAll();
-      setStatus("تمت إضافة الطلب محلياً — اضغط 'حفظ ومزامنة (D1)' لاعتماده في القاعدة.", true);
+      setStatus("تمت إضافة الطلب محلياً — اضغط 'مزامنة إلى D1' لحفظه في قاعدة البيانات.", true);
     }
 
-    function updateOrderStatus(id, newStatus) {
-      const item = state.orders.find(o => o.id === id);
-      if (item) {
-        item.status = newStatus;
+    function changeOrderStatus(id, status) {
+      const row = state.orders.find(o => o.id === id);
+      if (row) {
+        row.status = status;
         renderAll();
-        setStatus("تم تعديل حالة الطلب — لا تنسَ الضغط على 'حفظ ومزامنة (D1)'.", true);
+        setStatus("تم تحديث حالة الطلب محلياً — اضغط 'مزامنة إلى D1' لاعتماد التغيير.", true);
       }
     }
 
-    function deleteOrder(id) {
-      if (!confirm("حذف هذا الطلب من القائمة؟")) return;
+    function removeOrder(id) {
+      if (!confirm("هل تريد حذف هذا الطلب من القائمة؟")) return;
       state.orders = state.orders.filter(o => o.id !== id);
       renderAll();
-      setStatus("تم حذف الطلب محلياً (ملاحظة: راجع منطق الحذف في D1 إذا لزم).", true);
+      setStatus("تم حذف الطلب من القائمة المحلية.", true);
     }
 
-    // العملاء
-    function addClient() {
-      const name = document.getElementById("cName").value.trim();
-      const phone = document.getElementById("cPhone").value.trim();
-      const note = document.getElementById("cNote").value.trim();
-      if (!name || !phone) return setStatus("يرجى إدخال اسم العميل ورقم الهاتف.", true);
-
-      state.clients.unshift({ id: nextId(state.clients), name, phone, note });
-      document.getElementById("cName").value = "";
-      document.getElementById("cPhone").value = "";
-      document.getElementById("cNote").value = "";
-      renderAll();
-      setStatus("تمت إضافة العميل محلياً — اضغط 'حفظ ومزامنة (D1)'.", true);
-    }
-
-    function deleteClient(id) {
-      if (!confirm("حذف العميل؟")) return;
-      state.clients = state.clients.filter(c => c.id !== id);
-      renderAll();
-    }
-
-    // الخدمات
     function addService() {
       const name = document.getElementById("sName").value.trim();
       const isPaid = document.getElementById("sPaid").value === "1";
@@ -493,93 +579,110 @@
       document.getElementById("sName").value = "";
       document.getElementById("sPrice").value = "";
       renderAll();
-      setStatus("تمت إضافة الخدمة محلياً — اضغط 'حفظ ومزامنة (D1)'.", true);
+      setStatus("تمت إضافة الخدمة — اضغط 'مزامنة إلى D1' لحفظها.", true);
     }
 
-    function toggleService(id) {
-      const srv = state.services.find(s => s.id === id);
-      if (srv) {
-        srv.active = !srv.active;
+    function toggleServiceActive(id) {
+      const s = state.services.find(item => item.id === id);
+      if (s) {
+        s.active = !s.active;
         renderAll();
-        setStatus("تم تحديث حالة الخدمة — اضغط 'حفظ ومزامنة (D1)'.", true);
+        setStatus("تم تغيير حالة الخدمة — اضغط 'مزامنة إلى D1' لحفظها.", true);
       }
     }
 
-    // عرض البيانات
+    function addClient() {
+      const name = document.getElementById("cName").value.trim();
+      const phone = document.getElementById("cPhone").value.trim();
+      const note = document.getElementById("cNote").value.trim();
+      if (!name || !phone) return setStatus("يرجى إدخال اسم العميل ورقم الهاتف.", true);
+
+      state.clients.unshift({ id: nextId(state.clients), name, phone, note });
+      document.getElementById("cName").value = "";
+      document.getElementById("cPhone").value = "";
+      document.getElementById("cNote").value = "";
+      renderAll();
+      setStatus("تمت إضافة العميل — اضغط 'مزامنة إلى D1' لحفظه.", true);
+    }
+
+    function removeClient(id) {
+      if (!confirm("حذف هذا العميل؟")) return;
+      state.clients = state.clients.filter(c => c.id !== id);
+      renderAll();
+    }
+
+    function copyText(txt) {
+      if (!txt) return;
+      navigator.clipboard?.writeText(txt);
+      setStatus("تم نسخ IMEI: " + txt);
+    }
+
     function renderAll() {
-      const q = (document.getElementById("searchOrder").value || "").toLowerCase();
-      const filteredOrders = state.orders.filter(o =>
+      const q = (document.getElementById("searchBox").value || "").trim().toLowerCase();
+      const orders = state.orders.filter(o =>
         (o.clientName || "").toLowerCase().includes(q) ||
         (o.clientPhone || "").toLowerCase().includes(q) ||
-        (o.imei || "").includes(q) ||
+        (o.imei || "").toLowerCase().includes(q) ||
         (o.serviceName || "").toLowerCase().includes(q)
       );
 
-      document.getElementById("ordersBody").innerHTML = filteredOrders.map(o => `
+      document.getElementById("ordersBody").innerHTML = orders.length ? orders.map(o => `
         <tr>
           <td>${o.id}</td>
-          <td>${o.clientName || ""}</td>
+          <td><strong>${o.clientName || ""}</strong></td>
           <td dir="ltr">${o.clientPhone || "-"}</td>
-          <td dir="ltr"><code>${o.imei || ""}</code></td>
+          <td dir="ltr"><span class="imei-chip" onclick="copyText('${o.imei || ""}')" title="انقر للنسخ">${o.imei || ""}</span></td>
           <td>${o.serviceName || ""}</td>
-          <td>${Number(o.price || 0)}</td>
+          <td><strong>${Number(o.price || 0)}</strong></td>
           <td>
-            <select onchange="updateOrderStatus(${o.id}, this.value)" style="padding:4px 6px; font-size:12px;">
+            <select onchange="changeOrderStatus(${o.id}, this.value)" style="padding:5px 8px; font-size:12px; width:auto;">
               <option value="pending" ${o.status === "pending" ? "selected" : ""}>قيد الانتظار</option>
               <option value="processing" ${o.status === "processing" ? "selected" : ""}>قيد التنفيذ</option>
               <option value="completed" ${o.status === "completed" ? "selected" : ""}>مكتمل</option>
               <option value="rejected" ${o.status === "rejected" ? "selected" : ""}>مرفوض</option>
             </select>
           </td>
-          <td><button class="btn-danger" style="padding:4px 8px;" onclick="deleteOrder(${o.id})">حذف</button></td>
+          <td><button class="btn-danger btn-sm" onclick="removeOrder(${o.id})">حذف</button></td>
+        </tr>
+      `).join("") : `<tr><td colspan="8" style="text-align:center; color:var(--muted);">لا توجد طلبات مطابقة</td></tr>`;
+
+      document.getElementById("servicesBody").innerHTML = state.services.map(s => `
+        <tr>
+          <td>${s.id}</td>
+          <td><strong>${s.name}</strong></td>
+          <td><span class="${s.isPaid ? "paid-tag" : "free-tag"}">${s.isPaid ? "مدفوعة" : "مجانية"}</span></td>
+          <td>${Number(s.price || 0)}</td>
+          <td>${s.active ? "مفعلة" : "معطلة"}</td>
+          <td><button class="btn-warning btn-sm" onclick="toggleServiceActive(${s.id})">${s.active ? "تعطيل" : "تفعيل"}</button></td>
         </tr>
       `).join("");
 
-      document.getElementById("clientsBody").innerHTML = state.clients.map(c => `
+      document.getElementById("clientsBody").innerHTML = state.clients.length ? state.clients.map(c => `
         <tr>
           <td>${c.id}</td>
           <td>${c.name}</td>
           <td dir="ltr">${c.phone}</td>
           <td>${c.note || "-"}</td>
-          <td><button class="btn-danger" style="padding:4px 8px;" onclick="deleteClient(${c.id})">حذف</button></td>
+          <td><button class="btn-danger btn-sm" onclick="removeClient(${c.id})">حذف</button></td>
         </tr>
-      `).join("");
+      `).join("") : `<tr><td colspan="5" style="text-align:center; color:var(--muted);">لا يوجد عملاء بعد</td></tr>`;
 
-      document.getElementById("servicesBody").innerHTML = state.services.map(s => `
-        <tr>
-          <td>${s.id}</td>
-          <td>${s.name}</td>
-          <td>${s.isPaid ? "مدفوعة" : "مجانية"}</td>
-          <td>${Number(s.price || 0)}</td>
-          <td><span class="badge ${s.active ? "st-completed" : "st-rejected"}">${s.active ? "مفعلة" : "معطلة"}</span></td>
-          <td><button class="btn-warning" style="padding:4px 8px;" onclick="toggleService(${s.id})">${s.active ? "تعطيل" : "تفعيل"}</button></td>
-        </tr>
-      `).join("");
+      const pending = state.orders.filter(o => o.status === "pending" || o.status === "processing").length;
+      const completedOrders = state.orders.filter(o => o.status === "completed");
+      const revenue = completedOrders.reduce((sum, o) => sum + Number(o.price || 0), 0);
 
-      // تحديث قائمة اختيار الخدمات في نموذج الطلبات
-      const sel = document.getElementById("oServiceSelect");
-      sel.innerHTML = `<option value="">-- اختر خدمة أو اكتبها --</option>` +
-        state.services.filter(s => s.active).map(s =>
-          `<option value="${s.name}" data-price="${s.price}">${s.name} (${s.isPaid ? s.price : "مجاني"})</option>`
-        ).join("");
-
-      // تحديث الإحصائيات
-      const pendingCount = state.orders.filter(o => o.status === "pending" || o.status === "processing").length;
-      const revenue = state.orders.filter(o => o.status === "completed").reduce((acc, o) => acc + Number(o.price || 0), 0);
-
-      document.getElementById("statOrders").textContent = state.orders.length;
-      document.getElementById("statPending").textContent = pendingCount;
-      document.getElementById("statRevenue").textContent = revenue.toLocaleString();
-      document.getElementById("statCounts").textContent = `${state.clients.length} / ${state.services.length}`;
+      document.getElementById("stTotal").textContent = state.orders.length;
+      document.getElementById("stPending").textContent = pending;
+      document.getElementById("stCompleted").textContent = completedOrders.length;
+      document.getElementById("stRevenue").textContent = revenue.toLocaleString();
     }
 
-    // الاتصال مع Cloudflare Worker
-    function getHeaders(json = false) {
+    function authHeaders(withJson = false) {
       saveConfig();
       const h = {};
-      if (json) h["Content-Type"] = "application/json";
-      const tok = document.getElementById("adminToken").value.trim();
-      if (tok) h["Authorization"] = `Bearer ${tok}`;
+      if (withJson) h["Content-Type"] = "application/json";
+      const token = document.getElementById("adminToken").value.trim();
+      if (token) h["Authorization"] = `Bearer ${token}`;
       return h;
     }
 
@@ -587,21 +690,21 @@
       const base = document.getElementById("workerUrl").value.trim().replace(/\/+$/, "");
       if (!base) return setStatus("يرجى إدخال رابط Cloudflare Worker أولاً.", true);
 
-      setStatus("جاري جلب البيانات من السيرفر...");
+      setStatus("جاري جلب البيانات من قاعدة D1...");
       try {
-        const res = await fetch(`${base}/api/state`, { headers: getHeaders() });
+        const res = await fetch(`${base}/api/state`, { headers: authHeaders() });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
 
         state = {
           orders: Array.isArray(data.orders) ? data.orders : [],
           clients: Array.isArray(data.clients) ? data.clients : [],
-          services: Array.isArray(data.services) ? data.services : []
+          services: (Array.isArray(data.services) && data.services.length) ? data.services : [...DEFAULT_PAID_SERVICES]
         };
         renderAll();
-        setStatus("تم تحديث البيانات من قاعدة D1 بنجاح.");
+        setStatus("تم تحديث البيانات من D1 بنجاح.");
       } catch (err) {
-        setStatus("فشل الاتصال بالسيرفر: " + err.message, true);
+        setStatus("فشل جلب البيانات: " + err.message, true);
       }
     }
 
@@ -609,20 +712,20 @@
       const base = document.getElementById("workerUrl").value.trim().replace(/\/+$/, "");
       if (!base) return setStatus("يرجى إدخال رابط Cloudflare Worker أولاً.", true);
 
-      setStatus("جاري مزامنة البيانات وحفظها في D1...");
+      setStatus("جاري مزامنة البيانات إلى D1...");
       try {
         const res = await fetch(`${base}/api/sync`, {
           method: "POST",
-          headers: getHeaders(true),
+          headers: authHeaders(true),
           body: JSON.stringify(state)
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
-        setStatus("تم حفظ ومزامنة جميع البيانات في D1 بنجاح.");
+        setStatus("تمت المزامنة وحفظ البيانات في D1 بنجاح.");
       } catch (err) {
-        setStatus("خطأ أثناء المزامنة: " + err.message, true);
+        setStatus("فشلت المزامنة: " + err.message, true);
       }
     }
   </script>
 </body>
-        </html>
+  </html>
