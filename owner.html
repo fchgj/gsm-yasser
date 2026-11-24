@@ -171,6 +171,26 @@
       font-size: 12.5px;
       color: var(--muted);
       margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -210,16 +230,24 @@
       </ul>
 
       <div class="btn-group">
-        <a href="https://wa.me/213657241710?text=GSM%20Yasser%20Server%20-%20iPhone%20IMEI%20Inquiry" target="_blank" rel="noopener" class="btn btn-wa" data-i18n="btn_wa">تواصل عبر واتساب (+213657241710)</a>
+        <a href="https://wa.me/213657241710?text=GSM%20Yasser%20Server%20-%20iPhone%20IMEI%20Inquiry" target="_blank" rel="noopener noreferrer" class="btn btn-wa" data-i18n="btn_wa">تواصل عبر واتساب (+213657241710)</a>
         <a href="index.html" class="btn btn-primary" data-i18n="btn_home">صفحة العملاء</a>
-        <a href="admin.html" class="btn" data-i18n="btn_admin">لوحة الإدارة</a>
       </div>
     </section>
 
-    <footer class="footer" data-i18n="footer">© 2026 GSM YASSER SERVER. All Rights Reserved.</footer>
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="legal.html" data-i18n="link_legal">المعلومات القانونية</a>
+        <a href="admin.html" data-i18n="link_admin">الإدارة</a>
+      </div>
+      <div data-i18n="footer">© 2026 GSM YASSER SERVER. جميع الحقوق محفوظة.</div>
+    </footer>
   </div>
 
   <script>
+    const LANG_STORAGE_KEY = "gsm_lang";
+    const THEME_STORAGE_KEY = "gsm_yasser_theme";
+
     const OWNER_I18N = {
       ar: {
         dir: "rtl",
@@ -233,7 +261,8 @@
         wa_title: "واتساب المباشر",
         btn_wa: "تواصل عبر واتساب (+213657241710)",
         btn_home: "صفحة العملاء",
-        btn_admin: "لوحة الإدارة",
+        link_legal: "المعلومات القانونية",
+        link_admin: "الإدارة",
         footer: "© 2026 GSM YASSER SERVER. جميع الحقوق محفوظة."
       },
       fr: {
@@ -248,7 +277,8 @@
         wa_title: "WhatsApp Direct",
         btn_wa: "Contacter sur WhatsApp (+213657241710)",
         btn_home: "Espace Client",
-        btn_admin: "Panneau Admin",
+        link_legal: "Mentions légales",
+        link_admin: "Admin",
         footer: "© 2026 GSM YASSER SERVER. Tous droits réservés."
       },
       en: {
@@ -263,19 +293,20 @@
         wa_title: "Direct WhatsApp",
         btn_wa: "Contact on WhatsApp (+213657241710)",
         btn_home: "Client Page",
-        btn_admin: "Admin Panel",
+        link_legal: "Legal Info",
+        link_admin: "Admin",
         footer: "© 2026 GSM YASSER SERVER. All Rights Reserved."
       }
     };
 
-    let ownerLang = localStorage.getItem("gsm_lang") || "ar";
-    let ownerTheme = localStorage.getItem("gsm_theme") || "dark";
+    let ownerLang = localStorage.getItem(LANG_STORAGE_KEY) || "ar";
+    let ownerTheme = localStorage.getItem(THEME_STORAGE_KEY) || "dark";
 
     function setOwnerLang(lang) {
       const dict = OWNER_I18N[lang];
       if (!dict) return;
       ownerLang = lang;
-      localStorage.setItem("gsm_lang", lang);
+      localStorage.setItem(LANG_STORAGE_KEY, lang);
       document.documentElement.lang = lang;
       document.documentElement.dir = dict.dir;
 
@@ -291,7 +322,7 @@
 
     function toggleOwnerTheme() {
       ownerTheme = ownerTheme === "dark" ? "light" : "dark";
-      localStorage.setItem("gsm_theme", ownerTheme);
+      localStorage.setItem(THEME_STORAGE_KEY, ownerTheme);
       document.documentElement.setAttribute("data-theme", ownerTheme);
       document.getElementById("themeBtn").textContent = ownerTheme === "dark" ? "🌙" : "☀️";
     }
@@ -303,4 +334,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
