@@ -42,15 +42,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 24px;
     }
     .login-card {
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 30px 24px;
+      padding: 32px 24px;
       box-shadow: var(--shadow);
       text-align: center;
     }
@@ -67,51 +67,75 @@
     .login-card h2 { margin: 0 0 6px; font-size: 22px; }
     .login-card p { margin: 0 0 20px; color: var(--muted); font-size: 14px; }
 
-    /* الهيكل الرئيسي */
-    #appScreen { display: none; max-width: 1200px; margin: 0 auto; padding: 18px 14px 40px; }
+    /* الهيكل الرئيسي بمقاييس المواقع العالمية */
+    #appScreen {
+      display: none;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px 24px 48px;
+    }
 
     .header {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 16px 20px;
+      padding: 18px 24px;
       box-shadow: var(--shadow);
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 16px;
+      margin-bottom: 20px;
     }
-    .header-title h1 { margin: 0; font-size: 19px; }
+    .header-title h1 { margin: 0; font-size: 20px; }
     .header-title small { color: var(--muted); font-size: 12px; }
-    .header-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .header-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 
     .card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 18px;
+      padding: 24px;
       box-shadow: var(--shadow);
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
-    .card-title { margin: 0 0 14px; font-size: 16px; font-weight: 700; }
+    .card-title { margin: 0 0 16px; font-size: 16px; font-weight: 700; }
 
     .grid-form {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
-      gap: 12px;
-      margin-bottom: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
     }
+
+    /* شبكة متوازنة لنموذج إضافة طلب جديد (4 أعمدة متساوية في الصف) */
+    .order-form-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      align-items: end;
+    }
+    .order-submit-wrap {
+      display: flex;
+      align-items: stretch;
+    }
+    .order-submit-wrap button {
+      width: 100%;
+      min-height: 44px;
+    }
+
     .field label {
       display: block;
       font-size: 12px;
       font-weight: 600;
       color: var(--muted);
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
     input, select {
       width: 100%;
+      min-height: 44px;
       padding: 10px 12px;
       border: 1px solid var(--border);
       border-radius: 10px;
@@ -125,7 +149,8 @@
     }
 
     button {
-      padding: 10px 15px;
+      min-height: 40px;
+      padding: 10px 16px;
       border: none;
       border-radius: 10px;
       font-size: 13px;
@@ -146,27 +171,27 @@
       color: var(--text);
       border: 1px solid var(--border);
     }
-    .btn-sm { padding: 6px 10px; font-size: 12px; border-radius: 8px; }
+    .btn-sm { min-height: 32px; padding: 6px 10px; font-size: 12px; border-radius: 8px; }
 
     /* الإحصائيات */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
     }
     .stat {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 15px;
+      padding: 18px 20px;
       box-shadow: var(--shadow);
     }
     .stat span { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
     .stat strong { font-size: 22px; font-weight: 800; }
 
     /* التبويبات */
-    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
     .tab-btn { background: var(--card); color: var(--text); border: 1px solid var(--border); }
     .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .tab-panel { display: none; }
@@ -175,7 +200,7 @@
     /* الجداول */
     .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
     table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 720px; }
-    th, td { padding: 11px 12px; border-bottom: 1px solid var(--border); text-align: right; vertical-align: middle; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); text-align: right; vertical-align: middle; }
     th { background: var(--card-2); color: var(--muted); font-weight: 700; }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: rgba(59, 130, 246, 0.04); }
@@ -200,8 +225,8 @@
     }
 
     .status-bar {
-      margin-top: 10px;
-      padding: 10px 14px;
+      margin-top: 12px;
+      padding: 11px 16px;
       border-radius: 10px;
       font-size: 13px;
       font-weight: 600;
@@ -219,6 +244,27 @@
       padding: 3px 7px;
       border-radius: 6px;
       cursor: pointer;
+    }
+
+    @media (max-width: 1024px) {
+      .order-form-grid,
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      #appScreen {
+        padding: 16px 14px 36px;
+      }
+      .card,
+      .header {
+        padding: 16px;
+      }
+      .order-form-grid,
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -287,7 +333,7 @@
     <div id="tab-orders" class="tab-panel active">
       <div class="card">
         <h3 class="card-title">إضافة طلب جديد (IMEI)</h3>
-        <div class="grid-form">
+        <div class="order-form-grid">
           <div class="field">
             <label>اسم العميل *</label>
             <input id="oClient" type="text" placeholder="مثال: ياسر" />
@@ -327,14 +373,16 @@
               <option value="rejected">مرفوض</option>
             </select>
           </div>
+          <div class="order-submit-wrap">
+            <button onclick="addOrder()">+ إضافة الطلب إلى القائمة</button>
+          </div>
         </div>
-        <button onclick="addOrder()">+ إضافة الطلب إلى القائمة</button>
       </div>
 
       <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
           <h3 class="card-title" style="margin:0;">سجل الطلبات</h3>
-          <input id="searchBox" type="text" placeholder="بحث بالعميل، الهاتف، IMEI، أو الخدمة..." onkeyup="renderAll()" style="max-width:300px;" />
+          <input id="searchBox" type="text" placeholder="بحث بالعميل، الهاتف، IMEI، أو الخدمة..." onkeyup="renderAll()" style="max-width:320px;" />
         </div>
         <div class="table-wrap">
           <table>
@@ -438,7 +486,6 @@
   <script>
     const PASSCODE = "wP5t5B3d.";
 
-    // 4 خدمات مدفوعة افتراضية لتظهر فوراً في تبويب الخدمات أيضاً
     const DEFAULT_PAID_SERVICES = [
       { id: 101, name: "iCloud & FMI Deep Check (Paid)", isPaid: true, price: 5, active: true },
       { id: 102, name: "Carrier & SIMLock Official Check (Paid)", isPaid: true, price: 8, active: true },
@@ -635,7 +682,7 @@
           <td>${o.serviceName || ""}</td>
           <td><strong>${Number(o.price || 0)}</strong></td>
           <td>
-            <select onchange="changeOrderStatus(${o.id}, this.value)" style="padding:5px 8px; font-size:12px; width:auto;">
+            <select onchange="changeOrderStatus(${o.id}, this.value)" style="min-height:34px; padding:5px 8px; font-size:12px; width:auto;">
               <option value="pending" ${o.status === "pending" ? "selected" : ""}>قيد الانتظار</option>
               <option value="processing" ${o.status === "processing" ? "selected" : ""}>قيد التنفيذ</option>
               <option value="completed" ${o.status === "completed" ? "selected" : ""}>مكتمل</option>
