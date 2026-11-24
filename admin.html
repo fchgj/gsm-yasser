@@ -1,143 +1,53 @@
-export default {
-  async fetch(request, env) {
-    const corsHeaders = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    };
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة الإدارة - GSM Yasser</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+    .card { background: #fff; padding: 16px; border-radius: 8px; margin-bottom: 16px; }
+    button { padding: 8px 14px; cursor: pointer; }
+    pre { background: #eee; padding: 10px; overflow: auto; direction: ltr; text-align: left; }
+  </style>
+</head>
+<body>
+  <h2>لوحة الإدارة</h2>
 
-    if (request.method === "OPTIONS") {
-      return new Response(null, { headers: corsHeaders });
-    }
+  <div class="card">
+    <label>رابط الـ Worker:</label>
+    <input id="workerUrl" type="text" placeholder="https://your-worker.workers.dev" style="width: 300px;" />
+    <input id="adminToken" type="password" placeholder="ADMIN_TOKEN (اختياري)" />
+    <button onclick="loadState()">تحميل البيانات</button>
+  </div>
 
-    // Optional token check if ADMIN_TOKEN secret is set in Worker
-    if (env.ADMIN_TOKEN) {
-      const auth = request.headers.get("Authorization") || "";
-      if (auth !== `Bearer ${env.ADMIN_TOKEN}`) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), {
-          status: 401,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-    }
+  <div class="card">
+    <h3>البيانات الحالية</h3>
+    <pre id="output">في انتظار التحميل...</pre>
+  </div>
 
-    const url = new URL(request.url);
+  <script>
+    async function loadState() {
+      const baseUrl = document.getElementById("workerUrl").value.trim().replace(/\/+$/, "");
+      const token = document.getElementById("adminToken").value.trim();
+      const output = document.getElementById("output");
 
-    try {
-      if (url.pathname === "/api/state" && request.method === "GET") {
-        const ordersRes = await env.DB.prepare("SELECT * FROM orders ORDER BY id DESC").all();
-        const clientsRes = await env.DB.prepare("SELECT * FROM clients ORDER BY id DESC").all();
-        const servicesRes = await env.DB.prepare("SELECT * FROM services").all();
-
-        const orders = (ordersRes.results || []).map((o) => ({
-          id: o.id,
-          clientName: o.client_name,
-          clientPhone: o.client_phone,
-          imei: o.imei,
-          serviceName: o.service_name,
-          price: Number(o.price || 0),
-          status: o.status,
-          createdAt: o.created_at,
-        }));
-
-        const clients = (clientsRes.results || []).map((c) => ({
-          id: c.id,
-          name: c.name,
-          phone: c.phone,
-          note: c.note || "",
-        }));
-
-        const services = (servicesRes.results || []).map((s) => ({
-          id: s.id,
-          name: s.name,
-          isPaid: Boolean(s.is_paid),
-          price: Number(s.price || 0),
-          active: Boolean(s.active),
-        }));
-
-        return new Response(JSON.stringify({ orders, clients, services }), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+      if (!baseUrl) {
+        output.textContent = "يرجى إدخال رابط الـ Worker أولاً.";
+        return;
       }
 
-      if (url.pathname === "/api/sync" && request.method === "POST") {
-        const body = await request.json();
-        const services = Array.isArray(body.services) ? body.services : [];
-        const clients = Array.isArray(body.clients) ? body.clients : [];
-        const orders = Array.isArray(body.orders) ? body.orders : [];
+      const headers = {};
+      if (token) headers["Authorization"] = `Bearer ${token}`;
 
-        const statements = [];
-
-        for (const s of services) {
-          statements.push(
-            env.DB.prepare(
-              `INSERT INTO services (id, name, is_paid, price, active)
-               VALUES (?1, ?2, ?3, ?4, ?5)
-               ON CONFLICT(id) DO UPDATE SET
-                 name = excluded.name,
-                 is_paid = excluded.is_paid,
-                 price = excluded.price,
-                 active = excluded.active`
-            ).bind(s.id, s.name, s.isPaid ? 1 : 0, Number(s.price || 0), s.active ? 1 : 0)
-          );
-        }
-
-        for (const c of clients) {
-          statements.push(
-            env.DB.prepare(
-              `INSERT INTO clients (id, name, phone, note)
-               VALUES (?1, ?2, ?3, ?4)
-               ON CONFLICT(id) DO UPDATE SET
-                 name = excluded.name,
-                 phone = excluded.phone,
-                 note = excluded.note`
-            ).bind(c.id, c.name, c.phone, c.note || "")
-          );
-        }
-
-        for (const o of orders) {
-          statements.push(
-            env.DB.prepare(
-              `INSERT INTO orders (id, client_name, client_phone, imei, service_name, price, status, created_at)
-               VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)
-               ON CONFLICT(id) DO UPDATE SET
-                 client_name = excluded.client_name,
-                 client_phone = excluded.client_phone,
-                 imei = excluded.imei,
-                 service_name = excluded.service_name,
-                 price = excluded.price,
-                 status = excluded.status`
-            ).bind(
-              o.id,
-              o.clientName,
-              o.clientPhone,
-              o.imei,
-              o.serviceName,
-              Number(o.price || 0),
-              o.status || "pending",
-              o.createdAt || new Date().toISOString()
-            )
-          );
-        }
-
-        if (statements.length) {
-          await env.DB.batch(statements);
-        }
-
-        return new Response(JSON.stringify({ ok: true }), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+      try {
+        const res = await fetch(`${baseUrl}/api/state`, { headers });
+        const data = await res.json();
+        output.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        output.textContent = "خطأ في الاتصال: " + err.message;
       }
-
-      return new Response(JSON.stringify({ error: "Not Found" }), {
-        status: 404,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    } catch (err) {
-      return new Response(JSON.stringify({ error: err.message }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
     }
-  },
-};
+  </script>
+</body>
+  </html>
