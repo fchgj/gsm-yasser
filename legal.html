@@ -70,6 +70,8 @@
       cursor: pointer;
       font-size: 0.9rem;
       text-decoration: none;
+      display: inline-flex;
+      align-items: center;
     }
 
     .btn:hover {
@@ -146,6 +148,15 @@
       margin-bottom: 6px;
     }
 
+    .contact-link {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .contact-link:hover {
+      text-decoration: underline;
+    }
+
     footer {
       text-align: center;
       color: var(--muted);
@@ -156,26 +167,26 @@
 </head>
 <body>
   <div class="container">
-    <div class="topbar">
+    <header class="topbar">
       <a href="index.html" class="brand">GSMYasser Server</a>
-      <div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button type="button" class="btn" id="themeToggle">الوضع النهاري / الليلي</button>
         <a href="index.html" class="btn">العودة للرئيسية</a>
       </div>
-    </div>
+    </header>
 
-    <div class="card">
+    <main class="card">
       <h1>الوثائق القانونية وسياسات المنصة</h1>
       <div class="meta">آخر تحديث: نوفمبر 2026 — أداة استعلام بيانات ومعلومات أجهزة iPhone عبر رقم IMEI</div>
 
-      <div class="tabs" role="tablist">
-        <button type="button" class="tab-btn active" data-tab="privacy">سياسة الخصوصية</button>
-        <button type="button" class="tab-btn" data-tab="terms">شروط الاستخدام</button>
-        <button type="button" class="tab-btn" data-tab="disclaimer">إخلاء المسؤولية</button>
+      <div class="tabs" role="tablist" aria-label="أقسام الوثائق القانونية">
+        <button type="button" class="tab-btn active" role="tab" aria-selected="true" aria-controls="privacy" data-tab="privacy">سياسة الخصوصية</button>
+        <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="terms" data-tab="terms">شروط الاستخدام</button>
+        <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="disclaimer" data-tab="disclaimer">إخلاء المسؤولية</button>
       </div>
 
       <!-- سياسة الخصوصية -->
-      <section id="privacy" class="panel active">
+      <section id="privacy" class="panel active" role="tabpanel">
         <h2>1. البيانات التي يتم التعامل معها</h2>
         <p>تتعامل منصة <strong>GSMYasser Server</strong> مع البيانات الضرورية فقط لتشغيل أداة الاستعلام عن بيانات ومعلومات أجهزة iPhone عبر رقم IMEI:</p>
         <ul>
@@ -192,16 +203,24 @@
           <li>قد يُرسل رقم IMEI إلى مزودي خدمة الفحص المعتمدين لجلب بيانات الجهاز المطلوبة، ولا يتم بيعه لأغراض إعلانية.</li>
           <li>قد يستخدم المتصفح التخزين المحلي (LocalStorage) لحفظ تفضيلات العرض مثل اللغة أو المظهر.</li>
         </ul>
+
+        <h2>4. التواصل والاستفسارات</h2>
+        <p>
+          للاستفسار حول الخصوصية أو البيانات، يمكن التواصل عبر البريد:
+          <a class="contact-link" href="mailto:support@yasserserver.com">support@yasserserver.com</a>
+          أو عبر واتساب:
+          <a class="contact-link" href="https://wa.me/213657241710" target="_blank" rel="noopener noreferrer">+213657241710</a>.
+        </p>
       </section>
 
       <!-- شروط الاستخدام -->
-      <section id="terms" class="panel">
+      <section id="terms" class="panel" role="tabpanel">
         <h2>1. طبيعة الخدمة ونطاقها</h2>
         <p>تُعد <strong>GSMYasser Server</strong> أداة مخصصة للاستعلام عن بيانات ومعلومات أجهزة iPhone عبر رقم IMEI فقط.</p>
 
         <h2>2. قواعد الاستخدام</h2>
         <ul>
-          <li>يلتزم المستخدم باستخدام الأداة لأغراض مشروعة ومشروعة فقط، مثل التحقق من معلومات جهاز قبل الشراء أو المعاينة.</li>
+          <li>يلتزم المستخدم باستخدام الأداة لأغراض مشروعة وقانونية فقط، مثل التحقق من معلومات جهاز قبل الشراء أو المعاينة.</li>
           <li>يُمنع استخدام أي أدوات آلية أو سكربتات لإغراق الموقع بالطلبات أو محاولة تعطيل الخدمة أو الالتفاف على آليات الحماية.</li>
           <li>يتحمل المستخدم مسؤولية صحة رقم IMEI الذي يقوم بإدخاله.</li>
         </ul>
@@ -211,7 +230,7 @@
       </section>
 
       <!-- إخلاء المسؤولية -->
-      <section id="disclaimer" class="panel">
+      <section id="disclaimer" class="panel" role="tabpanel">
         <h2>1. دقة المعلومات</h2>
         <p>تُعرض بيانات الفحص والتقارير استناداً إلى مصادر ومزودي بيانات خارجيين لأغراض معلوماتية واسترشادية فقط، دون تقديم ضمان مطلق لعدم حدوث تأخير أو اختلاف لاحق في حالة الجهاز.</p>
 
@@ -221,7 +240,7 @@
         <h2>3. حدود المسؤولية</h2>
         <p>لا تتحمل المنصة مسؤولية القرارات المتخذة بناءً على المعلومات المعروضة، ولا تقدم أي خدمات لتجاوز الحماية أو إزالة الحسابات أو التعامل مع الأجهزة المسروقة أو غير القانونية.</p>
       </section>
-    </div>
+    </main>
 
     <footer>
       © 2026 GSMYasser Server — جميع الحقوق محفوظة
@@ -229,12 +248,15 @@
   </div>
 
   <script>
+    const THEME_STORAGE_KEY = "gsm_yasser_theme";
     const tabButtons = document.querySelectorAll(".tab-btn");
     const panels = document.querySelectorAll(".panel");
 
     function activateTab(tabName) {
       tabButtons.forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.tab === tabName);
+        const isActive = btn.dataset.tab === tabName;
+        btn.classList.toggle("active", isActive);
+        btn.setAttribute("aria-selected", String(isActive));
       });
       panels.forEach((panel) => {
         panel.classList.toggle("active", panel.id === tabName);
@@ -261,7 +283,7 @@
 
     // تبديل الوضع الليلي والنهاري وحفظه محلياً
     const themeToggle = document.getElementById("themeToggle");
-    const savedTheme = localStorage.getItem("gsm_yasser_theme");
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
     if (savedTheme === "light" || savedTheme === "dark") {
       document.documentElement.setAttribute("data-theme", savedTheme);
     }
@@ -270,7 +292,7 @@
       const current = document.documentElement.getAttribute("data-theme");
       const next = current === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
-      localStorage.setItem("gsm_yasser_theme", next);
+      localStorage.setItem(THEME_STORAGE_KEY, next);
     });
   </script>
 </body>
