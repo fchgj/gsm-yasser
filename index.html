@@ -55,6 +55,7 @@
       color: var(--text);
       line-height: 1.65;
       min-height: 100vh;
+      overflow-x: hidden;
       transition: background 0.2s ease, color 0.2s ease;
     }
 
@@ -69,7 +70,7 @@
       width: 100%;
       max-width: 1280px;
       margin: 0 auto;
-      padding: 14px 12px 40px;
+      padding: 14px 12px 44px;
       display: flex;
       flex-direction: column;
     }
@@ -276,6 +277,7 @@
       display: flex;
       flex-direction: column;
       width: 100%;
+      min-width: 0;
     }
 
     #imeiCheckSection {
@@ -316,7 +318,7 @@
       margin-bottom: 18px;
     }
 
-    /* ---------- FORM (ENLARGED FOR MOBILE) ---------- */
+    /* ---------- FORM ---------- */
     #imeiForm {
       display: flex;
       flex-direction: column;
@@ -1209,10 +1211,17 @@
       border: 0;
     }
 
-    /* ---------- RESPONSIVE (MOBILE-FIRST & DESKTOP) ---------- */
-    @media (max-width: 899px) {
+    /* =====================================================================
+       RESPONSIVE STANDARD:
+       1) الهاتف 📱 (< 768px)
+       2) الحاسوب المحمول 💻 (768px .. 1439px)
+       3) شاشة الحاسوب الكبيرة 🖥️ (>= 1440px & >= 1920px)
+       ===================================================================== */
+
+    /* 1) الهاتف 📱 */
+    @media (max-width: 767px) {
       .wrap {
-        padding: 10px 10px 36px;
+        padding: 10px 10px 40px;
       }
 
       .topbar {
@@ -1224,9 +1233,27 @@
         font-size: 0.98rem;
       }
 
+      .hero h1 {
+        font-size: 1.5rem;
+      }
+
+      .card-title {
+        font-size: 1.18rem;
+      }
+
       #imeiCheckSection {
         border-radius: 14px;
-        padding: 22px 16px;
+        padding: 20px 15px;
+      }
+
+      .captcha-controls {
+        min-width: 100%;
+      }
+
+      .chip-btn {
+        min-height: 42px;
+        padding: 7px 11px;
+        font-size: 0.86rem;
       }
 
       .trust-strip {
@@ -1247,48 +1274,100 @@
         padding-bottom: 0;
         border-bottom: none;
       }
-    }
 
-    @media (max-width: 480px) {
-      .hero h1 { font-size: 1.5rem; }
-      .card-title { font-size: 1.18rem; }
-      .captcha-controls { min-width: 100%; }
-      .chip-btn { padding: 7px 11px; font-size: 0.86rem; }
       .gsm-fab-btn {
         bottom: 14px;
         inset-inline-start: 14px;
         width: 52px;
         height: 52px;
       }
+
       .gsm-chat-popup {
         bottom: 74px;
         inset-inline-start: 12px;
       }
     }
 
-    @media (min-width: 900px) {
-      .wrap { padding: 28px 28px 52px; }
-      .hero h1 { font-size: 2.25rem; }
-      .main-layout { grid-template-columns: minmax(380px, 460px) 1fr; gap: 24px; }
-      .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-      .card { padding: 26px; }
+    /* 2) الحاسوب المحمول 💻 (768px .. 1439px) */
+    @media (min-width: 768px) and (max-width: 1439px) {
+      .wrap {
+        max-width: 1280px;
+        padding: 22px 22px 48px;
+      }
+
+      .hero h1 {
+        font-size: 2.05rem;
+      }
+
+      .main-layout {
+        grid-template-columns: minmax(350px, 430px) minmax(0, 1fr);
+        gap: 22px;
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        padding: 22px;
+      }
     }
 
-    @media (min-width: 1024px) and (max-width: 1279px) {
-      .main-layout { grid-template-columns: minmax(350px, 420px) 1fr; }
-      .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
+    /* 3) شاشة الحاسوب الكبيرة 🖥️ (>= 1440px) */
     @media (min-width: 1440px) {
-      .wrap { max-width: 1360px; }
-      .hero { max-width: 900px; }
-      .hero h1 { font-size: 2.4rem; }
-      .main-layout { grid-template-columns: minmax(410px, 490px) 1fr; gap: 28px; }
+      .wrap {
+        max-width: 1400px;
+        padding: 28px 32px 54px;
+      }
+
+      .hero {
+        max-width: 920px;
+        margin-bottom: 28px;
+      }
+
+      .hero h1 {
+        font-size: 2.38rem;
+      }
+
+      .hero p {
+        font-size: 1.04rem;
+      }
+
+      .main-layout {
+        grid-template-columns: minmax(420px, 490px) minmax(0, 1fr);
+        gap: 28px;
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        padding: 26px;
+      }
+
+      .gsm-chat-popup {
+        width: 410px;
+        max-height: 560px;
+      }
     }
 
+    /* شاشات فائقة العرض 🖥️ (>= 1920px) */
     @media (min-width: 1920px) {
-      .wrap { max-width: 1480px; }
-      .card { padding: 30px; }
+      .wrap {
+        max-width: 1520px;
+      }
+
+      .main-layout {
+        grid-template-columns: minmax(450px, 520px) minmax(0, 1fr);
+        gap: 32px;
+      }
+
+      .card {
+        padding: 30px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1346,7 +1425,7 @@
 
     <!-- ========== 3 & 4. MAIN LAYOUT ========== -->
     <div class="main-layout">
-      <!-- ===== 3. FREE CHECK CARD (FULL WIDTH ON MOBILE) ===== -->
+      <!-- ===== 3. FREE CHECK CARD ===== -->
       <section class="card" id="imeiCheckSection">
         <div class="card-header-row">
           <h2 class="card-title" id="freeTitle">فحص مجاني</h2>
