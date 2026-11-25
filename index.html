@@ -54,6 +54,13 @@
       transition: background 0.2s ease, color 0.2s ease;
     }
 
+    .ltr-num {
+      direction: ltr;
+      unicode-bidi: isolate;
+      display: inline-block;
+      font-family: var(--mono);
+    }
+
     .wrap {
       width: 100%;
       max-width: 1280px;
@@ -653,7 +660,28 @@
       box-shadow: var(--shadow);
     }
 
-    .modal h3 { font-size: 1.1rem; margin-bottom: 14px; }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .modal h3 { font-size: 1.1rem; }
+
+    .clear-btn {
+      background: transparent;
+      color: var(--err);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .clear-btn:hover { border-color: var(--err); }
 
     .history-item {
       background: var(--surface-2);
@@ -672,7 +700,7 @@
 
     .history-item:hover { border-color: var(--accent); }
 
-    .history-imei { font-family: var(--mono); font-size: 0.85rem; }
+    .history-imei { font-family: var(--mono); font-size: 0.85rem; direction: ltr; }
     .history-time { color: var(--muted); font-size: 0.75rem; }
 
     .empty-history {
@@ -827,14 +855,15 @@
         <div class="tips-box" id="tipsBox">
           <strong>💡 نصائح سريعة:</strong>
           <ul id="tipsList">
-            <li>اطلب <code>*#06#</code> من هاتفك لعرض IMEI.</li>
+            <li>اطلب <code class="ltr-num">*#06#</code> من هاتفك لعرض IMEI.</li>
             <li>IMEI يتكون من 15 رقماً فقط.</li>
             <li>تحقق من الرقم قبل طلب الخدمات المدفوعة.</li>
           </ul>
         </div>
 
         <div class="help-line">
-          <span id="imeiHelpText">لا تعرف IMEI؟ اطلب #06#*</span> ·
+          <span id="imeiHelpText">لا تعرف IMEI؟ اطلب</span>
+          <code class="ltr-num">*#06#</code> ·
           <a href="steps.html" id="whereImeiLink">أين أجد IMEI؟</a>
         </div>
       </section>
@@ -842,7 +871,10 @@
       <!-- ===== PAID SERVICES ===== -->
       <section class="card">
         <h2 class="card-title" id="paidTitle">خدمات الفحص المدفوعة</h2>
-        <p class="card-sub" id="paidSub">اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب +213657241710</p>
+        <p class="card-sub" id="paidSub">
+          <span>اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب</span>
+          <span class="ltr-num">+213657241710</span>
+        </p>
 
         <div class="services-grid">
           <div class="service-item">
@@ -894,9 +926,7 @@
 
     <!-- ========== FOOTER ========== -->
     <footer class="footer-box">
-      <!-- أيقونات التواصل الاجتماعي فقط -->
       <div class="social-icons-only" role="navigation" aria-label="روابط التواصل">
-        <!-- واتساب -->
         <a href="https://wsend.co/213657241710" target="_blank" rel="noopener noreferrer"
            id="socialWa" data-label="واتساب" aria-label="واتساب" class="sc-icon sc-wa">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
@@ -904,7 +934,6 @@
           </svg>
         </a>
 
-        <!-- صفحة فيسبوك -->
         <a href="https://www.facebook.com/profile.php?id=61565963716522&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer"
            id="socialFb" data-label="فيسبوك" aria-label="فيسبوك" class="sc-icon sc-fb">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
@@ -912,7 +941,6 @@
           </svg>
         </a>
 
-        <!-- تيك توك -->
         <a href="https://www.tiktok.com/@khelifiyasser15?_t=ZM-8skVkuJpxAL&_r=1" target="_blank" rel="noopener noreferrer"
            id="socialTt" data-label="تيك توك" aria-label="تيك توك" class="sc-icon sc-tt">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
@@ -920,7 +948,6 @@
           </svg>
         </a>
 
-        <!-- تيليغرام -->
         <a href="https://t.me/gsm_dz_services" target="_blank" rel="noopener noreferrer"
            id="socialTg" data-label="تيليغرام" aria-label="تيليغرام" class="sc-icon sc-tg">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
@@ -928,7 +955,6 @@
           </svg>
         </a>
 
-        <!-- بريد إلكتروني (Gmail) -->
         <a href="mailto:yasserkhelifi125@gmail.com"
            id="socialGm" data-label="Gmail" aria-label="Gmail" class="sc-icon sc-gm">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
@@ -938,7 +964,7 @@
       </div>
 
       <div class="footer-pills">
-        <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="footer-pill">+213657241710</a>
+        <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="footer-pill ltr-num">+213657241710</a>
         <a href="steps.html" class="footer-pill" title="خطوات الاستخدام">📖</a>
       </div>
 
@@ -950,7 +976,7 @@
         <a href="legal.html#disclaimer" id="linkDisclaimer">إخلاء المسؤولية</a>
       </div>
 
-      <div>© 2026 GSM YASSER SERVER. All Rights Reserved.</div>
+      <div>© <span class="ltr-num">2026</span> GSM YASSER SERVER. All Rights Reserved.</div>
     </footer>
   </div>
 
@@ -960,7 +986,10 @@
   <!-- ========== HISTORY MODAL ========== -->
   <div class="modal-overlay" id="historyOverlay">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
-      <h3 id="historyTitle">آخر الفحوصات</h3>
+      <div class="modal-header">
+        <h3 id="historyTitle">آخر الفحوصات</h3>
+        <button type="button" class="clear-btn" id="clearHistoryBtn">مسح</button>
+      </div>
       <div id="historyList"></div>
       <button type="button" class="primary-btn" id="closeHistoryBtn">إغلاق</button>
     </div>
@@ -968,9 +997,10 @@
 
   <script src="generator.js"></script>
   <script type="module">
-    import { checkFreeImei, createServiceOrder } from "./api.js";
+    import { checkFreeImei, createServiceOrder, generateOrderRef } from "./api.js";
 
-    /* ========== TEXTS ========== */
+    const WHATSAPP_PHONE = "213657241710";
+
     const texts = {
       ar: {
         dir: "rtl",
@@ -984,10 +1014,10 @@
         captchaPlaceholder: "الرمز",
         freeCheckBtn: "فحص مجاني",
         checkingBtn: "جاري الفحص...",
-        imeiHelpText: "لا تعرف IMEI؟ اطلب #06#*",
+        imeiHelpText: "لا تعرف IMEI؟ اطلب",
         whereImeiLink: "أين أجد IMEI؟",
         paidTitle: "خدمات الفحص المدفوعة",
-        paidSub: "اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب +213657241710",
+        paidSubHtml: 'اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب <span class="ltr-num">+213657241710</span>',
         badge: "مدفوع",
         srv1Name: "فحص قفل الشبكة", srv1Desc: "حالة قفل المشغل وشريحة SIM",
         srv2Name: "فحص iCloud", srv2Desc: "حالة قفل iCloud وميزة Find My",
@@ -1007,12 +1037,13 @@
         copyText: "نسخ IMEI",
         copied: "تم النسخ!",
         tipsTitle: "💡 نصائح سريعة:",
-        tips: [
-          "اطلب *#06# من هاتفك لعرض IMEI.",
+        tipsHtml: [
+          'اطلب <code class="ltr-num">*#06#</code> من هاتفك لعرض IMEI.',
           "IMEI يتكون من 15 رقماً فقط.",
           "تحقق من الرقم قبل طلب الخدمات المدفوعة."
         ],
         historyTitle: "آخر الفحوصات",
+        clearHistory: "مسح",
         emptyHistory: "لا يوجد سجل بعد.",
         close: "إغلاق",
         socialWa: "واتساب",
@@ -1033,10 +1064,10 @@
         captchaPlaceholder: "Code",
         freeCheckBtn: "Vérification gratuite",
         checkingBtn: "Vérification...",
-        imeiHelpText: "IMEI inconnu ? Composez *#06#",
+        imeiHelpText: "IMEI inconnu ? Composez",
         whereImeiLink: "Où trouver l'IMEI ?",
         paidTitle: "Services de vérification",
-        paidSub: "Commandez directement via WhatsApp +213657241710",
+        paidSubHtml: 'Commandez directement via WhatsApp <span class="ltr-num">+213657241710</span>',
         badge: "Payant",
         srv1Name: "Vérification verrouillage réseau", srv1Desc: "État du verrouillage opérateur et carte SIM",
         srv2Name: "Vérification iCloud", srv2Desc: "État du verrouillage iCloud et Find My",
@@ -1056,12 +1087,13 @@
         copyText: "Copier IMEI",
         copied: "Copié !",
         tipsTitle: "💡 Astuces rapides :",
-        tips: [
-          "Composez *#06# pour afficher votre IMEI.",
+        tipsHtml: [
+          'Composez <code class="ltr-num">*#06#</code> pour afficher votre IMEI.',
           "L'IMEI contient exactement 15 chiffres.",
           "Vérifiez le numéro avant de commander."
         ],
         historyTitle: "Vérifications récentes",
+        clearHistory: "Effacer",
         emptyHistory: "Aucun historique.",
         close: "Fermer",
         socialWa: "WhatsApp",
@@ -1082,10 +1114,10 @@
         captchaPlaceholder: "Code",
         freeCheckBtn: "Free Check",
         checkingBtn: "Checking...",
-        imeiHelpText: "Don't know IMEI? Dial *#06#",
+        imeiHelpText: "Don't know IMEI? Dial",
         whereImeiLink: "Where to find IMEI?",
         paidTitle: "Paid Verification Services",
-        paidSub: "Order paid checks directly via WhatsApp +213657241710",
+        paidSubHtml: 'Order paid checks directly via WhatsApp <span class="ltr-num">+213657241710</span>',
         badge: "Paid",
         srv1Name: "Carrier Lock Check", srv1Desc: "Carrier lock and SIM status",
         srv2Name: "iCloud Status Check", srv2Desc: "iCloud lock and Find My status",
@@ -1105,12 +1137,13 @@
         copyText: "Copy IMEI",
         copied: "Copied!",
         tipsTitle: "💡 Quick tips:",
-        tips: [
-          "Dial *#06# on your phone to display IMEI.",
+        tipsHtml: [
+          'Dial <code class="ltr-num">*#06#</code> on your phone to display IMEI.',
           "IMEI has exactly 15 digits.",
           "Verify the number before ordering paid services."
         ],
         historyTitle: "Recent Checks",
+        clearHistory: "Clear",
         emptyHistory: "No history yet.",
         close: "Close",
         socialWa: "WhatsApp",
@@ -1121,7 +1154,6 @@
       }
     };
 
-    /* ========== ELEMENTS ========== */
     const langBtns = document.querySelectorAll("[data-lang]");
     const themeToggle = document.getElementById("themeToggle");
     const themeText = document.getElementById("themeText");
@@ -1143,12 +1175,12 @@
     const historyBtn = document.getElementById("historyBtn");
     const historyOverlay = document.getElementById("historyOverlay");
     const historyList = document.getElementById("historyList");
+    const clearHistoryBtn = document.getElementById("clearHistoryBtn");
     const closeHistoryBtn = document.getElementById("closeHistoryBtn");
 
     let currentLang = localStorage.getItem("gsm_yasser_lang") || "ar";
-    let lastValidImei = "";
+    let lastValidImei = localStorage.getItem("gsm_yasser_last_imei") || "";
 
-    /* ========== HELPERS ========== */
     const HISTORY_KEY = "gsm_yasser_history";
     const HISTORY_MAX = 5;
 
@@ -1183,6 +1215,27 @@
       const history = getHistory().filter((x) => x.imei !== imei);
       history.unshift({ imei, ts: Date.now() });
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, HISTORY_MAX)));
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const t = texts[currentLang] || texts.ar;
+      const history = getHistory();
+      if (history.length === 0) {
+        historyList.innerHTML = `<div class="empty-history">${t.emptyHistory}</div>`;
+        return;
+      }
+      historyList.innerHTML = history.map((item) => {
+        const date = new Date(item.ts);
+        const timeStr = date.toLocaleString(
+          currentLang === "ar" ? "ar-DZ" : currentLang === "fr" ? "fr-FR" : "en-US",
+          { dateStyle: "short", timeStyle: "short" }
+        );
+        return `<div class="history-item" data-imei="${item.imei}">
+          <span class="history-imei">${item.imei}</span>
+          <span class="history-time ltr-num">${timeStr}</span>
+        </div>`;
+      }).join("");
     }
 
     function showToast(message, type = "ok") {
@@ -1228,7 +1281,6 @@
       imeiInput.classList.add("valid");
     }
 
-    /* ========== LANGUAGE ========== */
     function applyLang(lang) {
       currentLang = texts[lang] ? lang : "ar";
       const t = texts[currentLang];
@@ -1246,7 +1298,7 @@
       document.getElementById("imeiHelpText").textContent = t.imeiHelpText;
       document.getElementById("whereImeiLink").textContent = t.whereImeiLink;
       document.getElementById("paidTitle").textContent = t.paidTitle;
-      document.getElementById("paidSub").textContent = t.paidSub;
+      document.getElementById("paidSub").innerHTML = t.paidSubHtml;
 
       document.getElementById("srv1Name").textContent = t.srv1Name;
       document.getElementById("srv1Desc").textContent = t.srv1Desc;
@@ -1269,7 +1321,6 @@
       document.getElementById("linkDisclaimer").textContent = t.disclaimer;
       copyText.textContent = t.copyText;
 
-      // Social tooltips & aria-labels
       const socialMap = {
         socialWa: t.socialWa,
         socialFb: t.socialFb,
@@ -1285,13 +1336,12 @@
         }
       });
 
-      // Tips
       document.getElementById("tipsBox").querySelector("strong").textContent = t.tipsTitle;
       document.getElementById("tipsList").innerHTML =
-        t.tips.map((tip) => `<li>${tip}</li>`).join("");
+        t.tipsHtml.map((tip) => `<li>${tip}</li>`).join("");
 
-      // History
       document.getElementById("historyTitle").textContent = t.historyTitle;
+      clearHistoryBtn.textContent = t.clearHistory;
       closeHistoryBtn.textContent = t.close;
 
       langBtns.forEach((btn) => {
@@ -1300,10 +1350,10 @@
 
       updateThemeLabel();
       updateImeiHint();
+      renderHistory();
       localStorage.setItem("gsm_yasser_lang", currentLang);
     }
 
-    /* ========== EVENTS ========== */
     langBtns.forEach((btn) => {
       btn.addEventListener("click", () => applyLang(btn.dataset.lang));
     });
@@ -1406,24 +1456,13 @@
     });
 
     historyBtn.addEventListener("click", () => {
-      const t = texts[currentLang];
-      const history = getHistory();
-      if (history.length === 0) {
-        historyList.innerHTML = `<div class="empty-history">${t.emptyHistory}</div>`;
-      } else {
-        historyList.innerHTML = history.map((item) => {
-          const date = new Date(item.ts);
-          const timeStr = date.toLocaleString(
-            currentLang === "ar" ? "ar-DZ" : currentLang === "fr" ? "fr-FR" : "en-US",
-            { dateStyle: "short", timeStyle: "short" }
-          );
-          return `<div class="history-item" data-imei="${item.imei}">
-            <span class="history-imei">${item.imei}</span>
-            <span class="history-time">${timeStr}</span>
-          </div>`;
-        }).join("");
-      }
+      renderHistory();
       historyOverlay.classList.add("visible");
+    });
+
+    clearHistoryBtn.addEventListener("click", () => {
+      localStorage.removeItem(HISTORY_KEY);
+      renderHistory();
     });
 
     historyList.addEventListener("click", (e) => {
@@ -1447,24 +1486,35 @@
         const imei = currentInputImei.length === 15
           ? currentInputImei
           : (localStorage.getItem("gsm_yasser_last_imei") || "");
-        const msg = imei ? `${srv} - iPhone IMEI: ${imei}` : `${srv} - iPhone`;
-        const waUrl = `https://wa.me/213657241710?text=${encodeURIComponent(msg)}`;
+        const refId = typeof generateOrderRef === "function"
+          ? generateOrderRef("GY")
+          : `GY-${Date.now().toString(36).toUpperCase().slice(-6)}`;
+
+        const lines = [
+          "*طلب خدمة جديد - GSM Yasser Server*",
+          `Ref: ${refId}`,
+          `Service: ${srv}`,
+        ];
+        if (imei) lines.push(`IMEI: ${imei}`);
+
+        const waUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(lines.join("\n"))}`;
         btn.href = waUrl;
 
-        if (imei) {
+        if (imei && isValidLuhn(imei)) {
           e.preventDefault();
           createServiceOrder({
             imei,
             serviceName: srv,
+            refId,
             notes: "Ordered via GSM Yasser Server UI",
-          })
-            .catch((err) => console.warn("Order API warning:", err))
-            .finally(() => window.open(waUrl, "_blank", "noopener"));
+            keepalive: true,
+          }).catch((err) => console.warn("Order API warning:", err));
+
+          window.open(waUrl, "_blank", "noopener");
         }
       });
     });
 
-    /* ========== INIT ========== */
     const savedTheme = localStorage.getItem("gsm_yasser_theme");
     if (savedTheme === "light" || savedTheme === "dark") {
       document.documentElement.setAttribute("data-theme", savedTheme);
