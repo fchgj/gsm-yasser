@@ -81,7 +81,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 12px 14px;
+      padding: 10px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -98,18 +98,20 @@
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
       letter-spacing: 0.2px;
       flex-shrink: 0;
     }
 
-    .brand-dot {
-      width: 8px;
-      height: 8px;
+    .brand-logo-img {
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
-      background: var(--ok);
-      box-shadow: 0 0 8px var(--ok);
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      background: var(--surface-2);
       flex-shrink: 0;
+      display: block;
     }
 
     .top-group {
@@ -184,8 +186,20 @@
     }
 
     .drawer-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
       font-size: 1rem;
       font-weight: 800;
+    }
+
+    .drawer-logo-img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--accent);
+      flex-shrink: 0;
     }
 
     .drawer-item {
@@ -1211,13 +1225,6 @@
       border: 0;
     }
 
-    /* =====================================================================
-       RESPONSIVE STANDARD:
-       1) الهاتف 📱 (< 768px)
-       2) الحاسوب المحمول 💻 (768px .. 1439px)
-       3) شاشة الحاسوب الكبيرة 🖥️ (>= 1440px & >= 1920px)
-       ===================================================================== */
-
     /* 1) الهاتف 📱 */
     @media (max-width: 767px) {
       .wrap {
@@ -1231,6 +1238,11 @@
 
       .brand-tag {
         font-size: 0.98rem;
+      }
+
+      .brand-logo-img {
+        width: 38px;
+        height: 38px;
       }
 
       .hero h1 {
@@ -1321,6 +1333,11 @@
         padding: 28px 32px 54px;
       }
 
+      .brand-logo-img {
+        width: 46px;
+        height: 46px;
+      }
+
       .hero {
         max-width: 920px;
         margin-bottom: 28px;
@@ -1389,7 +1406,7 @@
           ☰ <span id="drawerOpenLabel">القائمة</span>
         </button>
         <a href="index.html" class="brand-tag">
-          <span class="brand-dot" aria-hidden="true"></span>
+          <img src="assets/logo.png" alt="GSM Yasser Server" class="brand-logo-img" width="42" height="42" />
           <span>GSM Yasser Server</span>
         </a>
       </div>
@@ -1641,7 +1658,10 @@
   <aside class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true">
     <nav class="drawer-panel" aria-label="القائمة الرئيسية">
       <div class="drawer-head">
-        <span class="drawer-brand">GSM Yasser Server</span>
+        <span class="drawer-brand">
+          <img src="assets/logo.png" alt="GSM Yasser Server" class="drawer-logo-img" width="34" height="34" />
+          <span>GSM Yasser Server</span>
+        </span>
         <button type="button" class="chip-btn" id="drawerCloseBtn" aria-label="إغلاق القائمة">✕</button>
       </div>
 
@@ -2477,8 +2497,6 @@
     (() => {
       const STORAGE_KEY = "gsm_yasser_hybrid_chat_v2";
       const WA_NUMBER = "213657241710";
-      // ضع رابط Cloudflare Worker هنا عند تفعيل AI API:
-      // const WORKER_CHAT_URL = "https://your-worker.workers.dev/api/chat";
       const WORKER_CHAT_URL = "";
 
       const KB = {
@@ -2607,7 +2625,6 @@
       const chatInput = document.getElementById("gsmChatInput");
       const chatSendBtn = document.getElementById("gsmChatSendBtn");
 
-      // إزالة أي أزرار عائمة قديمة غير الزر الموحد لمنع الازدواجية
       document.querySelectorAll("button, a, div[role='button']").forEach((el) => {
         if (el.id === "gsmFloatingFab" || el.closest("#gsmFloatingPopup")) return;
         const st = window.getComputedStyle(el);
@@ -2640,9 +2657,7 @@
 
       const withImeiAndWa = (html, lang) => {
         const imei = getActiveImei();
-        const imeiPart = imei
-          ? (lang === "ar" ? `<br>📱 IMEI: <code class="ltr-num">${imei}</code>` : `<br>📱 IMEI: <code class="ltr-num">${imei}</code>`)
-          : "";
+        const imeiPart = imei ? `<br>📱 IMEI: <code class="ltr-num">${imei}</code>` : "";
         const waText = encodeURIComponent(
           lang === "fr"
             ? `Bonjour GSM Yasser Server${imei ? ` | IMEI: ${imei}` : ""}`
