@@ -1,5 +1,6 @@
 const API_BASE = "https://gsm-yasser-api.yasserkhelifi125.workers.dev";
 const DEFAULT_TIMEOUT_MS = 12000;
+export const ADMIN_WHATSAPP_NUMBER = "213550000000"; // استبدل برقمك الدولي بدون + أو أصفار بادئة
 
 export function isValidImei(imei) {
   const clean = String(imei || "").trim();
@@ -17,7 +18,13 @@ export function isValidImei(imei) {
   return sum % 10 === 0;
 }
 
-async function postJson(path, payload, timeoutMs = DEFAULT_TIMEOUT_MS) {
+export function generateOrderRef(prefix = "GY") {
+  const timePart = Date.now().toString(36).toUpperCase().slice(-5);
+  const randPart = Math.floor(100 + Math.random() * 900);
+  return `${prefix}-${timePart}${randPart}`;
+}
+
+async function postJson(path, payload, timeoutMs = DEFAULT_TIMEOUT_MS, extraOptions = {}) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -27,6 +34,7 @@ async function postJson(path, payload, timeoutMs = DEFAULT_TIMEOUT_MS) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
       signal: controller.signal,
+      ...extraOptions,
     });
 
     const data = await res.json().catch(() => ({}));
@@ -59,8 +67,16 @@ export function checkFreeImei(imei, tac = "", device = "iPhone") {
   });
 }
 
-// 2. طلب إحدى الخدمات الأربع المدفوعة (يحفظ في جدول service_orders)
-export function createServiceOrder({ imei, serviceName, customerContact = "", notes = "" }) {
+// 2. طلب إحدى الخدمات الأربع المدفوعة (يحفظ في جدول service_orders ويشغّل تنبيه واتساب في الخلفية)
+export function createServiceOrder({
+  imei,
+  serviceName,
+  customerContact = "",
+  notes = "",
+  price = "",
+  refId = "",
+  keepalive = false,
+}) {
   const cleanImei = String(imei || "").trim();
   const cleanService = String(serviceName || "").trim();
 
@@ -71,10 +87,47 @@ export function createServiceOrder({ imei, serviceName, customerContact = "", no
     return Promise.reject(new Error("يرجى اختيار نوع الخدمة."));
   }
 
-  return postJson("/api/service-order", {
-    imei: cleanImei,
-    service_name: cleanService,
-    customer_contact: String(customerContact || "").trim(),
-    notes: String(notes || "").trim(),
-  });
+  const cleanRefId = String(refId || "").trim() || generateOrderRef("GY");
+
+  return postJson(
+    "/api/service-order",
+    {
+      ref_id: cleanRefId,
+      imei: cleanImei,
+      service_name: cleanService,
+      price: String(price || "").trim(),
+      customer_contact: String(customerContact || "").trim(),
+      notes: String(notes || "").trim(),
+    },
+    DEFAULT_TIMEOUT_MS,
+    keepalive ? { keepalive: true } : {}
+  ).then((res) => ({
+    ...res,
+    ref_id: res.ref_id || cleanRefId,
+  }));
+}
+
+// 3. بناء رابط واتساب منسق للطلب (يُفتح فوراً عند النقر دون انتظار السيرفر)
+export function buildOrderWhatsAppUrl({
+  imei,
+  serviceName,
+  refId,
+  price = "",
+  customerContact = "",
+  notes = "",
+  phone = ADMIN_WHATSAPP_NUMBER,
+}) {
+  const lines = [
+    "*طلب خدمة جديد - GSM Yasser Server*",
+    `رقم المرجع: ${refId}`,
+    `IMEI: ${imei}`,
+    `الخدمة: ${serviceName}`,
+  ];
+
+  if (price) lines.push(`التسعيرة: ${price}`);
+  if (customerContact) lines.push(`تواصل العميل: ${customerContact}`);
+  if (notes) lines.push(`ملاحظات: ${notes}`);
+
+  const cleanPhone = String(phone || ADMIN_WHATSAPP_NUMBER).replace(/\D/g, "");
+  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
