@@ -166,7 +166,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.62);
-      z-index: 950;
+      z-index: 960;
     }
 
     .drawer-backdrop.open { display: block; }
@@ -851,7 +851,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      z-index: 1000;
+      z-index: 1020;
       max-width: calc(100vw - 40px);
     }
 
@@ -892,7 +892,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.6);
-      z-index: 900;
+      z-index: 980;
       align-items: center;
       justify-content: center;
       padding: 20px;
@@ -1508,7 +1508,7 @@
         </div>
       </section>
 
-      <!-- ===== 4. PAID SERVICES ===== -->
+      <!-- ===== 4. PAID SERVICES (NO PRICES ON CARDS) ===== -->
       <section class="card" id="paidServicesSection">
         <div class="card-header-row">
           <h2 class="card-title" id="paidTitle">خدمات الفحص المدفوعة</h2>
@@ -1522,54 +1522,66 @@
           <div class="service-item">
             <div>
               <div class="service-top">
-                <span class="service-name" id="srv1Name">فحص قفل الشبكة</span>
+                <span class="service-name" id="srv1Name">فحص قفل الشبكة (#8)</span>
                 <div class="badges-wrap">
                   <span class="badge" id="badge1">مدفوع</span>
                 </div>
               </div>
-              <p class="service-desc" id="srv1Desc">حالة قفل المشغل وشريحة SIM</p>
+              <p class="service-desc" id="srv1Desc">
+                <strong>شرح مختصر:</strong> معرفة حالة قفل المشغل وشريحة SIM قبل الشراء.<br>
+                <strong>الخصائص:</strong> يحدد Unlocked أو Locked (مثل AT&T) وملاءمة شرائح Mobilis / Djezzy / Ooredoo.
+              </p>
             </div>
-            <a class="wa-btn" data-service="Carrier Lock Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="wa-btn" data-service="Carrier & SIMLock (#8)" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
           </div>
 
           <div class="service-item">
             <div>
               <div class="service-top">
-                <span class="service-name" id="srv2Name">فحص iCloud</span>
+                <span class="service-name" id="srv2Name">فحص iCloud & FMI (#5)</span>
                 <div class="badges-wrap">
                   <span class="badge" id="badge2">مدفوع</span>
                 </div>
               </div>
-              <p class="service-desc" id="srv2Desc">حالة قفل iCloud وميزة Find My</p>
+              <p class="service-desc" id="srv2Desc">
+                <strong>شرح مختصر:</strong> التحقق من حالة iCloud وميزة Find My iPhone.<br>
+                <strong>الخصائص:</strong> يوضح حالة FMI (ON / OFF) ووجود قفل تنشيط مرتبط بحساب المالك السابق.
+              </p>
             </div>
-            <a class="wa-btn" data-service="iCloud Status Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="wa-btn" data-service="iCloud / FMI (#5)" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
           </div>
 
           <div class="service-item">
             <div>
               <div class="service-top">
-                <span class="service-name" id="srv3Name">GSMA Blacklist Check</span>
+                <span class="service-name" id="srv3Name">Blacklist GSMA PRO (#7)</span>
                 <div class="badges-wrap">
                   <span class="badge" id="badge3">مدفوع</span>
                 </div>
               </div>
-              <p class="service-desc" id="srv3Desc">حالة الفقدان أو السرقة أو الحظر في قاعدة GSMA</p>
+              <p class="service-desc" id="srv3Desc">
+                <strong>شرح مختصر:</strong> فحص سجل الفقدان أو السرقة أو الحظر الدولي.<br>
+                <strong>الخصائص:</strong> يفحص قاعدة GSMA؛ نتيجة Clean لا تضمن عدم وجود حظر لدى جميع المشغلين.
+              </p>
             </div>
-            <a class="wa-btn" data-service="GSMA Blacklist Check" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="wa-btn" data-service="Blacklist GSMA PRO (#7)" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
           </div>
 
           <div class="service-item featured">
             <div>
               <div class="service-top">
-                <span class="service-name" id="srv4Name">Full PRO Complete Report</span>
+                <span class="service-name" id="srv4Name">GSX + Sold By + Repairs</span>
                 <div class="badges-wrap">
                   <span class="badge-pro" id="badgePro">الأكثر طلباً</span>
                   <span class="badge" id="badge4">مدفوع</span>
                 </div>
               </div>
-              <p class="service-desc" id="srv4Desc">تقرير كامل شامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud</p>
+              <p class="service-desc" id="srv4Desc">
+                <strong>شرح مختصر:</strong> تقرير متقدم شامل لبيانات GSX، مصدر البيع، وسجل الإصلاحات.<br>
+                <strong>الخصائص:</strong> يوضح GSX، الضمان والتغطية (#6)، Sold By حسب مصدر الفحص، وسجل الصيانة.
+              </p>
             </div>
-            <a class="wa-btn" data-service="Full PRO Complete Report" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="wa-btn" data-service="GSX + Sold By + Repairs" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
           </div>
         </div>
       </section>
@@ -1817,10 +1829,14 @@
         paidSubHtml: 'اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب <span class="ltr-num">+213657241710</span>',
         badge: "مدفوع",
         badgePro: "الأكثر طلباً",
-        srv1Name: "فحص قفل الشبكة", srv1Desc: "حالة قفل المشغل وشريحة SIM",
-        srv2Name: "فحص iCloud", srv2Desc: "حالة قفل iCloud وميزة Find My",
-        srv3Name: "GSMA Blacklist Check", srv3Desc: "حالة الفقدان أو السرقة أو الحظر في قاعدة GSMA",
-        srv4Name: "Full PRO Complete Report", srv4Desc: "تقرير كامل شامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud",
+        srv1Name: "فحص قفل الشبكة (#8)",
+        srv1Desc: "شرح مختصر: معرفة حالة قفل المشغل وشريحة SIM قبل الشراء. الخصائص: يحدد Unlocked أو Locked وملاءمة شرائح Mobilis / Djezzy / Ooredoo.",
+        srv2Name: "فحص iCloud & FMI (#5)",
+        srv2Desc: "شرح مختصر: التحقق من حالة iCloud وميزة Find My iPhone. الخصائص: يوضح حالة FMI (ON / OFF) وقفل التنشيط.",
+        srv3Name: "Blacklist GSMA PRO (#7)",
+        srv3Desc: "شرح مختصر: فحص سجل الفقدان أو السرقة أو الحظر الدولي. الخصائص: يفحص GSMA؛ نتيجة Clean لا تضمن جميع المشغلين.",
+        srv4Name: "GSX + Sold By + Repairs",
+        srv4Desc: "شرح مختصر: تقرير متقدم شامل لبيانات GSX، مصدر البيع، وسجل الإصلاحات. الخصائص: يشمل GSX، الضمان (#6)، Sold By، وسجل الصيانة.",
         trust1Title: "بيانات Apple & GSX", trust1Sub: "تقارير دقيقة عبر الخدمات المدفوعة",
         trust2Title: "معالجة سريعة", trust2Sub: "تنفيذ الطلبات خلال دقائق",
         trust3Title: "دعم مباشر", trust3Sub: "تواصل فوري عبر واتساب",
@@ -1841,7 +1857,7 @@
         tipsHtml: [
           'اطلب <code class="ltr-num">*#06#</code> من هاتفك لعرض IMEI.',
           "IMEI يتكون من 15 رقماً فقط.",
-          "الفحص المجاني يتحقق حسابياً؛ اطلب الخدمة المدفوعة لفحص iCloud أو الشبكة أو Blacklist."
+          "تحقق من الرقم قبل طلب الخدمات المدفوعة."
         ],
         historyTitle: "التنبيهات / سجل الفحوصات",
         clearHistory: "مسح",
@@ -1887,10 +1903,14 @@
         paidSubHtml: 'Commandez directement via WhatsApp <span class="ltr-num">+213657241710</span>',
         badge: "Payant",
         badgePro: "Populaire",
-        srv1Name: "Vérification verrouillage réseau", srv1Desc: "État du verrouillage opérateur et carte SIM",
-        srv2Name: "Vérification iCloud", srv2Desc: "État du verrouillage iCloud et Find My",
-        srv3Name: "GSMA Blacklist Check", srv3Desc: "Statut perdu, volé ou bloqué GSMA",
-        srv4Name: "Full PRO Complete Report", srv4Desc: "Rapport complet : GSX, garantie, achat, réseau, iCloud",
+        srv1Name: "Carrier & SIMLock (#8)",
+        srv1Desc: "Aperçu : état du verrouillage réseau et carte SIM. Caractéristiques : Unlocked/Locked et compatibilité Mobilis / Djezzy / Ooredoo.",
+        srv2Name: "iCloud / FMI (#5)",
+        srv2Desc: "Aperçu : état iCloud et Find My iPhone. Caractéristiques : FMI (ON/OFF) et verrouillage d'activation.",
+        srv3Name: "Blacklist GSMA PRO (#7)",
+        srv3Desc: "Aperçu : statut perdu, volé ou bloqué GSMA. Caractéristiques : Clean ne garantit pas tous les opérateurs.",
+        srv4Name: "GSX + Sold By + Repairs",
+        srv4Desc: "Aperçu : rapport détaillé GSX, Sold By et réparations. Caractéristiques : GSX, couverture (#6), Sold By et historique.",
         trust1Title: "Données Apple & GSX", trust1Sub: "Rapports précis via les services payants",
         trust2Title: "Traitement rapide", trust2Sub: "Commandes traitées en quelques minutes",
         trust3Title: "Support direct", trust3Sub: "Assistance instantanée sur WhatsApp",
@@ -1911,7 +1931,7 @@
         tipsHtml: [
           'Composez <code class="ltr-num">*#06#</code> pour afficher votre IMEI.',
           "L'IMEI contient exactement 15 chiffres.",
-          "Le contrôle gratuit est mathématique ; choisissez un service payant pour iCloud, réseau ou Blacklist."
+          "Vérifiez le numéro avant de commander un service payant."
         ],
         historyTitle: "Alertes / Historique",
         clearHistory: "Effacer",
@@ -1957,10 +1977,14 @@
         paidSubHtml: 'Order paid checks directly via WhatsApp <span class="ltr-num">+213657241710</span>',
         badge: "Paid",
         badgePro: "Most Popular",
-        srv1Name: "Carrier Lock Check", srv1Desc: "Carrier lock and SIM status",
-        srv2Name: "iCloud Status Check", srv2Desc: "iCloud lock and Find My status",
-        srv3Name: "GSMA Blacklist Check", srv3Desc: "Lost, stolen, or barred GSMA status",
-        srv4Name: "Full PRO Complete Report", srv4Desc: "Complete report: GSX, warranty, purchase date, carrier, iCloud",
+        srv1Name: "Carrier & SIMLock (#8)",
+        srv1Desc: "Summary: carrier lock and SIM status before purchase. Features: Unlocked/Locked and Mobilis / Djezzy / Ooredoo check.",
+        srv2Name: "iCloud / FMI (#5)",
+        srv2Desc: "Summary: iCloud and Find My iPhone status. Features: FMI (ON/OFF) and Activation Lock state.",
+        srv3Name: "Blacklist GSMA PRO (#7)",
+        srv3Desc: "Summary: lost, stolen, or barred GSMA status. Features: GSMA check; Clean does not guarantee all carriers.",
+        srv4Name: "GSX + Sold By + Repairs",
+        srv4Desc: "Summary: detailed GSX, Sold By, and repair history report. Features: GSX, coverage (#6), Sold By, and repairs.",
         trust1Title: "Apple & GSX Data", trust1Sub: "Accurate reports via paid services",
         trust2Title: "Fast Processing", trust2Sub: "Orders processed within minutes",
         trust3Title: "Direct Support", trust3Sub: "Instant assistance on WhatsApp",
@@ -1981,7 +2005,7 @@
         tipsHtml: [
           'Dial <code class="ltr-num">*#06#</code> on your phone to display IMEI.',
           "IMEI has exactly 15 digits.",
-          "Free Check is mathematical; choose a paid service for live iCloud, carrier, or Blacklist status."
+          "Verify the number before ordering paid services."
         ],
         historyTitle: "Alerts / Check History",
         clearHistory: "Clear",
@@ -2044,6 +2068,7 @@
       drawerBackdrop.classList.toggle("open", open);
       drawerBackdrop.setAttribute("aria-hidden", String(!open));
       drawerOpenBtn.setAttribute("aria-expanded", String(open));
+      if (!open) drawerOpenBtn.focus();
     }
 
     function generateCaptcha() {
@@ -2257,28 +2282,40 @@
     });
 
     document.querySelectorAll("#drawerBackdrop a.drawer-item").forEach((link) => {
-      link.addEventListener("click", () => setDrawer(false));
+      link.addEventListener("click", () => {
+        drawerBackdrop.classList.remove("open");
+        drawerBackdrop.setAttribute("aria-hidden", "true");
+        drawerOpenBtn.setAttribute("aria-expanded", "false");
+      });
     });
 
     menuFaq.addEventListener("click", () => {
-      setDrawer(false);
+      drawerBackdrop.classList.remove("open");
+      drawerBackdrop.setAttribute("aria-hidden", "true");
+      drawerOpenBtn.setAttribute("aria-expanded", "false");
       const fab = document.getElementById("gsmFloatingFab");
       if (fab) fab.click();
     });
 
     menuPayment.addEventListener("click", () => {
-      setDrawer(false);
+      drawerBackdrop.classList.remove("open");
+      drawerBackdrop.setAttribute("aria-hidden", "true");
+      drawerOpenBtn.setAttribute("aria-expanded", "false");
       paymentOverlay.classList.add("visible");
     });
 
     menuAlertsHistory.addEventListener("click", () => {
-      setDrawer(false);
+      drawerBackdrop.classList.remove("open");
+      drawerBackdrop.setAttribute("aria-hidden", "true");
+      drawerOpenBtn.setAttribute("aria-expanded", "false");
       renderHistory();
       historyOverlay.classList.add("visible");
     });
 
     menuAccount.addEventListener("click", () => {
-      setDrawer(false);
+      drawerBackdrop.classList.remove("open");
+      drawerBackdrop.setAttribute("aria-hidden", "true");
+      drawerOpenBtn.setAttribute("aria-expanded", "false");
       updateAccountModal();
       accountOverlay.classList.add("visible");
     });
@@ -2301,7 +2338,9 @@
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        setDrawer(false);
+        drawerBackdrop.classList.remove("open");
+        drawerBackdrop.setAttribute("aria-hidden", "true");
+        drawerOpenBtn.setAttribute("aria-expanded", "false");
         paymentOverlay.classList.remove("visible");
         accountOverlay.classList.remove("visible");
         historyOverlay.classList.remove("visible");
@@ -2478,123 +2517,174 @@
     applyLang(currentLang);
   </script>
 
-  <!-- ========== HYBRID FLOATING CHATBOT SCRIPT ========== -->
+  <!-- ========== HYBRID FLOATING CHATBOT SCRIPT (56.25% PROFIT IN BOT ONLY) ========== -->
   <script>
     (() => {
-      const STORAGE_KEY = "gsm_yasser_hybrid_chat_v2";
+      const STORAGE_KEY = "gsm_yasser_hybrid_chat_v7";
       const WA_NUMBER = "213657241710";
       const WORKER_CHAT_URL = "";
+      const PROFIT_MARGIN = 0.5625; // نسبة ربح 56.25% على الكل
+      const CREDIT_UNIT_USD = 1.0;
+
+      const calcCredits = (costUsd) => {
+        const raw = (costUsd * (1 + PROFIT_MARGIN)) / CREDIT_UNIT_USD;
+        return `${Number(raw.toFixed(2))} Credits`;
+      };
+
+      const SERVICE_PRICES = {
+        basic: { credits: calcCredits(1.50), cost: "$1.50" },
+        gsx: { credits: calcCredits(4.10), cost: "$4.10" },
+        carrier: { credits: calcCredits(1.70), cost: "$1.70" },
+        icloud: { credits: calcCredits(1.60), cost: "$1.60" },
+        blacklist: { credits: calcCredits(1.60), cost: "$1.60" },
+        mdm: { credits: calcCredits(2.90), cost: "$2.90" }
+      };
 
       const KB = {
         ar: {
           welcome:
-            "أهلاً بك في مساعد <strong>GSM Yasser Server</strong>! رد فوري على أسئلة <strong>iPhone IMEI</strong> وتوجيه مباشر لـ WhatsApp <span class='ltr-num'>+213657241710</span>:<br>" +
-            "• <strong>#5 (iCloud & FMI):</strong> حالة FMI (ON/OFF) وقفل التنشيط المرتبط بالمالك السابق.<br>" +
-            "• <strong>#6 (Soldby & Coverage):</strong> حالة الضمان والتغطية (حسب بيانات مصدر الفحص وليس بالضرورة اسم المتجر).<br>" +
-            "• <strong>#7 (Blacklist & GSMA):</strong> حالة الحظر/الفقدان/السرقة في GSMA (نتيجة Clean لا تضمن جميع المشغلين).<br>" +
-            "• <strong>#8 (Carrier & SIMLock):</strong> حالة الشبكة والشريحة (مهم لـ Mobilis / Djezzy / Ooredoo — <strong>8 Credits</strong>).",
-          placeholder: "اسأل عن #5، #6، #7، #8 أو اكتب IMEI...",
+            "مرحباً بك في <strong>GSM Yasser Server</strong>! يسعدنا خدمتك في استعلامات <strong>iPhone IMEI</strong> الاحترافية والرد الفوري على استفساراتك مع توضيح أسعار الكريدت:<br>" +
+            `• <strong>Basic Check (${SERVICE_PRICES.basic.credits}):</strong> فحص أساسي سريع لبيانات الجهاز وIMEI.<br>` +
+            `• <strong>GSX + Sold By + Repairs (${SERVICE_PRICES.gsx.credits}):</strong> تقرير GSX، مصدر البيع Sold By، وسجل الصيانة والإصلاحات.<br>` +
+            `• <strong>Carrier & SIMLock (${SERVICE_PRICES.carrier.credits}):</strong> حالة قفل الشبكة والشريحة (Unlocked / Locked وملاءمة شرائح Mobilis / Djezzy / Ooredoo).<br>` +
+            `• <strong>iCloud / FMI (${SERVICE_PRICES.icloud.credits}):</strong> حالة FMI (ON/OFF) وقفل التنشيط المرتبط بحساب المالك السابق.<br>` +
+            `• <strong>Blacklist GSMA PRO (${SERVICE_PRICES.blacklist.credits}):</strong> فحص حالة الفقدان أو السرقة أو الحظر في قاعدة GSMA (نتيجة Clean لا تضمن جميع المشغلين).<br>` +
+            `• <strong>MDM Lock (${SERVICE_PRICES.mdm.credits}):</strong> التحقق من وجود إدارة أو قفل مؤسسي MDM على الجهاز.<br>` +
+            `للطلب أو الاستفسار المباشر عبر واتساب: <span class='ltr-num'>+${WA_NUMBER}</span>.`,
+          placeholder: "اسأل عن خدمة، سعر الكريدت، أو اكتب IMEI...",
           send: "إرسال",
           aiToggle: "وضع الـ AI",
           localBadge: "محلي (مجاني)",
           aiBadge: "AI Worker",
           thinking: "جاري التحقق...",
-          fallback: "لم أجد تطابقاً مباشراً. فعّل <strong>وضع الـ AI</strong> أو تواصل عبر واتساب <span class='ltr-num'>+213657241710</span>.",
-          noWorkerUrl: "وضع <strong>AI Worker</strong> مفعّل، لكن <code>WORKER_CHAT_URL</code> فارغ حالياً في الكود.",
-          workerErr: "تعذر الوصول إلى Cloudflare Worker حالياً.",
+          fallback: `لم يتم العثور على إجابة مطابقة محلياً. يمكنك تفعيل <strong>وضع الـ AI</strong> أو التواصل مباشرة عبر واتساب <span class='ltr-num'>+${WA_NUMBER}</span>.`,
+          noWorkerUrl: "تم تفعيل <strong>وضع الـ AI</strong>، ولكن لم يتم ضبط <code>WORKER_CHAT_URL</code> بعد.",
+          workerErr: "تعذر الاتصال بخادم Cloudflare Worker حالياً، يرجى المحاولة لاحقاً.",
           quick: [
-            { label: "الخدمات #5-#8", q: "اشرح باختصار خدمات 5 و 6 و 7 ومعرف 8" },
-            { label: "معرف 8 (الشبكة)", q: "ما شرح معرف 8 وسعره وشرائح Mobilis Djezzy Ooredoo؟" },
-            { label: "فحص 5 و 6 و 7", q: "ما الفرق بين حالة فحص 5 والتحقق من 6 و 7؟" }
+            { label: "قائمة الأسعار (Credits)", q: "اذكر جميع أنواع الفحص مع شرح مختصر وسعر كل خدمة بالكريدت" },
+            { label: "GSX & MDM Lock", q: "ما سعر وخصائص GSX + Sold By + Repairs وخدمة MDM Lock بالكريدت؟" },
+            { label: "iCloud / Carrier / GSMA", q: "ما أسعار وخصائص iCloud / FMI و Carrier & SIMLock و Blacklist GSMA PRO؟" }
           ],
           entries: [
             {
-              keys: ["5", "6", "7", "8", "معرف", "فحص", "تحقق", "خدمات", "مدفوعة", "credits"],
+              priority: 5,
+              keys: ["mdm", "مؤسسي", "إدارة", "remote management"],
+              ans: `أهلاً بك؛ خدمة <strong>MDM Lock</strong> بسعر <strong>${SERVICE_PRICES.mdm.credits}</strong> تتحقق من وجود قفل أو إدارة عن بُعد (MDM) تابعة لجهة أو مؤسسة على الجهاز.`
+            },
+            {
+              priority: 5,
+              keys: ["basic", "أساسي", "بسيط"],
+              ans: `مرحباً بك؛ خدمة <strong>Basic Check</strong> بسعر <strong>${SERVICE_PRICES.basic.credits}</strong> توفر فحصاً أساسياً ومباشراً لبيانات الآيفون ورقم IMEI قبل طلب الفحوصات المتقدمة.`
+            },
+            {
+              priority: 5,
+              keys: ["gsx", "sold", "repairs", "صيانة", "إصلاح", "ضمان", "تغطية"],
+              ans: `أهلاً بك؛ خدمة <strong>GSX + Sold By + Repairs</strong> بسعر <strong>${SERVICE_PRICES.gsx.credits}</strong> تعرض تفاصيل GSX، وبيانات Sold By (التي تعتمد على مصدر الفحص ولا تعكس بالضرورة اسم المتجر الفعلي)، وسجل الصيانة والإصلاحات.`
+            },
+            {
+              priority: 5,
+              keys: ["carrier", "sim", "simlock", "شبكة", "mobilis", "djezzy", "ooredoo", "locked", "unlocked"],
+              ans: `أهلاً بك؛ خدمة <strong>Carrier & SIMLock</strong> بسعر <strong>${SERVICE_PRICES.carrier.credits}</strong> تحدد حالة الشبكة (<code>Unlocked</code> أو <code>Locked</code>) وملاءمة تشغيل شرائح <strong>Mobilis / Djezzy / Ooredoo</strong>.`
+            },
+            {
+              priority: 5,
+              keys: ["icloud", "fmi", "تنشيط", "activation", "find my"],
+              ans: `مرحباً بك؛ خدمة <strong>iCloud / FMI</strong> بسعر <strong>${SERVICE_PRICES.icloud.credits}</strong> تحدد حالة FMI (<code>ON</code> أو <code>OFF</code>) ووجود قفل التنشيط المرتبط بحساب المالك السابق.`
+            },
+            {
+              priority: 5,
+              keys: ["blacklist", "gsma", "pro", "clean", "حظر", "سرقة", "فقدان"],
+              ans: `أهلاً بك؛ خدمة <strong>Blacklist GSMA PRO</strong> بسعر <strong>${SERVICE_PRICES.blacklist.credits}</strong> تفحص حالة الفقدان أو السرقة أو الحظر في GSMA، مع التنويه أن نتيجة <code>Clean</code> لا تضمن عدم وجود حظر لدى جميع المشغلين.`
+            },
+            {
+              priority: 1,
+              keys: ["سعر", "أسعار", "كريدت", "credit", "credits", "قائمة", "خدمات", "فحص", "كل", "5", "6", "7", "8", "15"],
               ans:
-                "• <strong>حالة فحص 5 (iCloud & FMI):</strong> يحدد حالة FMI (ON/OFF) وقفل التنشيط المرتبط بحساب المالك السابق.<br>" +
-                "• <strong>التحقق من 6 (Soldby & Coverage):</strong> يوضح الضمان والتغطية؛ وملاحظة <code>Sold By</code> لا تعني دائماً اسم المتجر بل تعتمد على مصدر الفحص.<br>" +
-                "• <strong>التحقق من 7 (Blacklist & GSMA):</strong> يفحص حالة الحظر أو الفقدان/السرقة في GSMA؛ ونتيجة <code>Clean</code> لا تضمن عدم وجود حظر لدى جميع المشغلين.<br>" +
-                "• <strong>شرح معرف 8 (Carrier & SIMLock):</strong> يحدد Unlocked أو Locked (مثل AT&T)، مهم قبل الشراء أو لتشغيل شريحة <strong>Mobilis / Djezzy / Ooredoo</strong> — السعر: <strong>8 Credits</strong>."
-            },
-            {
-              keys: ["icloud", "fmi", "find my", "تنشيط", "activation"],
-              ans: "<strong>حالة فحص 5 (iCloud & FMI):</strong> يحدد هل ميزة العثور على الآيفون مفعّلة (<code>FMI ON</code>) أم متوقفة (<code>FMI OFF</code>)، وهل يوجد قفل تنشيط مرتبط بحساب المالك السابق."
-            },
-            {
-              keys: ["sim", "carrier", "شبكة", "mobilis", "djezzy", "ooredoo", "locked", "unlocked"],
-              ans: "<strong>شرح معرف 8 (Carrier & SIMLock):</strong> يحدد هل الجهاز مفتوح (<code>Unlocked</code>) أو مقفل على مشغل (<code>Locked</code> مثل AT&T). مهم قبل الشراء أو للتأكد من عمل شريحة <strong>Mobilis</strong> أو <strong>Djezzy</strong> أو <strong>Ooredoo</strong>. السعر: <strong>8 Credits</strong>."
-            },
-            {
-              keys: ["sold", "warranty", "applecare", "coverage", "ضمان", "تغطية"],
-              ans: "<strong>التحقق من 6 (Soldby & Coverage):</strong> يوضح حالة الضمان والتغطية قبل الشراء. ملاحظة: نتيجة <code>Sold By</code> لا تعني دائماً اسم المتجر الفعلي بل تعتمد على بيانات مصدر الفحص."
-            },
-            {
-              keys: ["gsma", "blacklist", "clean", "lost", "stolen", "حظر", "سرقة", "فقدان"],
-              ans: "<strong>التحقق من 7 (Blacklist & GSMA):</strong> يفحص حالة الحظر أو الفقدان/السرقة عبر قاعدة GSMA المتاحة. ملاحظة: نتيجة <code>Clean</code> تعني عدم وجود تسجيل في البيانات المفحوصة ولا تضمن عدم وجود حظر لدى جميع المشغلين."
+                "أهلاً بك، إليك شرح مختصر وأسعار خدمات فحص <strong>iPhone IMEI</strong> بالكريدت:<br>" +
+                `• <strong>Basic Check — ${SERVICE_PRICES.basic.credits}:</strong> فحص أساسي لبيانات الجهاز وIMEI.<br>` +
+                `• <strong>GSX + Sold By + Repairs — ${SERVICE_PRICES.gsx.credits}:</strong> بيانات GSX، مصدر البيع Sold By، وسجل الإصلاحات.<br>` +
+                `• <strong>Carrier & SIMLock — ${SERVICE_PRICES.carrier.credits}:</strong> حالة الشبكة والشريحة (Unlocked / Locked) وملاءمة Mobilis / Djezzy / Ooredoo.<br>` +
+                `• <strong>iCloud / FMI — ${SERVICE_PRICES.icloud.credits}:</strong> حالة FMI (ON/OFF) وقفل التنشيط المرتبط بالحساب السابق.<br>` +
+                `• <strong>Blacklist GSMA PRO — ${SERVICE_PRICES.blacklist.credits}:</strong> فحص الحظر أو الفقدان/السرقة في GSMA (نتيجة Clean لا تضمن جميع المشغلين).<br>` +
+                `• <strong>MDM Lock — ${SERVICE_PRICES.mdm.credits}:</strong> كشف حالة قفل الإدارة المؤسسية MDM.`
             }
           ]
         },
         fr: {
           welcome:
-            "Bienvenue sur l'assistant <strong>GSM Yasser Server</strong> ! Réponses rapides sur l'<strong>IMEI iPhone</strong> et commande WhatsApp <span class='ltr-num'>+213657241710</span> :<br>" +
-            "• <strong>#5 (iCloud & FMI) :</strong> état FMI (ON/OFF) et verrouillage d'activation.<br>" +
-            "• <strong>#6 (Soldby & Coverage) :</strong> garantie et couverture (selon source, pas forcément la boutique).<br>" +
-            "• <strong>#7 (Blacklist & GSMA) :</strong> statut GSMA / liste noire (Clean ne garantit pas tous les opérateurs).<br>" +
-            "• <strong>#8 (Carrier & SIMLock) :</strong> état réseau/SIM (utile pour Mobilis / Djezzy / Ooredoo — <strong>8 Credits</strong>).",
-          placeholder: "Question sur #5, #6, #7, #8 ou IMEI...",
+            "Bonjour et bienvenue sur <strong>GSM Yasser Server</strong> ! Voici nos services <strong>iPhone IMEI</strong> et leurs tarifs en crédits :<br>" +
+            `• <strong>Basic Check (${SERVICE_PRICES.basic.credits}) :</strong> vérification de base de l'IMEI et des infos essentielles.<br>` +
+            `• <strong>GSX + Sold By + Repairs (${SERVICE_PRICES.gsx.credits}) :</strong> données GSX, Sold By (selon source) et historique réparations.<br>` +
+            `• <strong>Carrier & SIMLock (${SERVICE_PRICES.carrier.credits}) :</strong> état réseau/SIM (Unlocked / Locked, Mobilis / Djezzy / Ooredoo).<br>` +
+            `• <strong>iCloud / FMI (${SERVICE_PRICES.icloud.credits}) :</strong> statut FMI (ON/OFF) et verrouillage d'activation.<br>` +
+            `• <strong>Blacklist GSMA PRO (${SERVICE_PRICES.blacklist.credits}) :</strong> statut perdu/volé/bloqué GSMA (Clean ne garantit pas tous les opérateurs).<br>` +
+            `• <strong>MDM Lock (${SERVICE_PRICES.mdm.credits}) :</strong> détection de verrouillage/gestion MDM.<br>` +
+            `Contact et commande directe WhatsApp : <span class='ltr-num'>+${WA_NUMBER}</span>.`,
+          placeholder: "Service, tarif crédits ou IMEI...",
           send: "Envoyer",
           aiToggle: "Mode AI",
           localBadge: "Local (Gratuit)",
           aiBadge: "AI Worker",
-          thinking: "Traitement...",
-          fallback: "Aucune correspondance locale directe. Activez le <strong>Mode AI</strong> ou contactez WhatsApp <span class='ltr-num'>+213657241710</span>.",
-          noWorkerUrl: "Le <strong>Mode AI</strong> est actif, mais <code>WORKER_CHAT_URL</code> est vide.",
-          workerErr: "Erreur de connexion au Cloudflare Worker.",
+          thinking: "Traitement en cours...",
+          fallback: `Aucune correspondance locale trouvée. Activez le <strong>Mode AI</strong> ou contactez-nous sur WhatsApp <span class='ltr-num'>+${WA_NUMBER}</span>.`,
+          noWorkerUrl: "Le <strong>Mode AI</strong> est activé, mais <code>WORKER_CHAT_URL</code> n'est pas encore configuré.",
+          workerErr: "Connexion impossible au Cloudflare Worker pour le moment.",
           quick: [
-            { label: "Services #5-#8", q: "Résumé rapide des services 5, 6, 7 et 8" },
-            { label: "ID 8 (Réseau)", q: "Expliquer l'ID 8, prix 8 Credits et SIM Mobilis Djezzy Ooredoo" },
-            { label: "Checks 5, 6, 7", q: "Quelle différence entre check 5, 6 et 7 ?" }
+            { label: "Tarifs (Credits)", q: "Liste des vérifications avec résumé et prix en crédits" },
+            { label: "GSX & MDM Lock", q: "Prix et détails de GSX + Sold By + Repairs et MDM Lock en crédits" },
+            { label: "iCloud / Carrier / GSMA", q: "Prix et détails de iCloud / FMI, Carrier & SIMLock et Blacklist GSMA PRO" }
           ],
           entries: [
             {
-              keys: ["5", "6", "7", "8", "credits", "mobilis", "djezzy", "ooredoo", "gsma", "icloud", "sold"],
+              priority: 1,
+              keys: ["basic", "gsx", "sold", "repairs", "carrier", "sim", "icloud", "fmi", "blacklist", "gsma", "mdm", "prix", "credit", "credits", "tarif"],
               ans:
-                "• <strong>#5 (iCloud & FMI) :</strong> vérifie FMI (ON/OFF) et le verrouillage d'activation.<br>" +
-                "• <strong>#6 (Soldby & Coverage) :</strong> garantie et couverture ; Sold By dépend de la source et n'indique pas toujours le magasin.<br>" +
-                "• <strong>#7 (Blacklist & GSMA) :</strong> statut GSMA / liste noire ; Clean ne garantit pas l'absence de blocage sur tous les réseaux.<br>" +
-                "• <strong>#8 (Carrier & SIMLock) :</strong> Unlocked ou Locked (ex. AT&T), utile pour <strong>Mobilis / Djezzy / Ooredoo</strong> — Tarif : <strong>8 Credits</strong>."
+                "Bienvenue ! Tarifs de nos services <strong>iPhone IMEI</strong> en crédits :<br>" +
+                `• <strong>Basic Check :</strong> ${SERVICE_PRICES.basic.credits}<br>` +
+                `• <strong>GSX + Sold By + Repairs :</strong> ${SERVICE_PRICES.gsx.credits}<br>` +
+                `• <strong>Carrier & SIMLock :</strong> ${SERVICE_PRICES.carrier.credits}<br>` +
+                `• <strong>iCloud / FMI :</strong> ${SERVICE_PRICES.icloud.credits}<br>` +
+                `• <strong>Blacklist GSMA PRO :</strong> ${SERVICE_PRICES.blacklist.credits}<br>` +
+                `• <strong>MDM Lock :</strong> ${SERVICE_PRICES.mdm.credits}`
             }
           ]
         },
         en: {
           welcome:
-            "Welcome to <strong>GSM Yasser Server</strong> assistant! Quick answers for <strong>iPhone IMEI</strong> & WhatsApp <span class='ltr-num'>+213657241710</span>:<br>" +
-            "• <strong>#5 (iCloud & FMI):</strong> FMI (ON/OFF) & Activation Lock status.<br>" +
-            "• <strong>#6 (Soldby & Coverage):</strong> warranty & coverage (per check source, not always store name).<br>" +
-            "• <strong>#7 (Blacklist & GSMA):</strong> GSMA/blacklist status (Clean does not guarantee all carriers).<br>" +
-            "• <strong>#8 (Carrier & SIMLock):</strong> network/SIM status (key for Mobilis / Djezzy / Ooredoo — <strong>8 Credits</strong>).",
-          placeholder: "Ask about #5, #6, #7, #8 or enter IMEI...",
+            "Welcome to <strong>GSM Yasser Server</strong>! Here are our <strong>iPhone IMEI</strong> check services and credit prices:<br>" +
+            `• <strong>Basic Check (${SERVICE_PRICES.basic.credits}):</strong> essential IMEI and device baseline check.<br>` +
+            `• <strong>GSX + Sold By + Repairs (${SERVICE_PRICES.gsx.credits}):</strong> GSX details, Sold By (based on check source), and repair history.<br>` +
+            `• <strong>Carrier & SIMLock (${SERVICE_PRICES.carrier.credits}):</strong> Unlocked/Locked status and Mobilis / Djezzy / Ooredoo SIM compatibility.<br>` +
+            `• <strong>iCloud / FMI (${SERVICE_PRICES.icloud.credits}):</strong> FMI (ON/OFF) and Activation Lock status.<br>` +
+            `• <strong>Blacklist GSMA PRO (${SERVICE_PRICES.blacklist.credits}):</strong> GSMA lost/stolen/barred check (Clean does not guarantee all carriers).<br>` +
+            `• <strong>MDM Lock (${SERVICE_PRICES.mdm.credits}):</strong> remote management / MDM lock check.<br>` +
+            `Direct WhatsApp support & orders: <span class='ltr-num'>+${WA_NUMBER}</span>.`,
+          placeholder: "Ask about check type, credit price, or IMEI...",
           send: "Send",
           aiToggle: "AI Mode",
           localBadge: "Local (Free)",
           aiBadge: "AI Worker",
-          thinking: "Thinking...",
-          fallback: "No direct local match found. Toggle <strong>AI Mode</strong> or message WhatsApp <span class='ltr-num'>+213657241710</span>.",
-          noWorkerUrl: "<strong>AI Mode</strong> is enabled, but <code>WORKER_CHAT_URL</code> is not set yet.",
-          workerErr: "Failed to reach Cloudflare Worker.",
+          thinking: "Checking...",
+          fallback: `No direct local match found. Please toggle <strong>AI Mode</strong> or reach us on WhatsApp <span class='ltr-num'>+${WA_NUMBER}</span>.`,
+          noWorkerUrl: "<strong>AI Mode</strong> is enabled, but <code>WORKER_CHAT_URL</code> is not configured yet.",
+          workerErr: "Unable to reach the Cloudflare Worker right now.",
           quick: [
-            { label: "Services #5-#8", q: "Short summary of checks 5, 6, 7 and ID 8" },
-            { label: "ID 8 (Carrier)", q: "Explain ID 8, 8 Credits price, and Mobilis Djezzy Ooredoo SIM" },
-            { label: "Checks 5, 6, 7", q: "What is the difference between check 5, 6, and 7?" }
+            { label: "Credit Prices", q: "List all check types with short summary and credit price" },
+            { label: "GSX & MDM Lock", q: "Credit price and details for GSX + Sold By + Repairs and MDM Lock" },
+            { label: "iCloud / Carrier / GSMA", q: "Credit price and details for iCloud / FMI, Carrier & SIMLock, and Blacklist GSMA PRO" }
           ],
           entries: [
             {
-              keys: ["5", "6", "7", "8", "credits", "mobilis", "djezzy", "ooredoo", "gsma", "icloud", "sold"],
+              priority: 1,
+              keys: ["basic", "gsx", "sold", "repairs", "carrier", "sim", "icloud", "fmi", "blacklist", "gsma", "mdm", "price", "credit", "credits", "list"],
               ans:
-                "• <strong>#5 (iCloud & FMI):</strong> checks FMI (ON/OFF) and Activation Lock.<br>" +
-                "• <strong>#6 (Soldby & Coverage):</strong> warranty & coverage; Sold By depends on check source and may not be exact store name.<br>" +
-                "• <strong>#7 (Blacklist & GSMA):</strong> GSMA/blacklist status; Clean means no match in checked data and does not guarantee all carriers.<br>" +
-                "• <strong>#8 (Carrier & SIMLock):</strong> Unlocked or Locked (e.g. AT&T), key for <strong>Mobilis / Djezzy / Ooredoo</strong> — Price: <strong>8 Credits</strong>."
+                "Welcome! Credit prices for our <strong>iPhone IMEI</strong> services:<br>" +
+                `• <strong>Basic Check:</strong> ${SERVICE_PRICES.basic.credits}<br>` +
+                `• <strong>GSX + Sold By + Repairs:</strong> ${SERVICE_PRICES.gsx.credits}<br>` +
+                `• <strong>Carrier & SIMLock:</strong> ${SERVICE_PRICES.carrier.credits}<br>` +
+                `• <strong>iCloud / FMI:</strong> ${SERVICE_PRICES.icloud.credits}<br>` +
+                `• <strong>Blacklist GSMA PRO:</strong> ${SERVICE_PRICES.blacklist.credits}<br>` +
+                `• <strong>MDM Lock:</strong> ${SERVICE_PRICES.mdm.credits}`
             }
           ]
         }
@@ -2666,15 +2756,18 @@
         const pack = KB[lang] || KB.ar;
         const low = q.toLowerCase();
         let best = null;
-        let bestScore = 0;
+        let bestScore = -1;
         for (const item of pack.entries) {
-          const score = item.keys.reduce((acc, k) => acc + (low.includes(k.toLowerCase()) ? 1 : 0), 0);
-          if (score > bestScore) {
-            bestScore = score;
-            best = item;
+          const hits = item.keys.reduce((acc, k) => acc + (low.includes(k.toLowerCase()) ? 1 : 0), 0);
+          if (hits > 0) {
+            const weightedScore = hits * 10 + (item.priority || 1);
+            if (weightedScore > bestScore) {
+              bestScore = weightedScore;
+              best = item;
+            }
           }
         }
-        return best && bestScore > 0 ? withImeiAndWa(best.ans, lang) : null;
+        return best ? withImeiAndWa(best.ans, lang) : null;
       };
 
       const renderUi = (forceLangSync = false) => {
