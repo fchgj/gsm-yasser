@@ -698,10 +698,86 @@
       border-color: var(--accent-hover);
     }
 
+    /* ---------- FAQ ACCORDION ---------- */
+    .faq-section {
+      order: 4;
+      margin-top: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .faq-item {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .faq-item.open {
+      border-color: var(--accent);
+    }
+
+    .faq-trigger {
+      width: 100%;
+      min-height: 50px;
+      background: transparent;
+      color: var(--text);
+      border: none;
+      padding: 12px 16px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      text-align: start;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .faq-arrow {
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: transform 0.2s ease, color 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .faq-item.open .faq-arrow {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    .faq-panel {
+      display: none;
+      padding: 12px 16px 14px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.65;
+      border-top: 1px solid var(--border);
+    }
+
+    .faq-panel strong {
+      color: var(--text);
+    }
+
+    .faq-item.open .faq-panel {
+      display: block;
+    }
+
     /* ---------- TRUST BAR ---------- */
     .trust-strip {
-      order: 4;
-      margin-top: 24px;
+      order: 5;
+      margin-top: 20px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
@@ -725,9 +801,9 @@
       color: var(--muted);
     }
 
-    /* ---------- 5. FOOTER & SOCIAL ICONS ---------- */
+    /* ---------- 6. FOOTER & SOCIAL ICONS ---------- */
     .footer-box {
-      order: 5;
+      order: 6;
       text-align: center;
       margin-top: 24px;
       padding-top: 24px;
@@ -1020,7 +1096,6 @@
         font-size: 0.98rem;
       }
 
-      /* Full-width edge-to-edge feel on mobile for the primary Free Check card */
       #imeiCheckSection {
         border-radius: 14px;
         padding: 22px 16px;
@@ -1058,7 +1133,7 @@
       .hero h1 { font-size: 2.25rem; }
       .main-layout { grid-template-columns: minmax(380px, 460px) 1fr; gap: 24px; }
       .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-      .card { padding: 26px; }
+      .card, .faq-section { padding: 26px; }
     }
 
     @media (min-width: 1024px) and (max-width: 1279px) {
@@ -1075,7 +1150,7 @@
 
     @media (min-width: 1920px) {
       .wrap { max-width: 1480px; }
-      .card { padding: 30px; }
+      .card, .faq-section { padding: 30px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1139,7 +1214,7 @@
           <h2 class="card-title" id="freeTitle">فحص مجاني</h2>
           <span class="free-pill" id="freeBadgeText">مجاني 100%</span>
         </div>
-        <p class="card-sub" id="freeSub">تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</p>
+        <p class="card-sub" id="freeSub">تحقق رياضياً من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</p>
 
         <form id="imeiForm" novalidate>
           <label for="imeiInput" class="sr-only">رقم IMEI</label>
@@ -1273,11 +1348,59 @@
       </section>
     </div>
 
+    <!-- ========== FAQ SECTION ========== -->
+    <section class="faq-section" id="faqSection" aria-labelledby="faqTitle">
+      <h2 class="card-title" id="faqTitle">الأسئلة الشائعة</h2>
+      <p class="card-sub" id="faqSub">توضيحات مهمة حول التحقق من IMEI والفحص الحقيقي لحالة iPhone</p>
+
+      <div class="faq-list">
+        <div class="faq-item open">
+          <button type="button" class="faq-trigger" aria-expanded="true">
+            <span id="faqQ1">ما الفرق بين الفحص المجاني والتحقق الحقيقي من حالة iCloud أو Blacklist؟</span>
+            <span class="faq-arrow" aria-hidden="true">▾</span>
+          </button>
+          <div class="faq-panel" id="faqA1">
+            الفحص المجاني يقوم بـ <strong>التحقق الرياضي من صحة بنية رقم IMEI (خوارزمية Luhn)</strong> واستخراج رمز TAC وتوليد ملخص التقرير الأولي فقط؛ وهو لا يستعلم حياً عن حالة <strong>iCloud / Find My</strong> أو <strong>قفل الشبكة</strong> أو <strong>GSMA Blacklist</strong>. الاستعلام الفعلي عن هذه الحالات يتم عبر <strong>الخدمات المدفوعة</strong>.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-trigger" aria-expanded="false">
+            <span id="faqQ2">هل يعني نجاح الفحص المجاني أن الجهاز خالٍ من iCloud أو الحظر؟</span>
+            <span class="faq-arrow" aria-hidden="true">▾</span>
+          </button>
+          <div class="faq-panel" id="faqA2">
+            لا. نجاح التحقق الرياضي (Luhn) يعني فقط أن رقم IMEI المكوّن من 15 رقماً صالح حسابياً من حيث رقم التحقق، ولا يثبت بمفرده حالة قفل التنشيط (iCloud) أو حالة الفقدان/السرقة.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-trigger" aria-expanded="false">
+            <span id="faqQ3">كيف أجد رقم IMEI لهاتف iPhone؟</span>
+            <span class="faq-arrow" aria-hidden="true">▾</span>
+          </button>
+          <div class="faq-panel" id="faqA3">
+            يمكنك طلب الرمز <code class="ltr-num">*#06#</code> على لوحة الاتصال أو فتح <strong>الإعدادات &gt; عام &gt; حول</strong> لعرض رقم IMEI المكوّن من 15 رقماً.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-trigger" aria-expanded="false">
+            <span id="faqQ4">كيف أطلب خدمة فحص مدفوعة بعد التحقق من الرقم؟</span>
+            <span class="faq-arrow" aria-hidden="true">▾</span>
+          </button>
+          <div class="faq-panel" id="faqA4">
+            بعد التحقق من رقم IMEI، اضغط على زر <strong>WhatsApp</strong> أسفل الخدمة المطلوبة (مثل فحص قفل الشبكة، iCloud، GSMA Blacklist، أو Full PRO Complete Report) ليتم تجهيز رسالة تتضمن IMEI ورمز المرجع وإرسالها للإدارة.
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ========== TRUST BAR ========== -->
     <div class="trust-strip" aria-label="مميزات المنصة">
       <div class="trust-item">
         <strong id="trust1Title">بيانات Apple & GSX</strong>
-        <span id="trust1Sub">تقارير دقيقة وموثوقة 100%</span>
+        <span id="trust1Sub">تقارير دقيقة عبر الخدمات المدفوعة</span>
       </div>
       <div class="trust-item">
         <strong id="trust2Title">معالجة سريعة</strong>
@@ -1289,7 +1412,7 @@
       </div>
     </div>
 
-    <!-- ========== 5. FOOTER ========== -->
+    <!-- ========== 6. FOOTER ========== -->
     <footer class="footer-box">
       <div class="social-icons-only" role="navigation" aria-label="روابط التواصل">
         <a href="https://wsend.co/213657241710" target="_blank" rel="noopener noreferrer"
@@ -1360,6 +1483,11 @@
 
       <a href="#paidServicesSection" class="drawer-item" id="menuServices">
         <span>📱 خدمات iPhone و IMEI</span>
+        <span>→</span>
+      </a>
+
+      <a href="#faqSection" class="drawer-item" id="menuFaq">
+        <span>❓ الأسئلة الشائعة</span>
         <span>→</span>
       </a>
 
@@ -1459,6 +1587,7 @@
         drawerOpen: "القائمة",
         menuCheck: "🔍 فحص واستعلام IMEI",
         menuServices: "📱 خدمات iPhone و IMEI",
+        menuFaq: "❓ الأسئلة الشائعة",
         menuPayment: "💳 طرق الدفع والتواصل",
         menuAlertsHistory: "🔔 التنبيهات / سجل الفحوصات",
         menuLegal: "⚖️ إخلاء المسؤولية والشروط",
@@ -1476,7 +1605,7 @@
         mainSub: "فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة الاحترافية",
         freeTitle: "فحص مجاني",
         freeBadge: "مجاني 100%",
-        freeSub: "تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير",
+        freeSub: "تحقق رياضياً من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير",
         imeiPlaceholder: "أدخل رقم IMEI المكوّن من 15 رقماً",
         captchaLabel: "رمز التحقق:",
         captchaPlaceholder: "الرمز",
@@ -1492,15 +1621,25 @@
         srv2Name: "فحص iCloud", srv2Desc: "حالة قفل iCloud وميزة Find My",
         srv3Name: "GSMA Blacklist Check", srv3Desc: "حالة الفقدان أو السرقة أو الحظر في قاعدة GSMA",
         srv4Name: "Full PRO Complete Report", srv4Desc: "تقرير كامل شامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud",
-        trust1Title: "بيانات Apple & GSX", trust1Sub: "تقارير دقيقة وموثوقة 100%",
+        faqTitle: "الأسئلة الشائعة",
+        faqSub: "توضيحات مهمة حول التحقق من IMEI والفحص الحقيقي لحالة iPhone",
+        faqQ1: "ما الفرق بين الفحص المجاني والتحقق الحقيقي من حالة iCloud أو Blacklist؟",
+        faqA1: "الفحص المجاني يقوم بـ <strong>التحقق الرياضي من صحة بنية رقم IMEI (خوارزمية Luhn)</strong> واستخراج رمز TAC وتوليد ملخص التقرير الأولي فقط؛ وهو لا يستعلم حياً عن حالة <strong>iCloud / Find My</strong> أو <strong>قفل الشبكة</strong> أو <strong>GSMA Blacklist</strong>. الاستعلام الفعلي عن هذه الحالات يتم عبر <strong>الخدمات المدفوعة</strong>.",
+        faqQ2: "هل يعني نجاح الفحص المجاني أن الجهاز خالٍ من iCloud أو الحظر؟",
+        faqA2: "لا. نجاح التحقق الرياضي (Luhn) يعني فقط أن رقم IMEI المكوّن من 15 رقماً صالح حسابياً من حيث رقم التحقق، ولا يثبت بمفرده حالة قفل التنشيط (iCloud) أو حالة الفقدان/السرقة.",
+        faqQ3: "كيف أجد رقم IMEI لهاتف iPhone؟",
+        faqA3: 'يمكنك طلب الرمز <code class="ltr-num">*#06#</code> على لوحة الاتصال أو فتح <strong>الإعدادات &gt; عام &gt; حول</strong> لعرض رقم IMEI المكوّن من 15 رقماً.',
+        faqQ4: "كيف أطلب خدمة فحص مدفوعة بعد التحقق من الرقم؟",
+        faqA4: "بعد التحقق من رقم IMEI، اضغط على زر <strong>WhatsApp</strong> أسفل الخدمة المطلوبة (مثل فحص قفل الشبكة، iCloud، GSMA Blacklist، أو Full PRO Complete Report) ليتم تجهيز رسالة تتضمن IMEI ورمز المرجع وإرسالها للإدارة.",
+        trust1Title: "بيانات Apple & GSX", trust1Sub: "تقارير دقيقة عبر الخدمات المدفوعة",
         trust2Title: "معالجة سريعة", trust2Sub: "تنفيذ الطلبات خلال دقائق",
         trust3Title: "دعم مباشر", trust3Sub: "تواصل فوري عبر واتساب",
         errCaptcha: "رمز التحقق غير صحيح.",
         errImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
-        okImei: "تم التحقق من رقم IMEI بنجاح:",
+        okImei: "تم التحقق الرياضي من رقم IMEI بنجاح:",
         hintIncomplete: "أدخل 15 رقماً (المدخل حالياً: {n})",
         hintInvalid: "رقم IMEI غير صالح (فشل التحقق Luhn)",
-        hintValid: "✓ رقم IMEI صالح",
+        hintValid: "✓ رقم IMEI صالح حسابياً (Luhn)",
         viewReport: "عرض التقرير",
         viewSteps: "خطوات الاستخدام",
         privacy: "سياسة الخصوصية",
@@ -1512,7 +1651,7 @@
         tipsHtml: [
           'اطلب <code class="ltr-num">*#06#</code> من هاتفك لعرض IMEI.',
           "IMEI يتكون من 15 رقماً فقط.",
-          "تحقق من الرقم قبل طلب الخدمات المدفوعة."
+          "الفحص المجاني يتحقق حسابياً؛ اطلب الخدمة المدفوعة لفحص iCloud أو الشبكة أو Blacklist."
         ],
         historyTitle: "التنبيهات / سجل الفحوصات",
         clearHistory: "مسح",
@@ -1529,6 +1668,7 @@
         drawerOpen: "Menu",
         menuCheck: "🔍 Vérification et recherche IMEI",
         menuServices: "📱 Services iPhone & IMEI",
+        menuFaq: "❓ Questions fréquentes",
         menuPayment: "💳 Paiement et contact",
         menuAlertsHistory: "🔔 Alertes / Historique",
         menuLegal: "⚖️ Mentions légales et conditions",
@@ -1546,7 +1686,7 @@
         mainSub: "Vérification IMEI iPhone et services de diagnostic professionnels",
         freeTitle: "Vérification gratuite",
         freeBadge: "100% Gratuit",
-        freeSub: "Vérifiez l'IMEI à 15 chiffres et imprimez ou enregistrez le rapport",
+        freeSub: "Vérifiez mathématiquement l'IMEI à 15 chiffres et imprimez ou enregistrez le rapport",
         imeiPlaceholder: "Entrez l'IMEI à 15 chiffres",
         captchaLabel: "Code CAPTCHA :",
         captchaPlaceholder: "Code",
@@ -1562,15 +1702,25 @@
         srv2Name: "Vérification iCloud", srv2Desc: "État du verrouillage iCloud et Find My",
         srv3Name: "GSMA Blacklist Check", srv3Desc: "Statut perdu, volé ou bloqué GSMA",
         srv4Name: "Full PRO Complete Report", srv4Desc: "Rapport complet : GSX, garantie, achat, réseau, iCloud",
-        trust1Title: "Données Apple & GSX", trust1Sub: "Rapports précis et fiables à 100%",
+        faqTitle: "Questions fréquentes",
+        faqSub: "Différence entre validation mathématique IMEI et vérification réelle iCloud / Blacklist",
+        faqQ1: "Quelle est la différence entre la vérification gratuite et le contrôle réel iCloud ou Blacklist ?",
+        faqA1: "La vérification gratuite effectue uniquement un <strong>contrôle mathématique de la structure de l'IMEI (algorithme de Luhn)</strong>, extrait le TAC et génère un résumé initial ; elle ne vérifie pas en direct l'état <strong>iCloud / Find My</strong>, le <strong>verrouillage réseau</strong> ou la <strong>GSMA Blacklist</strong>, qui relèvent des <strong>services payants</strong>.",
+        faqQ2: "Un IMEI valide au contrôle gratuit signifie-t-il que l'iPhone est sans iCloud ou sans blocage ?",
+        faqA2: "Non. La validation Luhn confirme seulement que le numéro à 15 chiffres respecte la règle de contrôle mathématique ; elle ne garantit pas l'état d'activation iCloud ni l'absence de signalement perdu/volé.",
+        faqQ3: "Comment trouver le numéro IMEI d'un iPhone ?",
+        faqA3: 'Composez <code class="ltr-num">*#06#</code> sur le clavier téléphonique ou ouvrez <strong>Réglages &gt; Général &gt; Informations</strong> pour afficher l\'IMEI à 15 chiffres.',
+        faqQ4: "Comment commander un service payant après vérification ?",
+        faqA4: "Après vérification de l'IMEI, cliquez sur <strong>WhatsApp</strong> sous le service souhaité (réseau, iCloud, GSMA Blacklist ou Full PRO Complete Report) pour préparer un message avec l'IMEI et la référence.",
+        trust1Title: "Données Apple & GSX", trust1Sub: "Rapports précis via les services payants",
         trust2Title: "Traitement rapide", trust2Sub: "Commandes traitées en quelques minutes",
         trust3Title: "Support direct", trust3Sub: "Assistance instantanée sur WhatsApp",
         errCaptcha: "Code CAPTCHA invalide.",
         errImei: "Veuillez saisir un IMEI valide à 15 chiffres.",
-        okImei: "IMEI vérifié :",
+        okImei: "IMEI validé mathématiquement :",
         hintIncomplete: "Entrez 15 chiffres (actuellement : {n})",
         hintInvalid: "IMEI invalide (échec Luhn)",
-        hintValid: "✓ IMEI valide",
+        hintValid: "✓ IMEI valide (Luhn)",
         viewReport: "Voir le rapport",
         viewSteps: "Étapes d'utilisation",
         privacy: "Politique de confidentialité",
@@ -1582,7 +1732,7 @@
         tipsHtml: [
           'Composez <code class="ltr-num">*#06#</code> pour afficher votre IMEI.',
           "L'IMEI contient exactement 15 chiffres.",
-          "Vérifiez le numéro avant de commander."
+          "Le contrôle gratuit est mathématique ; choisissez un service payant pour iCloud, réseau ou Blacklist."
         ],
         historyTitle: "Alertes / Historique",
         clearHistory: "Effacer",
@@ -1599,6 +1749,7 @@
         drawerOpen: "Menu",
         menuCheck: "🔍 IMEI Check & Lookup",
         menuServices: "📱 iPhone & IMEI Services",
+        menuFaq: "❓ FAQ",
         menuPayment: "💳 Payment & Contact",
         menuAlertsHistory: "🔔 Alerts / Check History",
         menuLegal: "⚖️ Disclaimer & Terms",
@@ -1616,7 +1767,7 @@
         mainSub: "iPhone IMEI lookup and professional paid verification services",
         freeTitle: "Free Check",
         freeBadge: "100% Free",
-        freeSub: "Verify a 15-digit IMEI number and print or save the report",
+        freeSub: "Mathematically validate a 15-digit IMEI number and print or save the report",
         imeiPlaceholder: "Enter 15-digit IMEI number",
         captchaLabel: "Captcha:",
         captchaPlaceholder: "Code",
@@ -1632,15 +1783,25 @@
         srv2Name: "iCloud Status Check", srv2Desc: "iCloud lock and Find My status",
         srv3Name: "GSMA Blacklist Check", srv3Desc: "Lost, stolen, or barred GSMA status",
         srv4Name: "Full PRO Complete Report", srv4Desc: "Complete report: GSX, warranty, purchase date, carrier, iCloud",
-        trust1Title: "Apple & GSX Data", trust1Sub: "100% accurate and verified reports",
-        trust2Title: "Fast Processing", trust2Sub: "Orders delivered within minutes",
+        faqTitle: "Frequently Asked Questions",
+        faqSub: "Clear distinction between mathematical IMEI validation and live iCloud / Blacklist checks",
+        faqQ1: "What is the difference between Free Check and live iCloud or Blacklist verification?",
+        faqA1: "Free Check performs <strong>mathematical validation of the 15-digit IMEI structure (Luhn algorithm)</strong>, extracts the TAC, and prepares an initial summary only; it does not perform live lookups for <strong>iCloud / Find My</strong>, <strong>carrier lock</strong>, or <strong>GSMA Blacklist</strong> status, which require <strong>Paid Services</strong>.",
+        faqQ2: "Does passing Free Check mean an iPhone has no iCloud lock or blacklist?",
+        faqA2: "No. Passing the Luhn check only confirms the 15-digit number is mathematically valid; it does not verify Activation Lock (iCloud) or lost/stolen/barred status.",
+        faqQ3: "How do I find my iPhone IMEI number?",
+        faqA3: 'Dial <code class="ltr-num">*#06#</code> on the phone keypad or go to <strong>Settings &gt; General &gt; About</strong> to view the 15-digit IMEI.',
+        faqQ4: "How do I order a paid check after validating an IMEI?",
+        faqA4: "After validating the IMEI, click <strong>WhatsApp</strong> under the service you need (Carrier Lock, iCloud, GSMA Blacklist, or Full PRO Complete Report) to open a message pre-filled with your IMEI and reference ID.",
+        trust1Title: "Apple & GSX Data", trust1Sub: "Accurate reports via paid services",
+        trust2Title: "Fast Processing", trust2Sub: "Orders processed within minutes",
         trust3Title: "Direct Support", trust3Sub: "Instant assistance on WhatsApp",
         errCaptcha: "Invalid captcha code.",
         errImei: "Please enter a valid 15-digit IMEI number.",
-        okImei: "IMEI validated:",
+        okImei: "IMEI mathematically validated:",
         hintIncomplete: "Enter 15 digits (currently: {n})",
         hintInvalid: "Invalid IMEI (Luhn check failed)",
-        hintValid: "✓ Valid IMEI",
+        hintValid: "✓ Mathematically valid IMEI (Luhn)",
         viewReport: "View Report",
         viewSteps: "Usage Steps",
         privacy: "Privacy Policy",
@@ -1652,7 +1813,7 @@
         tipsHtml: [
           'Dial <code class="ltr-num">*#06#</code> on your phone to display IMEI.',
           "IMEI has exactly 15 digits.",
-          "Verify the number before ordering paid services."
+          "Free Check is mathematical; choose a paid service for live iCloud, carrier, or Blacklist status."
         ],
         historyTitle: "Alerts / Check History",
         clearHistory: "Clear",
@@ -1828,6 +1989,7 @@
       document.getElementById("drawerOpenLabel").textContent = t.drawerOpen;
       document.getElementById("menuCheck").firstElementChild.textContent = t.menuCheck;
       document.getElementById("menuServices").firstElementChild.textContent = t.menuServices;
+      document.getElementById("menuFaq").firstElementChild.textContent = t.menuFaq;
       document.getElementById("menuPayment").firstElementChild.textContent = t.menuPayment;
       document.getElementById("menuAlertsHistory").firstElementChild.textContent = t.menuAlertsHistory;
       document.getElementById("menuLegal").firstElementChild.textContent = t.menuLegal;
@@ -1870,6 +2032,17 @@
         document.getElementById(id).textContent = t.badge;
       });
       document.getElementById("badgePro").textContent = t.badgePro;
+
+      document.getElementById("faqTitle").textContent = t.faqTitle;
+      document.getElementById("faqSub").textContent = t.faqSub;
+      document.getElementById("faqQ1").textContent = t.faqQ1;
+      document.getElementById("faqA1").innerHTML = t.faqA1;
+      document.getElementById("faqQ2").textContent = t.faqQ2;
+      document.getElementById("faqA2").innerHTML = t.faqA2;
+      document.getElementById("faqQ3").textContent = t.faqQ3;
+      document.getElementById("faqA3").innerHTML = t.faqA3;
+      document.getElementById("faqQ4").textContent = t.faqQ4;
+      document.getElementById("faqA4").innerHTML = t.faqA4;
 
       document.getElementById("trust1Title").textContent = t.trust1Title;
       document.getElementById("trust1Sub").textContent = t.trust1Sub;
@@ -1919,6 +2092,14 @@
       updateAccountModal();
       localStorage.setItem("gsm_yasser_lang", currentLang);
     }
+
+    document.querySelectorAll(".faq-trigger").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const item = btn.closest(".faq-item");
+        const isOpen = item.classList.toggle("open");
+        btn.setAttribute("aria-expanded", String(isOpen));
+      });
+    });
 
     drawerOpenBtn.addEventListener("click", () => setDrawer(true));
     drawerCloseBtn.addEventListener("click", () => setDrawer(false));
