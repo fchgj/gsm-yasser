@@ -1025,8 +1025,8 @@
       position: fixed;
       bottom: 86px;
       inset-inline-start: 20px;
-      width: min(390px, calc(100vw - 24px));
-      max-height: min(540px, calc(100vh - 110px));
+      width: min(400px, calc(100vw - 24px));
+      max-height: min(550px, calc(100vh - 110px));
       background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border);
@@ -1141,10 +1141,10 @@
     }
 
     .gsm-bubble {
-      max-width: 90%;
+      max-width: 92%;
       padding: 10px 12px;
       border-radius: 12px;
-      font-size: 0.88rem;
+      font-size: 0.87rem;
       line-height: 1.55;
       word-break: break-word;
     }
@@ -1349,7 +1349,7 @@
       }
 
       .gsm-chat-popup {
-        width: 410px;
+        width: 420px;
         max-height: 560px;
       }
     }
@@ -2475,77 +2475,101 @@
   <!-- ========== HYBRID FLOATING CHATBOT SCRIPT ========== -->
   <script>
     (() => {
-      const STORAGE_KEY = "gsm_yasser_hybrid_chat_v1";
+      const STORAGE_KEY = "gsm_yasser_hybrid_chat_v2";
+      const WA_NUMBER = "213657241710";
       // ضع رابط Cloudflare Worker هنا عند تفعيل AI API:
       // const WORKER_CHAT_URL = "https://your-worker.workers.dev/api/chat";
       const WORKER_CHAT_URL = "";
 
       const KB = {
         ar: {
-          welcome: "مرحباً بك في مساعد <strong>GSM Yasser Server</strong>. رد فوري مجاني على أسئلة <strong>iPhone IMEI</strong>، مع دعم <strong>Cloudflare Worker + AI API</strong> عند التفعيل.",
-          placeholder: "اسأل عن IMEI، iCloud، الشبكة...",
+          welcome:
+            "أهلاً بك في مساعد <strong>GSM Yasser Server</strong>! رد فوري على أسئلة <strong>iPhone IMEI</strong> وتوجيه مباشر لـ WhatsApp <span class='ltr-num'>+213657241710</span>:<br>" +
+            "• <strong>#5 (iCloud & FMI):</strong> حالة FMI (ON/OFF) وقفل التنشيط المرتبط بالمالك السابق.<br>" +
+            "• <strong>#6 (Soldby & Coverage):</strong> حالة الضمان والتغطية (حسب بيانات مصدر الفحص وليس بالضرورة اسم المتجر).<br>" +
+            "• <strong>#7 (Blacklist & GSMA):</strong> حالة الحظر/الفقدان/السرقة في GSMA (نتيجة Clean لا تضمن جميع المشغلين).<br>" +
+            "• <strong>#8 (Carrier & SIMLock):</strong> حالة الشبكة والشريحة (مهم لـ Mobilis / Djezzy / Ooredoo — <strong>8 Credits</strong>).",
+          placeholder: "اسأل عن #5، #6، #7، #8 أو اكتب IMEI...",
           send: "إرسال",
           aiToggle: "وضع الـ AI",
           localBadge: "محلي (مجاني)",
           aiBadge: "AI Worker",
           thinking: "جاري التحقق...",
-          fallback: "لا يوجد رد محلي مباشر لهذا السؤال. يمكنك تفعيل <strong>وضع الـ AI</strong> أو التواصل عبر واتساب <span class='ltr-num'>+213657241710</span>.",
+          fallback: "لم أجد تطابقاً مباشراً. فعّل <strong>وضع الـ AI</strong> أو تواصل عبر واتساب <span class='ltr-num'>+213657241710</span>.",
           noWorkerUrl: "وضع <strong>AI Worker</strong> مفعّل، لكن <code>WORKER_CHAT_URL</code> فارغ حالياً في الكود.",
           workerErr: "تعذر الوصول إلى Cloudflare Worker حالياً.",
           quick: [
-            { label: "المجاني vs المدفوع", q: "ما الفرق بين الفحص المجاني والخدمات المدفوعة؟" },
-            { label: "iCloud والشبكة", q: "كيف أفحص iCloud وقفل الشبكة و GSMA Blacklist؟" },
-            { label: "أين أجد IMEI؟", q: "أين أجد رقم IMEI المكوّن من 15 رقماً؟" }
+            { label: "الخدمات #5-#8", q: "اشرح باختصار خدمات 5 و 6 و 7 ومعرف 8" },
+            { label: "معرف 8 (الشبكة)", q: "ما شرح معرف 8 وسعره وشرائح Mobilis Djezzy Ooredoo؟" },
+            { label: "فحص 5 و 6 و 7", q: "ما الفرق بين حالة فحص 5 والتحقق من 6 و 7؟" }
           ],
           entries: [
             {
-              keys: ["فرق", "مجاني", "luhn", "رياضي", "tac", "free", "gratuit"],
-              ans: "<strong>الفحص المجاني</strong> يتحقق رياضياً من رقم IMEI (خوارزمية <strong>Luhn</strong>) ويستخرج <strong>TAC</strong> فقط؛ أما حالة <strong>iCloud</strong> و<strong>قفل الشبكة</strong> و<strong>GSMA Blacklist</strong> فتتم عبر <strong>الخدمات المدفوعة</strong>."
+              keys: ["5", "6", "7", "8", "معرف", "فحص", "تحقق", "خدمات", "مدفوعة", "credits"],
+              ans:
+                "• <strong>حالة فحص 5 (iCloud & FMI):</strong> يحدد حالة FMI (ON/OFF) وقفل التنشيط المرتبط بحساب المالك السابق.<br>" +
+                "• <strong>التحقق من 6 (Soldby & Coverage):</strong> يوضح الضمان والتغطية؛ وملاحظة <code>Sold By</code> لا تعني دائماً اسم المتجر بل تعتمد على مصدر الفحص.<br>" +
+                "• <strong>التحقق من 7 (Blacklist & GSMA):</strong> يفحص حالة الحظر أو الفقدان/السرقة في GSMA؛ ونتيجة <code>Clean</code> لا تضمن عدم وجود حظر لدى جميع المشغلين.<br>" +
+                "• <strong>شرح معرف 8 (Carrier & SIMLock):</strong> يحدد Unlocked أو Locked (مثل AT&T)، مهم قبل الشراء أو لتشغيل شريحة <strong>Mobilis / Djezzy / Ooredoo</strong> — السعر: <strong>8 Credits</strong>."
             },
             {
-              keys: ["icloud", "find my", "شبكة", "مشغل", "carrier", "blacklist", "حظر", "pro", "gsx"],
-              ans: "فحص <strong>iCloud / Find My</strong>، <strong>قفل الشبكة</strong>، <strong>GSMA Blacklist</strong>، و<strong>Full PRO Complete Report</strong> متوفر عبر <strong>الخدمات المدفوعة</strong> على واتساب <span class='ltr-num'>+213657241710</span>."
+              keys: ["icloud", "fmi", "find my", "تنشيط", "activation"],
+              ans: "<strong>حالة فحص 5 (iCloud & FMI):</strong> يحدد هل ميزة العثور على الآيفون مفعّلة (<code>FMI ON</code>) أم متوقفة (<code>FMI OFF</code>)، وهل يوجد قفل تنشيط مرتبط بحساب المالك السابق."
             },
             {
-              keys: ["أين", "أجد", "*#06#", "إعدادات", "حول", "15", "find", "trouver"],
-              ans: "اطلب <code class='ltr-num'>*#06#</code> على لوحة الاتصال أو افتح <strong>الإعدادات &gt; عام &gt; حول</strong> لمعرفة رقم IMEI المكوّن من 15 رقماً."
+              keys: ["sim", "carrier", "شبكة", "mobilis", "djezzy", "ooredoo", "locked", "unlocked"],
+              ans: "<strong>شرح معرف 8 (Carrier & SIMLock):</strong> يحدد هل الجهاز مفتوح (<code>Unlocked</code>) أو مقفل على مشغل (<code>Locked</code> مثل AT&T). مهم قبل الشراء أو للتأكد من عمل شريحة <strong>Mobilis</strong> أو <strong>Djezzy</strong> أو <strong>Ooredoo</strong>. السعر: <strong>8 Credits</strong>."
+            },
+            {
+              keys: ["sold", "warranty", "applecare", "coverage", "ضمان", "تغطية"],
+              ans: "<strong>التحقق من 6 (Soldby & Coverage):</strong> يوضح حالة الضمان والتغطية قبل الشراء. ملاحظة: نتيجة <code>Sold By</code> لا تعني دائماً اسم المتجر الفعلي بل تعتمد على بيانات مصدر الفحص."
+            },
+            {
+              keys: ["gsma", "blacklist", "clean", "lost", "stolen", "حظر", "سرقة", "فقدان"],
+              ans: "<strong>التحقق من 7 (Blacklist & GSMA):</strong> يفحص حالة الحظر أو الفقدان/السرقة عبر قاعدة GSMA المتاحة. ملاحظة: نتيجة <code>Clean</code> تعني عدم وجود تسجيل في البيانات المفحوصة ولا تضمن عدم وجود حظر لدى جميع المشغلين."
             }
           ]
         },
         fr: {
-          welcome: "Bienvenue sur l'assistant <strong>GSM Yasser Server</strong>. Réponses locales gratuites sur l'<strong>IMEI iPhone</strong> et support <strong>Cloudflare Worker + AI API</strong>.",
-          placeholder: "Question sur IMEI, iCloud, réseau...",
+          welcome:
+            "Bienvenue sur l'assistant <strong>GSM Yasser Server</strong> ! Réponses rapides sur l'<strong>IMEI iPhone</strong> et commande WhatsApp <span class='ltr-num'>+213657241710</span> :<br>" +
+            "• <strong>#5 (iCloud & FMI) :</strong> état FMI (ON/OFF) et verrouillage d'activation.<br>" +
+            "• <strong>#6 (Soldby & Coverage) :</strong> garantie et couverture (selon source, pas forcément la boutique).<br>" +
+            "• <strong>#7 (Blacklist & GSMA) :</strong> statut GSMA / liste noire (Clean ne garantit pas tous les opérateurs).<br>" +
+            "• <strong>#8 (Carrier & SIMLock) :</strong> état réseau/SIM (utile pour Mobilis / Djezzy / Ooredoo — <strong>8 Credits</strong>).",
+          placeholder: "Question sur #5, #6, #7, #8 ou IMEI...",
           send: "Envoyer",
           aiToggle: "Mode AI",
           localBadge: "Local (Gratuit)",
           aiBadge: "AI Worker",
           thinking: "Traitement...",
-          fallback: "Aucune réponse locale directe. Activez le <strong>Mode AI</strong> ou contactez WhatsApp <span class='ltr-num'>+213657241710</span>.",
+          fallback: "Aucune correspondance locale directe. Activez le <strong>Mode AI</strong> ou contactez WhatsApp <span class='ltr-num'>+213657241710</span>.",
           noWorkerUrl: "Le <strong>Mode AI</strong> est actif, mais <code>WORKER_CHAT_URL</code> est vide.",
           workerErr: "Erreur de connexion au Cloudflare Worker.",
           quick: [
-            { label: "Gratuit vs Payant", q: "Quelle est la différence entre le check gratuit et payant ?" },
-            { label: "iCloud & Réseau", q: "Comment vérifier iCloud, réseau et GSMA Blacklist ?" },
-            { label: "Où trouver IMEI ?", q: "Où trouver l'IMEI à 15 chiffres ?" }
+            { label: "Services #5-#8", q: "Résumé rapide des services 5, 6, 7 et 8" },
+            { label: "ID 8 (Réseau)", q: "Expliquer l'ID 8, prix 8 Credits et SIM Mobilis Djezzy Ooredoo" },
+            { label: "Checks 5, 6, 7", q: "Quelle différence entre check 5, 6 et 7 ?" }
           ],
           entries: [
             {
-              keys: ["différence", "gratuit", "luhn", "mathématique", "tac", "free"],
-              ans: "Le <strong>contrôle gratuit</strong> vérifie mathématiquement l'IMEI (<strong>Luhn</strong>) et extrait le <strong>TAC</strong> ; <strong>iCloud</strong>, le <strong>verrouillage réseau</strong> et <strong>GSMA Blacklist</strong> sont des <strong>services payants</strong>."
-            },
-            {
-              keys: ["icloud", "find my", "réseau", "carrier", "blacklist", "pro", "gsx"],
-              ans: "Les rapports <strong>Carrier Lock</strong>, <strong>iCloud Status</strong>, <strong>GSMA Blacklist</strong> et <strong>Full PRO Complete Report</strong> passent par les <strong>services payants</strong> sur WhatsApp <span class='ltr-num'>+213657241710</span>."
-            },
-            {
-              keys: ["trouver", "où", "*#06#", "réglages", "informations", "15", "find"],
-              ans: "Composez <code class='ltr-num'>*#06#</code> ou ouvrez <strong>Réglages &gt; Général &gt; Informations</strong> pour voir l'IMEI à 15 chiffres."
+              keys: ["5", "6", "7", "8", "credits", "mobilis", "djezzy", "ooredoo", "gsma", "icloud", "sold"],
+              ans:
+                "• <strong>#5 (iCloud & FMI) :</strong> vérifie FMI (ON/OFF) et le verrouillage d'activation.<br>" +
+                "• <strong>#6 (Soldby & Coverage) :</strong> garantie et couverture ; Sold By dépend de la source et n'indique pas toujours le magasin.<br>" +
+                "• <strong>#7 (Blacklist & GSMA) :</strong> statut GSMA / liste noire ; Clean ne garantit pas l'absence de blocage sur tous les réseaux.<br>" +
+                "• <strong>#8 (Carrier & SIMLock) :</strong> Unlocked ou Locked (ex. AT&T), utile pour <strong>Mobilis / Djezzy / Ooredoo</strong> — Tarif : <strong>8 Credits</strong>."
             }
           ]
         },
         en: {
-          welcome: "Welcome to <strong>GSM Yasser Server</strong> assistant. Instant free local FAQ for <strong>iPhone IMEI</strong> plus optional <strong>Cloudflare Worker + AI API</strong>.",
-          placeholder: "Ask about IMEI, iCloud, carrier lock...",
+          welcome:
+            "Welcome to <strong>GSM Yasser Server</strong> assistant! Quick answers for <strong>iPhone IMEI</strong> & WhatsApp <span class='ltr-num'>+213657241710</span>:<br>" +
+            "• <strong>#5 (iCloud & FMI):</strong> FMI (ON/OFF) & Activation Lock status.<br>" +
+            "• <strong>#6 (Soldby & Coverage):</strong> warranty & coverage (per check source, not always store name).<br>" +
+            "• <strong>#7 (Blacklist & GSMA):</strong> GSMA/blacklist status (Clean does not guarantee all carriers).<br>" +
+            "• <strong>#8 (Carrier & SIMLock):</strong> network/SIM status (key for Mobilis / Djezzy / Ooredoo — <strong>8 Credits</strong>).",
+          placeholder: "Ask about #5, #6, #7, #8 or enter IMEI...",
           send: "Send",
           aiToggle: "AI Mode",
           localBadge: "Local (Free)",
@@ -2555,22 +2579,18 @@
           noWorkerUrl: "<strong>AI Mode</strong> is enabled, but <code>WORKER_CHAT_URL</code> is not set yet.",
           workerErr: "Failed to reach Cloudflare Worker.",
           quick: [
-            { label: "Free vs. Paid", q: "What is the difference between Free Check and Paid Services?" },
-            { label: "iCloud & Carrier", q: "How do I check iCloud, Carrier Lock, and GSMA Blacklist?" },
-            { label: "Where is IMEI?", q: "Where do I find my 15-digit IMEI?" }
+            { label: "Services #5-#8", q: "Short summary of checks 5, 6, 7 and ID 8" },
+            { label: "ID 8 (Carrier)", q: "Explain ID 8, 8 Credits price, and Mobilis Djezzy Ooredoo SIM" },
+            { label: "Checks 5, 6, 7", q: "What is the difference between check 5, 6, and 7?" }
           ],
           entries: [
             {
-              keys: ["difference", "free", "luhn", "math", "tac", "gratuit"],
-              ans: "<strong>Free Check</strong> runs mathematical <strong>Luhn</strong> validation and extracts <strong>TAC</strong> only; live <strong>iCloud</strong>, <strong>carrier lock</strong>, and <strong>GSMA Blacklist</strong> use <strong>Paid Services</strong>."
-            },
-            {
-              keys: ["icloud", "find my", "carrier", "network", "blacklist", "pro", "gsx"],
-              ans: "Live checks for <strong>Carrier Lock</strong>, <strong>iCloud Status</strong>, <strong>GSMA Blacklist</strong>, and <strong>Full PRO Complete Report</strong> are available via <strong>Paid Verification Services</strong> on WhatsApp <span class='ltr-num'>+213657241710</span>."
-            },
-            {
-              keys: ["find", "where", "*#06#", "settings", "about", "15", "trouver"],
-              ans: "Dial <code class='ltr-num'>*#06#</code> or go to <strong>Settings &gt; General &gt; About</strong> to find your 15-digit IMEI."
+              keys: ["5", "6", "7", "8", "credits", "mobilis", "djezzy", "ooredoo", "gsma", "icloud", "sold"],
+              ans:
+                "• <strong>#5 (iCloud & FMI):</strong> checks FMI (ON/OFF) and Activation Lock.<br>" +
+                "• <strong>#6 (Soldby & Coverage):</strong> warranty & coverage; Sold By depends on check source and may not be exact store name.<br>" +
+                "• <strong>#7 (Blacklist & GSMA):</strong> GSMA/blacklist status; Clean means no match in checked data and does not guarantee all carriers.<br>" +
+                "• <strong>#8 (Carrier & SIMLock):</strong> Unlocked or Locked (e.g. AT&T), key for <strong>Mobilis / Djezzy / Ooredoo</strong> — Price: <strong>8 Credits</strong>."
             }
           ]
         }
@@ -2587,8 +2607,19 @@
       const chatInput = document.getElementById("gsmChatInput");
       const chatSendBtn = document.getElementById("gsmChatSendBtn");
 
+      // إزالة أي أزرار عائمة قديمة غير الزر الموحد لمنع الازدواجية
+      document.querySelectorAll("button, a, div[role='button']").forEach((el) => {
+        if (el.id === "gsmFloatingFab" || el.closest("#gsmFloatingPopup")) return;
+        const st = window.getComputedStyle(el);
+        const rect = el.getBoundingClientRect();
+        if (st.position === "fixed" && rect.bottom >= window.innerHeight - 140 && rect.width > 0 && rect.width <= 90) {
+          el.remove();
+        }
+      });
+
       let useAiWorker = false;
       let history = [];
+      let lastRenderedLang = "";
 
       try {
         const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null");
@@ -2607,12 +2638,20 @@
         return (localStorage.getItem("gsm_yasser_last_imei") || "").replace(/\D/g, "");
       };
 
-      const withImei = (html, lang) => {
+      const withImeiAndWa = (html, lang) => {
         const imei = getActiveImei();
-        if (!imei) return html;
-        if (lang === "ar") return `${html}<br><br>📱 IMEI الحالي: <code class="ltr-num">${imei}</code>`;
-        if (lang === "fr") return `${html}<br><br>📱 IMEI actuel : <code class="ltr-num">${imei}</code>`;
-        return `${html}<br><br>📱 Active IMEI: <code class="ltr-num">${imei}</code>`;
+        const imeiPart = imei
+          ? (lang === "ar" ? `<br>📱 IMEI: <code class="ltr-num">${imei}</code>` : `<br>📱 IMEI: <code class="ltr-num">${imei}</code>`)
+          : "";
+        const waText = encodeURIComponent(
+          lang === "fr"
+            ? `Bonjour GSM Yasser Server${imei ? ` | IMEI: ${imei}` : ""}`
+            : lang === "en"
+            ? `Hello GSM Yasser Server${imei ? ` | IMEI: ${imei}` : ""}`
+            : `مرحباً GSM Yasser Server${imei ? ` | IMEI: ${imei}` : ""}`
+        );
+        const waLabel = lang === "fr" ? "Commander sur WhatsApp" : lang === "en" ? "Order on WhatsApp" : "اطلب عبر WhatsApp";
+        return `${html}${imeiPart}<br><a href="https://wa.me/${WA_NUMBER}?text=${waText}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;padding:6px 11px;background:#16a34a;color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.8rem;">${waLabel}</a>`;
       };
 
       const saveState = () => {
@@ -2643,12 +2682,15 @@
             best = item;
           }
         }
-        return best && bestScore > 0 ? withImei(best.ans, lang) : null;
+        return best && bestScore > 0 ? withImeiAndWa(best.ans, lang) : null;
       };
 
-      const renderUi = () => {
+      const renderUi = (forceLangSync = false) => {
         const lang = getLang();
+        const langChanged = lang !== lastRenderedLang;
+        lastRenderedLang = lang;
         const pack = KB[lang] || KB.ar;
+
         chatInput.placeholder = pack.placeholder;
         chatSendBtn.textContent = pack.send;
         aiToggleBtn.textContent = pack.aiToggle;
@@ -2659,12 +2701,16 @@
           .map((item, i) => `<button type="button" class="gsm-q-chip" data-q="${i}">${item.label}</button>`)
           .join("");
 
-        chatBody.innerHTML = "";
-        if (!history.length) {
-          appendBubble({ sender: "bot", text: pack.welcome, isHtml: true });
-        } else {
-          history.forEach(appendBubble);
+        if (history.length === 0) {
+          history = [{ sender: "bot", text: pack.welcome, isHtml: true, isWelcome: true }];
+          saveState();
+        } else if ((forceLangSync || langChanged) && history[0]?.isWelcome) {
+          history[0].text = pack.welcome;
+          saveState();
         }
+
+        chatBody.innerHTML = "";
+        history.forEach(appendBubble);
       };
 
       const onAsk = async (rawText) => {
@@ -2709,8 +2755,8 @@
             });
             const data = await res.json();
             loader.remove();
-            const replyText = withImei(data.reply || pack.workerErr, false);
-            const botMsg = { sender: "bot", text: replyText, isHtml: Boolean(getActiveImei()) };
+            const replyText = withImeiAndWa(data.reply || pack.workerErr, lang);
+            const botMsg = { sender: "bot", text: replyText, isHtml: true };
             history.push(botMsg);
             appendBubble(botMsg);
             saveState();
@@ -2720,7 +2766,7 @@
           }
         }
 
-        const fallbackMsg = { sender: "bot", text: localReply || pack.fallback, isHtml: true };
+        const fallbackMsg = { sender: "bot", text: localReply || withImeiAndWa(pack.fallback, lang), isHtml: true };
         history.push(fallbackMsg);
         appendBubble(fallbackMsg);
         saveState();
@@ -2730,7 +2776,7 @@
         const next = !popup.classList.contains("open");
         popup.classList.toggle("open", next);
         if (next) {
-          renderUi();
+          renderUi(true);
           chatInput.focus();
         }
       });
@@ -2739,7 +2785,7 @@
       aiToggleBtn.addEventListener("click", () => {
         useAiWorker = !useAiWorker;
         saveState();
-        renderUi();
+        renderUi(false);
       });
 
       quickBar.addEventListener("click", (e) => {
@@ -2763,10 +2809,10 @@
       });
 
       new MutationObserver(() => {
-        if (popup.classList.contains("open")) renderUi();
+        renderUi(true);
       }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
 
-      renderUi();
+      renderUi(true);
     })();
   </script>
 </body>
