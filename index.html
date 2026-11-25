@@ -75,13 +75,48 @@
       flex-direction: column;
     }
 
+    /* ---------- 0. TOP INDEPENDENT LOGO + NAME ---------- */
+    .top-logo-banner {
+      order: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .top-logo-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1.5px solid rgba(245, 158, 11, 0.55);
+      background: var(--surface-2);
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .top-logo-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      line-height: 1.2;
+    }
+
     /* ---------- 1. TOPBAR ---------- */
     .topbar {
       order: 1;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 10px 14px;
+      padding: 12px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -89,29 +124,6 @@
       flex-wrap: wrap;
       margin-bottom: 22px;
       box-shadow: var(--shadow);
-    }
-
-    .brand-tag {
-      font-weight: 800;
-      font-size: 1.05rem;
-      color: var(--text);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      letter-spacing: 0.2px;
-      flex-shrink: 0;
-    }
-
-    .brand-logo-img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent);
-      background: var(--surface-2);
-      flex-shrink: 0;
-      display: block;
     }
 
     .top-group {
@@ -186,20 +198,8 @@
     }
 
     .drawer-brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
       font-size: 1rem;
       font-weight: 800;
-    }
-
-    .drawer-logo-img {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid var(--accent);
-      flex-shrink: 0;
     }
 
     .drawer-item {
@@ -227,47 +227,20 @@
       background: rgba(37, 99, 235, 0.08);
     }
 
-    /* ---------- 2. HERO & PROMINENT LOGO SHOWCASE ---------- */
+    /* ---------- 2. HERO ---------- */
     .hero {
       order: 2;
       text-align: center;
-      max-width: 880px;
+      max-width: 820px;
       margin: 0 auto 24px;
-      padding: 20px 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .hero-logo-frame {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      padding: 3px;
-      background: linear-gradient(135deg, var(--accent), #38bdf8);
-      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28);
-      margin-bottom: 14px;
-      flex-shrink: 0;
-    }
-
-    .hero-logo-img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-      display: block;
-      background: var(--surface-2);
+      padding: 0 4px;
     }
 
     .server-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--surface-2);
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 999px;
       padding: 5px 14px;
@@ -275,6 +248,7 @@
       font-weight: 700;
       color: var(--muted);
       margin-bottom: 12px;
+      box-shadow: var(--shadow);
     }
 
     .server-pill .status-dot {
@@ -1257,27 +1231,23 @@
         padding: 10px 10px 40px;
       }
 
+      .top-logo-banner {
+        padding: 10px 14px;
+        margin-bottom: 12px;
+      }
+
+      .top-logo-img {
+        width: 46px;
+        height: 46px;
+      }
+
+      .top-logo-title {
+        font-size: 1.12rem;
+      }
+
       .topbar {
         padding: 10px 12px;
         margin-bottom: 18px;
-      }
-
-      .brand-tag {
-        font-size: 0.98rem;
-      }
-
-      .brand-logo-img {
-        width: 36px;
-        height: 36px;
-      }
-
-      .hero {
-        padding: 16px 14px;
-      }
-
-      .hero-logo-frame {
-        width: 88px;
-        height: 88px;
       }
 
       .hero h1 {
@@ -1342,13 +1312,13 @@
         padding: 22px 22px 48px;
       }
 
-      .hero {
-        padding: 24px 24px;
+      .top-logo-img {
+        width: 56px;
+        height: 56px;
       }
 
-      .hero-logo-frame {
-        width: 104px;
-        height: 104px;
+      .top-logo-title {
+        font-size: 1.32rem;
       }
 
       .hero h1 {
@@ -1377,20 +1347,18 @@
         padding: 28px 32px 54px;
       }
 
-      .brand-logo-img {
-        width: 44px;
-        height: 44px;
+      .top-logo-img {
+        width: 60px;
+        height: 60px;
+      }
+
+      .top-logo-title {
+        font-size: 1.4rem;
       }
 
       .hero {
-        max-width: 960px;
-        padding: 28px 32px;
+        max-width: 920px;
         margin-bottom: 28px;
-      }
-
-      .hero-logo-frame {
-        width: 120px;
-        height: 120px;
       }
 
       .hero h1 {
@@ -1449,16 +1417,18 @@
 </head>
 <body>
   <div class="wrap">
+    <!-- ========== 0. INDEPENDENT TOP LOGO + BRAND NAME ========== -->
+    <a href="index.html" class="top-logo-banner" aria-label="GSM Yasser Server">
+      <img src="assets/logo.png" alt="شعار GSM Yasser Server" class="top-logo-img" width="56" height="56" />
+      <span class="top-logo-title">GSM Yasser Server</span>
+    </a>
+
     <!-- ========== 1. TOPBAR ========== -->
     <div class="topbar">
       <div class="top-group">
         <button type="button" class="chip-btn" id="drawerOpenBtn" aria-label="القائمة" aria-expanded="false">
           ☰ <span id="drawerOpenLabel">القائمة</span>
         </button>
-        <a href="index.html" class="brand-tag">
-          <img src="assets/logo.png" alt="GSM Yasser Server" class="brand-logo-img" width="40" height="40" />
-          <span>GSM Yasser Server</span>
-        </a>
       </div>
 
       <div class="top-group">
@@ -1480,11 +1450,8 @@
       </div>
     </div>
 
-    <!-- ========== 2. HERO WITH PROMINENT LOGO ========== -->
+    <!-- ========== 2. HERO ========== -->
     <header class="hero">
-      <div class="hero-logo-frame">
-        <img src="assets/logo.png" alt="شعار GSM Yasser Server" class="hero-logo-img" width="120" height="120" />
-      </div>
       <div class="server-pill">
         <span class="status-dot" aria-hidden="true"></span>
         <span id="serverStatusText">سيرفر Apple / GSX متصل — استجابة فورية</span>
@@ -1711,10 +1678,7 @@
   <aside class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true">
     <nav class="drawer-panel" aria-label="القائمة الرئيسية">
       <div class="drawer-head">
-        <span class="drawer-brand">
-          <img src="assets/logo.png" alt="GSM Yasser Server" class="drawer-logo-img" width="34" height="34" />
-          <span>GSM Yasser Server</span>
-        </span>
+        <span class="drawer-brand">GSM Yasser Server</span>
         <button type="button" class="chip-btn" id="drawerCloseBtn" aria-label="إغلاق القائمة">✕</button>
       </div>
 
