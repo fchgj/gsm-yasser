@@ -46,6 +46,10 @@
       font-family: "Segoe UI", Tahoma, Arial, sans-serif;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -125,6 +129,72 @@
       background: var(--accent);
       color: #ffffff;
       border-color: var(--accent);
+    }
+
+    /* ---------- DRAWER MENU ---------- */
+    .drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.62);
+      z-index: 950;
+    }
+
+    .drawer-backdrop.open { display: block; }
+
+    .drawer-panel {
+      position: fixed;
+      top: 0;
+      inset-inline-start: 0;
+      width: min(320px, 88vw);
+      height: 100vh;
+      background: var(--surface);
+      border-inline-end: 1px solid var(--border);
+      padding: 18px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow-y: auto;
+      box-shadow: var(--shadow);
+    }
+
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 12px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .drawer-brand {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .drawer-item {
+      width: 100%;
+      text-align: start;
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 13px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .drawer-item:hover {
+      border-color: var(--accent);
+      background: rgba(37, 99, 235, 0.08);
     }
 
     /* ---------- HERO ---------- */
@@ -634,7 +704,7 @@
       to   { opacity: 1; transform: translateX(0); }
     }
 
-    /* ---------- HISTORY MODAL ---------- */
+    /* ---------- MODALS ---------- */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -682,6 +752,29 @@
     }
 
     .clear-btn:hover { border-color: var(--err); }
+
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .info-box {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--text);
+    }
+
+    .info-links-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
 
     .history-item {
       background: var(--surface-2);
@@ -771,7 +864,12 @@
   <div class="wrap">
     <!-- ========== TOPBAR ========== -->
     <div class="topbar">
-      <a href="index.html" class="brand-tag">GSM Yasser Server</a>
+      <div class="top-group">
+        <button type="button" class="chip-btn" id="drawerOpenBtn" aria-label="القائمة" aria-expanded="false">
+          ☰ <span id="drawerOpenLabel">القائمة</span>
+        </button>
+        <a href="index.html" class="brand-tag">GSM Yasser Server</a>
+      </div>
 
       <div class="top-group">
         <button type="button" class="chip-btn" id="themeToggle" aria-label="تبديل السمة">
@@ -801,7 +899,7 @@
     <!-- ========== MAIN LAYOUT ========== -->
     <div class="main-layout">
       <!-- ===== FREE CHECK CARD ===== -->
-      <section class="card">
+      <section class="card" id="imeiCheckSection">
         <h2 class="card-title" id="freeTitle">فحص مجاني</h2>
         <p class="card-sub" id="freeSub">تحقق من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</p>
 
@@ -869,7 +967,7 @@
       </section>
 
       <!-- ===== PAID SERVICES ===== -->
-      <section class="card">
+      <section class="card" id="paidServicesSection">
         <h2 class="card-title" id="paidTitle">خدمات الفحص المدفوعة</h2>
         <p class="card-sub" id="paidSub">
           <span>اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب</span>
@@ -980,6 +1078,93 @@
     </footer>
   </div>
 
+  <!-- ========== DRAWER MENU ========== -->
+  <aside class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true">
+    <nav class="drawer-panel" aria-label="القائمة الرئيسية">
+      <div class="drawer-head">
+        <span class="drawer-brand">GSM Yasser Server</span>
+        <button type="button" class="chip-btn" id="drawerCloseBtn" aria-label="إغلاق القائمة">✕</button>
+      </div>
+
+      <a href="#imeiCheckSection" class="drawer-item" id="menuCheck">
+        <span>🔍 فحص واستعلام IMEI</span>
+        <span>→</span>
+      </a>
+
+      <a href="#paidServicesSection" class="drawer-item" id="menuServices">
+        <span>📱 خدمات iPhone و IMEI</span>
+        <span>→</span>
+      </a>
+
+      <button type="button" class="drawer-item" id="menuPayment">
+        <span>💳 طرق الدفع والتواصل</span>
+        <span>↗</span>
+      </button>
+
+      <button type="button" class="drawer-item" id="menuAlertsHistory">
+        <span>🔔 التنبيهات / سجل الفحوصات</span>
+        <span class="ltr-num" id="menuHistoryCount">0</span>
+      </button>
+
+      <a href="legal.html#disclaimer" class="drawer-item" id="menuLegal">
+        <span>⚖️ إخلاء المسؤولية والشروط</span>
+        <span>→</span>
+      </a>
+
+      <button type="button" class="drawer-item" id="menuAccount">
+        <span>👤 حساب</span>
+        <span>↗</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- ========== PAYMENT & CONTACT MODAL ========== -->
+  <div class="modal-overlay" id="paymentOverlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="paymentModalTitle">
+      <div class="modal-header">
+        <h3 id="paymentModalTitle">طرق الدفع والتواصل</h3>
+        <button type="button" class="clear-btn" id="closePaymentBtn">✕</button>
+      </div>
+      <div class="info-list">
+        <div class="info-box" id="paymentMethodsText">
+          يتم تأكيد طلبات خدمات IMEI لـ iPhone والتفاصيل المالية مباشرة مع الإدارة عبر واتساب أو البريد الإلكتروني قبل بدء الفحص.
+        </div>
+        <div class="info-box">
+          <strong>WhatsApp:</strong> <span class="ltr-num">+213657241710</span>
+        </div>
+      </div>
+      <div class="info-links-row">
+        <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="chip-btn active">WhatsApp</a>
+        <a href="mailto:yasserkhelifi125@gmail.com" class="chip-btn">Gmail</a>
+        <a href="legal.html#terms" class="chip-btn" id="paymentTermsLink">شروط الاستخدام</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ACCOUNT MODAL ========== -->
+  <div class="modal-overlay" id="accountOverlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountModalTitle">
+      <div class="modal-header">
+        <h3 id="accountModalTitle">حساب</h3>
+        <button type="button" class="clear-btn" id="closeAccountBtn">✕</button>
+      </div>
+      <div class="info-list">
+        <div class="info-box">
+          <span id="accountModeLabel">وضع الاستخدام:</span>
+          <strong id="accountModeValue">فحص واستعلام iPhone عبر IMEI</strong>
+        </div>
+        <div class="info-box">
+          <span id="accountLastImeiLabel">آخر IMEI محفوظ:</span>
+          <span class="ltr-num" id="accountLastImeiValue">—</span>
+        </div>
+      </div>
+      <div class="info-links-row">
+        <button type="button" class="chip-btn" id="accountOpenHistoryBtn">🔔 التنبيهات / سجل الفحوصات</button>
+        <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="chip-btn active">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
   <!-- ========== TOAST CONTAINER ========== -->
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
@@ -987,7 +1172,7 @@
   <div class="modal-overlay" id="historyOverlay">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
       <div class="modal-header">
-        <h3 id="historyTitle">آخر الفحوصات</h3>
+        <h3 id="historyTitle">التنبيهات / سجل الفحوصات</h3>
         <button type="button" class="clear-btn" id="clearHistoryBtn">مسح</button>
       </div>
       <div id="historyList"></div>
@@ -1004,6 +1189,20 @@
     const texts = {
       ar: {
         dir: "rtl",
+        drawerOpen: "القائمة",
+        menuCheck: "🔍 فحص واستعلام IMEI",
+        menuServices: "📱 خدمات iPhone و IMEI",
+        menuPayment: "💳 طرق الدفع والتواصل",
+        menuAlertsHistory: "🔔 التنبيهات / سجل الفحوصات",
+        menuLegal: "⚖️ إخلاء المسؤولية والشروط",
+        menuAccount: "👤 حساب",
+        paymentModalTitle: "طرق الدفع والتواصل",
+        paymentMethodsText: "يتم تأكيد طلبات خدمات IMEI لـ iPhone والتفاصيل المالية مباشرة مع الإدارة عبر واتساب أو البريد الإلكتروني قبل بدء الفحص.",
+        accountModalTitle: "حساب",
+        accountModeLabel: "وضع الاستخدام:",
+        accountModeValue: "فحص واستعلام iPhone عبر IMEI",
+        accountLastImeiLabel: "آخر IMEI محفوظ:",
+        accountOpenHistoryBtn: "🔔 التنبيهات / سجل الفحوصات",
         themeDark: "داكن", themeLight: "نهاري",
         mainTitle: "GSM Yasser Server — فحص IMEI لـ iPhone",
         mainSub: "فحص رقم IMEI لهواتف iPhone وخدمات الفحص المدفوعة",
@@ -1042,7 +1241,7 @@
           "IMEI يتكون من 15 رقماً فقط.",
           "تحقق من الرقم قبل طلب الخدمات المدفوعة."
         ],
-        historyTitle: "آخر الفحوصات",
+        historyTitle: "التنبيهات / سجل الفحوصات",
         clearHistory: "مسح",
         emptyHistory: "لا يوجد سجل بعد.",
         close: "إغلاق",
@@ -1054,6 +1253,20 @@
       },
       fr: {
         dir: "ltr",
+        drawerOpen: "Menu",
+        menuCheck: "🔍 Vérification et recherche IMEI",
+        menuServices: "📱 Services iPhone & IMEI",
+        menuPayment: "💳 Paiement et contact",
+        menuAlertsHistory: "🔔 Alertes / Historique",
+        menuLegal: "⚖️ Mentions légales et conditions",
+        menuAccount: "👤 Compte",
+        paymentModalTitle: "Paiement et contact",
+        paymentMethodsText: "Les commandes de services IMEI iPhone et les détails tarifaires sont confirmés directement via WhatsApp ou e-mail avant traitement.",
+        accountModalTitle: "Compte",
+        accountModeLabel: "Mode d'utilisation :",
+        accountModeValue: "Vérification iPhone par IMEI",
+        accountLastImeiLabel: "Dernier IMEI enregistré :",
+        accountOpenHistoryBtn: "🔔 Alertes / Historique",
         themeDark: "Sombre", themeLight: "Clair",
         mainTitle: "GSM Yasser Server — Vérification IMEI iPhone",
         mainSub: "Vérification IMEI iPhone et services de diagnostic avancés",
@@ -1092,7 +1305,7 @@
           "L'IMEI contient exactement 15 chiffres.",
           "Vérifiez le numéro avant de commander."
         ],
-        historyTitle: "Vérifications récentes",
+        historyTitle: "Alertes / Historique",
         clearHistory: "Effacer",
         emptyHistory: "Aucun historique.",
         close: "Fermer",
@@ -1104,6 +1317,20 @@
       },
       en: {
         dir: "ltr",
+        drawerOpen: "Menu",
+        menuCheck: "🔍 IMEI Check & Lookup",
+        menuServices: "📱 iPhone & IMEI Services",
+        menuPayment: "💳 Payment & Contact",
+        menuAlertsHistory: "🔔 Alerts / Check History",
+        menuLegal: "⚖️ Disclaimer & Terms",
+        menuAccount: "👤 Account",
+        paymentModalTitle: "Payment & Contact",
+        paymentMethodsText: "iPhone IMEI service requests and payment details are confirmed directly via WhatsApp or email before processing.",
+        accountModalTitle: "Account",
+        accountModeLabel: "Usage mode:",
+        accountModeValue: "iPhone IMEI Lookup",
+        accountLastImeiLabel: "Last saved IMEI:",
+        accountOpenHistoryBtn: "🔔 Alerts / Check History",
         themeDark: "Dark", themeLight: "Light",
         mainTitle: "GSM Yasser Server — iPhone IMEI Check",
         mainSub: "iPhone IMEI lookup and paid verification services",
@@ -1142,7 +1369,7 @@
           "IMEI has exactly 15 digits.",
           "Verify the number before ordering paid services."
         ],
-        historyTitle: "Recent Checks",
+        historyTitle: "Alerts / Check History",
         clearHistory: "Clear",
         emptyHistory: "No history yet.",
         close: "Close",
@@ -1178,11 +1405,31 @@
     const clearHistoryBtn = document.getElementById("clearHistoryBtn");
     const closeHistoryBtn = document.getElementById("closeHistoryBtn");
 
+    const drawerOpenBtn = document.getElementById("drawerOpenBtn");
+    const drawerBackdrop = document.getElementById("drawerBackdrop");
+    const drawerCloseBtn = document.getElementById("drawerCloseBtn");
+    const menuPayment = document.getElementById("menuPayment");
+    const menuAlertsHistory = document.getElementById("menuAlertsHistory");
+    const menuAccount = document.getElementById("menuAccount");
+    const menuHistoryCount = document.getElementById("menuHistoryCount");
+
+    const paymentOverlay = document.getElementById("paymentOverlay");
+    const closePaymentBtn = document.getElementById("closePaymentBtn");
+    const accountOverlay = document.getElementById("accountOverlay");
+    const closeAccountBtn = document.getElementById("closeAccountBtn");
+    const accountOpenHistoryBtn = document.getElementById("accountOpenHistoryBtn");
+
     let currentLang = localStorage.getItem("gsm_yasser_lang") || "ar";
     let lastValidImei = localStorage.getItem("gsm_yasser_last_imei") || "";
 
     const HISTORY_KEY = "gsm_yasser_history";
     const HISTORY_MAX = 5;
+
+    function setDrawer(open) {
+      drawerBackdrop.classList.toggle("open", open);
+      drawerBackdrop.setAttribute("aria-hidden", String(!open));
+      drawerOpenBtn.setAttribute("aria-expanded", String(open));
+    }
 
     function generateCaptcha() {
       const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -1221,6 +1468,7 @@
     function renderHistory() {
       const t = texts[currentLang] || texts.ar;
       const history = getHistory();
+      menuHistoryCount.textContent = String(history.length);
       if (history.length === 0) {
         historyList.innerHTML = `<div class="empty-history">${t.emptyHistory}</div>`;
         return;
@@ -1236,6 +1484,11 @@
           <span class="history-time ltr-num">${timeStr}</span>
         </div>`;
       }).join("");
+    }
+
+    function updateAccountModal() {
+      const saved = localStorage.getItem("gsm_yasser_last_imei") || lastValidImei || "—";
+      document.getElementById("accountLastImeiValue").textContent = saved;
     }
 
     function showToast(message, type = "ok") {
@@ -1286,6 +1539,23 @@
       const t = texts[currentLang];
       document.documentElement.lang = currentLang;
       document.documentElement.dir = t.dir;
+
+      document.getElementById("drawerOpenLabel").textContent = t.drawerOpen;
+      document.getElementById("menuCheck").firstElementChild.textContent = t.menuCheck;
+      document.getElementById("menuServices").firstElementChild.textContent = t.menuServices;
+      document.getElementById("menuPayment").firstElementChild.textContent = t.menuPayment;
+      document.getElementById("menuAlertsHistory").firstElementChild.textContent = t.menuAlertsHistory;
+      document.getElementById("menuLegal").firstElementChild.textContent = t.menuLegal;
+      document.getElementById("menuAccount").firstElementChild.textContent = t.menuAccount;
+
+      document.getElementById("paymentModalTitle").textContent = t.paymentModalTitle;
+      document.getElementById("paymentMethodsText").textContent = t.paymentMethodsText;
+      document.getElementById("paymentTermsLink").textContent = t.terms;
+      document.getElementById("accountModalTitle").textContent = t.accountModalTitle;
+      document.getElementById("accountModeLabel").textContent = t.accountModeLabel;
+      document.getElementById("accountModeValue").textContent = t.accountModeValue;
+      document.getElementById("accountLastImeiLabel").textContent = t.accountLastImeiLabel;
+      accountOpenHistoryBtn.textContent = t.accountOpenHistoryBtn;
 
       document.getElementById("mainTitle").textContent = t.mainTitle;
       document.getElementById("mainSub").textContent = t.mainSub;
@@ -1351,8 +1621,61 @@
       updateThemeLabel();
       updateImeiHint();
       renderHistory();
+      updateAccountModal();
       localStorage.setItem("gsm_yasser_lang", currentLang);
     }
+
+    drawerOpenBtn.addEventListener("click", () => setDrawer(true));
+    drawerCloseBtn.addEventListener("click", () => setDrawer(false));
+    drawerBackdrop.addEventListener("click", (e) => {
+      if (e.target === drawerBackdrop) setDrawer(false);
+    });
+
+    document.querySelectorAll("#drawerBackdrop a.drawer-item").forEach((link) => {
+      link.addEventListener("click", () => setDrawer(false));
+    });
+
+    menuPayment.addEventListener("click", () => {
+      setDrawer(false);
+      paymentOverlay.classList.add("visible");
+    });
+
+    menuAlertsHistory.addEventListener("click", () => {
+      setDrawer(false);
+      renderHistory();
+      historyOverlay.classList.add("visible");
+    });
+
+    menuAccount.addEventListener("click", () => {
+      setDrawer(false);
+      updateAccountModal();
+      accountOverlay.classList.add("visible");
+    });
+
+    accountOpenHistoryBtn.addEventListener("click", () => {
+      accountOverlay.classList.remove("visible");
+      renderHistory();
+      historyOverlay.classList.add("visible");
+    });
+
+    closePaymentBtn.addEventListener("click", () => paymentOverlay.classList.remove("visible"));
+    paymentOverlay.addEventListener("click", (e) => {
+      if (e.target === paymentOverlay) paymentOverlay.classList.remove("visible");
+    });
+
+    closeAccountBtn.addEventListener("click", () => accountOverlay.classList.remove("visible"));
+    accountOverlay.addEventListener("click", (e) => {
+      if (e.target === accountOverlay) accountOverlay.classList.remove("visible");
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        setDrawer(false);
+        paymentOverlay.classList.remove("visible");
+        accountOverlay.classList.remove("visible");
+        historyOverlay.classList.remove("visible");
+      }
+    });
 
     langBtns.forEach((btn) => {
       btn.addEventListener("click", () => applyLang(btn.dataset.lang));
@@ -1420,6 +1743,7 @@
       localStorage.setItem("gsm_yasser_report_data", JSON.stringify(reportData));
       lastValidImei = cleanImei;
       saveToHistory(cleanImei);
+      updateAccountModal();
 
       freeCheckBtn.disabled = true;
       freeCheckBtn.classList.add("loading");
