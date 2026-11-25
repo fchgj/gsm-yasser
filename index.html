@@ -698,139 +698,9 @@
       border-color: var(--accent-hover);
     }
 
-    /* ---------- AI CHATBOT ASSISTANT ---------- */
-    .ai-assistant-section {
-      order: 4;
-      margin-top: 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .ai-header-badge {
-      background: rgba(37, 99, 235, 0.16);
-      color: #60a5fa;
-      font-size: 0.78rem;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .ai-quick-prompts {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .ai-chip {
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      min-height: 36px;
-      padding: 6px 13px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: border-color 0.2s ease, background 0.2s ease;
-    }
-
-    .ai-chip:hover {
-      border-color: var(--accent);
-      background: rgba(37, 99, 235, 0.1);
-    }
-
-    .ai-chat-window {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      max-height: 320px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .ai-msg {
-      max-width: 90%;
-      padding: 11px 14px;
-      border-radius: 12px;
-      font-size: 0.9rem;
-      line-height: 1.6;
-      word-break: break-word;
-    }
-
-    .ai-msg.bot {
-      align-self: flex-start;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-
-    .ai-msg.user {
-      align-self: flex-end;
-      background: var(--accent);
-      color: #ffffff;
-      font-weight: 600;
-    }
-
-    .ai-msg.bot strong {
-      color: #60a5fa;
-    }
-
-    [data-theme="light"] .ai-msg.bot strong {
-      color: var(--accent);
-    }
-
-    .ai-input-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .ai-input {
-      flex: 1;
-      min-height: 48px;
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    .ai-input:focus {
-      border-color: var(--accent);
-    }
-
-    .ai-send-btn {
-      min-height: 48px;
-      padding: 0 18px;
-      background: var(--accent);
-      color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      font-weight: 800;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.2s ease;
-    }
-
-    .ai-send-btn:hover {
-      background: var(--accent-hover);
-    }
-
     /* ---------- TRUST BAR ---------- */
     .trust-strip {
-      order: 5;
+      order: 4;
       margin-top: 20px;
       background: var(--surface);
       border: 1px solid var(--border);
@@ -857,7 +727,7 @@
 
     /* ---------- 6. FOOTER & SOCIAL ICONS ---------- */
     .footer-box {
-      order: 6;
+      order: 5;
       text-align: center;
       margin-top: 24px;
       padding-top: 24px;
@@ -1122,6 +992,210 @@
       font-size: 0.9rem;
     }
 
+    /* ---------- FLOATING HYBRID CHATBOT ---------- */
+    .gsm-fab-btn {
+      position: fixed;
+      bottom: 20px;
+      inset-inline-start: 20px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 12px 28px rgba(37, 99, 235, 0.38);
+      font-size: 1.45rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 940;
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .gsm-fab-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      background: var(--accent-hover);
+    }
+
+    .gsm-chat-popup {
+      display: none;
+      position: fixed;
+      bottom: 86px;
+      inset-inline-start: 20px;
+      width: min(390px, calc(100vw - 24px));
+      max-height: min(540px, calc(100vh - 110px));
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      z-index: 945;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .gsm-chat-popup.open {
+      display: flex;
+      animation: gsmPopupIn 0.18s ease;
+    }
+
+    @keyframes gsmPopupIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .gsm-chat-head {
+      padding: 12px 14px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .gsm-chat-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .gsm-chat-title {
+      font-weight: 800;
+      font-size: 0.96rem;
+    }
+
+    .gsm-mode-pill {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.16);
+      color: #60a5fa;
+    }
+
+    [data-theme="light"] .gsm-mode-pill {
+      color: var(--accent);
+    }
+
+    .gsm-head-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gsm-mini-btn {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      min-height: 32px;
+      padding: 4px 9px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .gsm-mini-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    .gsm-chat-quick {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .gsm-q-chip {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .gsm-q-chip:hover {
+      border-color: var(--accent);
+    }
+
+    .gsm-chat-body {
+      padding: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      flex: 1;
+      min-height: 200px;
+    }
+
+    .gsm-bubble {
+      max-width: 90%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      word-break: break-word;
+    }
+
+    .gsm-bubble.bot {
+      align-self: flex-start;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+    }
+
+    .gsm-bubble.user {
+      align-self: flex-end;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .gsm-chat-form {
+      display: flex;
+      gap: 8px;
+      padding: 10px 12px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .gsm-chat-input {
+      flex: 1;
+      min-height: 40px;
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 11px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .gsm-chat-input:focus {
+      border-color: var(--accent);
+    }
+
+    .gsm-chat-send {
+      min-height: 40px;
+      padding: 0 14px;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
     /* ---------- ACCESSIBILITY ---------- */
     .sr-only {
       position: absolute;
@@ -1180,7 +1254,16 @@
       .card-title { font-size: 1.18rem; }
       .captcha-controls { min-width: 100%; }
       .chip-btn { padding: 7px 11px; font-size: 0.86rem; }
-      .ai-msg { max-width: 96%; }
+      .gsm-fab-btn {
+        bottom: 14px;
+        inset-inline-start: 14px;
+        width: 52px;
+        height: 52px;
+      }
+      .gsm-chat-popup {
+        bottom: 74px;
+        inset-inline-start: 12px;
+      }
     }
 
     @media (min-width: 900px) {
@@ -1188,7 +1271,7 @@
       .hero h1 { font-size: 2.25rem; }
       .main-layout { grid-template-columns: minmax(380px, 460px) 1fr; gap: 24px; }
       .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-      .card, .ai-assistant-section { padding: 26px; }
+      .card { padding: 26px; }
     }
 
     @media (min-width: 1024px) and (max-width: 1279px) {
@@ -1205,7 +1288,7 @@
 
     @media (min-width: 1920px) {
       .wrap { max-width: 1480px; }
-      .card, .ai-assistant-section { padding: 30px; }
+      .card { padding: 30px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1403,36 +1486,6 @@
       </section>
     </div>
 
-    <!-- ========== AI CHATBOT ASSISTANT ========== -->
-    <section class="ai-assistant-section" id="faqSection" aria-labelledby="aiTitle">
-      <div class="card-header-row">
-        <h2 class="card-title" id="aiTitle">المساعد الذكي — أسئلة IMEI و iPhone</h2>
-        <span class="ai-header-badge" id="aiBadge">AI Assistant</span>
-      </div>
-      <p class="card-sub" id="aiSub">اسأل عن الفرق بين الفحص المجاني والمدفوع، iCloud، قفل الشبكة، أو كيفية العثور على IMEI</p>
-
-      <div class="ai-quick-prompts" id="aiQuickPrompts">
-        <button type="button" class="ai-chip" data-ai-q="diff">الفرق بين المجاني والمدفوع</button>
-        <button type="button" class="ai-chip" data-ai-q="icloud">فحص iCloud والشبكة</button>
-        <button type="button" class="ai-chip" data-ai-q="find">أين أجد IMEI؟</button>
-        <button type="button" class="ai-chip" data-ai-q="order">كيف أطلب خدمة؟</button>
-      </div>
-
-      <div class="ai-chat-window" id="aiChatWindow" role="log" aria-live="polite"></div>
-
-      <form class="ai-input-row" id="aiChatForm">
-        <label for="aiChatInput" class="sr-only">اكتب سؤالك</label>
-        <input
-          type="text"
-          id="aiChatInput"
-          class="ai-input"
-          placeholder="اكتب سؤالك هنا (مثال: هل الفحص المجاني يفحص iCloud؟)..."
-          autocomplete="off"
-        />
-        <button type="submit" class="ai-send-btn" id="aiSendBtn">إرسال</button>
-      </form>
-    </section>
-
     <!-- ========== TRUST BAR ========== -->
     <div class="trust-strip" aria-label="مميزات المنصة">
       <div class="trust-item">
@@ -1523,10 +1576,10 @@
         <span>→</span>
       </a>
 
-      <a href="#faqSection" class="drawer-item" id="menuFaq">
+      <button type="button" class="drawer-item" id="menuFaq">
         <span>🤖 المساعد الذكي</span>
-        <span>→</span>
-      </a>
+        <span>↗</span>
+      </button>
 
       <button type="button" class="drawer-item" id="menuPayment">
         <span>💳 طرق الدفع والتواصل</span>
@@ -1611,6 +1664,28 @@
       <button type="button" class="primary-btn" id="closeHistoryBtn">إغلاق</button>
     </div>
   </div>
+
+  <!-- ========== FLOATING HYBRID CHATBOT ========== -->
+  <button type="button" id="gsmFloatingFab" class="gsm-fab-btn" aria-label="المساعد الذكي" title="GSM Yasser Assistant">💬</button>
+
+  <section id="gsmFloatingPopup" class="gsm-chat-popup" role="dialog" aria-label="مساعد GSM Yasser Server">
+    <div class="gsm-chat-head">
+      <div class="gsm-chat-title-wrap">
+        <span class="gsm-chat-title">GSM Assistant</span>
+        <span class="gsm-mode-pill" id="gsmModeBadge">محلي (مجاني)</span>
+      </div>
+      <div class="gsm-head-actions">
+        <button type="button" class="gsm-mini-btn" id="gsmAiToggleBtn">وضع الـ AI</button>
+        <button type="button" class="gsm-mini-btn" id="gsmChatCloseBtn" aria-label="إغلاق">✕</button>
+      </div>
+    </div>
+    <div class="gsm-chat-quick" id="gsmQuickBar"></div>
+    <div class="gsm-chat-body" id="gsmChatBody" role="log" aria-live="polite"></div>
+    <form class="gsm-chat-form" id="gsmChatForm">
+      <input type="text" class="gsm-chat-input" id="gsmChatInput" autocomplete="off" />
+      <button type="submit" class="gsm-chat-send" id="gsmChatSendBtn">إرسال</button>
+    </form>
+  </section>
 
   <script src="generator.js"></script>
   <script type="module">
@@ -1834,69 +1909,6 @@
       }
     };
 
-    const aiCopy = {
-      ar: {
-        title: "المساعد الذكي — أسئلة IMEI و iPhone",
-        sub: "اسأل عن الفرق بين الفحص المجاني والمدفوع، iCloud، قفل الشبكة، أو كيفية العثور على IMEI",
-        placeholder: "اكتب سؤالك هنا (مثال: هل الفحص المجاني يفحص iCloud؟)...",
-        send: "إرسال",
-        chips: [
-          { key: "diff", label: "الفرق بين المجاني والمدفوع" },
-          { key: "icloud", label: "فحص iCloud والشبكة" },
-          { key: "find", label: "أين أجد IMEI؟" },
-          { key: "order", label: "كيف أطلب خدمة؟" }
-        ],
-        welcome: "مرحباً بك في <strong>GSM Yasser Server</strong>. اسألني عن فحص IMEI لهواتف <strong>iPhone</strong>، أو اختر سؤالاً سريعاً بالأعلى.",
-        answers: {
-          diff: "<strong>الفحص المجاني</strong> يتحقق رياضياً من صحة بنية رقم IMEI (خوارزمية Luhn) واستخراج رمز TAC فقط؛ ولا يستعلم حياً عن حالة <strong>iCloud</strong> أو <strong>قفل الشبكة</strong> أو <strong>GSMA Blacklist</strong>. الاستعلام الفعلي لهذه الحالات يتم عبر <strong>الخدمات المدفوعة</strong>.",
-          icloud: "الفحص الحقيقي لحالة <strong>iCloud / Find My</strong>، <strong>قفل الشبكة (Carrier Lock)</strong>، <strong>GSMA Blacklist</strong>، أو تقرير <strong>Full PRO Complete Report</strong> متوفر ضمن <strong>خدمات الفحص المدفوعة</strong> عبر واتساب <span class='ltr-num'>+213657241710</span>.",
-          find: "يمكنك معرفة رقم IMEI المكوّن من 15 رقماً بطلب <code class='ltr-num'>*#06#</code> على لوحة الاتصال أو عبر <strong>الإعدادات &gt; عام &gt; حول</strong>.",
-          order: "أدخل رقم IMEI المكوّن من 15 رقماً في حقل الفحص، ثم اضغط على زر <strong>WhatsApp</strong> أسفل الخدمة المطلوبة ليتم تجهيز رسالة تتضمن الرقم ورمز المرجع مباشرة.",
-          fallback: "منصة <strong>GSM Yasser Server</strong> مخصصة لاستعلامات <strong>iPhone</strong> عبر IMEI. الفحص المجاني للتحقق الرياضي (Luhn)، بينما فحص <strong>iCloud</strong> والشبكة و<strong>GSMA Blacklist</strong> يتم عبر الخدمات المدفوعة على واتساب <span class='ltr-num'>+213657241710</span>."
-        }
-      },
-      fr: {
-        title: "Assistant IA — IMEI & iPhone",
-        sub: "Posez vos questions sur le contrôle gratuit vs payant, iCloud, réseau ou la recherche d'IMEI",
-        placeholder: "Écrivez votre question (ex: le check gratuit vérifie-t-il iCloud ?)...",
-        send: "Envoyer",
-        chips: [
-          { key: "diff", label: "Gratuit vs Payant" },
-          { key: "icloud", label: "iCloud & Réseau" },
-          { key: "find", label: "Où trouver l'IMEI ?" },
-          { key: "order", label: "Commander un service" }
-        ],
-        welcome: "Bienvenue sur <strong>GSM Yasser Server</strong>. Posez votre question sur l'IMEI <strong>iPhone</strong> ou choisissez une suggestion ci-dessus.",
-        answers: {
-          diff: "Le <strong>contrôle gratuit</strong> effectue uniquement une validation mathématique (algorithme <strong>Luhn</strong>) et extrait le TAC ; il ne vérifie pas en direct <strong>iCloud</strong>, le <strong>verrouillage réseau</strong> ou la <strong>GSMA Blacklist</strong> (réservés aux <strong>services payants</strong>).",
-          icloud: "Les rapports réels (<strong>Carrier Lock</strong>, <strong>iCloud Status</strong>, <strong>GSMA Blacklist</strong> et <strong>Full PRO Complete Report</strong>) sont disponibles via les <strong>services payants</strong> sur WhatsApp <span class='ltr-num'>+213657241710</span>.",
-          find: "Composez <code class='ltr-num'>*#06#</code> ou ouvrez <strong>Réglages &gt; Général &gt; Informations</strong> pour afficher l'IMEI à 15 chiffres.",
-          order: "Saisissez l'IMEI à 15 chiffres puis cliquez sur <strong>WhatsApp</strong> sous le service choisi pour générer votre message avec la référence.",
-          fallback: "<strong>GSM Yasser Server</strong> est dédié à l'IMEI <strong>iPhone</strong>. Le check gratuit est mathématique (Luhn) ; les vérifications <strong>iCloud</strong>, réseau et <strong>Blacklist</strong> passent par les services payants WhatsApp <span class='ltr-num'>+213657241710</span>."
-        }
-      },
-      en: {
-        title: "AI Assistant — IMEI & iPhone FAQ",
-        sub: "Ask about Free vs. Paid checks, iCloud, carrier lock, GSMA Blacklist, or finding your IMEI",
-        placeholder: "Type your question (e.g., Does Free Check check iCloud?)...",
-        send: "Send",
-        chips: [
-          { key: "diff", label: "Free vs. Paid Check" },
-          { key: "icloud", label: "iCloud & Carrier" },
-          { key: "find", label: "Where is IMEI?" },
-          { key: "order", label: "How to order?" }
-        ],
-        welcome: "Welcome to <strong>GSM Yasser Server</strong>. Ask about <strong>iPhone</strong> IMEI checks or tap a quick topic above.",
-        answers: {
-          diff: "<strong>Free Check</strong> only performs mathematical validation (<strong>Luhn</strong> algorithm) and extracts the TAC; it does not check live <strong>iCloud</strong>, <strong>carrier lock</strong>, or <strong>GSMA Blacklist</strong> status, which are handled via <strong>Paid Services</strong>.",
-          icloud: "Live checks for <strong>Carrier Lock</strong>, <strong>iCloud Status</strong>, <strong>GSMA Blacklist</strong>, and <strong>Full PRO Complete Report</strong> are available under <strong>Paid Verification Services</strong> via WhatsApp <span class='ltr-num'>+213657241710</span>.",
-          find: "Dial <code class='ltr-num'>*#06#</code> on the keypad or open <strong>Settings &gt; General &gt; About</strong> to find your 15-digit IMEI.",
-          order: "Enter your 15-digit IMEI, then click <strong>WhatsApp</strong> under the desired service to open a pre-filled order with your IMEI and reference ID.",
-          fallback: "<strong>GSM Yasser Server</strong> focuses on <strong>iPhone</strong> IMEI lookups. Free Check is mathematical (Luhn), while live <strong>iCloud</strong>, carrier, and <strong>Blacklist</strong> checks are paid services via WhatsApp <span class='ltr-num'>+213657241710</span>."
-        }
-      }
-    };
-
     const langBtns = document.querySelectorAll("[data-lang]");
     const themeToggle = document.getElementById("themeToggle");
     const themeText = document.getElementById("themeText");
@@ -1924,6 +1936,7 @@
     const drawerOpenBtn = document.getElementById("drawerOpenBtn");
     const drawerBackdrop = document.getElementById("drawerBackdrop");
     const drawerCloseBtn = document.getElementById("drawerCloseBtn");
+    const menuFaq = document.getElementById("menuFaq");
     const menuPayment = document.getElementById("menuPayment");
     const menuAlertsHistory = document.getElementById("menuAlertsHistory");
     const menuAccount = document.getElementById("menuAccount");
@@ -1934,11 +1947,6 @@
     const accountOverlay = document.getElementById("accountOverlay");
     const closeAccountBtn = document.getElementById("closeAccountBtn");
     const accountOpenHistoryBtn = document.getElementById("accountOpenHistoryBtn");
-
-    const aiChatWindow = document.getElementById("aiChatWindow");
-    const aiChatForm = document.getElementById("aiChatForm");
-    const aiChatInput = document.getElementById("aiChatInput");
-    const aiQuickPrompts = document.getElementById("aiQuickPrompts");
 
     let currentLang = localStorage.getItem("gsm_yasser_lang") || "ar";
     let lastValidImei = localStorage.getItem("gsm_yasser_last_imei") || "";
@@ -2055,62 +2063,6 @@
       imeiInput.classList.add("valid");
     }
 
-    function appendAiMsg(htmlOrText, sender = "bot", isHtml = false) {
-      const div = document.createElement("div");
-      div.className = `ai-msg ${sender}`;
-      if (isHtml) div.innerHTML = htmlOrText;
-      else div.textContent = htmlOrText;
-      aiChatWindow.appendChild(div);
-      aiChatWindow.scrollTop = aiChatWindow.scrollHeight;
-    }
-
-    function resolveAiAnswer(queryText) {
-      const q = queryText.toLowerCase();
-      const pack = aiCopy[currentLang] || aiCopy.ar;
-      let key = "fallback";
-
-      if (q.includes("icloud") || q.includes("find my") || q.includes("شبكة") || q.includes("carrier") || q.includes("blacklist") || q.includes("حظر") || q.includes("pro") || q.includes("مدفوع") || q.includes("paid") || q.includes("payant")) {
-        if (q.includes("فرق") || q.includes("difference") || q.includes("différence") || q.includes("مجاني") || q.includes("free") || q.includes("gratuit") || q.includes("luhn")) {
-          key = "diff";
-        } else {
-          key = "icloud";
-        }
-      } else if (q.includes("فرق") || q.includes("مجاني") || q.includes("luhn") || q.includes("free") || q.includes("gratuit")) {
-        key = "diff";
-      } else if (q.includes("*#06#") || q.includes("أجد") || q.includes("find") || q.includes("trouver") || q.includes("إعدادات") || q.includes("settings")) {
-        key = "find";
-      } else if (q.includes("طلب") || q.includes("order") || q.includes("commander") || q.includes("واتساب") || q.includes("whatsapp")) {
-        key = "order";
-      }
-
-      let reply = pack.answers[key];
-      const activeImei = imeiInput.value.replace(/\D/g, "") || localStorage.getItem("gsm_yasser_last_imei") || "";
-      if (activeImei.length === 15 && isValidLuhn(activeImei)) {
-        const imeiNote = currentLang === "ar"
-          ? `<br><br>📱 رقم IMEI الحالي: <code class="ltr-num">${activeImei}</code>`
-          : currentLang === "fr"
-            ? `<br><br>📱 IMEI actuel : <code class="ltr-num">${activeImei}</code>`
-            : `<br><br>📱 Current IMEI: <code class="ltr-num">${activeImei}</code>`;
-        reply += imeiNote;
-      }
-      return reply;
-    }
-
-    function renderAiUi() {
-      const pack = aiCopy[currentLang] || aiCopy.ar;
-      document.getElementById("aiTitle").textContent = pack.title;
-      document.getElementById("aiSub").textContent = pack.sub;
-      aiChatInput.placeholder = pack.placeholder;
-      document.getElementById("aiSendBtn").textContent = pack.send;
-
-      aiQuickPrompts.innerHTML = pack.chips
-        .map((c) => `<button type="button" class="ai-chip" data-ai-q="${c.key}">${c.label}</button>`)
-        .join("");
-
-      aiChatWindow.innerHTML = "";
-      appendAiMsg(pack.welcome, "bot", true);
-    }
-
     function applyLang(lang) {
       currentLang = texts[lang] ? lang : "ar";
       const t = texts[currentLang];
@@ -2210,27 +2162,8 @@
       updateImeiHint();
       renderHistory();
       updateAccountModal();
-      renderAiUi();
       localStorage.setItem("gsm_yasser_lang", currentLang);
     }
-
-    aiQuickPrompts.addEventListener("click", (e) => {
-      const chip = e.target.closest("[data-ai-q]");
-      if (!chip) return;
-      const pack = aiCopy[currentLang] || aiCopy.ar;
-      const key = chip.dataset.aiQ;
-      appendAiMsg(chip.textContent, "user", false);
-      appendAiMsg(pack.answers[key] || pack.answers.fallback, "bot", true);
-    });
-
-    aiChatForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const text = aiChatInput.value.trim();
-      if (!text) return;
-      appendAiMsg(text, "user", false);
-      aiChatInput.value = "";
-      appendAiMsg(resolveAiAnswer(text), "bot", true);
-    });
 
     drawerOpenBtn.addEventListener("click", () => setDrawer(true));
     drawerCloseBtn.addEventListener("click", () => setDrawer(false));
@@ -2240,6 +2173,12 @@
 
     document.querySelectorAll("#drawerBackdrop a.drawer-item").forEach((link) => {
       link.addEventListener("click", () => setDrawer(false));
+    });
+
+    menuFaq.addEventListener("click", () => {
+      setDrawer(false);
+      const fab = document.getElementById("gsmFloatingFab");
+      if (fab) fab.click();
     });
 
     menuPayment.addEventListener("click", () => {
@@ -2452,6 +2391,304 @@
     }
     generateCaptcha();
     applyLang(currentLang);
+  </script>
+
+  <!-- ========== HYBRID FLOATING CHATBOT SCRIPT ========== -->
+  <script>
+    (() => {
+      const STORAGE_KEY = "gsm_yasser_hybrid_chat_v1";
+      // ضع رابط Cloudflare Worker هنا عند تفعيل AI API:
+      // const WORKER_CHAT_URL = "https://your-worker.workers.dev/api/chat";
+      const WORKER_CHAT_URL = "";
+
+      const KB = {
+        ar: {
+          welcome: "مرحباً بك في مساعد <strong>GSM Yasser Server</strong>. رد فوري مجاني على أسئلة <strong>iPhone IMEI</strong>، مع دعم <strong>Cloudflare Worker + AI API</strong> عند التفعيل.",
+          placeholder: "اسأل عن IMEI، iCloud، الشبكة...",
+          send: "إرسال",
+          aiToggle: "وضع الـ AI",
+          localBadge: "محلي (مجاني)",
+          aiBadge: "AI Worker",
+          thinking: "جاري التحقق...",
+          fallback: "لا يوجد رد محلي مباشر لهذا السؤال. يمكنك تفعيل <strong>وضع الـ AI</strong> أو التواصل عبر واتساب <span class='ltr-num'>+213657241710</span>.",
+          noWorkerUrl: "وضع <strong>AI Worker</strong> مفعّل، لكن <code>WORKER_CHAT_URL</code> فارغ حالياً في الكود.",
+          workerErr: "تعذر الوصول إلى Cloudflare Worker حالياً.",
+          quick: [
+            { label: "المجاني vs المدفوع", q: "ما الفرق بين الفحص المجاني والخدمات المدفوعة؟" },
+            { label: "iCloud والشبكة", q: "كيف أفحص iCloud وقفل الشبكة و GSMA Blacklist؟" },
+            { label: "أين أجد IMEI؟", q: "أين أجد رقم IMEI المكوّن من 15 رقماً؟" }
+          ],
+          entries: [
+            {
+              keys: ["فرق", "مجاني", "luhn", "رياضي", "tac", "free", "gratuit"],
+              ans: "<strong>الفحص المجاني</strong> يتحقق رياضياً من رقم IMEI (خوارزمية <strong>Luhn</strong>) ويستخرج <strong>TAC</strong> فقط؛ أما حالة <strong>iCloud</strong> و<strong>قفل الشبكة</strong> و<strong>GSMA Blacklist</strong> فتتم عبر <strong>الخدمات المدفوعة</strong>."
+            },
+            {
+              keys: ["icloud", "find my", "شبكة", "مشغل", "carrier", "blacklist", "حظر", "pro", "gsx"],
+              ans: "فحص <strong>iCloud / Find My</strong>، <strong>قفل الشبكة</strong>، <strong>GSMA Blacklist</strong>، و<strong>Full PRO Complete Report</strong> متوفر عبر <strong>الخدمات المدفوعة</strong> على واتساب <span class='ltr-num'>+213657241710</span>."
+            },
+            {
+              keys: ["أين", "أجد", "*#06#", "إعدادات", "حول", "15", "find", "trouver"],
+              ans: "اطلب <code class='ltr-num'>*#06#</code> على لوحة الاتصال أو افتح <strong>الإعدادات &gt; عام &gt; حول</strong> لمعرفة رقم IMEI المكوّن من 15 رقماً."
+            }
+          ]
+        },
+        fr: {
+          welcome: "Bienvenue sur l'assistant <strong>GSM Yasser Server</strong>. Réponses locales gratuites sur l'<strong>IMEI iPhone</strong> et support <strong>Cloudflare Worker + AI API</strong>.",
+          placeholder: "Question sur IMEI, iCloud, réseau...",
+          send: "Envoyer",
+          aiToggle: "Mode AI",
+          localBadge: "Local (Gratuit)",
+          aiBadge: "AI Worker",
+          thinking: "Traitement...",
+          fallback: "Aucune réponse locale directe. Activez le <strong>Mode AI</strong> ou contactez WhatsApp <span class='ltr-num'>+213657241710</span>.",
+          noWorkerUrl: "Le <strong>Mode AI</strong> est actif, mais <code>WORKER_CHAT_URL</code> est vide.",
+          workerErr: "Erreur de connexion au Cloudflare Worker.",
+          quick: [
+            { label: "Gratuit vs Payant", q: "Quelle est la différence entre le check gratuit et payant ?" },
+            { label: "iCloud & Réseau", q: "Comment vérifier iCloud, réseau et GSMA Blacklist ?" },
+            { label: "Où trouver IMEI ?", q: "Où trouver l'IMEI à 15 chiffres ?" }
+          ],
+          entries: [
+            {
+              keys: ["différence", "gratuit", "luhn", "mathématique", "tac", "free"],
+              ans: "Le <strong>contrôle gratuit</strong> vérifie mathématiquement l'IMEI (<strong>Luhn</strong>) et extrait le <strong>TAC</strong> ; <strong>iCloud</strong>, le <strong>verrouillage réseau</strong> et <strong>GSMA Blacklist</strong> sont des <strong>services payants</strong>."
+            },
+            {
+              keys: ["icloud", "find my", "réseau", "carrier", "blacklist", "pro", "gsx"],
+              ans: "Les rapports <strong>Carrier Lock</strong>, <strong>iCloud Status</strong>, <strong>GSMA Blacklist</strong> et <strong>Full PRO Complete Report</strong> passent par les <strong>services payants</strong> sur WhatsApp <span class='ltr-num'>+213657241710</span>."
+            },
+            {
+              keys: ["trouver", "où", "*#06#", "réglages", "informations", "15", "find"],
+              ans: "Composez <code class='ltr-num'>*#06#</code> ou ouvrez <strong>Réglages &gt; Général &gt; Informations</strong> pour voir l'IMEI à 15 chiffres."
+            }
+          ]
+        },
+        en: {
+          welcome: "Welcome to <strong>GSM Yasser Server</strong> assistant. Instant free local FAQ for <strong>iPhone IMEI</strong> plus optional <strong>Cloudflare Worker + AI API</strong>.",
+          placeholder: "Ask about IMEI, iCloud, carrier lock...",
+          send: "Send",
+          aiToggle: "AI Mode",
+          localBadge: "Local (Free)",
+          aiBadge: "AI Worker",
+          thinking: "Thinking...",
+          fallback: "No direct local match found. Toggle <strong>AI Mode</strong> or message WhatsApp <span class='ltr-num'>+213657241710</span>.",
+          noWorkerUrl: "<strong>AI Mode</strong> is enabled, but <code>WORKER_CHAT_URL</code> is not set yet.",
+          workerErr: "Failed to reach Cloudflare Worker.",
+          quick: [
+            { label: "Free vs. Paid", q: "What is the difference between Free Check and Paid Services?" },
+            { label: "iCloud & Carrier", q: "How do I check iCloud, Carrier Lock, and GSMA Blacklist?" },
+            { label: "Where is IMEI?", q: "Where do I find my 15-digit IMEI?" }
+          ],
+          entries: [
+            {
+              keys: ["difference", "free", "luhn", "math", "tac", "gratuit"],
+              ans: "<strong>Free Check</strong> runs mathematical <strong>Luhn</strong> validation and extracts <strong>TAC</strong> only; live <strong>iCloud</strong>, <strong>carrier lock</strong>, and <strong>GSMA Blacklist</strong> use <strong>Paid Services</strong>."
+            },
+            {
+              keys: ["icloud", "find my", "carrier", "network", "blacklist", "pro", "gsx"],
+              ans: "Live checks for <strong>Carrier Lock</strong>, <strong>iCloud Status</strong>, <strong>GSMA Blacklist</strong>, and <strong>Full PRO Complete Report</strong> are available via <strong>Paid Verification Services</strong> on WhatsApp <span class='ltr-num'>+213657241710</span>."
+            },
+            {
+              keys: ["find", "where", "*#06#", "settings", "about", "15", "trouver"],
+              ans: "Dial <code class='ltr-num'>*#06#</code> or go to <strong>Settings &gt; General &gt; About</strong> to find your 15-digit IMEI."
+            }
+          ]
+        }
+      };
+
+      const fab = document.getElementById("gsmFloatingFab");
+      const popup = document.getElementById("gsmFloatingPopup");
+      const closeBtn = document.getElementById("gsmChatCloseBtn");
+      const aiToggleBtn = document.getElementById("gsmAiToggleBtn");
+      const modeBadge = document.getElementById("gsmModeBadge");
+      const quickBar = document.getElementById("gsmQuickBar");
+      const chatBody = document.getElementById("gsmChatBody");
+      const chatForm = document.getElementById("gsmChatForm");
+      const chatInput = document.getElementById("gsmChatInput");
+      const chatSendBtn = document.getElementById("gsmChatSendBtn");
+
+      let useAiWorker = false;
+      let history = [];
+
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null");
+        if (saved && Array.isArray(saved.history)) {
+          history = saved.history;
+          useAiWorker = Boolean(saved.useAiWorker);
+        }
+      } catch (_) {}
+
+      const getLang = () => (KB[document.documentElement.lang] ? document.documentElement.lang : "ar");
+
+      const getActiveImei = () => {
+        const inputEl = document.getElementById("imeiInput");
+        const typed = inputEl ? inputEl.value.replace(/\D/g, "") : "";
+        if (typed.length === 15) return typed;
+        return (localStorage.getItem("gsm_yasser_last_imei") || "").replace(/\D/g, "");
+      };
+
+      const withImei = (html, lang) => {
+        const imei = getActiveImei();
+        if (!imei) return html;
+        if (lang === "ar") return `${html}<br><br>📱 IMEI الحالي: <code class="ltr-num">${imei}</code>`;
+        if (lang === "fr") return `${html}<br><br>📱 IMEI actuel : <code class="ltr-num">${imei}</code>`;
+        return `${html}<br><br>📱 Active IMEI: <code class="ltr-num">${imei}</code>`;
+      };
+
+      const saveState = () => {
+        try {
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ useAiWorker, history: history.slice(-12) }));
+        } catch (_) {}
+      };
+
+      const appendBubble = (msg) => {
+        const div = document.createElement("div");
+        div.className = `gsm-bubble ${msg.sender === "user" ? "user" : "bot"}`;
+        if (msg.isHtml) div.innerHTML = msg.text;
+        else div.textContent = msg.text;
+        chatBody.appendChild(div);
+        chatBody.scrollTop = chatBody.scrollHeight;
+        return div;
+      };
+
+      const matchLocal = (q, lang) => {
+        const pack = KB[lang] || KB.ar;
+        const low = q.toLowerCase();
+        let best = null;
+        let bestScore = 0;
+        for (const item of pack.entries) {
+          const score = item.keys.reduce((acc, k) => acc + (low.includes(k.toLowerCase()) ? 1 : 0), 0);
+          if (score > bestScore) {
+            bestScore = score;
+            best = item;
+          }
+        }
+        return best && bestScore > 0 ? withImei(best.ans, lang) : null;
+      };
+
+      const renderUi = () => {
+        const lang = getLang();
+        const pack = KB[lang] || KB.ar;
+        chatInput.placeholder = pack.placeholder;
+        chatSendBtn.textContent = pack.send;
+        aiToggleBtn.textContent = pack.aiToggle;
+        aiToggleBtn.classList.toggle("active", useAiWorker);
+        modeBadge.textContent = useAiWorker ? pack.aiBadge : pack.localBadge;
+
+        quickBar.innerHTML = pack.quick
+          .map((item, i) => `<button type="button" class="gsm-q-chip" data-q="${i}">${item.label}</button>`)
+          .join("");
+
+        chatBody.innerHTML = "";
+        if (!history.length) {
+          appendBubble({ sender: "bot", text: pack.welcome, isHtml: true });
+        } else {
+          history.forEach(appendBubble);
+        }
+      };
+
+      const onAsk = async (rawText) => {
+        const text = rawText.trim();
+        if (!text) return;
+        const lang = getLang();
+        const pack = KB[lang] || KB.ar;
+
+        const userMsg = { sender: "user", text, isHtml: false };
+        history.push(userMsg);
+        appendBubble(userMsg);
+        saveState();
+
+        const localReply = matchLocal(text, lang);
+        if (localReply && !useAiWorker) {
+          const botMsg = { sender: "bot", text: localReply, isHtml: true };
+          history.push(botMsg);
+          appendBubble(botMsg);
+          saveState();
+          return;
+        }
+
+        if (useAiWorker || WORKER_CHAT_URL) {
+          if (!WORKER_CHAT_URL) {
+            const msg = { sender: "bot", text: pack.noWorkerUrl, isHtml: true };
+            history.push(msg);
+            appendBubble(msg);
+            saveState();
+            return;
+          }
+          const loader = appendBubble({ sender: "bot", text: pack.thinking, isHtml: false });
+          try {
+            const res = await fetch(WORKER_CHAT_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                message: text,
+                lang,
+                imei: getActiveImei() || null,
+                history: history.slice(-6)
+              })
+            });
+            const data = await res.json();
+            loader.remove();
+            const replyText = withImei(data.reply || pack.workerErr, false);
+            const botMsg = { sender: "bot", text: replyText, isHtml: Boolean(getActiveImei()) };
+            history.push(botMsg);
+            appendBubble(botMsg);
+            saveState();
+            return;
+          } catch (_) {
+            loader.remove();
+          }
+        }
+
+        const fallbackMsg = { sender: "bot", text: localReply || pack.fallback, isHtml: true };
+        history.push(fallbackMsg);
+        appendBubble(fallbackMsg);
+        saveState();
+      };
+
+      fab.addEventListener("click", () => {
+        const next = !popup.classList.contains("open");
+        popup.classList.toggle("open", next);
+        if (next) {
+          renderUi();
+          chatInput.focus();
+        }
+      });
+
+      closeBtn.addEventListener("click", () => popup.classList.remove("open"));
+      aiToggleBtn.addEventListener("click", () => {
+        useAiWorker = !useAiWorker;
+        saveState();
+        renderUi();
+      });
+
+      quickBar.addEventListener("click", (e) => {
+        const chip = e.target.closest("[data-q]");
+        if (!chip) return;
+        const pack = KB[getLang()] || KB.ar;
+        const chosen = pack.quick[Number(chip.dataset.q)];
+        if (chosen) onAsk(chosen.q);
+      });
+
+      chatForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const val = chatInput.value;
+        if (!val.trim()) return;
+        chatInput.value = "";
+        onAsk(val);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") popup.classList.remove("open");
+      });
+
+      new MutationObserver(() => {
+        if (popup.classList.contains("open")) renderUi();
+      }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+
+      renderUi();
+    })();
   </script>
 </body>
   </html>
