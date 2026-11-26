@@ -36,7 +36,6 @@
     * { box-sizing: border-box; font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif; }
     body { margin: 0; background: var(--bg); color: var(--text); transition: background 0.2s, color 0.2s; }
 
-    /* شاشة الدخول */
     #loginScreen {
       min-height: 100vh;
       display: flex;
@@ -67,7 +66,6 @@
     .login-card h2 { margin: 0 0 6px; font-size: 22px; }
     .login-card p { margin: 0 0 20px; color: var(--muted); font-size: 14px; }
 
-    /* الهيكل الرئيسي بمقاييس المواقع العالمية */
     #appScreen {
       display: none;
       width: 100%;
@@ -110,7 +108,6 @@
       margin-bottom: 16px;
     }
 
-    /* شبكة متوازنة لنموذج إضافة طلب جديد (4 أعمدة متساوية في الصف) */
     .order-form-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -173,7 +170,6 @@
     }
     .btn-sm { min-height: 32px; padding: 6px 10px; font-size: 12px; border-radius: 8px; }
 
-    /* الإحصائيات */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -190,14 +186,12 @@
     .stat span { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
     .stat strong { font-size: 22px; font-weight: 800; }
 
-    /* التبويبات */
     .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
     .tab-btn { background: var(--card); color: var(--text); border: 1px solid var(--border); }
     .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
-    /* الجداول */
     .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
     table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 720px; }
     th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); text-align: right; vertical-align: middle; }
@@ -292,6 +286,7 @@
         <small>إدارة طلبات IMEI، العملاء، والخدمات المدفوعة</small>
       </div>
       <div class="header-actions">
+        <a href="index.html" class="btn-outline" style="display:inline-flex;align-items:center;text-decoration:none;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:700;">الرئيسية</a>
         <button class="btn-outline" onclick="toggleTheme()">الوضع الليلي / النهاري</button>
         <button onclick="pullState()">جلب البيانات</button>
         <button class="btn-success" onclick="pushSync()">مزامنة إلى D1</button>
@@ -304,14 +299,14 @@
       <div class="grid-form" style="margin-bottom:0;">
         <div class="field">
           <label>رابط Cloudflare Worker</label>
-          <input id="workerUrl" type="url" placeholder="https://your-worker.workers.dev" onchange="saveConfig()" />
+          <input id="workerUrl" type="url" placeholder="https://gsm-yasser-api.yasserkhelifi125.workers.dev" onchange="saveConfig()" />
         </div>
         <div class="field">
           <label>ADMIN_TOKEN (اختياري)</label>
           <input id="adminToken" type="password" placeholder="أدخل التوكن إذا كان مفعّلاً" onchange="saveConfig()" />
         </div>
       </div>
-      <div id="statusBar" class="status-bar">جاهز للعمل — أدخل رابط الـ Worker واضغط "جلب البيانات".</div>
+      <div id="statusBar" class="status-bar">جاهز للعمل — تحقق من رابط الـ Worker واضغط "جلب البيانات".</div>
     </div>
 
     <!-- الإحصائيات -->
@@ -344,7 +339,7 @@
           </div>
           <div class="field">
             <label>رقم IMEI (15 رقم) *</label>
-            <input id="oImei" type="text" placeholder="35xxxxxxxxxxxxx" maxlength="15" />
+            <input id="oImei" type="text" placeholder="35xxxxxxxxxxxxx" maxlength="15" inputmode="numeric" />
           </div>
           <div class="field">
             <label>خيارات الخدمات المدفوعة (4 خيارات)</label>
@@ -485,6 +480,8 @@
 
   <script>
     const PASSCODE = "wP5t5B3d.";
+    const DEFAULT_WORKER_URL = "https://gsm-yasser-api.yasserkhelifi125.workers.dev";
+    const THEME_KEY = "gsm_yasser_theme";
 
     const DEFAULT_PAID_SERVICES = [
       { id: 101, name: "iCloud & FMI Deep Check (Paid)", isPaid: true, price: 5, active: true },
@@ -499,12 +496,50 @@
       services: [...DEFAULT_PAID_SERVICES]
     };
 
-    window.addEventListener("DOMContentLoaded", () => {
-      if (localStorage.getItem("gsm_dark_mode") === "1") {
-        document.body.classList.add("dark");
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function normalizeImeiDigits(val) {
+      return String(val || "").replace(/\D/g, "").slice(0, 15);
+    }
+
+    function isValidLuhnImei(imei) {
+      const clean = normalizeImeiDigits(imei);
+      if (!/^\d{15}$/.test(clean)) return false;
+      let sum = 0;
+      for (let i = 0; i < 15; i++) {
+        let d = Number(clean[i]);
+        if (i % 2 === 1) {
+          d *= 2;
+          if (d > 9) d -= 9;
+        }
+        sum += d;
       }
-      document.getElementById("workerUrl").value = localStorage.getItem("gsm_worker_url") || "";
+      return sum % 10 === 0;
+    }
+
+    function applyThemeFromStorage() {
+      const saved = localStorage.getItem(THEME_KEY) || localStorage.getItem("gsm_dark_mode");
+      const isDark = saved === "dark" || saved === "1" || saved === null;
+      document.body.classList.toggle("dark", isDark);
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      applyThemeFromStorage();
+
+      const savedUrl = (localStorage.getItem("gsm_worker_url") || "").trim();
+      document.getElementById("workerUrl").value = savedUrl || DEFAULT_WORKER_URL;
       document.getElementById("adminToken").value = localStorage.getItem("gsm_admin_token") || "";
+
+      document.getElementById("oImei")?.addEventListener("input", (e) => {
+        e.target.value = normalizeImeiDigits(e.target.value);
+      });
 
       if (sessionStorage.getItem("gsm_logged_in") === "1") {
         openDashboard();
@@ -536,8 +571,11 @@
     }
 
     function toggleTheme() {
-      document.body.classList.toggle("dark");
-      localStorage.setItem("gsm_dark_mode", document.body.classList.contains("dark") ? "1" : "0");
+      const nextDark = !document.body.classList.contains("dark");
+      document.body.classList.toggle("dark", nextDark);
+      const themeName = nextDark ? "dark" : "light";
+      localStorage.setItem(THEME_KEY, themeName);
+      localStorage.setItem("gsm_dark_mode", nextDark ? "1" : "0");
     }
 
     function switchTab(tabName, btn) {
@@ -548,7 +586,8 @@
     }
 
     function saveConfig() {
-      localStorage.setItem("gsm_worker_url", document.getElementById("workerUrl").value.trim().replace(/\/+$/, ""));
+      const cleanUrl = document.getElementById("workerUrl").value.trim().replace(/\/+$/, "");
+      localStorage.setItem("gsm_worker_url", cleanUrl);
       localStorage.setItem("gsm_admin_token", document.getElementById("adminToken").value.trim());
     }
 
@@ -574,13 +613,16 @@
     function addOrder() {
       const clientName = document.getElementById("oClient").value.trim();
       const clientPhone = document.getElementById("oPhone").value.trim();
-      const imei = document.getElementById("oImei").value.trim();
+      const imei = normalizeImeiDigits(document.getElementById("oImei").value);
       const serviceName = document.getElementById("oService").value.trim();
       const price = Number(document.getElementById("oPrice").value || 0);
       const status = document.getElementById("oStatus").value;
 
-      if (!clientName || !imei || !serviceName) {
-        return setStatus("يرجى إدخال اسم العميل ورقم IMEI واسم الخدمة.", true);
+      if (!clientName || !serviceName) {
+        return setStatus("يرجى إدخال اسم العميل واسم الخدمة.", true);
+      }
+      if (!isValidLuhnImei(imei)) {
+        return setStatus("يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً (Luhn).", true);
       }
 
       state.orders.unshift({
@@ -673,46 +715,56 @@
         (o.serviceName || "").toLowerCase().includes(q)
       );
 
-      document.getElementById("ordersBody").innerHTML = orders.length ? orders.map(o => `
+      document.getElementById("ordersBody").innerHTML = orders.length ? orders.map(o => {
+        const safeImei = escapeHtml(o.imei || "");
+        const safeId = Number(o.id) || 0;
+        return `
         <tr>
-          <td>${o.id}</td>
-          <td><strong>${o.clientName || ""}</strong></td>
-          <td dir="ltr">${o.clientPhone || "-"}</td>
-          <td dir="ltr"><span class="imei-chip" onclick="copyText('${o.imei || ""}')" title="انقر للنسخ">${o.imei || ""}</span></td>
-          <td>${o.serviceName || ""}</td>
+          <td>${safeId}</td>
+          <td><strong>${escapeHtml(o.clientName || "")}</strong></td>
+          <td dir="ltr">${escapeHtml(o.clientPhone || "-")}</td>
+          <td dir="ltr"><span class="imei-chip" onclick="copyText('${safeImei}')" title="انقر للنسخ">${safeImei}</span></td>
+          <td>${escapeHtml(o.serviceName || "")}</td>
           <td><strong>${Number(o.price || 0)}</strong></td>
           <td>
-            <select onchange="changeOrderStatus(${o.id}, this.value)" style="min-height:34px; padding:5px 8px; font-size:12px; width:auto;">
+            <select onchange="changeOrderStatus(${safeId}, this.value)" style="min-height:34px; padding:5px 8px; font-size:12px; width:auto;">
               <option value="pending" ${o.status === "pending" ? "selected" : ""}>قيد الانتظار</option>
               <option value="processing" ${o.status === "processing" ? "selected" : ""}>قيد التنفيذ</option>
               <option value="completed" ${o.status === "completed" ? "selected" : ""}>مكتمل</option>
               <option value="rejected" ${o.status === "rejected" ? "selected" : ""}>مرفوض</option>
             </select>
           </td>
-          <td><button class="btn-danger btn-sm" onclick="removeOrder(${o.id})">حذف</button></td>
+          <td><button class="btn-danger btn-sm" onclick="removeOrder(${safeId})">حذف</button></td>
         </tr>
-      `).join("") : `<tr><td colspan="8" style="text-align:center; color:var(--muted);">لا توجد طلبات مطابقة</td></tr>`;
+      `;
+      }).join("") : `<tr><td colspan="8" style="text-align:center; color:var(--muted);">لا توجد طلبات مطابقة</td></tr>`;
 
-      document.getElementById("servicesBody").innerHTML = state.services.map(s => `
+      document.getElementById("servicesBody").innerHTML = state.services.map(s => {
+        const safeId = Number(s.id) || 0;
+        return `
         <tr>
-          <td>${s.id}</td>
-          <td><strong>${s.name}</strong></td>
+          <td>${safeId}</td>
+          <td><strong>${escapeHtml(s.name || "")}</strong></td>
           <td><span class="${s.isPaid ? "paid-tag" : "free-tag"}">${s.isPaid ? "مدفوعة" : "مجانية"}</span></td>
           <td>${Number(s.price || 0)}</td>
           <td>${s.active ? "مفعلة" : "معطلة"}</td>
-          <td><button class="btn-warning btn-sm" onclick="toggleServiceActive(${s.id})">${s.active ? "تعطيل" : "تفعيل"}</button></td>
+          <td><button class="btn-warning btn-sm" onclick="toggleServiceActive(${safeId})">${s.active ? "تعطيل" : "تفعيل"}</button></td>
         </tr>
-      `).join("");
+      `;
+      }).join("");
 
-      document.getElementById("clientsBody").innerHTML = state.clients.length ? state.clients.map(c => `
+      document.getElementById("clientsBody").innerHTML = state.clients.length ? state.clients.map(c => {
+        const safeId = Number(c.id) || 0;
+        return `
         <tr>
-          <td>${c.id}</td>
-          <td>${c.name}</td>
-          <td dir="ltr">${c.phone}</td>
-          <td>${c.note || "-"}</td>
-          <td><button class="btn-danger btn-sm" onclick="removeClient(${c.id})">حذف</button></td>
+          <td>${safeId}</td>
+          <td>${escapeHtml(c.name || "")}</td>
+          <td dir="ltr">${escapeHtml(c.phone || "")}</td>
+          <td>${escapeHtml(c.note || "-")}</td>
+          <td><button class="btn-danger btn-sm" onclick="removeClient(${safeId})">حذف</button></td>
         </tr>
-      `).join("") : `<tr><td colspan="5" style="text-align:center; color:var(--muted);">لا يوجد عملاء بعد</td></tr>`;
+      `;
+      }).join("") : `<tr><td colspan="5" style="text-align:center; color:var(--muted);">لا يوجد عملاء بعد</td></tr>`;
 
       const pending = state.orders.filter(o => o.status === "pending" || o.status === "processing").length;
       const completedOrders = state.orders.filter(o => o.status === "completed");
@@ -775,4 +827,4 @@
     }
   </script>
 </body>
-  </html>
+        </html>
