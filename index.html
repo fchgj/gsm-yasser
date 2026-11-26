@@ -556,7 +556,7 @@
     [dir="rtl"] .primary-btn .progress { transform-origin: right; }
     .primary-btn.loading .progress { transform: scaleX(1); }
 
-    /* ---------- IPHONE PROMO BANNER (NO IMAGE) ---------- */
+    /* ---------- IPHONE PROMO BANNER ---------- */
     .iphone-promo-banner {
       margin-top: 14px;
       padding: 12px 14px;
@@ -598,7 +598,7 @@
       color: var(--muted);
     }
 
-    /* ---------- NUDGE (Tips box) ---------- */
+    /* ---------- TIPS BOX ---------- */
     .tips-box {
       margin-top: 14px;
       background: var(--surface-2);
@@ -635,7 +635,7 @@
 
     .help-line a:hover { text-decoration: underline; }
 
-    /* ---------- EMPTY FRAME FOR IPHONE NEWS UNDER FREE CHECK ---------- */
+    /* ---------- IPHONE NEWS SECTION ---------- */
     .iphone-news-section {
       background: var(--surface);
       color: var(--text);
@@ -1622,7 +1622,7 @@
       border: 0;
     }
 
-    /* 1) الهاتف 📱 */
+    /* 1) الهاتف */
     @media (max-width: 767px) {
       html {
         font-size: 16.5px;
@@ -1735,7 +1735,7 @@
       }
     }
 
-    /* 2) الحاسوب المحمول 💻 (768px .. 1439px) */
+    /* 2) الحاسوب المحمول (768px .. 1439px) */
     @media (min-width: 768px) and (max-width: 1439px) {
       .wrap {
         max-width: 1280px;
@@ -1788,7 +1788,7 @@
       }
     }
 
-    /* 3) شاشة الحاسوب الكبيرة 🖥️ (>= 1440px) */
+    /* 3) شاشة الحاسوب الكبيرة (>= 1440px) */
     @media (min-width: 1440px) {
       .wrap {
         max-width: 1420px;
@@ -1855,7 +1855,7 @@
       }
     }
 
-    /* شاشات فائقة العرض 🖥️ (>= 1920px) */
+    /* شاشات فائقة العرض (>= 1920px) */
     @media (min-width: 1920px) {
       .wrap {
         max-width: 1540px;
@@ -2029,7 +2029,7 @@
           </div>
         </section>
 
-        <!-- ===== EMPTY FRAME FOR IPHONE NEWS UNDER FREE CHECK ===== -->
+        <!-- ===== IPHONE NEWS SECTION UNDER FREE CHECK ===== -->
         <section id="iphone-news-wrapper" class="iphone-news-section" lang="ar" aria-label="أخبار آيفون">
           <div class="iphone-news-header">
             <h2 id="iphone-news-heading" class="iphone-news-title">أخبار آيفون</h2>
@@ -2052,7 +2052,7 @@
         </section>
       </div>
 
-      <!-- ===== 4. PAID SERVICES (NO PRICES ON CARDS) ===== -->
+      <!-- ===== 4. PAID SERVICES ===== -->
       <section class="card" id="paidServicesSection">
         <div class="card-header-row">
           <h2 class="card-title" id="paidTitle">خدمات الفحص المدفوعة</h2>
@@ -2073,7 +2073,7 @@
               </div>
               <p class="service-desc" id="srv1Desc">
                 <strong>شرح مختصر:</strong> معرفة حالة قفل المشغل وشريحة SIM قبل الشراء.<br>
-                <strong>الخصائص:</strong> يحدد Unlocked أو Locked (مثل AT&T) وملاءمة شرائح Mobilis / Djezzy / Ooredoo.
+                <strong>الخصائص:</strong> يحدد Unlocked أو Locked وملاءمة شرائح Mobilis / Djezzy / Ooredoo.
               </p>
             </div>
             <a class="wa-btn" data-service="Carrier & SIMLock (#8)" href="https://wa.me/213657241710" target="_blank" rel="noopener">WhatsApp</a>
@@ -2303,7 +2303,7 @@
     </div>
   </div>
 
-  <!-- ========== FLOATING HYBRID CHATBOT WITH TRANSLATION & LARGE FONT ========== -->
+  <!-- ========== FLOATING HYBRID CHATBOT ========== -->
   <button type="button" id="gsmFloatingFab" class="gsm-fab-btn" aria-label="المساعد الذكي" title="GSM Yasser Assistant">💬</button>
 
   <section id="gsmFloatingPopup" class="gsm-chat-popup" role="dialog" aria-label="مساعد GSM Yasser Server">
@@ -2381,13 +2381,13 @@
         badge: "مدفوع",
         badgePro: "الأكثر طلباً",
         srv1Name: "فحص قفل الشبكة (#8)",
-        srv1Desc: "شرح مختصر: معرفة حالة قفل المشغل وشريحة SIM قبل الشراء. الخصائص: يحدد Unlocked أو Locked وملاءمة شرائح Mobilis / Djezzy / Ooredoo.",
+        srv1Desc: "<strong>شرح مختصر:</strong> معرفة حالة قفل المشغل وشريحة SIM قبل الشراء.<br><strong>الخصائص:</strong> يحدد Unlocked أو Locked وملاءمة شرائح Mobilis / Djezzy / Ooredoo.",
         srv2Name: "فحص iCloud & FMI (#5)",
-        srv2Desc: "شرح مختصر: التحقق من حالة iCloud وميزة Find My iPhone. الخصائص: يوضح حالة FMI (ON / OFF) وقفل التنشيط.",
+        srv2Desc: "<strong>شرح مختصر:</strong> التحقق من حالة iCloud وميزة Find My iPhone.<br><strong>الخصائص:</strong> يوضح حالة FMI (ON / OFF) ووجود قفل تنشيط مرتبط بحساب المالك السابق.",
         srv3Name: "Blacklist GSMA PRO (#7)",
-        srv3Desc: "شرح مختصر: فحص سجل الفقدان أو السرقة أو الحظر الدولي. الخصائص: يفحص قاعدة GSMA؛ نتيجة Clean لا تضمن عدم وجود حظر لدى جميع المشغلين.",
+        srv3Desc: "<strong>شرح مختصر:</strong> فحص سجل الفقدان أو السرقة أو الحظر الدولي.<br><strong>الخصائص:</strong> يفحص قاعدة GSMA؛ نتيجة Clean لا تضمن عدم وجود حظر لدى جميع المشغلين.",
         srv4Name: "GSX + Sold By + Repairs",
-        srv4Desc: "شرح مختصر: تقرير متقدم شامل لبيانات GSX، مصدر البيع، وسجل الإصلاحات. الخصائص: يشمل GSX، الضمان (#6)، Sold By، وسجل الصيانة.",
+        srv4Desc: "<strong>شرح مختصر:</strong> تقرير متقدم شامل لبيانات GSX، مصدر البيع، وسجل الإصلاحات.<br><strong>الخصائص:</strong> يوضح GSX، الضمان والتغطية (#6)، Sold By حسب مصدر الفحص، وسجل الصيانة.",
         errCaptcha: "رمز التحقق غير صحيح.",
         errImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
         okImei: "تم التحقق الرياضي من رقم IMEI بنجاح:",
@@ -2456,13 +2456,13 @@
         badge: "Payant",
         badgePro: "Populaire",
         srv1Name: "Carrier & SIMLock (#8)",
-        srv1Desc: "Aperçu : état du verrouillage réseau et carte SIM. Caractéristiques : Unlocked/Locked et compatibilité Mobilis / Djezzy / Ooredoo.",
+        srv1Desc: "<strong>Aperçu :</strong> état du verrouillage réseau et carte SIM.<br><strong>Caractéristiques :</strong> Unlocked/Locked et compatibilité Mobilis / Djezzy / Ooredoo.",
         srv2Name: "iCloud / FMI (#5)",
-        srv2Desc: "Aperçu : état iCloud et Find My iPhone. Caractéristiques : FMI (ON/OFF) et verrouillage d'activation.",
+        srv2Desc: "<strong>Aperçu :</strong> état iCloud et Find My iPhone.<br><strong>Caractéristiques :</strong> FMI (ON/OFF) et verrouillage d'activation.",
         srv3Name: "Blacklist GSMA PRO (#7)",
-        srv3Desc: "Aperçu : statut perdu, volé ou bloqué GSMA. Caractéristiques : Clean ne garantit pas tous les opérateurs.",
+        srv3Desc: "<strong>Aperçu :</strong> statut perdu, volé ou bloqué GSMA.<br><strong>Caractéristiques :</strong> Clean ne garantit pas tous les opérateurs.",
         srv4Name: "GSX + Sold By + Repairs",
-        srv4Desc: "Aperçu : rapport détaillé GSX, Sold By et réparations. Caractéristiques : GSX, couverture (#6), Sold By et historique.",
+        srv4Desc: "<strong>Aperçu :</strong> rapport détaillé GSX, Sold By et réparations.<br><strong>Caractéristiques :</strong> GSX, couverture (#6), Sold By et historique.",
         errCaptcha: "Code CAPTCHA invalide.",
         errImei: "Veuillez saisir un IMEI valide à 15 chiffres.",
         okImei: "IMEI validé mathématiquement :",
@@ -2531,13 +2531,13 @@
         badge: "Paid",
         badgePro: "Most Popular",
         srv1Name: "Carrier & SIMLock (#8)",
-        srv1Desc: "Summary: carrier lock and SIM status before purchase. Features: Unlocked/Locked and Mobilis / Djezzy / Ooredoo check.",
+        srv1Desc: "<strong>Summary:</strong> carrier lock and SIM status before purchase.<br><strong>Features:</strong> Unlocked/Locked and Mobilis / Djezzy / Ooredoo check.",
         srv2Name: "iCloud / FMI (#5)",
-        srv2Desc: "Summary: iCloud and Find My iPhone status. Features: FMI (ON/OFF) and Activation Lock state.",
+        srv2Desc: "<strong>Summary:</strong> iCloud and Find My iPhone status.<br><strong>Features:</strong> FMI (ON/OFF) and Activation Lock state.",
         srv3Name: "Blacklist GSMA PRO (#7)",
-        srv3Desc: "Summary: lost, stolen, or barred GSMA status. Features: GSMA check; Clean does not guarantee all carriers.",
+        srv3Desc: "<strong>Summary:</strong> lost, stolen, or barred GSMA status.<br><strong>Features:</strong> GSMA check; Clean does not guarantee all carriers.",
         srv4Name: "GSX + Sold By + Repairs",
-        srv4Desc: "Summary: detailed GSX, Sold By, and repair history report. Features: GSX, coverage (#6), Sold By, and repairs.",
+        srv4Desc: "<strong>Summary:</strong> detailed GSX, Sold By, and repair history report.<br><strong>Features:</strong> GSX, coverage (#6), Sold By, and repairs.",
         errCaptcha: "Invalid captcha code.",
         errImei: "Please enter a valid 15-digit IMEI number.",
         okImei: "IMEI mathematically validated:",
@@ -2613,6 +2613,12 @@
 
     const HISTORY_KEY = "gsm_yasser_history";
     const HISTORY_MAX = 5;
+
+    function closeDrawerImmediate() {
+      drawerBackdrop.classList.remove("open");
+      drawerBackdrop.setAttribute("aria-hidden", "true");
+      drawerOpenBtn.setAttribute("aria-expanded", "false");
+    }
 
     function setDrawer(open) {
       drawerBackdrop.classList.toggle("open", open);
@@ -2767,13 +2773,13 @@
       document.getElementById("paidSub").innerHTML = t.paidSubHtml;
 
       document.getElementById("srv1Name").textContent = t.srv1Name;
-      document.getElementById("srv1Desc").textContent = t.srv1Desc;
+      document.getElementById("srv1Desc").innerHTML = t.srv1Desc;
       document.getElementById("srv2Name").textContent = t.srv2Name;
-      document.getElementById("srv2Desc").textContent = t.srv2Desc;
+      document.getElementById("srv2Desc").innerHTML = t.srv2Desc;
       document.getElementById("srv3Name").textContent = t.srv3Name;
-      document.getElementById("srv3Desc").textContent = t.srv3Desc;
+      document.getElementById("srv3Desc").innerHTML = t.srv3Desc;
       document.getElementById("srv4Name").textContent = t.srv4Name;
-      document.getElementById("srv4Desc").textContent = t.srv4Desc;
+      document.getElementById("srv4Desc").innerHTML = t.srv4Desc;
 
       ["badge1", "badge2", "badge3", "badge4"].forEach((id) => {
         document.getElementById(id).textContent = t.badge;
@@ -2829,40 +2835,28 @@
     });
 
     document.querySelectorAll("#drawerBackdrop a.drawer-item").forEach((link) => {
-      link.addEventListener("click", () => {
-        drawerBackdrop.classList.remove("open");
-        drawerBackdrop.setAttribute("aria-hidden", "true");
-        drawerOpenBtn.setAttribute("aria-expanded", "false");
-      });
+      link.addEventListener("click", closeDrawerImmediate);
     });
 
     menuFaq.addEventListener("click", () => {
-      drawerBackdrop.classList.remove("open");
-      drawerBackdrop.setAttribute("aria-hidden", "true");
-      drawerOpenBtn.setAttribute("aria-expanded", "false");
+      closeDrawerImmediate();
       const fab = document.getElementById("gsmFloatingFab");
       if (fab) fab.click();
     });
 
     menuPayment.addEventListener("click", () => {
-      drawerBackdrop.classList.remove("open");
-      drawerBackdrop.setAttribute("aria-hidden", "true");
-      drawerOpenBtn.setAttribute("aria-expanded", "false");
+      closeDrawerImmediate();
       paymentOverlay.classList.add("visible");
     });
 
     menuAlertsHistory.addEventListener("click", () => {
-      drawerBackdrop.classList.remove("open");
-      drawerBackdrop.setAttribute("aria-hidden", "true");
-      drawerOpenBtn.setAttribute("aria-expanded", "false");
+      closeDrawerImmediate();
       renderHistory();
       historyOverlay.classList.add("visible");
     });
 
     menuAccount.addEventListener("click", () => {
-      drawerBackdrop.classList.remove("open");
-      drawerBackdrop.setAttribute("aria-hidden", "true");
-      drawerOpenBtn.setAttribute("aria-expanded", "false");
+      closeDrawerImmediate();
       updateAccountModal();
       accountOverlay.classList.add("visible");
     });
@@ -2885,9 +2879,7 @@
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        drawerBackdrop.classList.remove("open");
-        drawerBackdrop.setAttribute("aria-hidden", "true");
-        drawerOpenBtn.setAttribute("aria-expanded", "false");
+        closeDrawerImmediate();
         paymentOverlay.classList.remove("visible");
         accountOverlay.classList.remove("visible");
         historyOverlay.classList.remove("visible");
@@ -2968,8 +2960,8 @@
 
       try {
         await checkFreeImei(cleanImei, reportData.tac, reportData.device || "iPhone");
-      } catch (err) {
-        console.warn("API check warning:", err);
+      } catch (_) {
+        // المتابعة محلياً حتى لو لم يكن الخادم الخارجي متاحاً
       } finally {
         freeCheckBtn.disabled = false;
         freeCheckBtn.classList.remove("loading");
@@ -3049,7 +3041,7 @@
             refId,
             notes: "Ordered via GSM Yasser Server UI",
             keepalive: true,
-          }).catch((err) => console.warn("Order API warning:", err));
+          }).catch(() => {});
 
           window.open(waUrl, "_blank", "noopener");
         }
@@ -3064,7 +3056,7 @@
     applyLang(currentLang);
   </script>
 
-  <!-- ========== LIVE IPHONE NEWS IN EMPTY FRAME UNDER FREE CHECK ========== -->
+  <!-- ========== LIVE IPHONE NEWS (AUTO-SYNCED + TIMEOUT + FALLBACK) ========== -->
   <script>
   (function () {
     const NEWS_I18N = {
@@ -3077,7 +3069,7 @@
         refreshing: "جاري التحديث...",
         refreshAria: "تحديث الأخبار الآن",
         fallbackTitle: "خبر آيفون",
-        empty: "الإطار جاهز — لا توجد أخبار متاحة حالياً.",
+        empty: "لا توجد أخبار متاحة حالياً.",
         error: "تعذّر جلب الأخبار الآن، يرجى المحاولة لاحقاً.",
         rss: "https://news.google.com/rss/search?q=iPhone+OR+%D8%A2%D9%8A%D9%81%D9%88%D9%86+-Android+-Samsung&hl=ar&gl=DZ&ceid=DZ:ar"
       },
@@ -3090,7 +3082,7 @@
         refreshing: "Actualisation...",
         refreshAria: "Actualiser les actualités maintenant",
         fallbackTitle: "Actualité iPhone",
-        empty: "Cadre prêt — aucune actualité disponible.",
+        empty: "Aucune actualité disponible pour le moment.",
         error: "Impossible de charger les actualités pour l'instant.",
         rss: "https://news.google.com/rss/search?q=iPhone+Apple+-Android+-Samsung&hl=fr&gl=FR&ceid=FR:fr"
       },
@@ -3103,13 +3095,14 @@
         refreshing: "Refreshing...",
         refreshAria: "Refresh news now",
         fallbackTitle: "iPhone News",
-        empty: "Frame ready — no news available right now.",
+        empty: "No news available right now.",
         error: "Unable to load news right now. Please try again later.",
         rss: "https://news.google.com/rss/search?q=iPhone+Apple+-Android+-Samsung&hl=en-US&gl=US&ceid=US:en"
       }
     };
 
     const ONE_HOUR = 60 * 60 * 1000;
+    const FETCH_TIMEOUT_MS = 6500;
     let currentNewsLang = "ar";
     let isFetchingNews = false;
 
@@ -3132,6 +3125,49 @@
       label.textContent = loading ? cfg.refreshing : cfg.refresh;
     };
 
+    async function fetchWithTimeout(url, timeoutMs = FETCH_TIMEOUT_MS) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        const res = await fetch(url, { signal: controller.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    function parseRssXml(xmlText) {
+      const doc = new DOMParser().parseFromString(xmlText, "text/xml");
+      const nodes = Array.from(doc.querySelectorAll("item")).slice(0, 6);
+      return nodes.map((item) => ({
+        title: (item.querySelector("title")?.textContent || "").trim(),
+        link: (item.querySelector("link")?.textContent || "#").trim(),
+        pubDate: (item.querySelector("pubDate")?.textContent || "").trim()
+      })).filter((x) => x.title);
+    }
+
+    async function fetchNewsItems(rssUrl) {
+      try {
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+        const res = await fetchWithTimeout(proxyUrl);
+        const payload = await res.json();
+        if (payload && payload.contents) {
+          const parsed = parseRssXml(payload.contents);
+          if (parsed.length > 0) return parsed;
+        }
+      } catch (_) {}
+
+      const fallbackUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+      const res2 = await fetchWithTimeout(fallbackUrl);
+      const data2 = await res2.json();
+      if (data2 && data2.status === "ok" && Array.isArray(data2.items) && data2.items.length > 0) {
+        return data2.items.slice(0, 6);
+      }
+
+      throw new Error("All news sources failed");
+    }
+
     async function loadIphoneNews(lang = currentNewsLang, options = {}) {
       const forceRefresh = Boolean(options && options.forceRefresh);
       const activeLang = NEWS_I18N[lang] ? lang : "ar";
@@ -3148,10 +3184,8 @@
       wrapper.setAttribute("dir", cfg.dir);
       if (heading) heading.textContent = cfg.heading;
       if (badge) badge.textContent = cfg.badge;
-      if (!isFetchingNews) setRefreshUi(cfg, false);
 
-      const cacheKey = `gsm_yasser_iphone_news_${activeLang}_v1`;
-      const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(cfg.rss)}`;
+      const cacheKey = `gsm_yasser_iphone_news_${activeLang}_v2`;
 
       const renderItems = (items) => {
         if (!Array.isArray(items) || !items.length) {
@@ -3162,56 +3196,68 @@
         wrapper.classList.add("has-items");
         container.innerHTML = items.slice(0, 6).map((item) => {
           const title = escapeHtml(item.title || cfg.fallbackTitle);
-          const link = escapeHtml(item.link || "#");
-          const dateText = item.pubDate
-            ? escapeHtml(new Date(item.pubDate).toLocaleString(cfg.locale))
-            : "";
+          const safeLink = /^https?:\/\//i.test(item.link || "") ? escapeHtml(item.link) : "#";
+          let dateText = "";
+          if (item.pubDate) {
+            const parsedDate = new Date(item.pubDate);
+            if (!isNaN(parsedDate.getTime())) {
+              dateText = escapeHtml(parsedDate.toLocaleString(cfg.locale, {
+                dateStyle: "medium",
+                timeStyle: "short"
+              }));
+            }
+          }
           return `
             <article class="news-card">
-              <h3><a href="${link}" target="_blank" rel="noopener noreferrer">${title}</a></h3>
+              <h3><a href="${safeLink}" target="_blank" rel="noopener noreferrer">${title}</a></h3>
               ${dateText ? `<time>${dateText}</time>` : ""}
             </article>
           `;
         }).join("");
       };
 
-      try {
-        if (!forceRefresh) {
+      if (!forceRefresh) {
+        try {
           const cachedRaw = localStorage.getItem(cacheKey);
           if (cachedRaw) {
             const cached = JSON.parse(cachedRaw);
-            if (cached && Array.isArray(cached.items) && Date.now() - cached.timestamp < ONE_HOUR) {
+            if (cached && Array.isArray(cached.items) && cached.items.length > 0 && Date.now() - cached.timestamp < ONE_HOUR) {
               renderItems(cached.items);
+              setRefreshUi(cfg, false);
               return;
             }
           }
-        }
+        } catch (_) {}
+      }
 
-        isFetchingNews = true;
-        setRefreshUi(cfg, true);
+      if (isFetchingNews) return;
+      isFetchingNews = true;
+      setRefreshUi(cfg, true);
 
-        const res = await fetch(apiUrl);
-        if (!res.ok) throw new Error("Network error");
-        const data = await res.json();
-        const items = Array.isArray(data.items) ? data.items : [];
-
+      try {
+        const items = await fetchNewsItems(cfg.rss);
         localStorage.setItem(cacheKey, JSON.stringify({
           timestamp: Date.now(),
           items
         }));
         renderItems(items);
       } catch (_) {
+        let restoredFromOldCache = false;
         try {
           const cachedRaw = localStorage.getItem(cacheKey);
           if (cachedRaw) {
             const cached = JSON.parse(cachedRaw);
-            renderItems(cached.items || []);
-            return;
+            if (cached && Array.isArray(cached.items) && cached.items.length > 0) {
+              renderItems(cached.items);
+              restoredFromOldCache = true;
+            }
           }
         } catch (__) {}
 
-        wrapper.classList.remove("has-items");
-        container.innerHTML = `<p class="news-status">${escapeHtml(cfg.error)}</p>`;
+        if (!restoredFromOldCache) {
+          wrapper.classList.remove("has-items");
+          container.innerHTML = `<p class="news-status">${escapeHtml(cfg.error)}</p>`;
+        }
       } finally {
         isFetchingNews = false;
         setRefreshUi(cfg, false);
@@ -3220,132 +3266,30 @@
 
     document.addEventListener("click", (event) => {
       const refreshBtn = event.target.closest("#iphone-news-refresh-btn");
-      if (!refreshBtn || isFetchingNews) return;
-      loadIphoneNews(currentNewsLang, { forceRefresh: true });
-    });
-
-    window.setIphoneNewsLang = (lang) => loadIphoneNews(lang, { forceRefresh: false });
-
-    const initialLang = (document.documentElement.lang || "ar").slice(0, 2).toLowerCase();
-    loadIphoneNews(initialLang, { forceRefresh: false });
-  })();
-  </script>
-
-  <!-- ========== AUTO-SYNC NEWS WITH SITE LANGUAGE & THEME CONTROLS ========== -->
-  <script>
-  (function () {
-    const SUPPORTED_LANGS = ["ar", "fr", "en"];
-
-    const normalizeLang = (raw) => {
-      if (!raw) return null;
-      const code = String(raw).trim().slice(0, 2).toLowerCase();
-      return SUPPORTED_LANGS.includes(code) ? code : null;
-    };
-
-    const detectCurrentTheme = () => {
-      const html = document.documentElement;
-      const body = document.body;
-
-      const attrTheme = html.getAttribute("data-theme") || (body && body.getAttribute("data-theme"));
-      if (attrTheme === "dark" || attrTheme === "light") return attrTheme;
-
-      const hasDarkClass =
-        html.classList.contains("dark") ||
-        html.classList.contains("theme-dark") ||
-        (body && (body.classList.contains("dark") || body.classList.contains("theme-dark")));
-      if (hasDarkClass) return "dark";
-
-      const hasLightClass =
-        html.classList.contains("light") ||
-        html.classList.contains("theme-light") ||
-        (body && (body.classList.contains("light") || body.classList.contains("theme-light")));
-      if (hasLightClass) return "light";
-
-      return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-    };
-
-    const applyThemeToNews = (theme) => {
-      const resolved = theme === "dark" ? "dark" : "light";
-      document.documentElement.setAttribute("data-theme", resolved);
-      const wrapper = document.getElementById("iphone-news-wrapper");
-      if (wrapper) {
-        wrapper.setAttribute("data-theme", resolved);
-      }
-    };
-
-    const detectCurrentLang = () => {
-      const htmlLang = normalizeLang(document.documentElement.lang);
-      if (htmlLang) return htmlLang;
-
-      const bodyLang = normalizeLang(document.body && document.body.lang);
-      if (bodyLang) return bodyLang;
-
-      const wrapper = document.getElementById("iphone-news-wrapper");
-      const wrapperLang = normalizeLang(wrapper && wrapper.getAttribute("lang"));
-      return wrapperLang || "ar";
-    };
-
-    let lastAppliedLang = null;
-
-    const syncLang = (nextLang) => {
-      const resolved = normalizeLang(nextLang) || detectCurrentLang();
-      if (resolved === lastAppliedLang) return;
-      lastAppliedLang = resolved;
-
-      if (typeof window.setIphoneNewsLang === "function") {
-        window.setIphoneNewsLang(resolved);
-      }
-    };
-
-    const syncTheme = (explicitTheme) => {
-      applyThemeToNews(explicitTheme || detectCurrentTheme());
-    };
-
-    document.addEventListener("click", (event) => {
-      const target = event.target.closest(
-        "[data-lang], [data-theme], #themeToggle, [data-action='toggle-theme'], #theme-toggle, .theme-toggle"
-      );
-      if (!target) return;
-
-      const langAttr = normalizeLang(target.getAttribute("data-lang"));
-      if (langAttr) {
-        setTimeout(() => syncLang(langAttr), 0);
-      }
-
-      const themeAttr = target.getAttribute("data-theme");
-      if (themeAttr === "dark" || themeAttr === "light") {
-        setTimeout(() => syncTheme(themeAttr), 0);
+      if (refreshBtn && !isFetchingNews) {
+        loadIphoneNews(currentNewsLang, { forceRefresh: true });
         return;
       }
 
-      if (
-        target.matches("#themeToggle, [data-action='toggle-theme'], #theme-toggle, .theme-toggle")
-      ) {
-        setTimeout(() => syncTheme(), 0);
+      const langBtn = event.target.closest("[data-lang]");
+      if (langBtn) {
+        const nextLang = (langBtn.getAttribute("data-lang") || "ar").slice(0, 2).toLowerCase();
+        setTimeout(() => loadIphoneNews(nextLang, { forceRefresh: false }), 0);
       }
     });
 
-    const observer = new MutationObserver(() => {
-      syncLang(detectCurrentLang());
-      syncTheme();
-    });
-
-    observer.observe(document.documentElement, {
+    new MutationObserver(() => {
+      const htmlLang = (document.documentElement.lang || "ar").slice(0, 2).toLowerCase();
+      if (NEWS_I18N[htmlLang] && htmlLang !== currentNewsLang) {
+        loadIphoneNews(htmlLang, { forceRefresh: false });
+      }
+    }).observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["lang", "dir", "data-theme", "class"]
+      attributeFilter: ["lang"]
     });
 
-    if (document.body) {
-      observer.observe(document.body, {
-        attributes: true,
-        attributeFilter: ["lang", "dir", "data-theme", "class"]
-      });
-    }
-
-    syncTheme();
-    syncLang(detectCurrentLang());
+    const initialLang = (document.documentElement.lang || "ar").slice(0, 2).toLowerCase();
+    loadIphoneNews(initialLang, { forceRefresh: false });
   })();
   </script>
 
