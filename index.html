@@ -638,6 +638,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      min-width: 0;
+      overflow: hidden;
       transition: border-color 0.2s ease, transform 0.15s ease;
     }
 
@@ -655,20 +657,27 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 10px;
+      flex-wrap: wrap;
+      gap: 8px 10px;
       margin-bottom: 10px;
+      max-width: 100%;
     }
 
     .service-name {
       font-size: 1.15rem;
       font-weight: 800;
       line-height: 1.4;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .badges-wrap {
-      display: inline-flex;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
       align-items: center;
       gap: 6px;
+      max-width: 100%;
       flex-shrink: 0;
     }
 
@@ -1378,6 +1387,16 @@
         padding: 20px 16px;
       }
 
+      .service-item {
+        padding: 16px;
+      }
+
+      .badge,
+      .badge-pro {
+        font-size: 0.78rem;
+        padding: 3px 9px;
+      }
+
       .captcha-controls {
         min-width: 100%;
       }
@@ -2008,7 +2027,7 @@
         srv2Name: "فحص iCloud & FMI (#5)",
         srv2Desc: "شرح مختصر: التحقق من حالة iCloud وميزة Find My iPhone. الخصائص: يوضح حالة FMI (ON / OFF) وقفل التنشيط.",
         srv3Name: "Blacklist GSMA PRO (#7)",
-        srv3Desc: "شرح مختصر: فحص سجل الفقدان أو السرقة أو الحظر الدولي. الخصائص: يفحص GSMA؛ نتيجة Clean لا تضمن جميع المشغلين.",
+        srv3Desc: "شرح مختصر: فحص سجل الفقدان أو السرقة أو الحظر الدولي. الخصائص: يفحص GSMA؛ نتيجة Clean لا تضمن عدم وجود حظر لدى جميع المشغلين.",
         srv4Name: "GSX + Sold By + Repairs",
         srv4Desc: "شرح مختصر: تقرير متقدم شامل لبيانات GSX، مصدر البيع، وسجل الإصلاحات. الخصائص: يشمل GSX، الضمان (#6)، Sold By، وسجل الصيانة.",
         trust1Title: "بيانات Apple & GSX", trust1Sub: "تقارير دقيقة عبر الخدمات المدفوعة",
