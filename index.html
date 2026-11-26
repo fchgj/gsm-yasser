@@ -314,6 +314,15 @@
       min-width: 0;
     }
 
+    .left-column {
+      order: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: 100%;
+      min-width: 0;
+    }
+
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -328,7 +337,6 @@
     }
 
     #imeiCheckSection {
-      order: 1;
       border-color: rgba(37, 99, 235, 0.42);
       justify-content: flex-start;
     }
@@ -627,6 +635,182 @@
 
     .help-line a:hover { text-decoration: underline; }
 
+    /* ---------- EMPTY FRAME FOR IPHONE NEWS UNDER FREE CHECK ---------- */
+    .iphone-news-section {
+      background: var(--surface);
+      color: var(--text);
+      padding: 20px 18px;
+      border-radius: 18px;
+      border: 1.5px dashed var(--border);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .iphone-news-section.has-items {
+      border-style: solid;
+    }
+
+    .iphone-news-section:lang(ar),
+    [dir="rtl"] .iphone-news-section {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .iphone-news-section:lang(fr),
+    .iphone-news-section:lang(en),
+    [dir="ltr"] .iphone-news-section {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .iphone-news-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .iphone-news-title {
+      margin: 0;
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .iphone-news-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .iphone-news-badge {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .iphone-refresh-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .iphone-refresh-btn:hover:not(:disabled) {
+      background: var(--surface-3);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .iphone-refresh-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .iphone-refresh-icon {
+      display: inline-block;
+      line-height: 1;
+      font-size: 0.95rem;
+    }
+
+    .iphone-refresh-btn.is-loading .iphone-refresh-icon {
+      animation: iphoneNewsSpin 0.8s linear infinite;
+    }
+
+    @keyframes iphoneNewsSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .news-frame-slot {
+      min-height: 140px;
+      border-radius: 13px;
+      background: var(--surface-2);
+      border: 1px dashed var(--border);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .iphone-news-section.has-items .news-frame-slot {
+      background: transparent;
+      border: none;
+      padding: 0;
+      display: block;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .news-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      min-width: 0;
+      transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-2px);
+      background: var(--surface-3);
+      border-color: var(--accent);
+    }
+
+    .news-card h3 {
+      margin: 0;
+      font-size: 0.94rem;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .news-card a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .news-card a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .news-card time {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .news-status {
+      margin: 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
     /* ---------- MESSAGES ---------- */
     .msg {
       margin-top: 14px;
@@ -826,174 +1010,6 @@
     .service-item.featured .wa-btn:hover {
       background: var(--accent-hover);
       border-color: var(--accent-hover);
-    }
-
-    /* ---------- 5. LIVE IPHONE NEWS SECTION (RSS2JSON + CACHE + REFRESH) ---------- */
-    .iphone-news-section {
-      order: 3.5;
-      margin-top: 22px;
-      background: var(--surface);
-      color: var(--text);
-      padding: 22px 20px;
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
-    }
-
-    .iphone-news-section:lang(ar),
-    [dir="rtl"] .iphone-news-section {
-      direction: rtl;
-      text-align: right;
-    }
-
-    .iphone-news-section:lang(fr),
-    .iphone-news-section:lang(en),
-    [dir="ltr"] .iphone-news-section {
-      direction: ltr;
-      text-align: left;
-    }
-
-    .iphone-news-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .iphone-news-title {
-      margin: 0;
-      font-size: 1.32rem;
-      font-weight: 800;
-      color: var(--text);
-    }
-
-    .iphone-news-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .iphone-news-badge {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--accent);
-      background: var(--accent-soft);
-      padding: 5px 12px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .iphone-refresh-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 14px;
-      font-size: 0.86rem;
-      font-weight: 700;
-      color: var(--text);
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      cursor: pointer;
-      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
-    }
-
-    .iphone-refresh-btn:hover:not(:disabled) {
-      background: var(--surface-3);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .iphone-refresh-btn:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-
-    .iphone-refresh-icon {
-      display: inline-block;
-      line-height: 1;
-      font-size: 1rem;
-    }
-
-    .iphone-refresh-btn.is-loading .iphone-refresh-icon {
-      animation: iphoneNewsSpin 0.8s linear infinite;
-    }
-
-    @keyframes iphoneNewsSpin {
-      to { transform: rotate(360deg); }
-    }
-
-    .news-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 12px;
-    }
-
-    @media (min-width: 640px) {
-      .news-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .news-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-    }
-
-    .news-card {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 10px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      padding: 15px;
-      min-width: 0;
-      transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-    }
-
-    .news-card:hover {
-      transform: translateY(-2px);
-      background: var(--surface-3);
-      border-color: var(--accent);
-    }
-
-    .news-card h3 {
-      margin: 0;
-      font-size: 0.98rem;
-      line-height: 1.5;
-      font-weight: 700;
-    }
-
-    .news-card a {
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    .news-card a:hover {
-      color: var(--accent);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    .news-card time {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .news-status {
-      margin: 0;
-      font-size: 0.95rem;
-      color: var(--muted);
     }
 
     /* ---------- 6. FOOTER & SOCIAL ICONS ---------- */
@@ -1932,85 +1948,109 @@
 
     <!-- ========== 3 & 4. MAIN LAYOUT ========== -->
     <div class="main-layout">
-      <!-- ===== 3. FREE CHECK CARD ===== -->
-      <section class="card" id="imeiCheckSection">
-        <div class="card-header-row">
-          <h2 class="card-title" id="freeTitle">فحص مجاني</h2>
-          <span class="free-pill" id="freeBadgeText">مجاني 100%</span>
-        </div>
-        <p class="card-sub" id="freeSub">تحقق رياضياً من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</p>
+      <div class="left-column">
+        <!-- ===== 3. FREE CHECK CARD ===== -->
+        <section class="card" id="imeiCheckSection">
+          <div class="card-header-row">
+            <h2 class="card-title" id="freeTitle">فحص مجاني</h2>
+            <span class="free-pill" id="freeBadgeText">مجاني 100%</span>
+          </div>
+          <p class="card-sub" id="freeSub">تحقق رياضياً من رقم IMEI المكوّن من 15 رقماً واطبع أو احفظ التقرير</p>
 
-        <form id="imeiForm" novalidate>
-          <label for="imeiInput" class="sr-only">رقم IMEI</label>
-          <input
-            type="text"
-            id="imeiInput"
-            class="field"
-            maxlength="19"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="أدخل رقم IMEI المكوّن من 15 رقماً"
-            aria-describedby="imeiHint"
-            required
-          />
-          <div id="imeiHint" class="imei-hint" aria-live="polite"></div>
+          <form id="imeiForm" novalidate>
+            <label for="imeiInput" class="sr-only">رقم IMEI</label>
+            <input
+              type="text"
+              id="imeiInput"
+              class="field"
+              maxlength="19"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="أدخل رقم IMEI المكوّن من 15 رقماً"
+              aria-describedby="imeiHint"
+              required
+            />
+            <div id="imeiHint" class="imei-hint" aria-live="polite"></div>
 
-          <div class="captcha-row">
-            <label for="captchaInput" class="captcha-label" id="captchaLabel">رمز التحقق:</label>
-            <div class="captcha-controls">
-              <input
-                type="text"
-                id="captchaInput"
-                class="captcha-input"
-                maxlength="6"
-                placeholder="الرمز"
-                autocomplete="off"
-                required
-              />
-              <span id="captchaCode" class="captcha-box" aria-label="رمز التحقق المرئي">NMKLU</span>
-              <button type="button" id="refreshCaptcha" class="refresh-btn" title="تحديث الرمز" aria-label="تحديث رمز التحقق">↻</button>
+            <div class="captcha-row">
+              <label for="captchaInput" class="captcha-label" id="captchaLabel">رمز التحقق:</label>
+              <div class="captcha-controls">
+                <input
+                  type="text"
+                  id="captchaInput"
+                  class="captcha-input"
+                  maxlength="6"
+                  placeholder="الرمز"
+                  autocomplete="off"
+                  required
+                />
+                <span id="captchaCode" class="captcha-box" aria-label="رمز التحقق المرئي">NMKLU</span>
+                <button type="button" id="refreshCaptcha" class="refresh-btn" title="تحديث الرمز" aria-label="تحديث رمز التحقق">↻</button>
+              </div>
+            </div>
+
+            <button type="submit" class="primary-btn" id="freeCheckBtn">
+              <span class="progress"></span>
+              <span id="freeCheckBtnText">فحص مجاني</span>
+            </button>
+          </form>
+
+          <div id="statusMsg" class="msg" role="status" aria-live="polite"></div>
+
+          <div id="resultPanel" class="result-panel" role="region" aria-label="نتيجة الفحص">
+            <div id="resultSummary" class="result-summary"></div>
+            <div class="result-actions">
+              <button type="button" class="copy-btn" id="copyImeiBtn">📋 <span id="copyText">نسخ IMEI</span></button>
+              <a href="report.html" class="chip-btn active" id="viewReportBtn">عرض التقرير</a>
+              <a href="steps.html" class="chip-btn" id="viewStepsBtn">خطوات الاستخدام</a>
             </div>
           </div>
 
-          <button type="submit" class="primary-btn" id="freeCheckBtn">
-            <span class="progress"></span>
-            <span id="freeCheckBtnText">فحص مجاني</span>
-          </button>
-        </form>
+          <a href="#paidServicesSection" class="iphone-promo-banner" id="iphonePromoBanner">
+            <div class="iphone-promo-copy">
+              <strong id="promoTitle">فحص احترافي لـ iPhone عبر IMEI</strong>
+              <span id="promoSub">تحقق من حالة الشبكة، iCloud / FMI، وبيانات GSX قبل الشراء</span>
+            </div>
+          </a>
 
-        <div id="statusMsg" class="msg" role="status" aria-live="polite"></div>
-
-        <div id="resultPanel" class="result-panel" role="region" aria-label="نتيجة الفحص">
-          <div id="resultSummary" class="result-summary"></div>
-          <div class="result-actions">
-            <button type="button" class="copy-btn" id="copyImeiBtn">📋 <span id="copyText">نسخ IMEI</span></button>
-            <a href="report.html" class="chip-btn active" id="viewReportBtn">عرض التقرير</a>
-            <a href="steps.html" class="chip-btn" id="viewStepsBtn">خطوات الاستخدام</a>
+          <div class="tips-box" id="tipsBox">
+            <strong>💡 نصائح سريعة:</strong>
+            <ul id="tipsList">
+              <li>اطلب <code class="ltr-num">*#06#</code> من هاتفك لعرض IMEI.</li>
+              <li>IMEI يتكون من 15 رقماً فقط.</li>
+              <li>تحقق من الرقم قبل طلب الخدمات المدفوعة.</li>
+            </ul>
           </div>
-        </div>
 
-        <a href="#paidServicesSection" class="iphone-promo-banner" id="iphonePromoBanner">
-          <div class="iphone-promo-copy">
-            <strong id="promoTitle">فحص احترافي لـ iPhone عبر IMEI</strong>
-            <span id="promoSub">تحقق من حالة الشبكة، iCloud / FMI، وبيانات GSX قبل الشراء</span>
+          <div class="help-line">
+            <span id="imeiHelpText">لا تعرف IMEI؟ اطلب</span>
+            <code class="ltr-num">*#06#</code> ·
+            <a href="steps.html" id="whereImeiLink">أين أجد IMEI؟</a>
           </div>
-        </a>
+        </section>
 
-        <div class="tips-box" id="tipsBox">
-          <strong>💡 نصائح سريعة:</strong>
-          <ul id="tipsList">
-            <li>اطلب <code class="ltr-num">*#06#</code> من هاتفك لعرض IMEI.</li>
-            <li>IMEI يتكون من 15 رقماً فقط.</li>
-            <li>تحقق من الرقم قبل طلب الخدمات المدفوعة.</li>
-          </ul>
-        </div>
-
-        <div class="help-line">
-          <span id="imeiHelpText">لا تعرف IMEI؟ اطلب</span>
-          <code class="ltr-num">*#06#</code> ·
-          <a href="steps.html" id="whereImeiLink">أين أجد IMEI؟</a>
-        </div>
-      </section>
+        <!-- ===== EMPTY FRAME FOR IPHONE NEWS UNDER FREE CHECK ===== -->
+        <section id="iphone-news-wrapper" class="iphone-news-section" lang="ar" aria-label="أخبار آيفون">
+          <div class="iphone-news-header">
+            <h2 id="iphone-news-heading" class="iphone-news-title">أخبار آيفون</h2>
+            <div class="iphone-news-actions">
+              <span id="iphone-news-badge" class="iphone-news-badge">تحديث كل ساعة</span>
+              <button
+                type="button"
+                id="iphone-news-refresh-btn"
+                class="iphone-refresh-btn"
+                aria-label="تحديث الأخبار الآن"
+              >
+                <span class="iphone-refresh-icon" aria-hidden="true">↻</span>
+                <span id="iphone-news-refresh-label">تحديث الآن</span>
+              </button>
+            </div>
+          </div>
+          <div class="news-frame-slot" id="iphone-news-frame">
+            <div id="iphone-news" class="news-grid"></div>
+          </div>
+        </section>
+      </div>
 
       <!-- ===== 4. PAID SERVICES (NO PRICES ON CARDS) ===== -->
       <section class="card" id="paidServicesSection">
@@ -2090,26 +2130,6 @@
         </div>
       </section>
     </div>
-
-    <!-- ========== 5. LIVE IPHONE NEWS SECTION (RSS2JSON + CACHE + REFRESH) ========== -->
-    <section id="iphone-news-wrapper" class="iphone-news-section" lang="ar" aria-label="أخبار آيفون">
-      <div class="iphone-news-header">
-        <h2 id="iphone-news-heading" class="iphone-news-title">أخبار آيفون</h2>
-        <div class="iphone-news-actions">
-          <span id="iphone-news-badge" class="iphone-news-badge">تحديث كل ساعة</span>
-          <button
-            type="button"
-            id="iphone-news-refresh-btn"
-            class="iphone-refresh-btn"
-            aria-label="تحديث الأخبار الآن"
-          >
-            <span class="iphone-refresh-icon" aria-hidden="true">↻</span>
-            <span id="iphone-news-refresh-label">تحديث الآن</span>
-          </button>
-        </div>
-      </div>
-      <div id="iphone-news" class="news-grid"></div>
-    </section>
 
     <!-- ========== 6. FOOTER ========== -->
     <footer class="footer-box">
@@ -3044,7 +3064,7 @@
     applyLang(currentLang);
   </script>
 
-  <!-- ========== LIVE IPHONE NEWS (RSS2JSON + 1H CACHE + MANUAL REFRESH) ========== -->
+  <!-- ========== LIVE IPHONE NEWS IN EMPTY FRAME UNDER FREE CHECK ========== -->
   <script>
   (function () {
     const NEWS_I18N = {
@@ -3057,7 +3077,7 @@
         refreshing: "جاري التحديث...",
         refreshAria: "تحديث الأخبار الآن",
         fallbackTitle: "خبر آيفون",
-        empty: "لا توجد أخبار متاحة حالياً.",
+        empty: "الإطار جاهز — لا توجد أخبار متاحة حالياً.",
         error: "تعذّر جلب الأخبار الآن، يرجى المحاولة لاحقاً.",
         rss: "https://news.google.com/rss/search?q=iPhone+OR+%D8%A2%D9%8A%D9%81%D9%88%D9%86+-Android+-Samsung&hl=ar&gl=DZ&ceid=DZ:ar"
       },
@@ -3070,7 +3090,7 @@
         refreshing: "Actualisation...",
         refreshAria: "Actualiser les actualités maintenant",
         fallbackTitle: "Actualité iPhone",
-        empty: "Aucune actualité disponible pour le moment.",
+        empty: "Cadre prêt — aucune actualité disponible.",
         error: "Impossible de charger les actualités pour l'instant.",
         rss: "https://news.google.com/rss/search?q=iPhone+Apple+-Android+-Samsung&hl=fr&gl=FR&ceid=FR:fr"
       },
@@ -3083,7 +3103,7 @@
         refreshing: "Refreshing...",
         refreshAria: "Refresh news now",
         fallbackTitle: "iPhone News",
-        empty: "No news available right now.",
+        empty: "Frame ready — no news available right now.",
         error: "Unable to load news right now. Please try again later.",
         rss: "https://news.google.com/rss/search?q=iPhone+Apple+-Android+-Samsung&hl=en-US&gl=US&ceid=US:en"
       }
@@ -3135,10 +3155,12 @@
 
       const renderItems = (items) => {
         if (!Array.isArray(items) || !items.length) {
+          wrapper.classList.remove("has-items");
           container.innerHTML = `<p class="news-status">${escapeHtml(cfg.empty)}</p>`;
           return;
         }
-        container.innerHTML = items.slice(0, 8).map((item) => {
+        wrapper.classList.add("has-items");
+        container.innerHTML = items.slice(0, 6).map((item) => {
           const title = escapeHtml(item.title || cfg.fallbackTitle);
           const link = escapeHtml(item.link || "#");
           const dateText = item.pubDate
@@ -3188,6 +3210,7 @@
           }
         } catch (__) {}
 
+        wrapper.classList.remove("has-items");
         container.innerHTML = `<p class="news-status">${escapeHtml(cfg.error)}</p>`;
       } finally {
         isFetchingNews = false;
