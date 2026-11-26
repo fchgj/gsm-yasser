@@ -11,16 +11,18 @@
       --surface-2: #162033;
       --surface-3: #1e293b;
       --text: #f8fafc;
-      --muted: #94a3b8;
+      --muted: #cbd5e1;
       --accent: #2563eb;
       --accent-hover: #1d4ed8;
-      --border: #1e293b;
-      --badge-bg: rgba(245, 158, 11, 0.14);
-      --badge-text: #f59e0b;
+      --gold: #eab308;
+      --gold-soft: rgba(234, 179, 8, 0.16);
+      --border: #24324a;
+      --badge-bg: rgba(245, 158, 11, 0.16);
+      --badge-text: #fbbf24;
       --ok: #22c55e;
       --err: #ef4444;
       --warn: #f59e0b;
-      --shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.36);
       --mono: "SF Mono", "Consolas", "Menlo", monospace;
     }
 
@@ -30,13 +32,15 @@
       --surface-2: #f8fafc;
       --surface-3: #e2e8f0;
       --text: #0f172a;
-      --muted: #475569;
+      --muted: #334155;
       --accent: #2563eb;
       --accent-hover: #1d4ed8;
+      --gold: #b45309;
+      --gold-soft: #fef3c7;
       --border: #cbd5e1;
       --badge-bg: #fef3c7;
       --badge-text: #b45309;
-      --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
     }
 
     * {
@@ -48,12 +52,13 @@
 
     html {
       scroll-behavior: smooth;
+      font-size: 17px; /* زيادة حجم الخط الأساسي لقراءة ليلية مريحة */
     }
 
     body {
       background: var(--bg);
       color: var(--text);
-      line-height: 1.65;
+      line-height: 1.72;
       min-height: 100vh;
       overflow-x: hidden;
       transition: background 0.2s ease, color 0.2s ease;
@@ -70,7 +75,7 @@
       width: 100%;
       max-width: 1280px;
       margin: 0 auto;
-      padding: 14px 12px 44px;
+      padding: 16px 14px 48px;
       display: flex;
       flex-direction: column;
     }
@@ -81,33 +86,71 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 12px 18px;
-      margin-bottom: 14px;
+      gap: 14px;
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+      border: 1.5px solid rgba(234, 179, 8, 0.42);
+      border-radius: 18px;
+      padding: 14px 20px;
+      margin-bottom: 16px;
       box-shadow: var(--shadow);
       text-decoration: none;
       color: var(--text);
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }
 
-    .top-logo-img {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      object-fit: cover;
-      border: 1.5px solid rgba(245, 158, 11, 0.55);
-      background: var(--surface-2);
+    .top-logo-banner:hover {
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .top-logo-emblem {
+      width: 58px;
+      height: 58px;
+      border-radius: 15px;
+      background: radial-gradient(circle at 30% 25%, #1e293b 0%, #090f1d 100%);
+      border: 1.5px solid rgba(234, 179, 8, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(234, 179, 8, 0.18);
+      overflow: hidden;
+    }
+
+    .top-logo-emblem svg,
+    .top-logo-emblem img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
     }
 
+    .top-logo-text-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
     .top-logo-title {
-      font-size: 1.25rem;
+      font-size: 1.38rem;
       font-weight: 900;
       letter-spacing: 0.4px;
-      line-height: 1.2;
+      line-height: 1.25;
+      background: linear-gradient(90deg, var(--text) 20%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    [data-theme="light"] .top-logo-title {
+      background: none;
+      -webkit-text-fill-color: var(--text);
+    }
+
+    .top-logo-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.5px;
     }
 
     /* ---------- 1. TOPBAR ---------- */
@@ -115,14 +158,14 @@
       order: 1;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 14px;
+      border-radius: 16px;
+      padding: 12px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
       box-shadow: var(--shadow);
     }
 
@@ -137,11 +180,11 @@
       background: var(--surface-2);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      min-height: 40px;
-      padding: 8px 13px;
-      font-size: 0.9rem;
-      font-weight: 600;
+      border-radius: 11px;
+      min-height: 44px;
+      padding: 9px 14px;
+      font-size: 0.96rem;
+      font-weight: 700;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
@@ -165,7 +208,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.62);
+      background: rgba(0, 0, 0, 0.68);
       z-index: 960;
     }
 
@@ -175,14 +218,14 @@
       position: fixed;
       top: 0;
       inset-inline-start: 0;
-      width: min(320px, 88vw);
+      width: min(340px, 88vw);
       height: 100vh;
       background: var(--surface);
       border-inline-end: 1px solid var(--border);
-      padding: 18px 14px;
+      padding: 20px 16px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       overflow-y: auto;
       box-shadow: var(--shadow);
     }
@@ -192,13 +235,13 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      padding-bottom: 12px;
+      padding-bottom: 14px;
       margin-bottom: 6px;
       border-bottom: 1px solid var(--border);
     }
 
     .drawer-brand {
-      font-size: 1rem;
+      font-size: 1.08rem;
       font-weight: 800;
     }
 
@@ -208,11 +251,11 @@
       background: var(--surface-2);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      min-height: 46px;
-      padding: 12px 14px;
-      font-size: 0.94rem;
-      font-weight: 600;
+      border-radius: 12px;
+      min-height: 50px;
+      padding: 12px 15px;
+      font-size: 1rem;
+      font-weight: 700;
       text-decoration: none;
       cursor: pointer;
       display: flex;
@@ -224,29 +267,29 @@
 
     .drawer-item:hover {
       border-color: var(--accent);
-      background: rgba(37, 99, 235, 0.08);
+      background: rgba(37, 99, 235, 0.1);
     }
 
     /* ---------- 2. HERO ---------- */
     .hero {
       order: 2;
       text-align: center;
-      max-width: 820px;
-      margin: 0 auto 24px;
-      padding: 0 4px;
+      max-width: 860px;
+      margin: 0 auto 26px;
+      padding: 0 6px;
     }
 
     .hero h1 {
-      font-size: 1.72rem;
-      font-weight: 800;
-      margin-bottom: 8px;
+      font-size: 1.85rem;
+      font-weight: 900;
+      margin-bottom: 10px;
       letter-spacing: -0.2px;
-      line-height: 1.35;
+      line-height: 1.38;
     }
 
     .hero p {
       color: var(--muted);
-      font-size: 0.98rem;
+      font-size: 1.06rem;
     }
 
     /* ---------- 3 & 4. MAIN LAYOUT ---------- */
@@ -254,7 +297,7 @@
       order: 3;
       display: grid;
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 22px;
       align-items: stretch;
       width: 100%;
     }
@@ -262,8 +305,8 @@
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px 18px;
+      border-radius: 18px;
+      padding: 24px 20px;
       box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
@@ -273,7 +316,7 @@
 
     #imeiCheckSection {
       order: 1;
-      border-color: rgba(37, 99, 235, 0.35);
+      border-color: rgba(37, 99, 235, 0.42);
     }
 
     #paidServicesSection {
@@ -285,28 +328,28 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .card-title {
-      font-size: 1.25rem;
+      font-size: 1.35rem;
       font-weight: 800;
     }
 
     .free-pill {
-      background: rgba(34, 197, 94, 0.14);
+      background: rgba(34, 197, 94, 0.16);
       color: var(--ok);
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 4px 10px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 5px 12px;
       border-radius: 999px;
       white-space: nowrap;
     }
 
     .card-sub {
       color: var(--muted);
-      font-size: 0.94rem;
-      margin-bottom: 18px;
+      font-size: 1rem;
+      margin-bottom: 20px;
     }
 
     /* ---------- FORM ---------- */
@@ -318,27 +361,27 @@
 
     .field {
       width: 100%;
-      min-height: 54px;
+      min-height: 58px;
       background: var(--surface-2);
       color: var(--text);
       border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 1.05rem;
+      border-radius: 13px;
+      padding: 15px 16px;
+      font-size: 1.12rem;
       outline: none;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .field:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.22);
     }
 
     #imeiInput {
       font-family: var(--mono);
-      letter-spacing: 1.5px;
-      font-size: 1.15rem;
-      font-weight: 700;
+      letter-spacing: 1.8px;
+      font-size: 1.24rem;
+      font-weight: 800;
       direction: ltr;
       text-align: left;
     }
@@ -346,7 +389,7 @@
     #imeiInput::placeholder {
       font-family: "Segoe UI", Tahoma, Arial, sans-serif;
       letter-spacing: 0;
-      font-size: 0.95rem;
+      font-size: 1.02rem;
       font-weight: 500;
       text-align: start;
     }
@@ -355,10 +398,10 @@
     #imeiInput.invalid { border-color: var(--err); }
 
     .imei-hint {
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-top: 7px;
-      min-height: 1.2em;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-top: 8px;
+      min-height: 1.3em;
       color: var(--muted);
       transition: color 0.2s ease;
     }
@@ -370,12 +413,12 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 16px;
       flex-wrap: wrap;
     }
 
     .captcha-label {
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: 700;
     }
 
@@ -390,17 +433,17 @@
     .captcha-input {
       flex: 1;
       min-width: 105px;
-      min-height: 48px;
+      min-height: 52px;
       text-align: center;
       background: var(--surface-2);
       color: var(--text);
       border: 1.5px solid var(--border);
-      border-radius: 12px;
+      border-radius: 13px;
       padding: 10px 12px;
       font-family: var(--mono);
-      letter-spacing: 2px;
-      font-size: 1.05rem;
-      font-weight: 700;
+      letter-spacing: 2.5px;
+      font-size: 1.12rem;
+      font-weight: 800;
       outline: none;
       text-transform: uppercase;
     }
@@ -411,12 +454,12 @@
       background: var(--surface-2);
       color: var(--text);
       border: 1.5px dashed var(--border);
-      border-radius: 12px;
-      min-height: 48px;
-      padding: 10px 16px;
+      border-radius: 13px;
+      min-height: 52px;
+      padding: 10px 18px;
       font-weight: 800;
       letter-spacing: 3px;
-      font-size: 1.08rem;
+      font-size: 1.15rem;
       user-select: none;
       display: inline-flex;
       align-items: center;
@@ -428,10 +471,10 @@
       background: var(--surface-2);
       color: var(--text);
       border: 1.5px solid var(--border);
-      border-radius: 12px;
-      width: 48px;
-      height: 48px;
-      font-size: 1.25rem;
+      border-radius: 13px;
+      width: 52px;
+      height: 52px;
+      font-size: 1.35rem;
       cursor: pointer;
       flex-shrink: 0;
       display: inline-flex;
@@ -442,25 +485,25 @@
 
     .refresh-btn:hover {
       border-color: var(--accent);
-      background: rgba(37, 99, 235, 0.1);
+      background: rgba(37, 99, 235, 0.12);
     }
     .refresh-btn:active { transform: scale(0.96); }
 
     .primary-btn {
       width: 100%;
-      min-height: 52px;
-      margin-top: 18px;
+      min-height: 56px;
+      margin-top: 20px;
       background: var(--accent);
       color: #ffffff;
       border: none;
-      border-radius: 12px;
-      padding: 14px 18px;
-      font-size: 1.06rem;
+      border-radius: 13px;
+      padding: 14px 20px;
+      font-size: 1.12rem;
       font-weight: 800;
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.28);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.32);
       transition: background 0.2s ease, transform 0.08s ease;
     }
 
@@ -479,28 +522,27 @@
     }
 
     [dir="rtl"] .primary-btn .progress { transform-origin: right; }
-
     .primary-btn.loading .progress { transform: scaleX(1); }
 
     /* ---------- NUDGE (Tips box) ---------- */
     .tips-box {
-      margin-top: 18px;
+      margin-top: 20px;
       background: var(--surface-2);
       border: 1px dashed var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 0.88rem;
+      border-radius: 13px;
+      padding: 15px 18px;
+      font-size: 0.96rem;
       color: var(--muted);
     }
 
-    .tips-box strong { color: var(--text); font-weight: 700; }
-    .tips-box ul { margin: 6px 0 0; padding-inline-start: 18px; }
-    .tips-box li { margin-bottom: 4px; }
+    .tips-box strong { color: var(--text); font-weight: 800; }
+    .tips-box ul { margin: 8px 0 0; padding-inline-start: 20px; }
+    .tips-box li { margin-bottom: 5px; }
 
     .help-line {
       text-align: center;
-      margin-top: 14px;
-      font-size: 0.92rem;
+      margin-top: 16px;
+      font-size: 0.98rem;
       color: var(--muted);
     }
 
@@ -514,8 +556,8 @@
 
     /* ---------- MESSAGES ---------- */
     .msg {
-      margin-top: 14px;
-      font-size: 0.94rem;
+      margin-top: 16px;
+      font-size: 1rem;
       font-weight: 700;
     }
 
@@ -526,8 +568,8 @@
     /* ---------- RESULT ---------- */
     .result-panel {
       display: none;
-      margin-top: 16px;
-      padding-top: 16px;
+      margin-top: 18px;
+      padding-top: 18px;
       border-top: 1px solid var(--border);
       animation: fadeIn 0.3s ease;
     }
@@ -542,10 +584,10 @@
     .result-summary {
       background: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 0.95rem;
-      margin-bottom: 12px;
+      border-radius: 13px;
+      padding: 15px 16px;
+      font-size: 1.02rem;
+      margin-bottom: 14px;
       font-family: var(--mono);
       word-break: break-all;
     }
@@ -558,8 +600,8 @@
 
     .result-actions > * {
       flex: 1;
-      min-width: 120px;
-      min-height: 44px;
+      min-width: 125px;
+      min-height: 46px;
       justify-content: center;
     }
 
@@ -567,9 +609,9 @@
       background: var(--surface-2);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 11px;
       padding: 10px 14px;
-      font-size: 0.9rem;
+      font-size: 0.96rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -584,15 +626,15 @@
     .services-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 14px;
+      gap: 16px;
       flex: 1;
     }
 
     .service-item {
       background: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px;
+      border-radius: 15px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -605,8 +647,8 @@
     }
 
     .service-item.featured {
-      border-color: rgba(37, 99, 235, 0.55);
-      background: linear-gradient(180deg, rgba(37, 99, 235, 0.08) 0%, var(--surface-2) 100%);
+      border-color: rgba(37, 99, 235, 0.58);
+      background: linear-gradient(180deg, rgba(37, 99, 235, 0.1) 0%, var(--surface-2) 100%);
     }
 
     .service-top {
@@ -614,13 +656,13 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 10px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .service-name {
-      font-size: 1.08rem;
+      font-size: 1.15rem;
       font-weight: 800;
-      line-height: 1.35;
+      line-height: 1.4;
     }
 
     .badges-wrap {
@@ -633,39 +675,40 @@
     .badge {
       background: var(--badge-bg);
       color: var(--badge-text);
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 4px 10px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      padding: 4px 11px;
       border-radius: 999px;
       white-space: nowrap;
     }
 
     .badge-pro {
-      background: rgba(37, 99, 235, 0.18);
+      background: rgba(37, 99, 235, 0.2);
       color: #60a5fa;
-      font-size: 0.76rem;
+      font-size: 0.82rem;
       font-weight: 800;
-      padding: 4px 10px;
+      padding: 4px 11px;
       border-radius: 999px;
       white-space: nowrap;
     }
 
     .service-desc {
       color: var(--muted);
-      font-size: 0.93rem;
-      margin-bottom: 16px;
+      font-size: 1rem;
+      line-height: 1.68;
+      margin-bottom: 18px;
     }
 
     .wa-btn {
       width: 100%;
-      min-height: 46px;
+      min-height: 50px;
       background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 11px;
-      padding: 11px 16px;
-      font-size: 0.96rem;
-      font-weight: 700;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 1.02rem;
+      font-weight: 800;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
@@ -677,7 +720,7 @@
 
     .wa-btn:hover {
       border-color: #25d366;
-      background: rgba(37, 211, 102, 0.12);
+      background: rgba(37, 211, 102, 0.14);
     }
 
     .service-item.featured .wa-btn {
@@ -694,27 +737,27 @@
     /* ---------- TRUST BAR ---------- */
     .trust-strip {
       order: 4;
-      margin-top: 20px;
+      margin-top: 22px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 16px;
+      border-radius: 16px;
+      padding: 16px 18px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 12px;
       text-align: center;
       box-shadow: var(--shadow);
     }
 
     .trust-item strong {
       display: block;
-      font-size: 0.95rem;
+      font-size: 1.04rem;
       font-weight: 800;
       color: var(--text);
     }
 
     .trust-item span {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       color: var(--muted);
     }
 
@@ -722,10 +765,10 @@
     .footer-box {
       order: 5;
       text-align: center;
-      margin-top: 24px;
-      padding-top: 24px;
+      margin-top: 26px;
+      padding-top: 26px;
       border-top: 1px solid var(--border);
-      font-size: 0.9rem;
+      font-size: 0.96rem;
       color: var(--muted);
     }
 
@@ -735,7 +778,7 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .sc-icon {
@@ -743,9 +786,9 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 46px;
-      height: 46px;
-      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
       background: var(--surface);
       border: 1px solid var(--border);
       color: var(--text);
@@ -774,10 +817,10 @@
       background: var(--surface-3);
       color: var(--text);
       border: 1px solid var(--border);
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
       line-height: 1;
-      padding: 5px 9px;
+      padding: 6px 10px;
       border-radius: 6px;
       white-space: nowrap;
       opacity: 0;
@@ -803,7 +846,7 @@
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .footer-pill {
@@ -812,8 +855,8 @@
       gap: 8px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      min-height: 42px;
+      border-radius: 11px;
+      min-height: 44px;
       padding: 9px 16px;
       font-weight: 700;
       color: var(--text);
@@ -824,23 +867,22 @@
     .footer-pill:hover { border-color: var(--accent); }
 
     .legal-links {
-      margin: 12px 0;
+      margin: 14px 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      gap: 6px 12px;
+      gap: 6px 14px;
     }
 
     .legal-links a {
       color: var(--muted);
       text-decoration: none;
-      font-size: 0.88rem;
+      font-size: 0.94rem;
       white-space: nowrap;
     }
 
     .legal-links a:hover { color: var(--text); text-decoration: underline; }
-
     .legal-sep { color: var(--border); }
 
     /* ---------- TOAST ---------- */
@@ -859,21 +901,21 @@
       background: var(--surface-3);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-size: 0.9rem;
-      font-weight: 600;
+      border-radius: 11px;
+      padding: 13px 18px;
+      font-size: 0.96rem;
+      font-weight: 700;
       box-shadow: var(--shadow);
       display: flex;
       align-items: center;
       gap: 10px;
-      min-width: 220px;
+      min-width: 230px;
       animation: slideIn 0.3s ease;
     }
 
-    .toast.ok   { border-inline-start: 3px solid var(--ok); }
-    .toast.err  { border-inline-start: 3px solid var(--err); }
-    .toast.warn { border-inline-start: 3px solid var(--warn); }
+    .toast.ok   { border-inline-start: 4px solid var(--ok); }
+    .toast.err  { border-inline-start: 4px solid var(--err); }
+    .toast.warn { border-inline-start: 4px solid var(--warn); }
 
     @keyframes slideIn {
       from { opacity: 0; transform: translateX(20px); }
@@ -891,7 +933,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.65);
       z-index: 980;
       align-items: center;
       justify-content: center;
@@ -903,11 +945,11 @@
     .modal {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px;
-      max-width: 520px;
+      border-radius: 18px;
+      padding: 24px;
+      max-width: 540px;
       width: 100%;
-      max-height: 80vh;
+      max-height: 82vh;
       overflow-y: auto;
       box-shadow: var(--shadow);
     }
@@ -917,19 +959,19 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
-    .modal h3 { font-size: 1.1rem; }
+    .modal h3 { font-size: 1.2rem; }
 
     .clear-btn {
       background: transparent;
       color: var(--err);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 0.84rem;
-      font-weight: 600;
+      border-radius: 9px;
+      padding: 7px 13px;
+      font-size: 0.9rem;
+      font-weight: 700;
       cursor: pointer;
     }
 
@@ -938,16 +980,16 @@
     .info-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      font-size: 0.9rem;
+      gap: 12px;
+      font-size: 0.98rem;
       color: var(--muted);
     }
 
     .info-box {
       background: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
+      border-radius: 11px;
+      padding: 14px;
       color: var(--text);
     }
 
@@ -955,16 +997,16 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 12px;
+      margin-top: 14px;
     }
 
     .history-item {
       background: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
+      border-radius: 11px;
+      padding: 13px;
+      margin-bottom: 10px;
+      font-size: 0.96rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -974,30 +1016,29 @@
     }
 
     .history-item:hover { border-color: var(--accent); }
-
-    .history-imei { font-family: var(--mono); font-size: 0.9rem; direction: ltr; }
-    .history-time { color: var(--muted); font-size: 0.78rem; }
+    .history-imei { font-family: var(--mono); font-size: 0.98rem; direction: ltr; font-weight: 700; }
+    .history-time { color: var(--muted); font-size: 0.84rem; }
 
     .empty-history {
       color: var(--muted);
       text-align: center;
-      padding: 20px;
-      font-size: 0.9rem;
+      padding: 22px;
+      font-size: 0.98rem;
     }
 
-    /* ---------- FLOATING HYBRID CHATBOT ---------- */
+    /* ---------- FLOATING HYBRID CHATBOT (LARGE NIGHT READABILITY + TRANSLATE) ---------- */
     .gsm-fab-btn {
       position: fixed;
       bottom: 20px;
       inset-inline-start: 20px;
-      width: 56px;
-      height: 56px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
       color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 12px 28px rgba(37, 99, 235, 0.38);
-      font-size: 1.45rem;
+      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
+      font-size: 1.55rem;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -1007,25 +1048,30 @@
     }
 
     .gsm-fab-btn:hover {
-      transform: translateY(-2px) scale(1.03);
+      transform: translateY(-2px) scale(1.04);
       background: var(--accent-hover);
     }
 
     .gsm-chat-popup {
       display: none;
       position: fixed;
-      bottom: 86px;
+      bottom: 90px;
       inset-inline-start: 20px;
-      width: min(400px, calc(100vw - 24px));
-      max-height: min(550px, calc(100vh - 110px));
+      width: min(440px, calc(100vw - 24px));
+      max-height: min(600px, calc(100vh - 110px));
       background: var(--surface);
       color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.52);
       z-index: 945;
       flex-direction: column;
       overflow: hidden;
+      --chat-scale: 1.1; /* تكبير خط افتراضي مريح جداً ليلاً */
+    }
+
+    .gsm-chat-popup.font-xl {
+      --chat-scale: 1.24;
     }
 
     .gsm-chat-popup.open {
@@ -1056,16 +1102,16 @@
     }
 
     .gsm-chat-title {
-      font-weight: 800;
-      font-size: 0.96rem;
+      font-weight: 900;
+      font-size: 1.04rem;
     }
 
     .gsm-mode-pill {
-      font-size: 0.72rem;
+      font-size: 0.78rem;
       font-weight: 800;
-      padding: 2px 8px;
+      padding: 3px 9px;
       border-radius: 999px;
-      background: rgba(37, 99, 235, 0.16);
+      background: rgba(37, 99, 235, 0.2);
       color: #60a5fa;
     }
 
@@ -1077,18 +1123,27 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      position: relative;
     }
 
     .gsm-mini-btn {
       background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      min-height: 32px;
-      padding: 4px 9px;
-      font-size: 0.78rem;
-      font-weight: 700;
+      border-radius: 9px;
+      min-height: 36px;
+      padding: 5px 10px;
+      font-size: 0.85rem;
+      font-weight: 800;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .gsm-mini-btn:hover {
+      border-color: var(--accent);
     }
 
     .gsm-mini-btn.active {
@@ -1097,10 +1152,60 @@
       border-color: var(--accent);
     }
 
+    /* قائمة الترجمة داخل المساعد */
+    .gsm-translate-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      inset-inline-end: 0;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 6px;
+      min-width: 155px;
+      box-shadow: var(--shadow);
+      z-index: 955;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .gsm-translate-menu.open {
+      display: flex;
+    }
+
+    .gsm-tr-opt {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 8px 11px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-align: start;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .gsm-tr-opt:hover {
+      background: var(--surface-3);
+    }
+
+    .gsm-tr-opt.active {
+      background: rgba(37, 99, 235, 0.22);
+      border-color: var(--accent);
+      color: #60a5fa;
+    }
+
+    [data-theme="light"] .gsm-tr-opt.active {
+      color: var(--accent);
+    }
+
     .gsm-chat-quick {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 7px;
       padding: 10px 12px;
       border-bottom: 1px solid var(--border);
       background: var(--surface);
@@ -1111,10 +1216,11 @@
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 0.78rem;
-      font-weight: 600;
+      padding: 6px 12px;
+      font-size: 0.86rem;
+      font-weight: 700;
       cursor: pointer;
+      transition: border-color 0.2s ease;
     }
 
     .gsm-q-chip:hover {
@@ -1122,21 +1228,21 @@
     }
 
     .gsm-chat-body {
-      padding: 12px;
+      padding: 14px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 12px;
       flex: 1;
-      min-height: 200px;
+      min-height: 220px;
     }
 
     .gsm-bubble {
-      max-width: 92%;
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-size: 0.87rem;
-      line-height: 1.55;
+      max-width: 94%;
+      padding: 12px 15px;
+      border-radius: 14px;
+      font-size: calc(1rem * var(--chat-scale));
+      line-height: 1.72;
       word-break: break-word;
     }
 
@@ -1150,26 +1256,54 @@
       align-self: flex-end;
       background: var(--accent);
       color: #ffffff;
-      font-weight: 600;
+      font-weight: 700;
+    }
+
+    .gsm-bubble-tr-bar {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .gsm-bubble-tr-btn {
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 3px 9px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .gsm-bubble-tr-btn:hover,
+    .gsm-bubble-tr-btn.active {
+      border-color: var(--accent);
+      color: var(--text);
     }
 
     .gsm-chat-form {
       display: flex;
       gap: 8px;
-      padding: 10px 12px;
+      padding: 11px 12px;
       border-top: 1px solid var(--border);
       background: var(--surface);
     }
 
     .gsm-chat-input {
       flex: 1;
-      min-height: 40px;
+      min-height: 46px;
       background: var(--surface-2);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 8px 11px;
-      font-size: 0.9rem;
+      border-radius: 11px;
+      padding: 10px 13px;
+      font-size: 1rem;
       outline: none;
     }
 
@@ -1178,14 +1312,14 @@
     }
 
     .gsm-chat-send {
-      min-height: 40px;
-      padding: 0 14px;
+      min-height: 46px;
+      padding: 0 16px;
       background: var(--accent);
       color: #ffffff;
       border: none;
-      border-radius: 10px;
+      border-radius: 11px;
       font-weight: 800;
-      font-size: 0.88rem;
+      font-size: 0.96rem;
       cursor: pointer;
     }
 
@@ -1204,22 +1338,26 @@
 
     /* 1) الهاتف 📱 */
     @media (max-width: 767px) {
+      html {
+        font-size: 16.5px;
+      }
+
       .wrap {
-        padding: 10px 10px 40px;
+        padding: 12px 10px 42px;
       }
 
       .top-logo-banner {
-        padding: 10px 14px;
+        padding: 11px 14px;
         margin-bottom: 12px;
       }
 
-      .top-logo-img {
-        width: 46px;
-        height: 46px;
+      .top-logo-emblem {
+        width: 50px;
+        height: 50px;
       }
 
       .top-logo-title {
-        font-size: 1.12rem;
+        font-size: 1.2rem;
       }
 
       .topbar {
@@ -1228,16 +1366,16 @@
       }
 
       .hero h1 {
-        font-size: 1.5rem;
+        font-size: 1.56rem;
       }
 
       .card-title {
-        font-size: 1.18rem;
+        font-size: 1.24rem;
       }
 
       #imeiCheckSection {
-        border-radius: 14px;
-        padding: 20px 15px;
+        border-radius: 15px;
+        padding: 20px 16px;
       }
 
       .captcha-controls {
@@ -1245,9 +1383,9 @@
       }
 
       .chip-btn {
-        min-height: 42px;
-        padding: 7px 11px;
-        font-size: 0.86rem;
+        min-height: 44px;
+        padding: 8px 11px;
+        font-size: 0.9rem;
       }
 
       .trust-strip {
@@ -1272,12 +1410,12 @@
       .gsm-fab-btn {
         bottom: 14px;
         inset-inline-start: 14px;
-        width: 52px;
-        height: 52px;
+        width: 56px;
+        height: 56px;
       }
 
       .gsm-chat-popup {
-        bottom: 74px;
+        bottom: 78px;
         inset-inline-start: 12px;
       }
     }
@@ -1289,65 +1427,65 @@
         padding: 22px 22px 48px;
       }
 
-      .top-logo-img {
-        width: 56px;
-        height: 56px;
+      .top-logo-emblem {
+        width: 60px;
+        height: 60px;
       }
 
       .top-logo-title {
-        font-size: 1.32rem;
+        font-size: 1.42rem;
       }
 
       .hero h1 {
-        font-size: 2.05rem;
+        font-size: 2.15rem;
       }
 
       .main-layout {
-        grid-template-columns: minmax(350px, 430px) minmax(0, 1fr);
-        gap: 22px;
+        grid-template-columns: minmax(360px, 440px) minmax(0, 1fr);
+        gap: 24px;
       }
 
       .services-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
+        gap: 16px;
       }
 
       .card {
-        padding: 22px;
+        padding: 24px;
       }
     }
 
     /* 3) شاشة الحاسوب الكبيرة 🖥️ (>= 1440px) */
     @media (min-width: 1440px) {
       .wrap {
-        max-width: 1400px;
+        max-width: 1420px;
         padding: 28px 32px 54px;
       }
 
-      .top-logo-img {
-        width: 60px;
-        height: 60px;
+      .top-logo-emblem {
+        width: 64px;
+        height: 64px;
       }
 
       .top-logo-title {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
       }
 
       .hero {
-        max-width: 920px;
+        max-width: 940px;
         margin-bottom: 28px;
       }
 
       .hero h1 {
-        font-size: 2.38rem;
+        font-size: 2.45rem;
       }
 
       .hero p {
-        font-size: 1.04rem;
+        font-size: 1.1rem;
       }
 
       .main-layout {
-        grid-template-columns: minmax(420px, 490px) minmax(0, 1fr);
+        grid-template-columns: minmax(430px, 500px) minmax(0, 1fr);
         gap: 28px;
       }
 
@@ -1357,23 +1495,23 @@
       }
 
       .card {
-        padding: 26px;
+        padding: 28px;
       }
 
       .gsm-chat-popup {
-        width: 420px;
-        max-height: 560px;
+        width: 460px;
+        max-height: 620px;
       }
     }
 
     /* شاشات فائقة العرض 🖥️ (>= 1920px) */
     @media (min-width: 1920px) {
       .wrap {
-        max-width: 1520px;
+        max-width: 1540px;
       }
 
       .main-layout {
-        grid-template-columns: minmax(450px, 520px) minmax(0, 1fr);
+        grid-template-columns: minmax(460px, 530px) minmax(0, 1fr);
         gap: 32px;
       }
 
@@ -1396,8 +1534,30 @@
   <div class="wrap">
     <!-- ========== 0. INDEPENDENT TOP LOGO + BRAND NAME ========== -->
     <a href="index.html" class="top-logo-banner" aria-label="GSM Yasser Server">
-      <img src="assets/1000124203_4.png?v=1000124203_4" alt="شعار GSM Yasser Server" class="top-logo-img" width="56" height="56" />
-      <span class="top-logo-title">GSM Yasser Server</span>
+      <div class="top-logo-emblem" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="shieldGold" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#FDE047"/>
+              <stop offset="50%" stop-color="#EAB308"/>
+              <stop offset="100%" stop-color="#B45309"/>
+            </linearGradient>
+            <linearGradient id="shieldBg" x1="12" y1="10" x2="52" y2="54" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#1E3A8A"/>
+              <stop offset="100%" stop-color="#090F1D"/>
+            </linearGradient>
+          </defs>
+          <path d="M32 5L53 13V30C53 44.5 43.8 54.6 32 59C20.2 54.6 11 44.5 11 30V13L32 5Z" fill="url(#shieldBg)" stroke="url(#shieldGold)" stroke-width="3"/>
+          <path d="M32 10L48 16.5V30C48 41.2 41 49.4 32 53.2C23 49.4 16 41.2 16 30V16.5L32 10Z" stroke="rgba(253,224,71,0.28)" stroke-width="1"/>
+          <path d="M22 20L32 33L42 20" stroke="url(#shieldGold)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M32 33V45" stroke="url(#shieldGold)" stroke-width="4.2" stroke-linecap="round"/>
+          <circle cx="32" cy="14" r="2" fill="#FDE047"/>
+        </svg>
+      </div>
+      <div class="top-logo-text-wrap">
+        <span class="top-logo-title">GSM Yasser Server</span>
+        <span class="top-logo-badge" id="brandTagline">iPhone IMEI & GSX Diagnostics</span>
+      </div>
     </a>
 
     <!-- ========== 1. TOPBAR ========== -->
@@ -1608,35 +1768,35 @@
       <div class="social-icons-only" role="navigation" aria-label="روابط التواصل">
         <a href="https://wsend.co/213657241710" target="_blank" rel="noopener noreferrer"
            id="socialWa" data-label="واتساب" aria-label="واتساب" class="sc-icon sc-wa">
-          <svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
             <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
           </svg>
         </a>
 
         <a href="https://www.facebook.com/profile.php?id=61565963716522&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer"
            id="socialFb" data-label="فيسبوك" aria-label="فيسبوك" class="sc-icon sc-fb">
-          <svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
             <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
           </svg>
         </a>
 
         <a href="https://www.tiktok.com/@khelifiyasser15?_t=ZM-8skVkuJpxAL&_r=1" target="_blank" rel="noopener noreferrer"
            id="socialTt" data-label="تيك توك" aria-label="تيك توك" class="sc-icon sc-tt">
-          <svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
             <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
           </svg>
         </a>
 
         <a href="https://t.me/gsm_dz_services" target="_blank" rel="noopener noreferrer"
            id="socialTg" data-label="تيليغرام" aria-label="تيليغرام" class="sc-icon sc-tg">
-          <svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
             <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
           </svg>
         </a>
 
         <a href="mailto:yasserkhelifi125@gmail.com"
            id="socialGm" data-label="Gmail" aria-label="Gmail" class="sc-icon sc-gm">
-          <svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
             <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
           </svg>
         </a>
@@ -1766,7 +1926,7 @@
     </div>
   </div>
 
-  <!-- ========== FLOATING HYBRID CHATBOT ========== -->
+  <!-- ========== FLOATING HYBRID CHATBOT WITH TRANSLATION & LARGE FONT ========== -->
   <button type="button" id="gsmFloatingFab" class="gsm-fab-btn" aria-label="المساعد الذكي" title="GSM Yasser Assistant">💬</button>
 
   <section id="gsmFloatingPopup" class="gsm-chat-popup" role="dialog" aria-label="مساعد GSM Yasser Server">
@@ -1776,8 +1936,21 @@
         <span class="gsm-mode-pill" id="gsmModeBadge">محلي (مجاني)</span>
       </div>
       <div class="gsm-head-actions">
-        <button type="button" class="gsm-mini-btn" id="gsmAiToggleBtn">وضع الـ AI</button>
+        <!-- أيقونة الترجمة داخل المساعد -->
+        <button type="button" class="gsm-mini-btn" id="gsmTranslateBtn" aria-label="ترجمة المساعد" title="ترجمة / Translate / Traduire">
+          🌐 <span id="gsmActiveLangTag">AR</span>
+        </button>
+        <!-- زر تكبير الخط الإضافي للقراءة الليلية -->
+        <button type="button" class="gsm-mini-btn" id="gsmFontZoomBtn" aria-label="تكبير الخط" title="تكبير الخط">A+</button>
+        <button type="button" class="gsm-mini-btn" id="gsmAiToggleBtn">AI</button>
         <button type="button" class="gsm-mini-btn" id="gsmChatCloseBtn" aria-label="إغلاق">✕</button>
+
+        <!-- قائمة اختيار لغة المساعد -->
+        <div class="gsm-translate-menu" id="gsmTranslateMenu" role="menu">
+          <button type="button" class="gsm-tr-opt active" data-chat-lang="ar"><span>العربية</span><span>AR</span></button>
+          <button type="button" class="gsm-tr-opt" data-chat-lang="fr"><span>Français</span><span>FR</span></button>
+          <button type="button" class="gsm-tr-opt" data-chat-lang="en"><span>English</span><span>EN</span></button>
+        </div>
       </div>
     </div>
     <div class="gsm-chat-quick" id="gsmQuickBar"></div>
@@ -1797,6 +1970,7 @@
     const texts = {
       ar: {
         dir: "rtl",
+        brandTagline: "فحص وتشخيص iPhone IMEI & GSX",
         drawerOpen: "القائمة",
         menuCheck: "🔍 فحص واستعلام IMEI",
         menuServices: "📱 خدمات iPhone و IMEI",
@@ -1871,6 +2045,7 @@
       },
       fr: {
         dir: "ltr",
+        brandTagline: "Diagnostics iPhone IMEI & GSX",
         drawerOpen: "Menu",
         menuCheck: "🔍 Vérification et recherche IMEI",
         menuServices: "📱 Services iPhone & IMEI",
@@ -1945,6 +2120,7 @@
       },
       en: {
         dir: "ltr",
+        brandTagline: "iPhone IMEI & GSX Diagnostics",
         drawerOpen: "Menu",
         menuCheck: "🔍 IMEI Check & Lookup",
         menuServices: "📱 iPhone & IMEI Services",
@@ -2180,6 +2356,7 @@
       document.documentElement.lang = currentLang;
       document.documentElement.dir = t.dir;
 
+      document.getElementById("brandTagline").textContent = t.brandTagline;
       document.getElementById("drawerOpenLabel").textContent = t.drawerOpen;
       document.getElementById("menuCheck").firstElementChild.textContent = t.menuCheck;
       document.getElementById("menuServices").firstElementChild.textContent = t.menuServices;
@@ -2517,13 +2694,13 @@
     applyLang(currentLang);
   </script>
 
-  <!-- ========== HYBRID FLOATING CHATBOT SCRIPT (56.25% PROFIT IN BOT ONLY) ========== -->
+  <!-- ========== HYBRID FLOATING CHATBOT WITH TRANSLATION & LARGE FONT ========== -->
   <script>
     (() => {
-      const STORAGE_KEY = "gsm_yasser_hybrid_chat_v7";
+      const STORAGE_KEY = "gsm_yasser_hybrid_chat_v8";
       const WA_NUMBER = "213657241710";
       const WORKER_CHAT_URL = "";
-      const PROFIT_MARGIN = 0.5625; // نسبة ربح 56.25% على الكل
+      const PROFIT_MARGIN = 0.5625;
       const CREDIT_UNIT_USD = 1.0;
 
       const calcCredits = (costUsd) => {
@@ -2542,6 +2719,7 @@
 
       const KB = {
         ar: {
+          dir: "rtl",
           welcome:
             "مرحباً بك في <strong>GSM Yasser Server</strong>! يسعدنا خدمتك في استعلامات <strong>iPhone IMEI</strong> الاحترافية والرد الفوري على استفساراتك مع توضيح أسعار الكريدت:<br>" +
             `• <strong>Basic Check (${SERVICE_PRICES.basic.credits}):</strong> فحص أساسي سريع لبيانات الجهاز وIMEI.<br>` +
@@ -2553,10 +2731,10 @@
             `للطلب أو الاستفسار المباشر عبر واتساب: <span class='ltr-num'>+${WA_NUMBER}</span>.`,
           placeholder: "اسأل عن خدمة، سعر الكريدت، أو اكتب IMEI...",
           send: "إرسال",
-          aiToggle: "وضع الـ AI",
           localBadge: "محلي (مجاني)",
           aiBadge: "AI Worker",
           thinking: "جاري التحقق...",
+          trLabel: "ترجمة:",
           fallback: `لم يتم العثور على إجابة مطابقة محلياً. يمكنك تفعيل <strong>وضع الـ AI</strong> أو التواصل مباشرة عبر واتساب <span class='ltr-num'>+${WA_NUMBER}</span>.`,
           noWorkerUrl: "تم تفعيل <strong>وضع الـ AI</strong>، ولكن لم يتم ضبط <code>WORKER_CHAT_URL</code> بعد.",
           workerErr: "تعذر الاتصال بخادم Cloudflare Worker حالياً، يرجى المحاولة لاحقاً.",
@@ -2567,36 +2745,43 @@
           ],
           entries: [
             {
+              id: "mdm",
               priority: 5,
               keys: ["mdm", "مؤسسي", "إدارة", "remote management"],
               ans: `أهلاً بك؛ خدمة <strong>MDM Lock</strong> بسعر <strong>${SERVICE_PRICES.mdm.credits}</strong> تتحقق من وجود قفل أو إدارة عن بُعد (MDM) تابعة لجهة أو مؤسسة على الجهاز.`
             },
             {
+              id: "basic",
               priority: 5,
               keys: ["basic", "أساسي", "بسيط"],
               ans: `مرحباً بك؛ خدمة <strong>Basic Check</strong> بسعر <strong>${SERVICE_PRICES.basic.credits}</strong> توفر فحصاً أساسياً ومباشراً لبيانات الآيفون ورقم IMEI قبل طلب الفحوصات المتقدمة.`
             },
             {
+              id: "gsx",
               priority: 5,
               keys: ["gsx", "sold", "repairs", "صيانة", "إصلاح", "ضمان", "تغطية"],
               ans: `أهلاً بك؛ خدمة <strong>GSX + Sold By + Repairs</strong> بسعر <strong>${SERVICE_PRICES.gsx.credits}</strong> تعرض تفاصيل GSX، وبيانات Sold By (التي تعتمد على مصدر الفحص ولا تعكس بالضرورة اسم المتجر الفعلي)، وسجل الصيانة والإصلاحات.`
             },
             {
+              id: "carrier",
               priority: 5,
               keys: ["carrier", "sim", "simlock", "شبكة", "mobilis", "djezzy", "ooredoo", "locked", "unlocked"],
               ans: `أهلاً بك؛ خدمة <strong>Carrier & SIMLock</strong> بسعر <strong>${SERVICE_PRICES.carrier.credits}</strong> تحدد حالة الشبكة (<code>Unlocked</code> أو <code>Locked</code>) وملاءمة تشغيل شرائح <strong>Mobilis / Djezzy / Ooredoo</strong>.`
             },
             {
+              id: "icloud",
               priority: 5,
               keys: ["icloud", "fmi", "تنشيط", "activation", "find my"],
               ans: `مرحباً بك؛ خدمة <strong>iCloud / FMI</strong> بسعر <strong>${SERVICE_PRICES.icloud.credits}</strong> تحدد حالة FMI (<code>ON</code> أو <code>OFF</code>) ووجود قفل التنشيط المرتبط بحساب المالك السابق.`
             },
             {
+              id: "blacklist",
               priority: 5,
               keys: ["blacklist", "gsma", "pro", "clean", "حظر", "سرقة", "فقدان"],
               ans: `أهلاً بك؛ خدمة <strong>Blacklist GSMA PRO</strong> بسعر <strong>${SERVICE_PRICES.blacklist.credits}</strong> تفحص حالة الفقدان أو السرقة أو الحظر في GSMA، مع التنويه أن نتيجة <code>Clean</code> لا تضمن عدم وجود حظر لدى جميع المشغلين.`
             },
             {
+              id: "prices",
               priority: 1,
               keys: ["سعر", "أسعار", "كريدت", "credit", "credits", "قائمة", "خدمات", "فحص", "كل", "5", "6", "7", "8", "15"],
               ans:
@@ -2611,6 +2796,7 @@
           ]
         },
         fr: {
+          dir: "ltr",
           welcome:
             "Bonjour et bienvenue sur <strong>GSM Yasser Server</strong> ! Voici nos services <strong>iPhone IMEI</strong> et leurs tarifs en crédits :<br>" +
             `• <strong>Basic Check (${SERVICE_PRICES.basic.credits}) :</strong> vérification de base de l'IMEI et des infos essentielles.<br>` +
@@ -2622,10 +2808,10 @@
             `Contact et commande directe WhatsApp : <span class='ltr-num'>+${WA_NUMBER}</span>.`,
           placeholder: "Service, tarif crédits ou IMEI...",
           send: "Envoyer",
-          aiToggle: "Mode AI",
           localBadge: "Local (Gratuit)",
           aiBadge: "AI Worker",
           thinking: "Traitement en cours...",
+          trLabel: "Traduire :",
           fallback: `Aucune correspondance locale trouvée. Activez le <strong>Mode AI</strong> ou contactez-nous sur WhatsApp <span class='ltr-num'>+${WA_NUMBER}</span>.`,
           noWorkerUrl: "Le <strong>Mode AI</strong> est activé, mais <code>WORKER_CHAT_URL</code> n'est pas encore configuré.",
           workerErr: "Connexion impossible au Cloudflare Worker pour le moment.",
@@ -2636,8 +2822,45 @@
           ],
           entries: [
             {
+              id: "mdm",
+              priority: 5,
+              keys: ["mdm", "entreprise", "gestion", "remote management"],
+              ans: `Bienvenue ! Le service <strong>MDM Lock</strong> à <strong>${SERVICE_PRICES.mdm.credits}</strong> vérifie la présence d'un verrouillage ou d'une gestion à distance (MDM) d'entreprise.`
+            },
+            {
+              id: "basic",
+              priority: 5,
+              keys: ["basic", "base", "simple"],
+              ans: `Bienvenue ! Le service <strong>Basic Check</strong> à <strong>${SERVICE_PRICES.basic.credits}</strong> fournit une vérification de base rapide de l'IMEI iPhone.`
+            },
+            {
+              id: "gsx",
+              priority: 5,
+              keys: ["gsx", "sold", "repairs", "réparation", "garantie"],
+              ans: `Bienvenue ! Le service <strong>GSX + Sold By + Repairs</strong> à <strong>${SERVICE_PRICES.gsx.credits}</strong> affiche les détails GSX, Sold By (selon la source) et l'historique des réparations.`
+            },
+            {
+              id: "carrier",
+              priority: 5,
+              keys: ["carrier", "sim", "simlock", "réseau", "mobilis", "djezzy", "ooredoo", "locked", "unlocked"],
+              ans: `Bienvenue ! Le service <strong>Carrier & SIMLock</strong> à <strong>${SERVICE_PRICES.carrier.credits}</strong> indique l'état réseau (<code>Unlocked</code> / <code>Locked</code>) et la compatibilité <strong>Mobilis / Djezzy / Ooredoo</strong>.`
+            },
+            {
+              id: "icloud",
+              priority: 5,
+              keys: ["icloud", "fmi", "activation", "find my"],
+              ans: `Bienvenue ! Le service <strong>iCloud / FMI</strong> à <strong>${SERVICE_PRICES.icloud.credits}</strong> indique le statut FMI (<code>ON</code> / <code>OFF</code>) et le verrouillage d'activation.`
+            },
+            {
+              id: "blacklist",
+              priority: 5,
+              keys: ["blacklist", "gsma", "pro", "clean", "volé", "perdu", "bloqué"],
+              ans: `Bienvenue ! Le service <strong>Blacklist GSMA PRO</strong> à <strong>${SERVICE_PRICES.blacklist.credits}</strong> vérifie le statut perdu/volé/bloqué dans la base GSMA (<code>Clean</code> ne garantit pas tous les opérateurs).`
+            },
+            {
+              id: "prices",
               priority: 1,
-              keys: ["basic", "gsx", "sold", "repairs", "carrier", "sim", "icloud", "fmi", "blacklist", "gsma", "mdm", "prix", "credit", "credits", "tarif"],
+              keys: ["prix", "credit", "credits", "tarif", "liste", "services", "vérification"],
               ans:
                 "Bienvenue ! Tarifs de nos services <strong>iPhone IMEI</strong> en crédits :<br>" +
                 `• <strong>Basic Check :</strong> ${SERVICE_PRICES.basic.credits}<br>` +
@@ -2650,6 +2873,7 @@
           ]
         },
         en: {
+          dir: "ltr",
           welcome:
             "Welcome to <strong>GSM Yasser Server</strong>! Here are our <strong>iPhone IMEI</strong> check services and credit prices:<br>" +
             `• <strong>Basic Check (${SERVICE_PRICES.basic.credits}):</strong> essential IMEI and device baseline check.<br>` +
@@ -2661,10 +2885,10 @@
             `Direct WhatsApp support & orders: <span class='ltr-num'>+${WA_NUMBER}</span>.`,
           placeholder: "Ask about check type, credit price, or IMEI...",
           send: "Send",
-          aiToggle: "AI Mode",
           localBadge: "Local (Free)",
           aiBadge: "AI Worker",
           thinking: "Checking...",
+          trLabel: "Translate:",
           fallback: `No direct local match found. Please toggle <strong>AI Mode</strong> or reach us on WhatsApp <span class='ltr-num'>+${WA_NUMBER}</span>.`,
           noWorkerUrl: "<strong>AI Mode</strong> is enabled, but <code>WORKER_CHAT_URL</code> is not configured yet.",
           workerErr: "Unable to reach the Cloudflare Worker right now.",
@@ -2675,8 +2899,45 @@
           ],
           entries: [
             {
+              id: "mdm",
+              priority: 5,
+              keys: ["mdm", "corporate", "management", "remote management"],
+              ans: `Welcome! The <strong>MDM Lock</strong> check at <strong>${SERVICE_PRICES.mdm.credits}</strong> verifies if corporate Remote Management (MDM) is active on the iPhone.`
+            },
+            {
+              id: "basic",
+              priority: 5,
+              keys: ["basic", "simple", "baseline"],
+              ans: `Welcome! The <strong>Basic Check</strong> at <strong>${SERVICE_PRICES.basic.credits}</strong> provides fast baseline iPhone & IMEI validation before advanced checks.`
+            },
+            {
+              id: "gsx",
+              priority: 5,
+              keys: ["gsx", "sold", "repairs", "warranty", "coverage"],
+              ans: `Welcome! <strong>GSX + Sold By + Repairs</strong> at <strong>${SERVICE_PRICES.gsx.credits}</strong> shows GSX details, Sold By info (based on check source), and repair history.`
+            },
+            {
+              id: "carrier",
+              priority: 5,
+              keys: ["carrier", "sim", "simlock", "network", "mobilis", "djezzy", "ooredoo", "locked", "unlocked"],
+              ans: `Welcome! <strong>Carrier & SIMLock</strong> at <strong>${SERVICE_PRICES.carrier.credits}</strong> identifies <code>Unlocked</code> or <code>Locked</code> status and <strong>Mobilis / Djezzy / Ooredoo</strong> SIM compatibility.`
+            },
+            {
+              id: "icloud",
+              priority: 5,
+              keys: ["icloud", "fmi", "activation", "find my"],
+              ans: `Welcome! <strong>iCloud / FMI</strong> at <strong>${SERVICE_PRICES.icloud.credits}</strong> checks FMI (<code>ON</code> / <code>OFF</code>) and Activation Lock status.`
+            },
+            {
+              id: "blacklist",
+              priority: 5,
+              keys: ["blacklist", "gsma", "pro", "clean", "stolen", "lost", "barred"],
+              ans: `Welcome! <strong>Blacklist GSMA PRO</strong> at <strong>${SERVICE_PRICES.blacklist.credits}</strong> checks GSMA lost/stolen/barred status (<code>Clean</code> does not guarantee all carriers).`
+            },
+            {
+              id: "prices",
               priority: 1,
-              keys: ["basic", "gsx", "sold", "repairs", "carrier", "sim", "icloud", "fmi", "blacklist", "gsma", "mdm", "price", "credit", "credits", "list"],
+              keys: ["price", "credit", "credits", "list", "services", "check", "all"],
               ans:
                 "Welcome! Credit prices for our <strong>iPhone IMEI</strong> services:<br>" +
                 `• <strong>Basic Check:</strong> ${SERVICE_PRICES.basic.credits}<br>` +
@@ -2695,6 +2956,10 @@
       const closeBtn = document.getElementById("gsmChatCloseBtn");
       const aiToggleBtn = document.getElementById("gsmAiToggleBtn");
       const modeBadge = document.getElementById("gsmModeBadge");
+      const translateBtn = document.getElementById("gsmTranslateBtn");
+      const translateMenu = document.getElementById("gsmTranslateMenu");
+      const activeLangTag = document.getElementById("gsmActiveLangTag");
+      const fontZoomBtn = document.getElementById("gsmFontZoomBtn");
       const quickBar = document.getElementById("gsmQuickBar");
       const chatBody = document.getElementById("gsmChatBody");
       const chatForm = document.getElementById("gsmChatForm");
@@ -2702,18 +2967,19 @@
       const chatSendBtn = document.getElementById("gsmChatSendBtn");
 
       let useAiWorker = false;
+      let chatLang = (KB[document.documentElement.lang] ? document.documentElement.lang : "ar");
+      let fontXl = false;
       let history = [];
-      let lastRenderedLang = "";
 
       try {
         const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null");
         if (saved && Array.isArray(saved.history)) {
           history = saved.history;
           useAiWorker = Boolean(saved.useAiWorker);
+          if (saved.chatLang && KB[saved.chatLang]) chatLang = saved.chatLang;
+          fontXl = Boolean(saved.fontXl);
         }
       } catch (_) {}
-
-      const getLang = () => (KB[document.documentElement.lang] ? document.documentElement.lang : "ar");
 
       const getActiveImei = () => {
         const inputEl = document.getElementById("imeiInput");
@@ -2733,20 +2999,53 @@
             : `مرحباً GSM Yasser Server${imei ? ` | IMEI: ${imei}` : ""}`
         );
         const waLabel = lang === "fr" ? "Commander sur WhatsApp" : lang === "en" ? "Order on WhatsApp" : "اطلب عبر WhatsApp";
-        return `${html}${imeiPart}<br><a href="https://wa.me/${WA_NUMBER}?text=${waText}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;padding:6px 11px;background:#16a34a;color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.8rem;">${waLabel}</a>`;
+        return `${html}${imeiPart}<br><a href="https://wa.me/${WA_NUMBER}?text=${waText}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;padding:7px 12px;background:#16a34a;color:#fff;border-radius:9px;text-decoration:none;font-weight:800;font-size:0.86rem;">${waLabel}</a>`;
+      };
+
+      const getEntryById = (entryId, lang) => {
+        const pack = KB[lang] || KB.ar;
+        if (entryId === "welcome") return pack.welcome;
+        if (entryId === "fallback") return withImeiAndWa(pack.fallback, lang);
+        const found = pack.entries.find((e) => e.id === entryId);
+        return found ? withImeiAndWa(found.ans, lang) : null;
       };
 
       const saveState = () => {
         try {
-          sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ useAiWorker, history: history.slice(-12) }));
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+            useAiWorker,
+            chatLang,
+            fontXl,
+            history: history.slice(-12)
+          }));
         } catch (_) {}
       };
 
-      const appendBubble = (msg) => {
+      const appendBubble = (msg, idx) => {
         const div = document.createElement("div");
         div.className = `gsm-bubble ${msg.sender === "user" ? "user" : "bot"}`;
-        if (msg.isHtml) div.innerHTML = msg.text;
-        else div.textContent = msg.text;
+        const msgLang = msg.lang || chatLang;
+        div.dir = (KB[msgLang] || KB.ar).dir;
+
+        const contentDiv = document.createElement("div");
+        if (msg.isHtml) contentDiv.innerHTML = msg.text;
+        else contentDiv.textContent = msg.text;
+        div.appendChild(contentDiv);
+
+        // شريط ترجمة فوري أسفل كل رد للمساعد
+        if (msg.sender === "bot") {
+          const trBar = document.createElement("div");
+          trBar.className = "gsm-bubble-tr-bar";
+          const pack = KB[chatLang] || KB.ar;
+          trBar.innerHTML = `<span style="font-size:0.78rem;color:var(--muted);font-weight:700;">🌐 ${pack.trLabel}</span>` +
+            ["ar", "fr", "en"].map((code) => {
+              const label = code === "ar" ? "عربي" : code.toUpperCase();
+              const activeCls = msgLang === code ? " active" : "";
+              return `<button type="button" class="gsm-bubble-tr-btn${activeCls}" data-msg-idx="${idx}" data-to-lang="${code}">${label}</button>`;
+            }).join("");
+          div.appendChild(trBar);
+        }
+
         chatBody.appendChild(div);
         chatBody.scrollTop = chatBody.scrollHeight;
         return div;
@@ -2767,18 +3066,22 @@
             }
           }
         }
-        return best ? withImeiAndWa(best.ans, lang) : null;
+        return best ? { html: withImeiAndWa(best.ans, lang), entryId: best.id } : null;
       };
 
-      const renderUi = (forceLangSync = false) => {
-        const lang = getLang();
-        const langChanged = lang !== lastRenderedLang;
-        lastRenderedLang = lang;
-        const pack = KB[lang] || KB.ar;
+      const renderUi = () => {
+        const pack = KB[chatLang] || KB.ar;
+        popup.dir = pack.dir;
+        popup.classList.toggle("font-xl", fontXl);
+        fontZoomBtn.classList.toggle("active", fontXl);
+
+        activeLangTag.textContent = chatLang.toUpperCase();
+        document.querySelectorAll("[data-chat-lang]").forEach((opt) => {
+          opt.classList.toggle("active", opt.dataset.chatLang === chatLang);
+        });
 
         chatInput.placeholder = pack.placeholder;
         chatSendBtn.textContent = pack.send;
-        aiToggleBtn.textContent = pack.aiToggle;
         aiToggleBtn.classList.toggle("active", useAiWorker);
         modeBadge.textContent = useAiWorker ? pack.aiBadge : pack.localBadge;
 
@@ -2787,46 +3090,83 @@
           .join("");
 
         if (history.length === 0) {
-          history = [{ sender: "bot", text: pack.welcome, isHtml: true, isWelcome: true }];
+          history = [{ sender: "bot", text: pack.welcome, isHtml: true, entryId: "welcome", lang: chatLang }];
           saveState();
-        } else if ((forceLangSync || langChanged) && history[0]?.isWelcome) {
+        } else if (history[0]?.entryId === "welcome") {
           history[0].text = pack.welcome;
+          history[0].lang = chatLang;
           saveState();
         }
 
         chatBody.innerHTML = "";
-        history.forEach(appendBubble);
+        history.forEach((m, i) => appendBubble(m, i));
+      };
+
+      const translateMessageAt = async (idx, targetLang) => {
+        const msg = history[idx];
+        if (!msg || msg.sender !== "bot" || !KB[targetLang]) return;
+
+        if (msg.entryId) {
+          const translated = getEntryById(msg.entryId, targetLang);
+          if (translated) {
+            msg.text = translated;
+            msg.lang = targetLang;
+            saveState();
+            renderUi();
+            return;
+          }
+        }
+
+        if (WORKER_CHAT_URL) {
+          try {
+            const res = await fetch(WORKER_CHAT_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                message: `Translate this response accurately into ${targetLang}: ${msg.text}`,
+                lang: targetLang
+              })
+            });
+            const data = await res.json();
+            if (data.reply) {
+              msg.text = data.reply;
+              msg.lang = targetLang;
+              saveState();
+              renderUi();
+            }
+          } catch (_) {}
+        }
       };
 
       const onAsk = async (rawText) => {
         const text = rawText.trim();
         if (!text) return;
-        const lang = getLang();
+        const lang = chatLang;
         const pack = KB[lang] || KB.ar;
 
-        const userMsg = { sender: "user", text, isHtml: false };
+        const userMsg = { sender: "user", text, isHtml: false, lang };
         history.push(userMsg);
-        appendBubble(userMsg);
+        appendBubble(userMsg, history.length - 1);
         saveState();
 
-        const localReply = matchLocal(text, lang);
-        if (localReply && !useAiWorker) {
-          const botMsg = { sender: "bot", text: localReply, isHtml: true };
+        const localMatch = matchLocal(text, lang);
+        if (localMatch && !useAiWorker) {
+          const botMsg = { sender: "bot", text: localMatch.html, isHtml: true, entryId: localMatch.entryId, lang };
           history.push(botMsg);
-          appendBubble(botMsg);
+          appendBubble(botMsg, history.length - 1);
           saveState();
           return;
         }
 
         if (useAiWorker || WORKER_CHAT_URL) {
           if (!WORKER_CHAT_URL) {
-            const msg = { sender: "bot", text: pack.noWorkerUrl, isHtml: true };
+            const msg = { sender: "bot", text: pack.noWorkerUrl, isHtml: true, lang };
             history.push(msg);
-            appendBubble(msg);
+            appendBubble(msg, history.length - 1);
             saveState();
             return;
           }
-          const loader = appendBubble({ sender: "bot", text: pack.thinking, isHtml: false });
+          const loader = appendBubble({ sender: "bot", text: pack.thinking, isHtml: false, lang }, history.length);
           try {
             const res = await fetch(WORKER_CHAT_URL, {
               method: "POST",
@@ -2841,9 +3181,9 @@
             const data = await res.json();
             loader.remove();
             const replyText = withImeiAndWa(data.reply || pack.workerErr, lang);
-            const botMsg = { sender: "bot", text: replyText, isHtml: true };
+            const botMsg = { sender: "bot", text: replyText, isHtml: true, lang };
             history.push(botMsg);
-            appendBubble(botMsg);
+            appendBubble(botMsg, history.length - 1);
             saveState();
             return;
           } catch (_) {
@@ -2851,9 +3191,11 @@
           }
         }
 
-        const fallbackMsg = { sender: "bot", text: localReply || withImeiAndWa(pack.fallback, lang), isHtml: true };
+        const fallbackMsg = localMatch
+          ? { sender: "bot", text: localMatch.html, isHtml: true, entryId: localMatch.entryId, lang }
+          : { sender: "bot", text: withImeiAndWa(pack.fallback, lang), isHtml: true, entryId: "fallback", lang };
         history.push(fallbackMsg);
-        appendBubble(fallbackMsg);
+        appendBubble(fallbackMsg, history.length - 1);
         saveState();
       };
 
@@ -2861,22 +3203,61 @@
         const next = !popup.classList.contains("open");
         popup.classList.toggle("open", next);
         if (next) {
-          renderUi(true);
+          renderUi();
           chatInput.focus();
         }
       });
 
-      closeBtn.addEventListener("click", () => popup.classList.remove("open"));
+      closeBtn.addEventListener("click", () => {
+        popup.classList.remove("open");
+        translateMenu.classList.remove("open");
+      });
+
+      translateBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        translateMenu.classList.toggle("open");
+      });
+
+      translateMenu.addEventListener("click", (e) => {
+        const opt = e.target.closest("[data-chat-lang]");
+        if (!opt) return;
+        chatLang = opt.dataset.chatLang;
+        translateMenu.classList.remove("open");
+        history.forEach((m) => {
+          if (m.sender === "bot" && m.entryId) {
+            const tr = getEntryById(m.entryId, chatLang);
+            if (tr) {
+              m.text = tr;
+              m.lang = chatLang;
+            }
+          }
+        });
+        saveState();
+        renderUi();
+      });
+
+      chatBody.addEventListener("click", (e) => {
+        const btn = e.target.closest(".gsm-bubble-tr-btn");
+        if (!btn) return;
+        translateMessageAt(Number(btn.dataset.msgIdx), btn.dataset.toLang);
+      });
+
+      fontZoomBtn.addEventListener("click", () => {
+        fontXl = !fontXl;
+        saveState();
+        renderUi();
+      });
+
       aiToggleBtn.addEventListener("click", () => {
         useAiWorker = !useAiWorker;
         saveState();
-        renderUi(false);
+        renderUi();
       });
 
       quickBar.addEventListener("click", (e) => {
         const chip = e.target.closest("[data-q]");
         if (!chip) return;
-        const pack = KB[getLang()] || KB.ar;
+        const pack = KB[chatLang] || KB.ar;
         const chosen = pack.quick[Number(chip.dataset.q)];
         if (chosen) onAsk(chosen.q);
       });
@@ -2889,15 +3270,38 @@
         onAsk(val);
       });
 
+      document.addEventListener("click", (e) => {
+        if (!translateMenu.contains(e.target) && !translateBtn.contains(e.target)) {
+          translateMenu.classList.remove("open");
+        }
+      });
+
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") popup.classList.remove("open");
+        if (e.key === "Escape") {
+          popup.classList.remove("open");
+          translateMenu.classList.remove("open");
+        }
       });
 
       new MutationObserver(() => {
-        renderUi(true);
+        const siteLang = document.documentElement.lang;
+        if (KB[siteLang] && siteLang !== chatLang) {
+          chatLang = siteLang;
+          history.forEach((m) => {
+            if (m.sender === "bot" && m.entryId) {
+              const tr = getEntryById(m.entryId, chatLang);
+              if (tr) {
+                m.text = tr;
+                m.lang = chatLang;
+              }
+            }
+          });
+          saveState();
+          renderUi();
+        }
       }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
 
-      renderUi(true);
+      renderUi();
     })();
   </script>
 </body>
