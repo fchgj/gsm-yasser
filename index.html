@@ -52,7 +52,7 @@
 
     html {
       scroll-behavior: smooth;
-      font-size: 17px; /* زيادة حجم الخط الأساسي لقراءة ليلية مريحة */
+      font-size: 17px;
     }
 
     body {
@@ -746,27 +746,42 @@
     /* ---------- TRUST BAR ---------- */
     .trust-strip {
       order: 4;
-      margin-top: 22px;
-      background: var(--surface);
+      margin-top: 24px;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px 18px;
+      border-radius: 18px;
+      padding: 18px 20px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
       text-align: center;
       box-shadow: var(--shadow);
     }
 
+    .trust-item {
+      padding: 6px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      position: relative;
+    }
+
+    .trust-item + .trust-item {
+      border-inline-start: 1px solid var(--border);
+    }
+
     .trust-item strong {
       display: block;
-      font-size: 1.04rem;
+      font-size: 1.06rem;
       font-weight: 800;
       color: var(--text);
+      letter-spacing: -0.1px;
     }
 
     .trust-item span {
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       color: var(--muted);
     }
 
@@ -775,10 +790,25 @@
       order: 5;
       text-align: center;
       margin-top: 26px;
-      padding-top: 26px;
-      border-top: 1px solid var(--border);
+      padding: 24px 20px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
       font-size: 0.96rem;
       color: var(--muted);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-top-row {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
     }
 
     .social-icons-only {
@@ -786,8 +816,7 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-bottom: 18px;
+      gap: 10px;
     }
 
     .sc-icon {
@@ -795,19 +824,18 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 48px;
-      height: 48px;
-      border-radius: 13px;
-      background: var(--surface);
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: var(--surface-2);
       border: 1px solid var(--border);
       color: var(--text);
       text-decoration: none;
-      box-shadow: var(--shadow);
       transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
 
     .sc-icon:hover {
-      transform: translateY(-3px);
+      transform: translateY(-2px);
       color: #ffffff;
       border-color: transparent;
     }
@@ -850,33 +878,45 @@
     .sc-gm:hover { background-color: #ea4335; }
 
     .footer-pills {
-      display: flex;
+      display: inline-flex;
       justify-content: center;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 16px;
     }
 
     .footer-pill {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      background: var(--surface);
+      background: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: 11px;
-      min-height: 44px;
+      border-radius: 12px;
+      min-height: 46px;
       padding: 9px 16px;
       font-weight: 700;
       color: var(--text);
       text-decoration: none;
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s ease, transform 0.15s ease;
     }
 
-    .footer-pill:hover { border-color: var(--accent); }
+    .footer-pill:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .footer-bottom-row {
+      width: 100%;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
 
     .legal-links {
-      margin: 14px 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -888,11 +928,18 @@
       color: var(--muted);
       text-decoration: none;
       font-size: 0.94rem;
+      font-weight: 600;
       white-space: nowrap;
+      transition: color 0.15s ease;
     }
 
     .legal-links a:hover { color: var(--text); text-decoration: underline; }
     .legal-sep { color: var(--border); }
+
+    .copyright-line {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
 
     /* ---------- TOAST ---------- */
     .toast-container {
@@ -1035,7 +1082,7 @@
       font-size: 0.98rem;
     }
 
-    /* ---------- FLOATING HYBRID CHATBOT (LARGE NIGHT READABILITY + TRANSLATE) ---------- */
+    /* ---------- FLOATING HYBRID CHATBOT ---------- */
     .gsm-fab-btn {
       position: fixed;
       bottom: 20px;
@@ -1076,7 +1123,7 @@
       z-index: 945;
       flex-direction: column;
       overflow: hidden;
-      --chat-scale: 1.1; /* تكبير خط افتراضي مريح جداً ليلاً */
+      --chat-scale: 1.1;
     }
 
     .gsm-chat-popup.font-xl {
@@ -1161,7 +1208,6 @@
       border-color: var(--accent);
     }
 
-    /* قائمة الترجمة داخل المساعد */
     .gsm-translate-menu {
       display: none;
       position: absolute;
@@ -1409,21 +1455,29 @@
 
       .trust-strip {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 10px;
+        padding: 14px 16px;
         text-align: start;
       }
 
       .trust-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-bottom: 8px;
-        border-bottom: 1px solid var(--border);
+        padding: 4px 0 10px;
+        align-items: flex-start;
+      }
+
+      .trust-item + .trust-item {
+        border-inline-start: none;
+        border-top: 1px solid var(--border);
+        padding-top: 10px;
       }
 
       .trust-item:last-child {
         padding-bottom: 0;
-        border-bottom: none;
+      }
+
+      .footer-box {
+        padding: 20px 14px 16px;
+        gap: 14px;
       }
 
       .gsm-fab-btn {
@@ -1472,6 +1526,26 @@
       .card {
         padding: 24px;
       }
+
+      .trust-strip {
+        padding: 20px 24px;
+      }
+
+      .footer-box {
+        padding: 22px 26px 18px;
+      }
+
+      .footer-top-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .footer-bottom-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
     }
 
     /* 3) شاشة الحاسوب الكبيرة 🖥️ (>= 1440px) */
@@ -1515,6 +1589,26 @@
 
       .card {
         padding: 28px;
+      }
+
+      .trust-strip {
+        padding: 22px 28px;
+      }
+
+      .footer-box {
+        padding: 24px 30px 20px;
+      }
+
+      .footer-top-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .footer-bottom-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
       }
 
       .gsm-chat-popup {
@@ -1769,72 +1863,76 @@
     <!-- ========== TRUST BAR ========== -->
     <div class="trust-strip" aria-label="مميزات المنصة">
       <div class="trust-item">
-        <strong id="trust1Title">بيانات Apple & GSX</strong>
-        <span id="trust1Sub">تقارير دقيقة عبر الخدمات المدفوعة</span>
+        <strong id="trust1Title">Apple & GSX Data</strong>
+        <span id="trust1Sub">Accurate reports via paid services</span>
       </div>
       <div class="trust-item">
-        <strong id="trust2Title">معالجة سريعة</strong>
-        <span id="trust2Sub">تنفيذ الطلبات خلال دقائق</span>
+        <strong id="trust2Title">Fast Processing</strong>
+        <span id="trust2Sub">Orders processed within minutes</span>
       </div>
       <div class="trust-item">
-        <strong id="trust3Title">دعم مباشر</strong>
-        <span id="trust3Sub">تواصل فوري عبر واتساب</span>
+        <strong id="trust3Title">Direct Support</strong>
+        <span id="trust3Sub">Instant assistance on WhatsApp</span>
       </div>
     </div>
 
     <!-- ========== 6. FOOTER ========== -->
     <footer class="footer-box">
-      <div class="social-icons-only" role="navigation" aria-label="روابط التواصل">
-        <a href="https://wsend.co/213657241710" target="_blank" rel="noopener noreferrer"
-           id="socialWa" data-label="واتساب" aria-label="واتساب" class="sc-icon sc-wa">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
-          </svg>
-        </a>
+      <div class="footer-top-row">
+        <div class="social-icons-only" role="navigation" aria-label="روابط التواصل">
+          <a href="https://wsend.co/213657241710" target="_blank" rel="noopener noreferrer"
+             id="socialWa" data-label="واتساب" aria-label="واتساب" class="sc-icon sc-wa">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+            </svg>
+          </a>
 
-        <a href="https://www.facebook.com/profile.php?id=61565963716522&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer"
-           id="socialFb" data-label="فيسبوك" aria-label="فيسبوك" class="sc-icon sc-fb">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-            <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
-          </svg>
-        </a>
+          <a href="https://www.facebook.com/profile.php?id=61565963716522&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer"
+             id="socialFb" data-label="فيسبوك" aria-label="فيسبوك" class="sc-icon sc-fb">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+              <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+            </svg>
+          </a>
 
-        <a href="https://www.tiktok.com/@khelifiyasser15?_t=ZM-8skVkuJpxAL&_r=1" target="_blank" rel="noopener noreferrer"
-           id="socialTt" data-label="تيك توك" aria-label="تيك توك" class="sc-icon sc-tt">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-          </svg>
-        </a>
+          <a href="https://www.tiktok.com/@khelifiyasser15?_t=ZM-8skVkuJpxAL&_r=1" target="_blank" rel="noopener noreferrer"
+             id="socialTt" data-label="تيك توك" aria-label="تيك توك" class="sc-icon sc-tt">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+            </svg>
+          </a>
 
-        <a href="https://t.me/gsm_dz_services" target="_blank" rel="noopener noreferrer"
-           id="socialTg" data-label="تيليغرام" aria-label="تيليغرام" class="sc-icon sc-tg">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-          </svg>
-        </a>
+          <a href="https://t.me/gsm_dz_services" target="_blank" rel="noopener noreferrer"
+             id="socialTg" data-label="تيليغرام" aria-label="تيليغرام" class="sc-icon sc-tg">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
+          </a>
 
-        <a href="mailto:yasserkhelifi125@gmail.com"
-           id="socialGm" data-label="Gmail" aria-label="Gmail" class="sc-icon sc-gm">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
-          </svg>
-        </a>
+          <a href="mailto:yasserkhelifi125@gmail.com"
+             id="socialGm" data-label="Gmail" aria-label="Gmail" class="sc-icon sc-gm">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="footer-pills">
+          <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="footer-pill ltr-num">+213657241710</a>
+          <a href="steps.html" class="footer-pill" title="خطوات الاستخدام">📖</a>
+        </div>
       </div>
 
-      <div class="footer-pills">
-        <a href="https://wa.me/213657241710" target="_blank" rel="noopener" class="footer-pill ltr-num">+213657241710</a>
-        <a href="steps.html" class="footer-pill" title="خطوات الاستخدام">📖</a>
-      </div>
+      <div class="footer-bottom-row">
+        <div class="legal-links">
+          <a href="legal.html#privacy" id="linkPrivacy">Privacy Policy</a>
+          <span class="legal-sep">|</span>
+          <a href="legal.html#terms" id="linkTerms">Terms of Use</a>
+          <span class="legal-sep">|</span>
+          <a href="legal.html#disclaimer" id="linkDisclaimer">Disclaimer</a>
+        </div>
 
-      <div class="legal-links">
-        <a href="legal.html#privacy" id="linkPrivacy">سياسة الخصوصية</a>
-        <span class="legal-sep">|</span>
-        <a href="legal.html#terms" id="linkTerms">شروط الاستخدام</a>
-        <span class="legal-sep">|</span>
-        <a href="legal.html#disclaimer" id="linkDisclaimer">إخلاء المسؤولية</a>
+        <div class="copyright-line">© <span class="ltr-num">2026</span> GSM YASSER SERVER. All Rights Reserved.</div>
       </div>
-
-      <div>© <span class="ltr-num">2026</span> GSM YASSER SERVER. All Rights Reserved.</div>
     </footer>
   </div>
 
@@ -1955,16 +2053,13 @@
         <span class="gsm-mode-pill" id="gsmModeBadge">محلي (مجاني)</span>
       </div>
       <div class="gsm-head-actions">
-        <!-- أيقونة الترجمة داخل المساعد -->
         <button type="button" class="gsm-mini-btn" id="gsmTranslateBtn" aria-label="ترجمة المساعد" title="ترجمة / Translate / Traduire">
           🌐 <span id="gsmActiveLangTag">AR</span>
         </button>
-        <!-- زر تكبير الخط الإضافي للقراءة الليلية -->
         <button type="button" class="gsm-mini-btn" id="gsmFontZoomBtn" aria-label="تكبير الخط" title="تكبير الخط">A+</button>
         <button type="button" class="gsm-mini-btn" id="gsmAiToggleBtn">AI</button>
         <button type="button" class="gsm-mini-btn" id="gsmChatCloseBtn" aria-label="إغلاق">✕</button>
 
-        <!-- قائمة اختيار لغة المساعد -->
         <div class="gsm-translate-menu" id="gsmTranslateMenu" role="menu">
           <button type="button" class="gsm-tr-opt active" data-chat-lang="ar"><span>العربية</span><span>AR</span></button>
           <button type="button" class="gsm-tr-opt" data-chat-lang="fr"><span>Français</span><span>FR</span></button>
@@ -2116,9 +2211,9 @@
         hintValid: "✓ IMEI valide (Luhn)",
         viewReport: "Voir le rapport",
         viewSteps: "Étapes d'utilisation",
-        privacy: "Politique de confidentialité",
-        terms: "Conditions d'utilisation",
-        disclaimer: "Clause de non-responsabilité",
+        privacy: "Privacy Policy",
+        terms: "Terms of Use",
+        disclaimer: "Disclaimer",
         copyText: "Copier IMEI",
         copied: "Copié !",
         tipsTitle: "💡 Astuces rapides :",
@@ -3051,7 +3146,6 @@
         else contentDiv.textContent = msg.text;
         div.appendChild(contentDiv);
 
-        // شريط ترجمة فوري أسفل كل رد للمساعد
         if (msg.sender === "bot") {
           const trBar = document.createElement("div");
           trBar.className = "gsm-bubble-tr-bar";
@@ -3247,7 +3341,7 @@
             const tr = getEntryById(m.entryId, chatLang);
             if (tr) {
               m.text = tr;
-              m.lang = chatLang;
+              m.lang = targetLang;
             }
           }
         });
