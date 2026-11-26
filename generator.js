@@ -3,6 +3,10 @@ const BRAND_NAME = "GSM YASSER SERVER";
 const BRAND_DOMAIN = "yasserserver.com";
 const BRAND_CONTACT = "Oran • WhatsApp: 0657241710";
 
+function normalizeImeiDigits(imei) {
+  return String(imei || "").replace(/\D/g, "").trim();
+}
+
 function getFieldValue(id, fallback = "N/A") {
   const el = document.getElementById(id);
   const val = el && typeof el.value === "string" ? el.value.trim() : "";
@@ -44,7 +48,7 @@ function evaluateDeviceCleanStatus(data) {
   const icloud = String(data.icloud || "").toLowerCase();
 
   const hasBlockedKeyword =
-    fmi.includes("on") ||
+    /\bfmi\s*[:\-]?\s*on\b/.test(fmi) ||
     fmi.includes("lost") ||
     icloud.includes("lost") ||
     icloud.includes("locked") ||
@@ -58,16 +62,20 @@ function evaluateDeviceCleanStatus(data) {
   return isFmiOff || isIcloudClean;
 }
 
-function collectDataAndGenerate() {
-  const data = {
-    imei: getFieldValue("imei", "N/A"),
-    model: getFieldValue("model", "N/A"),
-    fmi: getFieldValue("fmi", "N/A"),
-    icloud: getFieldValue("icloud", "N/A"),
-    carrier: getFieldValue("carrier", "N/A"),
-  };
+function buildReport(imei, extra = {}) {
+  const cleanImei = normalizeImeiDigits(imei);
+  const tac = cleanImei.slice(0, 8);
 
-  generateImeiReportPDF(data);
+  return {
+    imei: cleanImei,
+    tac,
+    device: extra.device || "iPhone",
+    model: extra.model || "iPhone (IMEI Check)",
+    fmi: extra.fmi || "N/A",
+    icloud: extra.icloud || "N/A",
+    carrier: extra.carrier || "N/A",
+    checkedAt: new Date().toISOString(),
+  };
 }
 
 function generateImeiReportPDF(data, onError) {
@@ -173,3 +181,21 @@ function generateImeiReportPDF(data, onError) {
     }
   );
 }
+
+function collectDataAndGenerate() {
+  const data = {
+    imei: getFieldValue("imei", "N/A"),
+    model: getFieldValue("model", "N/A"),
+    fmi: getFieldValue("fmi", "N/A"),
+    icloud: getFieldValue("icloud", "N/A"),
+    carrier: getFieldValue("carrier", "N/A"),
+  };
+
+  generateImeiReportPDF(data);
+}
+
+window.GSMGenerator = {
+  buildReport,
+  generateImeiReportPDF,
+  collectDataAndGenerate,
+};
