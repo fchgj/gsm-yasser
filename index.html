@@ -818,54 +818,9 @@
       border-color: var(--accent-hover);
     }
 
-    /* ---------- TRUST BAR ---------- */
-    .trust-strip {
-      order: 4;
-      margin-top: 24px;
-      background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px 20px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0;
-      text-align: center;
-      box-shadow: var(--shadow);
-      max-width: 100%;
-      min-width: 0;
-    }
-
-    .trust-item {
-      padding: 6px 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      position: relative;
-      min-width: 0;
-    }
-
-    .trust-item + .trust-item {
-      border-inline-start: 1px solid var(--border);
-    }
-
-    .trust-item strong {
-      display: block;
-      font-size: 1.06rem;
-      font-weight: 800;
-      color: var(--text);
-      letter-spacing: -0.1px;
-    }
-
-    .trust-item span {
-      font-size: 0.92rem;
-      color: var(--muted);
-    }
-
     /* ---------- 6. FOOTER & SOCIAL ICONS ---------- */
     .footer-box {
-      order: 5;
+      order: 4;
       text-align: center;
       margin-top: 26px;
       padding: 24px 20px 18px;
@@ -1566,28 +1521,6 @@
         font-size: 0.9rem;
       }
 
-      .trust-strip {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 10px;
-        padding: 14px 16px;
-        text-align: start;
-      }
-
-      .trust-item {
-        padding: 4px 0 10px;
-        align-items: flex-start;
-      }
-
-      .trust-item + .trust-item {
-        border-inline-start: none;
-        border-top: 1px solid var(--border);
-        padding-top: 10px;
-      }
-
-      .trust-item:last-child {
-        padding-bottom: 0;
-      }
-
       .footer-box {
         padding: 20px 14px 16px;
         gap: 14px;
@@ -1639,10 +1572,6 @@
 
       .card {
         padding: 24px;
-      }
-
-      .trust-strip {
-        padding: 20px 24px;
       }
 
       .footer-box {
@@ -1704,10 +1633,6 @@
 
       .card {
         padding: 28px;
-      }
-
-      .trust-strip {
-        padding: 22px 28px;
       }
 
       .footer-box {
@@ -1983,22 +1908,6 @@
       </section>
     </div>
 
-    <!-- ========== TRUST BAR ========== -->
-    <div class="trust-strip" aria-label="مميزات المنصة">
-      <div class="trust-item">
-        <strong id="trust1Title">Apple & GSX Data</strong>
-        <span id="trust1Sub">Accurate reports via paid services</span>
-      </div>
-      <div class="trust-item">
-        <strong id="trust2Title">Fast Processing</strong>
-        <span id="trust2Sub">Orders processed within minutes</span>
-      </div>
-      <div class="trust-item">
-        <strong id="trust3Title">Direct Support</strong>
-        <span id="trust3Sub">Instant assistance on WhatsApp</span>
-      </div>
-    </div>
-
     <!-- ========== 6. FOOTER ========== -->
     <footer class="footer-box">
       <div class="footer-top-row">
@@ -2250,9 +2159,6 @@
         srv3Desc: "شرح مختصر: فحص سجل الفقدان أو السرقة أو الحظر الدولي. الخصائص: يفحص قاعدة GSMA؛ نتيجة Clean لا تضمن عدم وجود حظر لدى جميع المشغلين.",
         srv4Name: "GSX + Sold By + Repairs",
         srv4Desc: "شرح مختصر: تقرير متقدم شامل لبيانات GSX، مصدر البيع، وسجل الإصلاحات. الخصائص: يشمل GSX، الضمان (#6)، Sold By، وسجل الصيانة.",
-        trust1Title: "بيانات Apple & GSX", trust1Sub: "تقارير دقيقة عبر الخدمات المدفوعة",
-        trust2Title: "معالجة سريعة", trust2Sub: "تنفيذ الطلبات خلال دقائق",
-        trust3Title: "دعم مباشر", trust3Sub: "تواصل فوري عبر واتساب",
         errCaptcha: "رمز التحقق غير صحيح.",
         errImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
         okImei: "تم التحقق الرياضي من رقم IMEI بنجاح:",
@@ -2327,9 +2233,6 @@
         srv3Desc: "Aperçu : statut perdu, volé ou bloqué GSMA. Caractéristiques : Clean ne garantit pas tous les opérateurs.",
         srv4Name: "GSX + Sold By + Repairs",
         srv4Desc: "Aperçu : rapport détaillé GSX, Sold By et réparations. Caractéristiques : GSX, couverture (#6), Sold By et historique.",
-        trust1Title: "Données Apple & GSX", trust1Sub: "Rapports précis via les services payants",
-        trust2Title: "Traitement rapide", trust2Sub: "Commandes traitées en quelques minutes",
-        trust3Title: "Support direct", trust3Sub: "Assistance instantanée sur WhatsApp",
         errCaptcha: "Code CAPTCHA invalide.",
         errImei: "Veuillez saisir un IMEI valide à 15 chiffres.",
         okImei: "IMEI validé mathématiquement :",
@@ -2404,9 +2307,6 @@
         srv3Desc: "Summary: lost, stolen, or barred GSMA status. Features: GSMA check; Clean does not guarantee all carriers.",
         srv4Name: "GSX + Sold By + Repairs",
         srv4Desc: "Summary: detailed GSX, Sold By, and repair history report. Features: GSX, coverage (#6), Sold By, and repairs.",
-        trust1Title: "Apple & GSX Data", trust1Sub: "Accurate reports via paid services",
-        trust2Title: "Fast Processing", trust2Sub: "Orders processed within minutes",
-        trust3Title: "Direct Support", trust3Sub: "Instant assistance on WhatsApp",
         errCaptcha: "Invalid captcha code.",
         errImei: "Please enter a valid 15-digit IMEI number.",
         okImei: "IMEI mathematically validated:",
@@ -2647,13 +2547,6 @@
         document.getElementById(id).textContent = t.badge;
       });
       document.getElementById("badgePro").textContent = t.badgePro;
-
-      document.getElementById("trust1Title").textContent = t.trust1Title;
-      document.getElementById("trust1Sub").textContent = t.trust1Sub;
-      document.getElementById("trust2Title").textContent = t.trust2Title;
-      document.getElementById("trust2Sub").textContent = t.trust2Sub;
-      document.getElementById("trust3Title").textContent = t.trust3Title;
-      document.getElementById("trust3Sub").textContent = t.trust3Sub;
 
       document.getElementById("topReportBtn").textContent = t.viewReport;
       document.getElementById("viewReportBtn").textContent = t.viewReport;
@@ -3472,7 +3365,7 @@
             const tr = getEntryById(m.entryId, chatLang);
             if (tr) {
               m.text = tr;
-              m.lang = chatLang;
+              m.lang = targetLang;
             }
           }
         });
