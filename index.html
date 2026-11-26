@@ -3056,7 +3056,7 @@
     applyLang(currentLang);
   </script>
 
-  <!-- ========== LIVE IPHONE NEWS (WORKER PRIMARY + FALLBACKS) ========== -->
+  <!-- ========== LIVE IPHONE NEWS (WORKER PRIMARY + MULTI-FEED FALLBACKS) ========== -->
   <script>
   (function () {
     const WORKER_NEWS_URL = "https://gsm-yasser-api.yasserkhelifi125.workers.dev/api/iphone-news";
@@ -3073,7 +3073,10 @@
         fallbackTitle: "خبر آيفون",
         empty: "لا توجد أخبار متاحة حالياً.",
         error: "تعذّر جلب الأخبار الآن، يرجى المحاولة لاحقاً.",
-        rss: "https://iphoneislam.com/feed/"
+        feeds: [
+          "https://iphoneislam.com/feed/",
+          "https://news.google.com/rss/search?q=iPhone+OR+%D8%A2%D9%8A%D9%81%D9%88%D9%86+-Android+-Samsung&hl=ar&gl=DZ&ceid=DZ:ar"
+        ]
       },
       fr: {
         dir: "ltr",
@@ -3086,7 +3089,9 @@
         fallbackTitle: "Actualité iPhone",
         empty: "Aucune actualité disponible pour le moment.",
         error: "Impossible de charger les actualités pour l'instant.",
-        rss: "https://news.google.com/rss/search?q=iPhone+Apple+-Android+-Samsung&hl=fr&gl=FR&ceid=FR:fr"
+        feeds: [
+          "https://news.google.com/rss/search?q=iPhone+Apple+-Android+-Samsung&hl=fr&gl=FR&ceid=FR:fr"
+        ]
       },
       en: {
         dir: "ltr",
@@ -3099,12 +3104,14 @@
         fallbackTitle: "iPhone News",
         empty: "No news available right now.",
         error: "Unable to load news right now. Please try again later.",
-        rss: "https://news.google.com/rss/search?q=iPhone+Apple+-Android+-Samsung&hl=en-US&gl=US&ceid=US:en"
+        feeds: [
+          "https://news.google.com/rss/search?q=iPhone+Apple+-Android+-Samsung&hl=en-US&gl=US&ceid=US:en"
+        ]
       }
     };
 
     const ONE_HOUR = 60 * 60 * 1000;
-    const FETCH_TIMEOUT_MS = 7000;
+    const FETCH_TIMEOUT_MS = 7500;
     let currentNewsLang = "ar";
     let isFetchingNews = false;
 
@@ -3149,33 +3156,49 @@
       })).filter((x) => x.title);
     }
 
-    async function fetchNewsItems(lang, rssUrl, forceRefresh = false) {
+    function normalizeItems(rawList) {
+      if (!Array.isArray(rawList)) return [];
+      return rawList
+        .map((item) => ({
+          title: (item.title || "").trim(),
+          link: (item.link || item.url || "#").trim(),
+          pubDate: (item.pubDate || item.isoDate || item.date || "").trim()
+        }))
+        .filter((x) => x.title);
+    }
+
+    async function fetchNewsItems(lang, feeds, forceRefresh = false) {
       if (lang === "ar") {
         try {
           const workerUrl = forceRefresh ? `${WORKER_NEWS_URL}?t=${Date.now()}` : WORKER_NEWS_URL;
           const resWorker = await fetchWithTimeout(workerUrl);
           const workerData = await resWorker.json();
-          if (workerData && Array.isArray(workerData.items) && workerData.items.length > 0) {
-            return workerData.items.slice(0, 6);
-          }
+          const list = normalizeItems(workerData?.items || workerData?.articles);
+          if (list.length > 0) return list.slice(0, 6);
         } catch (_) {}
       }
 
-      try {
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-        const res = await fetchWithTimeout(proxyUrl);
-        const payload = await res.json();
-        if (payload && payload.contents) {
-          const parsed = parseRssXml(payload.contents);
-          if (parsed.length > 0) return parsed;
-        }
-      } catch (_) {}
+      const feedList = Array.isArray(feeds) ? feeds : [feeds];
+      for (const rssUrl of feedList) {
+        try {
+          const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+          const res = await fetchWithTimeout(proxyUrl);
+          const payload = await res.json();
+          if (payload && payload.contents) {
+            const parsed = normalizeItems(parseRssXml(payload.contents));
+            if (parsed.length > 0) return parsed.slice(0, 6);
+          }
+        } catch (_) {}
 
-      const fallbackUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-      const res2 = await fetchWithTimeout(fallbackUrl);
-      const data2 = await res2.json();
-      if (data2 && data2.status === "ok" && Array.isArray(data2.items) && data2.items.length > 0) {
-        return data2.items.slice(0, 6);
+        try {
+          const fallbackUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+          const res2 = await fetchWithTimeout(fallbackUrl);
+          const data2 = await res2.json();
+          const list2 = normalizeItems(data2?.items);
+          if (data2 && data2.status === "ok" && list2.length > 0) {
+            return list2.slice(0, 6);
+          }
+        } catch (_) {}
       }
 
       throw new Error("All news sources failed");
@@ -3198,7 +3221,7 @@
       if (heading) heading.textContent = cfg.heading;
       if (badge) badge.textContent = cfg.badge;
 
-      const cacheKey = `gsm_yasser_iphone_news_${activeLang}_v3`;
+      const cacheKey = `gsm_yasser_iphone_news_${activeLang}_v4`;
 
       const renderItems = (items) => {
         if (!Array.isArray(items) || !items.length) {
@@ -3248,7 +3271,7 @@
       setRefreshUi(cfg, true);
 
       try {
-        const items = await fetchNewsItems(activeLang, cfg.rss, forceRefresh);
+        const items = await fetchNewsItems(activeLang, cfg.feeds, forceRefresh);
         localStorage.setItem(cacheKey, JSON.stringify({
           timestamp: Date.now(),
           items
