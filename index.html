@@ -3056,9 +3056,11 @@
     applyLang(currentLang);
   </script>
 
-  <!-- ========== LIVE IPHONE NEWS (AUTO-SYNCED + TIMEOUT + FALLBACK) ========== -->
+  <!-- ========== LIVE IPHONE NEWS (WORKER PRIMARY + FALLBACKS) ========== -->
   <script>
   (function () {
+    const WORKER_NEWS_URL = "https://gsm-yasser-api.yasserkhelifi125.workers.dev/api/iphone-news";
+
     const NEWS_I18N = {
       ar: {
         dir: "rtl",
@@ -3071,7 +3073,7 @@
         fallbackTitle: "خبر آيفون",
         empty: "لا توجد أخبار متاحة حالياً.",
         error: "تعذّر جلب الأخبار الآن، يرجى المحاولة لاحقاً.",
-        rss: "https://news.google.com/rss/search?q=iPhone+OR+%D8%A2%D9%8A%D9%81%D9%88%D9%86+-Android+-Samsung&hl=ar&gl=DZ&ceid=DZ:ar"
+        rss: "https://iphoneislam.com/feed/"
       },
       fr: {
         dir: "ltr",
@@ -3102,7 +3104,7 @@
     };
 
     const ONE_HOUR = 60 * 60 * 1000;
-    const FETCH_TIMEOUT_MS = 6500;
+    const FETCH_TIMEOUT_MS = 7000;
     let currentNewsLang = "ar";
     let isFetchingNews = false;
 
@@ -3147,7 +3149,18 @@
       })).filter((x) => x.title);
     }
 
-    async function fetchNewsItems(rssUrl) {
+    async function fetchNewsItems(lang, rssUrl, forceRefresh = false) {
+      if (lang === "ar") {
+        try {
+          const workerUrl = forceRefresh ? `${WORKER_NEWS_URL}?t=${Date.now()}` : WORKER_NEWS_URL;
+          const resWorker = await fetchWithTimeout(workerUrl);
+          const workerData = await resWorker.json();
+          if (workerData && Array.isArray(workerData.items) && workerData.items.length > 0) {
+            return workerData.items.slice(0, 6);
+          }
+        } catch (_) {}
+      }
+
       try {
         const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
         const res = await fetchWithTimeout(proxyUrl);
@@ -3185,7 +3198,7 @@
       if (heading) heading.textContent = cfg.heading;
       if (badge) badge.textContent = cfg.badge;
 
-      const cacheKey = `gsm_yasser_iphone_news_${activeLang}_v2`;
+      const cacheKey = `gsm_yasser_iphone_news_${activeLang}_v3`;
 
       const renderItems = (items) => {
         if (!Array.isArray(items) || !items.length) {
@@ -3235,7 +3248,7 @@
       setRefreshUi(cfg, true);
 
       try {
-        const items = await fetchNewsItems(cfg.rss);
+        const items = await fetchNewsItems(activeLang, cfg.rss, forceRefresh);
         localStorage.setItem(cacheKey, JSON.stringify({
           timestamp: Date.now(),
           items
