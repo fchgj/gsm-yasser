@@ -279,6 +279,21 @@ button:disabled {
       </div>
 
       <div class="report-row">
+        <strong>FMI Status</strong>
+        <span id="fmiStatus">Not Available</span>
+      </div>
+
+      <div class="report-row">
+        <strong>iCloud Status</strong>
+        <span id="icloudStatus">Not Available</span>
+      </div>
+
+      <div class="report-row">
+        <strong>SIM Lock / Carrier</strong>
+        <span id="simLockStatus">Not Available</span>
+      </div>
+
+      <div class="report-row">
         <strong>Release Year</strong>
         <span id="releaseYear">Not Available</span>
       </div>
@@ -321,6 +336,9 @@ const STORAGE_REPORT_DATA = "gsm_yasser_report_data";
 
 const DEFAULT_FIELDS = {
   modelName: "Not Available",
+  fmiStatus: "Not Available",
+  icloudStatus: "Not Available",
+  simLockStatus: "Not Available",
   releaseYear: "Not Available",
   operatingSystem: "Not Available",
   processor: "Not Available",
@@ -346,6 +364,18 @@ function extractFields(rawObj, cleanImei) {
     (root.result && typeof root.result === "object" && root.result) ||
     root;
 
+  const networkVal =
+    src.network ||
+    src.carrier ||
+    DEFAULT_FIELDS.network;
+
+  const simLockVal =
+    src.simLockStatus ||
+    src.simLock ||
+    src.sim_lock ||
+    src.carrier ||
+    DEFAULT_FIELDS.simLockStatus;
+
   return {
     imei: cleanImei,
     modelName:
@@ -354,6 +384,15 @@ function extractFields(rawObj, cleanImei) {
       src.device_model ||
       src.device ||
       "iPhone (IMEI Verified)",
+    fmiStatus:
+      src.fmiStatus ||
+      src.fmi ||
+      DEFAULT_FIELDS.fmiStatus,
+    icloudStatus:
+      src.icloudStatus ||
+      src.icloud ||
+      DEFAULT_FIELDS.icloudStatus,
+    simLockStatus: simLockVal,
     releaseYear:
       src.releaseYear ||
       src.year ||
@@ -369,12 +408,7 @@ function extractFields(rawObj, cleanImei) {
       src.chip ||
       src.soc ||
       DEFAULT_FIELDS.processor,
-    network:
-      src.network ||
-      src.carrier ||
-      src.simLock ||
-      src.sim_lock ||
-      DEFAULT_FIELDS.network
+    network: networkVal
   };
 }
 
@@ -390,6 +424,9 @@ function setReportDetails(details = {}) {
   };
 
   $("modelName").textContent = merged.modelName;
+  $("fmiStatus").textContent = merged.fmiStatus;
+  $("icloudStatus").textContent = merged.icloudStatus;
+  $("simLockStatus").textContent = merged.simLockStatus;
   $("releaseYear").textContent = merged.releaseYear;
   $("operatingSystem").textContent = merged.operatingSystem;
   $("processor").textContent = merged.processor;
@@ -535,9 +572,11 @@ $("pdfBtn").addEventListener("click", () => {
       {
         imei: cleanImei,
         model: currentReportState.modelName,
-        fmi: "N/A",
-        icloud: currentReportState.operatingSystem,
-        carrier: currentReportState.network
+        fmi: currentReportState.fmiStatus,
+        icloud: currentReportState.icloudStatus,
+        carrier: currentReportState.simLockStatus !== "Not Available"
+          ? currentReportState.simLockStatus
+          : currentReportState.network
       },
       () => {
         setMessage("PDF generation failed; falling back to print dialog.", "err");
@@ -557,4 +596,4 @@ initializeReportPage();
 </script>
 
 </body>
-        </html>
+          </html>
