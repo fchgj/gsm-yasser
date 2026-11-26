@@ -635,6 +635,69 @@
 
     .help-line a:hover { text-decoration: underline; }
 
+    /* ---------- EXTERNAL AD SLOT (IPHONE ISLAM) ---------- */
+    .ext-ad-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .ext-ad-slot {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      color: var(--text);
+    }
+
+    .ext-ad-slot__badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .ext-ad-slot__title {
+      margin: 0 0 6px;
+      font-weight: 800;
+      font-size: 0.98rem;
+      color: var(--text);
+    }
+
+    .ext-ad-slot__desc {
+      margin: 0 0 12px;
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .ext-ad-slot__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border-radius: 9px;
+      background: var(--accent);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 700;
+      transition: background 0.2s ease;
+    }
+
+    .ext-ad-slot__btn:hover {
+      background: var(--accent-hover);
+    }
+
     /* ---------- IPHONE NEWS SECTION (COMPACT 3 ITEMS, NO EMPTY FRAME) ---------- */
     .iphone-news-section {
       background: var(--surface);
@@ -734,7 +797,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* لا يظهر إطار فارغ أبداً */
     .news-frame-slot {
       display: block;
       min-height: 0;
@@ -1682,6 +1744,7 @@
       }
 
       .service-item,
+      .ext-ad-card,
       .iphone-news-section {
         padding: 15px;
       }
@@ -1752,6 +1815,7 @@
       }
 
       .card,
+      .ext-ad-card,
       .iphone-news-section {
         padding: 22px;
       }
@@ -1814,6 +1878,7 @@
       }
 
       .card,
+      .ext-ad-card,
       .iphone-news-section {
         padding: 24px;
       }
@@ -1853,6 +1918,7 @@
       }
 
       .card,
+      .ext-ad-card,
       .iphone-news-section {
         padding: 26px;
       }
@@ -2012,6 +2078,20 @@
             <code class="ltr-num">*#06#</code> ·
             <a href="steps.html" id="whereImeiLink">أين أجد IMEI؟</a>
           </div>
+        </section>
+
+        <!-- ===== EXTERNAL AD SLOT (IPHONE ISLAM) ===== -->
+        <section class="ext-ad-card" id="iphoneIslamAdSection" aria-label="إعلان خارجي">
+          <aside class="ext-ad-slot" id="iphoneIslamAdSlot">
+            <div class="ext-ad-slot__badge" id="extAdBadge">إعلان</div>
+            <div class="ext-ad-slot__body">
+              <p class="ext-ad-slot__title" id="extAdTitle">آي-فون إسلام — محتوى ومواد خارجية</p>
+              <p class="ext-ad-slot__desc" id="extAdDesc">رابط خارجي يوجّه إلى موقع آي-فون إسلام بعد الاتفاق أو تحديد المادة الترويجية.</p>
+              <a class="ext-ad-slot__btn" id="extAdBtn" href="https://iphoneislam.com" target="_blank" rel="noopener noreferrer sponsored">
+                زيارة الإعلان
+              </a>
+            </div>
+          </aside>
         </section>
 
         <!-- ===== IPHONE NEWS SECTION (COMPACT 3 ITEMS) ===== -->
@@ -2361,6 +2441,10 @@
         promoSub: "تحقق من حالة الشبكة، iCloud / FMI، وبيانات GSX قبل الشراء",
         imeiHelpText: "لا تعرف IMEI؟ اطلب",
         whereImeiLink: "أين أجد IMEI؟",
+        extAdBadge: "إعلان",
+        extAdTitle: "آي-فون إسلام — محتوى ومواد خارجية",
+        extAdDesc: "وصف مختصر يوضح أن الرابط يوجّه إلى مصدر خارجي من آي-فون إسلام.",
+        extAdBtn: "زيارة الإعلان",
         paidTitle: "خدمات الفحص المدفوعة",
         paidSubHtml: 'اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب <span class="ltr-num">+213657241710</span>',
         badge: "مدفوع",
@@ -2436,6 +2520,10 @@
         promoSub: "Vérifiez le verrouillage réseau, iCloud / FMI et GSX avant achat",
         imeiHelpText: "IMEI inconnu ? Composez",
         whereImeiLink: "Où trouver l'IMEI ?",
+        extAdBadge: "Publicité",
+        extAdTitle: "iPhone Islam — Contenu externe",
+        extAdDesc: "Description courte indiquant que le lien redirige vers une source externe iPhone Islam.",
+        extAdBtn: "Visiter l'annonce",
         paidTitle: "Services de vérification",
         paidSubHtml: 'Commandez directement via WhatsApp <span class="ltr-num">+213657241710</span>',
         badge: "Payant",
@@ -2511,6 +2599,10 @@
         promoSub: "Verify carrier lock, iCloud / FMI, and GSX data before buying",
         imeiHelpText: "Don't know IMEI? Dial",
         whereImeiLink: "Where to find IMEI?",
+        extAdBadge: "Sponsored",
+        extAdTitle: "iPhone Islam — External Content",
+        extAdDesc: "Short description indicating that the link points to an external iPhone Islam source.",
+        extAdBtn: "Visit Ad",
         paidTitle: "Paid Verification Services",
         paidSubHtml: 'Order paid checks directly via WhatsApp <span class="ltr-num">+213657241710</span>',
         badge: "Paid",
@@ -2754,6 +2846,12 @@
       document.getElementById("promoSub").textContent = t.promoSub;
       document.getElementById("imeiHelpText").textContent = t.imeiHelpText;
       document.getElementById("whereImeiLink").textContent = t.whereImeiLink;
+
+      document.getElementById("extAdBadge").textContent = t.extAdBadge;
+      document.getElementById("extAdTitle").textContent = t.extAdTitle;
+      document.getElementById("extAdDesc").textContent = t.extAdDesc;
+      document.getElementById("extAdBtn").textContent = t.extAdBtn;
+
       document.getElementById("paidTitle").textContent = t.paidTitle;
       document.getElementById("paidSub").innerHTML = t.paidSubHtml;
 
