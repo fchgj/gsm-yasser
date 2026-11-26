@@ -14,6 +14,7 @@
       --muted: #cbd5e1;
       --accent: #2563eb;
       --accent-hover: #1d4ed8;
+      --accent-soft: rgba(37, 99, 235, 0.16);
       --gold: #eab308;
       --gold-soft: rgba(234, 179, 8, 0.16);
       --border: #24324a;
@@ -35,6 +36,7 @@
       --muted: #334155;
       --accent: #2563eb;
       --accent-hover: #1d4ed8;
+      --accent-soft: rgba(37, 99, 235, 0.1);
       --gold: #b45309;
       --gold-soft: #fef3c7;
       --border: #cbd5e1;
@@ -619,6 +621,10 @@
       font-weight: 700;
     }
 
+    [data-theme="light"] .help-line a {
+      color: var(--accent);
+    }
+
     .help-line a:hover { text-decoration: underline; }
 
     /* ---------- MESSAGES ---------- */
@@ -775,6 +781,10 @@
       white-space: nowrap;
     }
 
+    [data-theme="light"] .badge-pro {
+      color: var(--accent);
+    }
+
     .service-desc {
       color: var(--muted);
       font-size: 1rem;
@@ -816,6 +826,174 @@
     .service-item.featured .wa-btn:hover {
       background: var(--accent-hover);
       border-color: var(--accent-hover);
+    }
+
+    /* ---------- 5. LIVE IPHONE NEWS SECTION (RSS2JSON + CACHE + REFRESH) ---------- */
+    .iphone-news-section {
+      order: 3.5;
+      margin-top: 22px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 22px 20px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .iphone-news-section:lang(ar),
+    [dir="rtl"] .iphone-news-section {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .iphone-news-section:lang(fr),
+    .iphone-news-section:lang(en),
+    [dir="ltr"] .iphone-news-section {
+      direction: ltr;
+      text-align: left;
+    }
+
+    .iphone-news-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .iphone-news-title {
+      margin: 0;
+      font-size: 1.32rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .iphone-news-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .iphone-news-badge {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 5px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .iphone-refresh-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .iphone-refresh-btn:hover:not(:disabled) {
+      background: var(--surface-3);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .iphone-refresh-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .iphone-refresh-icon {
+      display: inline-block;
+      line-height: 1;
+      font-size: 1rem;
+    }
+
+    .iphone-refresh-btn.is-loading .iphone-refresh-icon {
+      animation: iphoneNewsSpin 0.8s linear infinite;
+    }
+
+    @keyframes iphoneNewsSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    @media (min-width: 640px) {
+      .news-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .news-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    .news-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 15px;
+      min-width: 0;
+      transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-2px);
+      background: var(--surface-3);
+      border-color: var(--accent);
+    }
+
+    .news-card h3 {
+      margin: 0;
+      font-size: 0.98rem;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .news-card a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .news-card a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .news-card time {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .news-status {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--muted);
     }
 
     /* ---------- 6. FOOTER & SOCIAL ICONS ---------- */
@@ -1461,7 +1639,8 @@
         font-size: 1.56rem;
       }
 
-      .card-title {
+      .card-title,
+      .iphone-news-title {
         font-size: 1.24rem;
       }
 
@@ -1501,7 +1680,8 @@
         margin-top: 12px;
       }
 
-      .service-item {
+      .service-item,
+      .iphone-news-section {
         padding: 16px;
       }
 
@@ -1570,7 +1750,8 @@
         gap: 16px;
       }
 
-      .card {
+      .card,
+      .iphone-news-section {
         padding: 24px;
       }
 
@@ -1631,7 +1812,8 @@
         gap: 18px;
       }
 
-      .card {
+      .card,
+      .iphone-news-section {
         padding: 28px;
       }
 
@@ -1669,7 +1851,8 @@
         align-items: start;
       }
 
-      .card {
+      .card,
+      .iphone-news-section {
         padding: 30px;
       }
     }
@@ -1908,6 +2091,26 @@
       </section>
     </div>
 
+    <!-- ========== 5. LIVE IPHONE NEWS SECTION (RSS2JSON + CACHE + REFRESH) ========== -->
+    <section id="iphone-news-wrapper" class="iphone-news-section" lang="ar" aria-label="أخبار آيفون">
+      <div class="iphone-news-header">
+        <h2 id="iphone-news-heading" class="iphone-news-title">أخبار آيفون</h2>
+        <div class="iphone-news-actions">
+          <span id="iphone-news-badge" class="iphone-news-badge">تحديث كل ساعة</span>
+          <button
+            type="button"
+            id="iphone-news-refresh-btn"
+            class="iphone-refresh-btn"
+            aria-label="تحديث الأخبار الآن"
+          >
+            <span class="iphone-refresh-icon" aria-hidden="true">↻</span>
+            <span id="iphone-news-refresh-label">تحديث الآن</span>
+          </button>
+        </div>
+      </div>
+      <div id="iphone-news" class="news-grid"></div>
+    </section>
+
     <!-- ========== 6. FOOTER ========== -->
     <footer class="footer-box">
       <div class="footer-top-row">
@@ -1983,6 +2186,11 @@
 
       <a href="#paidServicesSection" class="drawer-item" id="menuServices">
         <span>📱 خدمات iPhone و IMEI</span>
+        <span>→</span>
+      </a>
+
+      <a href="#iphone-news-wrapper" class="drawer-item" id="menuNews">
+        <span>📰 أخبار آيفون</span>
         <span>→</span>
       </a>
 
@@ -2120,6 +2328,7 @@
         drawerOpen: "القائمة",
         menuCheck: "🔍 فحص واستعلام IMEI",
         menuServices: "📱 خدمات iPhone و IMEI",
+        menuNews: "📰 أخبار آيفون",
         menuFaq: "🤖 المساعد الذكي",
         menuPayment: "💳 طرق الدفع والتواصل",
         menuAlertsHistory: "🔔 التنبيهات / سجل الفحوصات",
@@ -2194,6 +2403,7 @@
         drawerOpen: "Menu",
         menuCheck: "🔍 Vérification et recherche IMEI",
         menuServices: "📱 Services iPhone & IMEI",
+        menuNews: "📰 Actualités iPhone",
         menuFaq: "🤖 Assistant IA",
         menuPayment: "💳 Paiement et contact",
         menuAlertsHistory: "🔔 Alertes / Historique",
@@ -2268,6 +2478,7 @@
         drawerOpen: "Menu",
         menuCheck: "🔍 IMEI Check & Lookup",
         menuServices: "📱 iPhone & IMEI Services",
+        menuNews: "📰 iPhone News",
         menuFaq: "🤖 AI Assistant",
         menuPayment: "💳 Payment & Contact",
         menuAlertsHistory: "🔔 Alerts / Check History",
@@ -2503,6 +2714,7 @@
       document.getElementById("drawerOpenLabel").textContent = t.drawerOpen;
       document.getElementById("menuCheck").firstElementChild.textContent = t.menuCheck;
       document.getElementById("menuServices").firstElementChild.textContent = t.menuServices;
+      document.getElementById("menuNews").firstElementChild.textContent = t.menuNews;
       document.getElementById("menuFaq").firstElementChild.textContent = t.menuFaq;
       document.getElementById("menuPayment").firstElementChild.textContent = t.menuPayment;
       document.getElementById("menuAlertsHistory").firstElementChild.textContent = t.menuAlertsHistory;
@@ -2832,7 +3044,289 @@
     applyLang(currentLang);
   </script>
 
-  <!-- ========== HYBRID FLOATING CHATBOT WITH TRANSLATION & LARGE FONT ========== -->
+  <!-- ========== LIVE IPHONE NEWS (RSS2JSON + 1H CACHE + MANUAL REFRESH) ========== -->
+  <script>
+  (function () {
+    const NEWS_I18N = {
+      ar: {
+        dir: "rtl",
+        locale: "ar-DZ",
+        heading: "أخبار آيفون",
+        badge: "تحديث كل ساعة",
+        refresh: "تحديث الآن",
+        refreshing: "جاري التحديث...",
+        refreshAria: "تحديث الأخبار الآن",
+        fallbackTitle: "خبر آيفون",
+        empty: "لا توجد أخبار متاحة حالياً.",
+        error: "تعذّر جلب الأخبار الآن، يرجى المحاولة لاحقاً.",
+        rss: "https://news.google.com/rss/search?q=iPhone+OR+%D8%A2%D9%8A%D9%81%D9%88%D9%86+-Android+-Samsung&hl=ar&gl=DZ&ceid=DZ:ar"
+      },
+      fr: {
+        dir: "ltr",
+        locale: "fr-FR",
+        heading: "Actualités iPhone",
+        badge: "Mise à jour / h",
+        refresh: "Actualiser",
+        refreshing: "Actualisation...",
+        refreshAria: "Actualiser les actualités maintenant",
+        fallbackTitle: "Actualité iPhone",
+        empty: "Aucune actualité disponible pour le moment.",
+        error: "Impossible de charger les actualités pour l'instant.",
+        rss: "https://news.google.com/rss/search?q=iPhone+Apple+-Android+-Samsung&hl=fr&gl=FR&ceid=FR:fr"
+      },
+      en: {
+        dir: "ltr",
+        locale: "en-US",
+        heading: "iPhone News",
+        badge: "Hourly updates",
+        refresh: "Refresh now",
+        refreshing: "Refreshing...",
+        refreshAria: "Refresh news now",
+        fallbackTitle: "iPhone News",
+        empty: "No news available right now.",
+        error: "Unable to load news right now. Please try again later.",
+        rss: "https://news.google.com/rss/search?q=iPhone+Apple+-Android+-Samsung&hl=en-US&gl=US&ceid=US:en"
+      }
+    };
+
+    const ONE_HOUR = 60 * 60 * 1000;
+    let currentNewsLang = "ar";
+    let isFetchingNews = false;
+
+    const escapeHtml = (str = "") =>
+      String(str).replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[m]));
+
+    const setRefreshUi = (cfg, loading) => {
+      const btn = document.getElementById("iphone-news-refresh-btn");
+      const label = document.getElementById("iphone-news-refresh-label");
+      if (!btn || !label) return;
+      btn.disabled = loading;
+      btn.classList.toggle("is-loading", loading);
+      btn.setAttribute("aria-label", cfg.refreshAria);
+      label.textContent = loading ? cfg.refreshing : cfg.refresh;
+    };
+
+    async function loadIphoneNews(lang = currentNewsLang, options = {}) {
+      const forceRefresh = Boolean(options && options.forceRefresh);
+      const activeLang = NEWS_I18N[lang] ? lang : "ar";
+      currentNewsLang = activeLang;
+      const cfg = NEWS_I18N[activeLang];
+
+      const wrapper = document.getElementById("iphone-news-wrapper");
+      const heading = document.getElementById("iphone-news-heading");
+      const badge = document.getElementById("iphone-news-badge");
+      const container = document.getElementById("iphone-news");
+      if (!wrapper || !container) return;
+
+      wrapper.setAttribute("lang", activeLang);
+      wrapper.setAttribute("dir", cfg.dir);
+      if (heading) heading.textContent = cfg.heading;
+      if (badge) badge.textContent = cfg.badge;
+      if (!isFetchingNews) setRefreshUi(cfg, false);
+
+      const cacheKey = `gsm_yasser_iphone_news_${activeLang}_v1`;
+      const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(cfg.rss)}`;
+
+      const renderItems = (items) => {
+        if (!Array.isArray(items) || !items.length) {
+          container.innerHTML = `<p class="news-status">${escapeHtml(cfg.empty)}</p>`;
+          return;
+        }
+        container.innerHTML = items.slice(0, 8).map((item) => {
+          const title = escapeHtml(item.title || cfg.fallbackTitle);
+          const link = escapeHtml(item.link || "#");
+          const dateText = item.pubDate
+            ? escapeHtml(new Date(item.pubDate).toLocaleString(cfg.locale))
+            : "";
+          return `
+            <article class="news-card">
+              <h3><a href="${link}" target="_blank" rel="noopener noreferrer">${title}</a></h3>
+              ${dateText ? `<time>${dateText}</time>` : ""}
+            </article>
+          `;
+        }).join("");
+      };
+
+      try {
+        if (!forceRefresh) {
+          const cachedRaw = localStorage.getItem(cacheKey);
+          if (cachedRaw) {
+            const cached = JSON.parse(cachedRaw);
+            if (cached && Array.isArray(cached.items) && Date.now() - cached.timestamp < ONE_HOUR) {
+              renderItems(cached.items);
+              return;
+            }
+          }
+        }
+
+        isFetchingNews = true;
+        setRefreshUi(cfg, true);
+
+        const res = await fetch(apiUrl);
+        if (!res.ok) throw new Error("Network error");
+        const data = await res.json();
+        const items = Array.isArray(data.items) ? data.items : [];
+
+        localStorage.setItem(cacheKey, JSON.stringify({
+          timestamp: Date.now(),
+          items
+        }));
+        renderItems(items);
+      } catch (_) {
+        try {
+          const cachedRaw = localStorage.getItem(cacheKey);
+          if (cachedRaw) {
+            const cached = JSON.parse(cachedRaw);
+            renderItems(cached.items || []);
+            return;
+          }
+        } catch (__) {}
+
+        container.innerHTML = `<p class="news-status">${escapeHtml(cfg.error)}</p>`;
+      } finally {
+        isFetchingNews = false;
+        setRefreshUi(cfg, false);
+      }
+    }
+
+    document.addEventListener("click", (event) => {
+      const refreshBtn = event.target.closest("#iphone-news-refresh-btn");
+      if (!refreshBtn || isFetchingNews) return;
+      loadIphoneNews(currentNewsLang, { forceRefresh: true });
+    });
+
+    window.setIphoneNewsLang = (lang) => loadIphoneNews(lang, { forceRefresh: false });
+
+    const initialLang = (document.documentElement.lang || "ar").slice(0, 2).toLowerCase();
+    loadIphoneNews(initialLang, { forceRefresh: false });
+  })();
+  </script>
+
+  <!-- ========== AUTO-SYNC NEWS WITH SITE LANGUAGE & THEME CONTROLS ========== -->
+  <script>
+  (function () {
+    const SUPPORTED_LANGS = ["ar", "fr", "en"];
+
+    const normalizeLang = (raw) => {
+      if (!raw) return null;
+      const code = String(raw).trim().slice(0, 2).toLowerCase();
+      return SUPPORTED_LANGS.includes(code) ? code : null;
+    };
+
+    const detectCurrentTheme = () => {
+      const html = document.documentElement;
+      const body = document.body;
+
+      const attrTheme = html.getAttribute("data-theme") || (body && body.getAttribute("data-theme"));
+      if (attrTheme === "dark" || attrTheme === "light") return attrTheme;
+
+      const hasDarkClass =
+        html.classList.contains("dark") ||
+        html.classList.contains("theme-dark") ||
+        (body && (body.classList.contains("dark") || body.classList.contains("theme-dark")));
+      if (hasDarkClass) return "dark";
+
+      const hasLightClass =
+        html.classList.contains("light") ||
+        html.classList.contains("theme-light") ||
+        (body && (body.classList.contains("light") || body.classList.contains("theme-light")));
+      if (hasLightClass) return "light";
+
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    };
+
+    const applyThemeToNews = (theme) => {
+      const resolved = theme === "dark" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", resolved);
+      const wrapper = document.getElementById("iphone-news-wrapper");
+      if (wrapper) {
+        wrapper.setAttribute("data-theme", resolved);
+      }
+    };
+
+    const detectCurrentLang = () => {
+      const htmlLang = normalizeLang(document.documentElement.lang);
+      if (htmlLang) return htmlLang;
+
+      const bodyLang = normalizeLang(document.body && document.body.lang);
+      if (bodyLang) return bodyLang;
+
+      const wrapper = document.getElementById("iphone-news-wrapper");
+      const wrapperLang = normalizeLang(wrapper && wrapper.getAttribute("lang"));
+      return wrapperLang || "ar";
+    };
+
+    let lastAppliedLang = null;
+
+    const syncLang = (nextLang) => {
+      const resolved = normalizeLang(nextLang) || detectCurrentLang();
+      if (resolved === lastAppliedLang) return;
+      lastAppliedLang = resolved;
+
+      if (typeof window.setIphoneNewsLang === "function") {
+        window.setIphoneNewsLang(resolved);
+      }
+    };
+
+    const syncTheme = (explicitTheme) => {
+      applyThemeToNews(explicitTheme || detectCurrentTheme());
+    };
+
+    document.addEventListener("click", (event) => {
+      const target = event.target.closest(
+        "[data-lang], [data-theme], #themeToggle, [data-action='toggle-theme'], #theme-toggle, .theme-toggle"
+      );
+      if (!target) return;
+
+      const langAttr = normalizeLang(target.getAttribute("data-lang"));
+      if (langAttr) {
+        setTimeout(() => syncLang(langAttr), 0);
+      }
+
+      const themeAttr = target.getAttribute("data-theme");
+      if (themeAttr === "dark" || themeAttr === "light") {
+        setTimeout(() => syncTheme(themeAttr), 0);
+        return;
+      }
+
+      if (
+        target.matches("#themeToggle, [data-action='toggle-theme'], #theme-toggle, .theme-toggle")
+      ) {
+        setTimeout(() => syncTheme(), 0);
+      }
+    });
+
+    const observer = new MutationObserver(() => {
+      syncLang(detectCurrentLang());
+      syncTheme();
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["lang", "dir", "data-theme", "class"]
+    });
+
+    if (document.body) {
+      observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ["lang", "dir", "data-theme", "class"]
+      });
+    }
+
+    syncTheme();
+    syncLang(detectCurrentLang());
+  })();
+  </script>
+
+  <!-- ========== FLOATING HYBRID CHATBOT WITH TRANSLATION & LARGE FONT ========== -->
   <script>
     (() => {
       const STORAGE_KEY = "gsm_yasser_hybrid_chat_v8";
@@ -3365,7 +3859,7 @@
             const tr = getEntryById(m.entryId, chatLang);
             if (tr) {
               m.text = tr;
-              m.lang = targetLang;
+              m.lang = chatLang;
             }
           }
         });
