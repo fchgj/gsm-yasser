@@ -548,9 +548,84 @@
     [dir="rtl"] .primary-btn .progress { transform-origin: right; }
     .primary-btn.loading .progress { transform: scaleX(1); }
 
+    /* ---------- IPHONE PROMO BANNER ---------- */
+    .iphone-promo-banner {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--surface-2) 0%, rgba(37, 99, 235, 0.14) 100%);
+      border: 1px solid rgba(234, 179, 8, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      max-width: 100%;
+      min-width: 0;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .iphone-promo-banner:hover {
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .iphone-promo-visual {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      animation: iphoneFloat 3s ease-in-out infinite;
+    }
+
+    .iphone-promo-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 11px;
+      display: block;
+      max-width: 100%;
+    }
+
+    .iphone-promo-copy {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .iphone-promo-copy strong {
+      display: block;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .iphone-promo-copy span {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    @keyframes iphoneFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .iphone-promo-visual {
+        animation: none;
+      }
+    }
+
     /* ---------- NUDGE (Tips box) ---------- */
     .tips-box {
-      margin-top: 16px;
+      margin-top: 14px;
       background: var(--surface-2);
       border: 1px dashed var(--border);
       border-radius: 13px;
@@ -1485,6 +1560,24 @@
         flex: 0 0 auto;
       }
 
+      .iphone-promo-banner {
+        padding: 10px 12px;
+        gap: 10px;
+      }
+
+      .iphone-promo-visual {
+        width: 48px;
+        height: 48px;
+      }
+
+      .iphone-promo-copy strong {
+        font-size: 0.92rem;
+      }
+
+      .iphone-promo-copy span {
+        font-size: 0.82rem;
+      }
+
       .tips-box {
         margin-top: 14px;
       }
@@ -1827,6 +1920,17 @@
             <a href="steps.html" class="chip-btn" id="viewStepsBtn">خطوات الاستخدام</a>
           </div>
         </div>
+
+        <a href="#paidServicesSection" class="iphone-promo-banner" id="iphonePromoBanner">
+          <div class="iphone-promo-visual" aria-hidden="true">
+            <!-- يمكنك استبدال هذا العنصر بـ <img src="iphone-ad.webp" alt="iPhone IMEI Check"> أو GIF خفيف -->
+            <span style="font-size: 1.5rem;">📱</span>
+          </div>
+          <div class="iphone-promo-copy">
+            <strong id="promoTitle">فحص احترافي لـ iPhone عبر IMEI</strong>
+            <span id="promoSub">تحقق من حالة الشبكة، iCloud / FMI، وبيانات GSX قبل الشراء</span>
+          </div>
+        </a>
 
         <div class="tips-box" id="tipsBox">
           <strong>💡 نصائح سريعة:</strong>
@@ -2174,6 +2278,8 @@
         captchaPlaceholder: "الرمز",
         freeCheckBtn: "فحص مجاني",
         checkingBtn: "جاري الفحص...",
+        promoTitle: "فحص احترافي لـ iPhone عبر IMEI",
+        promoSub: "تحقق من حالة الشبكة، iCloud / FMI، وبيانات GSX قبل الشراء",
         imeiHelpText: "لا تعرف IMEI؟ اطلب",
         whereImeiLink: "أين أجد IMEI؟",
         paidTitle: "خدمات الفحص المدفوعة",
@@ -2249,6 +2355,8 @@
         captchaPlaceholder: "Code",
         freeCheckBtn: "Vérification gratuite",
         checkingBtn: "Vérification...",
+        promoTitle: "Diagnostic iPhone pro via IMEI",
+        promoSub: "Vérifiez le verrouillage réseau, iCloud / FMI et GSX avant achat",
         imeiHelpText: "IMEI inconnu ? Composez",
         whereImeiLink: "Où trouver l'IMEI ?",
         paidTitle: "Services de vérification",
@@ -2324,6 +2432,8 @@
         captchaPlaceholder: "Code",
         freeCheckBtn: "Free Check",
         checkingBtn: "Checking...",
+        promoTitle: "Pro iPhone IMEI Check",
+        promoSub: "Verify carrier lock, iCloud / FMI, and GSX data before buying",
         imeiHelpText: "Don't know IMEI? Dial",
         whereImeiLink: "Where to find IMEI?",
         paidTitle: "Paid Verification Services",
@@ -2561,6 +2671,8 @@
       document.getElementById("captchaLabel").textContent = t.captchaLabel;
       captchaInput.placeholder = t.captchaPlaceholder;
       freeCheckBtnText.textContent = t.freeCheckBtn;
+      document.getElementById("promoTitle").textContent = t.promoTitle;
+      document.getElementById("promoSub").textContent = t.promoSub;
       document.getElementById("imeiHelpText").textContent = t.imeiHelpText;
       document.getElementById("whereImeiLink").textContent = t.whereImeiLink;
       document.getElementById("paidTitle").textContent = t.paidTitle;
