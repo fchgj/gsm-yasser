@@ -57,7 +57,6 @@ async function postJson(path, payload, timeoutMs = DEFAULT_TIMEOUT_MS, extraOpti
   }
 }
 
-// 1. الفحص المجاني برقم IMEI (يحفظ في جدول imei_checks)
 export function checkFreeImei(imei, tac = "", device = "iPhone") {
   const cleanImei = normalizeImei(imei);
   if (!isValidImei(cleanImei)) {
@@ -72,7 +71,6 @@ export function checkFreeImei(imei, tac = "", device = "iPhone") {
   });
 }
 
-// 2. طلب إحدى الخدمات المدفوعة (يحفظ في جدول service_orders ويشغّل تنبيه واتساب في الخلفية)
 export function createServiceOrder({
   imei,
   serviceName,
@@ -121,7 +119,6 @@ export function createServiceOrder({
   }));
 }
 
-// 3. بناء رابط واتساب منسق للطلب (يُفتح فوراً عند النقر دون انتظار السيرفر)
 export function buildOrderWhatsAppUrl({
   imei,
   serviceName,
