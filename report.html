@@ -83,10 +83,16 @@ button {
   font-weight: bold;
   cursor: pointer;
   margin: 4px;
+  transition: background 0.15s ease, opacity 0.15s ease;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   background: #0284c7;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .secondary {
@@ -238,6 +244,10 @@ button:hover {
         Clear
       </button>
 
+      <button type="button" class="secondary" id="pdfBtn">
+        Download PDF
+      </button>
+
       <button type="button" class="secondary" id="printBtn">
         Print / Save PDF
       </button>
@@ -298,10 +308,16 @@ button:hover {
 
 </div>
 
-<script>
+<script src="generator.js"></script>
+<script type="module">
 "use strict";
 
+import { normalizeImei, isValidImei, checkFreeImei } from "./api.js";
+
 const $ = (id) => document.getElementById(id);
+
+const STORAGE_LAST_IMEI = "gsm_yasser_last_imei";
+const STORAGE_REPORT_DATA = "gsm_yasser_report_data";
 
 const DEFAULT_FIELDS = {
   modelName: "Not Available",
@@ -311,109 +327,234 @@ const DEFAULT_FIELDS = {
   network: "Not Available"
 };
 
+let currentReportState = {
+  imei: "",
+  ...DEFAULT_FIELDS
+};
+
 function setMessage(message, type = "") {
   const el = $("message");
+  if (!el) return;
   el.textContent = message;
   el.className = type ? `notice ${type}` : "notice";
 }
 
-function isValidLuhnImei(imei) {
-  if (!/^\d{15}$/.test(imei)) return false;
-  let sum = 0;
-  for (let i = 0; i < 15; i++) {
-    let digit = Number(imei[i]);
-    if (i % 2 === 1) {
-      digit *= 2;
-      if (digit > 9) digit -= 9;
-    }
-    sum += digit;
-  }
-  return sum % 10 === 0;
+function extractFields(rawObj, cleanImei) {
+  const root = rawObj && typeof rawObj === "object" ? rawObj : {};
+  const src =
+    (root.data && typeof root.data === "object" && root.data) ||
+    (root.result && typeof root.result === "object" && root.result) ||
+    root;
+
+  return {
+    imei: cleanImei,
+    modelName:
+      src.modelName ||
+      src.model ||
+      src.device_model ||
+      src.device ||
+      "iPhone (IMEI Verified)",
+    releaseYear:
+      src.releaseYear ||
+      src.year ||
+      src.release_year ||
+      DEFAULT_FIELDS.releaseYear,
+    operatingSystem:
+      src.operatingSystem ||
+      src.os ||
+      src.ios_version ||
+      DEFAULT_FIELDS.operatingSystem,
+    processor:
+      src.processor ||
+      src.chip ||
+      src.soc ||
+      DEFAULT_FIELDS.processor,
+    network:
+      src.network ||
+      src.carrier ||
+      src.simLock ||
+      src.sim_lock ||
+      DEFAULT_FIELDS.network
+  };
 }
 
 function setReportDetails(details = {}) {
-  $("modelName").textContent = details.modelName || DEFAULT_FIELDS.modelName;
-  $("releaseYear").textContent = details.releaseYear || DEFAULT_FIELDS.releaseYear;
-  $("operatingSystem").textContent = details.operatingSystem || DEFAULT_FIELDS.operatingSystem;
-  $("processor").textContent = details.processor || DEFAULT_FIELDS.processor;
-  $("network").textContent = details.network || DEFAULT_FIELDS.network;
+  const merged = {
+    ...DEFAULT_FIELDS,
+    ...details
+  };
+
+  currentReportState = {
+    ...currentReportState,
+    ...merged
+  };
+
+  $("modelName").textContent = merged.modelName;
+  $("releaseYear").textContent = merged.releaseYear;
+  $("operatingSystem").textContent = merged.operatingSystem;
+  $("processor").textContent = merged.processor;
+  $("network").textContent = merged.network;
   $("reportDate").textContent = `Generated on ${new Date().toLocaleDateString("en-GB")} • WhatsApp: +213657241710`;
 }
 
-function updateReportPreview(details = {}) {
-  const imei = $("imeiInput").value.replace(/\D/g, "").slice(0, 15);
-  $("imeiInput").value = imei;
-  $("reportIMEI").textContent = imei || "Not Provided";
+function saveReportToStorage(state) {
+  try {
+    if (state.imei) {
+      localStorage.setItem(STORAGE_LAST_IMEI, state.imei);
+      localStorage.setItem(STORAGE_REPORT_DATA, JSON.stringify(state));
+    }
+  } catch (_) {}
+}
 
-  if (!isValidLuhnImei(imei)) {
+function readStoredReport() {
+  try {
+    const raw = localStorage.getItem(STORAGE_REPORT_DATA);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === "object" ? parsed : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+async function updateReportPreview(providedDetails = null, fetchRemote = true) {
+  const cleanImei = normalizeImei($("imeiInput").value).slice(0, 15);
+  $("imeiInput").value = cleanImei;
+  $("reportIMEI").textContent = cleanImei || "Not Provided";
+  currentReportState.imei = cleanImei;
+
+  if (!isValidImei(cleanImei)) {
     setReportDetails(DEFAULT_FIELDS);
     setMessage("Please enter a valid 15-digit IMEI.", "err");
     return false;
   }
 
-  setReportDetails(details);
-  setMessage("Valid IMEI preview updated. Connect api.js to populate live device fields.", "ok");
-  return true;
-}
+  let baseFields = extractFields(providedDetails, cleanImei);
 
-function renderPreview() {
-  return updateReportPreview();
-}
-
-function triggerReportPreviewAutoUpdate() {
-  if (typeof updateReportPreview === "function") {
-    return updateReportPreview();
+  if (window.GSMGenerator && typeof window.GSMGenerator.buildReport === "function") {
+    try {
+      const built = window.GSMGenerator.buildReport(cleanImei, baseFields);
+      baseFields = {
+        ...baseFields,
+        ...extractFields(built, cleanImei)
+      };
+    } catch (_) {}
   }
-  const button = $("updatePreviewBtn");
-  if (button) {
-    button.click();
+
+  setReportDetails(baseFields);
+  saveReportToStorage(currentReportState);
+
+  if (!fetchRemote) {
+    setMessage("Report preview loaded.", "ok");
     return true;
   }
-  return false;
+
+  const btn = $("updatePreviewBtn");
+  if (btn) btn.disabled = true;
+  setMessage("Fetching IMEI details from server...", "");
+
+  try {
+    const apiRes = await checkFreeImei(cleanImei, cleanImei.slice(0, 8), "iPhone");
+    const finalFields = extractFields(
+      {
+        ...baseFields,
+        ...apiRes
+      },
+      cleanImei
+    );
+    setReportDetails(finalFields);
+    saveReportToStorage(currentReportState);
+    setMessage("Report preview updated with server data.", "ok");
+    return true;
+  } catch (err) {
+    setReportDetails(baseFields);
+    saveReportToStorage(currentReportState);
+    setMessage(
+      err?.message
+        ? `Preview shown (${err.message}).`
+        : "Valid IMEI preview shown.",
+      "ok"
+    );
+    return true;
+  } finally {
+    if (btn) btn.disabled = false;
+  }
 }
 
-function initializeAutoIMEI() {
+function initializeReportPage() {
   const params = new URLSearchParams(window.location.search);
-  const rawIMEI = params.get("imei");
-  if (!rawIMEI) return;
+  const queryImei = normalizeImei(params.get("imei") || "").slice(0, 15);
+  const storedReport = readStoredReport();
+  const storedImei = normalizeImei(
+    storedReport?.imei || localStorage.getItem(STORAGE_LAST_IMEI) || ""
+  ).slice(0, 15);
 
-  const cleanIMEI = rawIMEI.replace(/\D/g, "").slice(0, 15);
-  if (!cleanIMEI) return;
+  const activeImei = queryImei || storedImei;
+  if (!activeImei) return;
 
-  $("imeiInput").value = cleanIMEI;
-  $("imeiInput").dispatchEvent(new Event("input", { bubbles: true }));
-  $("imeiInput").dispatchEvent(new Event("change", { bubbles: true }));
+  $("imeiInput").value = activeImei;
+  $("reportIMEI").textContent = activeImei;
 
-  setTimeout(() => {
-    triggerReportPreviewAutoUpdate();
-  }, 300);
+  const matchingDetails =
+    storedReport && normalizeImei(storedReport.imei) === activeImei
+      ? storedReport
+      : { imei: activeImei };
+
+  updateReportPreview(matchingDetails, Boolean(queryImei));
 }
 
 $("updatePreviewBtn").addEventListener("click", () => {
-  updateReportPreview();
+  updateReportPreview(null, true);
 });
 
 $("imeiInput").addEventListener("input", () => {
-  $("imeiInput").value = $("imeiInput").value.replace(/\D/g, "").slice(0, 15);
+  $("imeiInput").value = normalizeImei($("imeiInput").value).slice(0, 15);
 });
 
 $("clearBtn").addEventListener("click", () => {
   $("imeiInput").value = "";
   $("reportIMEI").textContent = "Not Provided";
+  currentReportState = { imei: "", ...DEFAULT_FIELDS };
   setReportDetails(DEFAULT_FIELDS);
+  try {
+    localStorage.removeItem(STORAGE_REPORT_DATA);
+  } catch (_) {}
   setMessage("IMEI field and report preview cleared.");
+});
+
+$("pdfBtn").addEventListener("click", () => {
+  const cleanImei = normalizeImei($("imeiInput").value).slice(0, 15);
+  if (!isValidImei(cleanImei)) {
+    setMessage("Enter a valid 15-digit IMEI before exporting PDF.", "err");
+    return;
+  }
+
+  if (window.GSMGenerator && typeof window.GSMGenerator.generateImeiReportPDF === "function") {
+    setMessage("Generating PDF report...", "");
+    window.GSMGenerator.generateImeiReportPDF(
+      {
+        imei: cleanImei,
+        model: currentReportState.modelName,
+        fmi: "N/A",
+        icloud: currentReportState.operatingSystem,
+        carrier: currentReportState.network
+      },
+      () => {
+        setMessage("PDF generation failed; falling back to print dialog.", "err");
+        window.print();
+      }
+    );
+  } else {
+    window.print();
+  }
 });
 
 $("printBtn").addEventListener("click", () => {
   window.print();
 });
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initializeAutoIMEI);
-} else {
-  initializeAutoIMEI();
-}
+initializeReportPage();
 </script>
 
 </body>
-</html>
+        </html>
