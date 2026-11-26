@@ -122,11 +122,9 @@
       overflow: hidden;
     }
 
-    .top-logo-emblem svg,
-    .top-logo-emblem img {
+    .top-logo-emblem svg {
       width: 100%;
       height: 100%;
-      object-fit: cover;
       display: block;
     }
 
@@ -548,7 +546,7 @@
     [dir="rtl"] .primary-btn .progress { transform-origin: right; }
     .primary-btn.loading .progress { transform: scaleX(1); }
 
-    /* ---------- IPHONE PROMO BANNER ---------- */
+    /* ---------- IPHONE PROMO BANNER (NO IMAGE) ---------- */
     .iphone-promo-banner {
       margin-top: 14px;
       padding: 12px 14px;
@@ -572,28 +570,6 @@
       transform: translateY(-1px);
     }
 
-    .iphone-promo-visual {
-      width: 54px;
-      height: 54px;
-      border-radius: 12px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      animation: iphoneFloat 3s ease-in-out infinite;
-    }
-
-    .iphone-promo-visual img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 11px;
-      display: block;
-      max-width: 100%;
-    }
-
     .iphone-promo-copy {
       flex: 1;
       min-width: 0;
@@ -610,17 +586,6 @@
       display: block;
       font-size: 0.88rem;
       color: var(--muted);
-    }
-
-    @keyframes iphoneFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .iphone-promo-visual {
-        animation: none;
-      }
     }
 
     /* ---------- NUDGE (Tips box) ---------- */
@@ -1565,11 +1530,6 @@
         gap: 10px;
       }
 
-      .iphone-promo-visual {
-        width: 48px;
-        height: 48px;
-      }
-
       .iphone-promo-copy strong {
         font-size: 0.92rem;
       }
@@ -1922,9 +1882,6 @@
         </div>
 
         <a href="#paidServicesSection" class="iphone-promo-banner" id="iphonePromoBanner">
-          <div class="iphone-promo-visual" aria-hidden="true">
-            <span style="font-size: 1.5rem;">📱</span>
-          </div>
           <div class="iphone-promo-copy">
             <strong id="promoTitle">فحص احترافي لـ iPhone عبر IMEI</strong>
             <span id="promoSub">تحقق من حالة الشبكة، iCloud / FMI، وبيانات GSX قبل الشراء</span>
@@ -2290,7 +2247,7 @@
         srv2Name: "فحص iCloud & FMI (#5)",
         srv2Desc: "شرح مختصر: التحقق من حالة iCloud وميزة Find My iPhone. الخصائص: يوضح حالة FMI (ON / OFF) وقفل التنشيط.",
         srv3Name: "Blacklist GSMA PRO (#7)",
-        srv3Desc: "شرح مختصر: فحص سجل الفقدان أو السرقة أو الحظر الدولي. الخصائص: يفحص GSMA؛ نتيجة Clean لا تضمن عدم وجود حظر لدى جميع المشغلين.",
+        srv3Desc: "شرح مختصر: فحص سجل الفقدان أو السرقة أو الحظر الدولي. الخصائص: يفحص قاعدة GSMA؛ نتيجة Clean لا تضمن عدم وجود حظر لدى جميع المشغلين.",
         srv4Name: "GSX + Sold By + Repairs",
         srv4Desc: "شرح مختصر: تقرير متقدم شامل لبيانات GSX، مصدر البيع، وسجل الإصلاحات. الخصائص: يشمل GSX، الضمان (#6)، Sold By، وسجل الصيانة.",
         trust1Title: "بيانات Apple & GSX", trust1Sub: "تقارير دقيقة عبر الخدمات المدفوعة",
