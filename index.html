@@ -635,7 +635,7 @@
 
     .help-line a:hover { text-decoration: underline; }
 
-    /* ---------- IPHONE NEWS SECTION (COMPACT 3 ITEMS, NO EMPTY FRAME) ---------- */
+    /* ---------- IPHONE NEWS + GLOBAL PHONE ADS SPLIT SECTION ---------- */
     .iphone-news-section {
       background: var(--surface);
       color: var(--text);
@@ -666,7 +666,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       flex-wrap: wrap;
     }
 
@@ -735,14 +735,23 @@
     }
 
     .news-frame-slot {
-      display: block;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
       min-height: 0;
+    }
+
+    @media (min-width: 560px) {
+      .news-frame-slot {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     .news-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       gap: 8px;
+      align-content: start;
     }
 
     .news-card {
@@ -793,6 +802,104 @@
       text-align: center;
       font-size: 0.84rem;
       color: var(--muted);
+    }
+
+    /* ---------- GLOBAL PHONE ADS COLUMN BESIDE IPHONE NEWS ---------- */
+    .phone-ads-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(234, 179, 8, 0.05);
+      border: 1px dashed rgba(234, 179, 8, 0.42);
+      border-radius: 13px;
+      padding: 10px;
+      min-width: 0;
+    }
+
+    .phone-ads-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 0 2px 4px;
+    }
+
+    .phone-ads-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .phone-ad-pill {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--badge-text);
+      background: var(--badge-bg);
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .phone-ad-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: border-color 0.2s ease, transform 0.18s ease;
+    }
+
+    .phone-ad-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .phone-ad-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .phone-ad-source {
+      color: var(--gold);
+    }
+
+    .phone-ad-card h4 {
+      margin: 0;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .phone-ad-card p {
+      margin: 0;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .phone-ad-link {
+      align-self: flex-start;
+      margin-top: 2px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #60a5fa;
+      text-decoration: none;
+    }
+
+    [data-theme="light"] .phone-ad-link {
+      color: var(--accent);
+    }
+
+    .phone-ad-link:hover {
+      text-decoration: underline;
     }
 
     /* ---------- MESSAGES ---------- */
@@ -1740,7 +1847,7 @@
       }
 
       .main-layout {
-        grid-template-columns: minmax(360px, 440px) minmax(0, 1fr);
+        grid-template-columns: minmax(420px, 520px) minmax(0, 1fr);
         gap: 24px;
         align-items: start;
       }
@@ -1802,7 +1909,7 @@
       }
 
       .main-layout {
-        grid-template-columns: minmax(430px, 500px) minmax(0, 1fr);
+        grid-template-columns: minmax(480px, 590px) minmax(0, 1fr);
         gap: 28px;
         align-items: start;
       }
@@ -1846,7 +1953,7 @@
       }
 
       .main-layout {
-        grid-template-columns: minmax(460px, 530px) minmax(0, 1fr);
+        grid-template-columns: minmax(520px, 640px) minmax(0, 1fr);
         gap: 32px;
         align-items: start;
       }
@@ -2013,8 +2120,8 @@
           </div>
         </section>
 
-        <!-- ===== IPHONE NEWS SECTION (COMPACT 3 ITEMS) ===== -->
-        <section id="iphone-news-wrapper" class="iphone-news-section" lang="ar" aria-label="أخبار آيفون">
+        <!-- ===== IPHONE NEWS + GLOBAL PHONE ADS SIDE BY SIDE ===== -->
+        <section id="iphone-news-wrapper" class="iphone-news-section" lang="ar" aria-label="أخبار آيفون وإعلانات الهواتف">
           <div class="iphone-news-header">
             <h2 id="iphone-news-heading" class="iphone-news-title">أخبار آيفون</h2>
             <div class="iphone-news-actions">
@@ -2030,8 +2137,42 @@
               </button>
             </div>
           </div>
+
           <div class="news-frame-slot" id="iphone-news-frame">
+            <!-- العمود الأول: أخبار آيفون -->
             <div id="iphone-news" class="news-grid"></div>
+
+            <!-- العمود الثاني: إعلانات هواتف من موقع عالمي -->
+            <aside id="globalPhoneAdsPanel" class="phone-ads-panel" aria-label="إعلانات هواتف من موقع عالمي">
+              <div class="phone-ads-head">
+                <span class="phone-ads-title" id="phoneAdsTitle">إعلانات هواتف عالمية</span>
+                <span class="phone-ad-pill" id="phoneAdsBadge">إعلان</span>
+              </div>
+
+              <div class="phone-ad-card">
+                <div class="phone-ad-meta">
+                  <span class="phone-ad-source">GSMArena</span>
+                  <span id="adTag1">مواصفات</span>
+                </div>
+                <h4 id="ad1Title">أحدث هواتف iPhone و iOS</h4>
+                <p id="ad1Desc">مواصفات الهواتف العالمية، المعالجات، والكاميرات من قاعدة بيانات GSMArena.</p>
+                <a href="https://www.gsmarena.com/apple-phones-48.php" target="_blank" rel="noopener noreferrer" class="phone-ad-link" id="ad1Link">
+                  تصفح على GSMArena ↗
+                </a>
+              </div>
+
+              <div class="phone-ad-card">
+                <div class="phone-ad-meta">
+                  <span class="phone-ad-source">GSMArena</span>
+                  <span id="adTag2">مقارنة</span>
+                </div>
+                <h4 id="ad2Title">هواتف Android الرائدة عالمياً</h4>
+                <p id="ad2Desc">قارن بين أحدث إصدارات الهواتف الذكية العالمية قبل الشراء أو الفحص.</p>
+                <a href="https://www.gsmarena.com/samsung-phones-9.php" target="_blank" rel="noopener noreferrer" class="phone-ad-link" id="ad2Link">
+                  استعراض الهواتف ↗
+                </a>
+              </div>
+            </aside>
           </div>
         </section>
       </div>
@@ -2360,6 +2501,16 @@
         promoSub: "تحقق من حالة الشبكة، iCloud / FMI، وبيانات GSX قبل الشراء",
         imeiHelpText: "لا تعرف IMEI؟ اطلب",
         whereImeiLink: "أين أجد IMEI؟",
+        phoneAdsTitle: "إعلانات هواتف عالمية",
+        phoneAdsBadge: "إعلان",
+        adTag1: "مواصفات",
+        ad1Title: "أحدث هواتف iPhone و iOS",
+        ad1Desc: "مواصفات الهواتف العالمية، المعالجات، والكاميرات من قاعدة بيانات GSMArena.",
+        ad1Link: "تصفح على GSMArena ↗",
+        adTag2: "مقارنة",
+        ad2Title: "هواتف Android الرائدة عالمياً",
+        ad2Desc: "قارن بين أحدث إصدارات الهواتف الذكية العالمية قبل الشراء أو الفحص.",
+        ad2Link: "استعراض الهواتف ↗",
         paidTitle: "خدمات الفحص المدفوعة",
         paidSubHtml: 'اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب <span class="ltr-num">+213657241710</span>',
         badge: "مدفوع",
@@ -2435,6 +2586,16 @@
         promoSub: "Vérifiez le verrouillage réseau, iCloud / FMI et GSX avant achat",
         imeiHelpText: "IMEI inconnu ? Composez",
         whereImeiLink: "Où trouver l'IMEI ?",
+        phoneAdsTitle: "Pubs téléphones mondiales",
+        phoneAdsBadge: "Sponsorisé",
+        adTag1: "Fiche tech",
+        ad1Title: "Derniers iPhone et iOS",
+        ad1Desc: "Fiches techniques, processeurs et appareils photo sur GSMArena.",
+        ad1Link: "Voir sur GSMArena ↗",
+        adTag2: "Comparatif",
+        ad2Title: "Smartphones Android mondiaux",
+        ad2Desc: "Comparez les modèles internationaux avant achat ou vérification.",
+        ad2Link: "Explorer les modèles ↗",
         paidTitle: "Services de vérification",
         paidSubHtml: 'Commandez directement via WhatsApp <span class="ltr-num">+213657241710</span>',
         badge: "Payant",
@@ -2510,6 +2671,16 @@
         promoSub: "Verify carrier lock, iCloud / FMI, and GSX data before buying",
         imeiHelpText: "Don't know IMEI? Dial",
         whereImeiLink: "Where to find IMEI?",
+        phoneAdsTitle: "Global Phone Ads",
+        phoneAdsBadge: "Ad",
+        adTag1: "Specs",
+        ad1Title: "Latest iPhone & iOS Models",
+        ad1Desc: "Global phone specs, chipsets, and cameras from GSMArena.",
+        ad1Link: "Browse GSMArena ↗",
+        adTag2: "Compare",
+        ad2Title: "Top Global Android Phones",
+        ad2Desc: "Compare international smartphone releases before buying or checking.",
+        ad2Link: "View Phones ↗",
         paidTitle: "Paid Verification Services",
         paidSubHtml: 'Order paid checks directly via WhatsApp <span class="ltr-num">+213657241710</span>',
         badge: "Paid",
@@ -2753,6 +2924,17 @@
       document.getElementById("promoSub").textContent = t.promoSub;
       document.getElementById("imeiHelpText").textContent = t.imeiHelpText;
       document.getElementById("whereImeiLink").textContent = t.whereImeiLink;
+
+      document.getElementById("phoneAdsTitle").textContent = t.phoneAdsTitle;
+      document.getElementById("phoneAdsBadge").textContent = t.phoneAdsBadge;
+      document.getElementById("adTag1").textContent = t.adTag1;
+      document.getElementById("ad1Title").textContent = t.ad1Title;
+      document.getElementById("ad1Desc").textContent = t.ad1Desc;
+      document.getElementById("ad1Link").textContent = t.ad1Link;
+      document.getElementById("adTag2").textContent = t.adTag2;
+      document.getElementById("ad2Title").textContent = t.ad2Title;
+      document.getElementById("ad2Desc").textContent = t.ad2Desc;
+      document.getElementById("ad2Link").textContent = t.ad2Link;
 
       document.getElementById("paidTitle").textContent = t.paidTitle;
       document.getElementById("paidSub").innerHTML = t.paidSubHtml;
