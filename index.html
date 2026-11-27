@@ -2142,7 +2142,7 @@
             <!-- العمود الأول: أخبار آيفون -->
             <div id="iphone-news" class="news-grid"></div>
 
-            <!-- العمود الثاني: إعلانات هواتف من موقع عالمي -->
+            <!-- العمود الثاني: إعلانات هواتف من موقع عالمي (تحديث تلقائي) -->
             <aside id="globalPhoneAdsPanel" class="phone-ads-panel" aria-label="إعلانات هواتف من موقع عالمي">
               <div class="phone-ads-head">
                 <span class="phone-ads-title" id="phoneAdsTitle">إعلانات هواتف عالمية</span>
@@ -3492,6 +3492,145 @@
 
     const initialLang = (document.documentElement.lang || "ar").slice(0, 2).toLowerCase();
     loadIphoneNews(initialLang, { forceRefresh: false });
+  })();
+  </script>
+
+  <!-- ========== AUTO-SYNC GLOBAL PHONE ADS (JSON + LIVE SITE CONTEXT) ========== -->
+  <script>
+  (function () {
+    const ADS_JSON_URL = "./phone-ads.json";
+    const ADS_CACHE_KEY = "gsm_yasser_phone_ads_v1";
+    const ONE_HOUR = 60 * 60 * 1000;
+
+    const panel = document.getElementById("globalPhoneAdsPanel");
+    if (!panel) return;
+
+    const DEFAULT_ADS = [
+      {
+        source: "GSMArena",
+        tag: { ar: "مواصفات", fr: "Fiche tech", en: "Specs" },
+        title: { ar: "أحدث هواتف iPhone و iOS", fr: "Derniers iPhone et iOS", en: "Latest iPhone & iOS Models" },
+        desc: {
+          ar: "مواصفات الهواتف العالمية، المعالجات، والكاميرات من قاعدة بيانات GSMArena.",
+          fr: "Fiches techniques, processeurs et appareils photo sur GSMArena.",
+          en: "Global phone specs, chipsets, and cameras from GSMArena."
+        },
+        url: "https://www.gsmarena.com/apple-phones-48.php",
+        cta: { ar: "تصفح على GSMArena ↗", fr: "Voir sur GSMArena ↗", en: "Browse GSMArena ↗" }
+      },
+      {
+        source: "GSMArena",
+        tag: { ar: "مقارنة", fr: "Comparatif", en: "Compare" },
+        title: { ar: "هواتف Android الرائدة عالمياً", fr: "Smartphones Android mondiaux", en: "Top Global Android Phones" },
+        desc: {
+          ar: "قارن بين أحدث إصدارات الهواتف الذكية العالمية قبل الشراء أو الفحص.",
+          fr: "Comparez les modèles internationaux avant achat ou vérification.",
+          en: "Compare international smartphone releases before buying or checking."
+        },
+        url: "https://www.gsmarena.com/samsung-phones-9.php",
+        cta: { ar: "استعراض الهواتف ↗", fr: "Explorer les modèles ↗", en: "View Phones ↗" }
+      }
+    ];
+
+    const esc = (s = "") =>
+      String(s).replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[m]));
+
+    const pickLang = (obj, lang) => {
+      if (!obj || typeof obj === "string") return obj || "";
+      return obj[lang] || obj.ar || obj.en || "";
+    };
+
+    const getActiveImei = () => {
+      const inputEl = document.getElementById("imeiInput");
+      const typed = inputEl ? inputEl.value.replace(/\D/g, "") : "";
+      if (typed.length === 15) return typed;
+      return (localStorage.getItem("gsm_yasser_last_imei") || "").replace(/\D/g, "");
+    };
+
+    let currentAdsList = DEFAULT_ADS;
+
+    function renderAds(adsList = currentAdsList) {
+      if (!Array.isArray(adsList) || adsList.length === 0) return;
+      currentAdsList = adsList;
+      const lang = (document.documentElement.lang || "ar").slice(0, 2).toLowerCase();
+      const imei = getActiveImei();
+      const head = panel.querySelector(".phone-ads-head");
+
+      const cardsHtml = adsList.slice(0, 2).map((ad) => {
+        const source = esc(ad.source || "GSMArena");
+        const tag = esc(pickLang(ad.tag, lang));
+        const title = esc(pickLang(ad.title, lang));
+        const desc = esc(pickLang(ad.desc, lang));
+        const cta = esc(pickLang(ad.cta, lang));
+        const safeUrl = /^https?:\/\//i.test(ad.url || "") ? esc(ad.url) : "#";
+        const imeiLine = imei
+          ? `<div style="font-size:0.72rem;color:var(--muted);font-family:var(--mono);" dir="ltr">IMEI: ${esc(imei)}</div>`
+          : "";
+
+        return `
+          <div class="phone-ad-card">
+            <div class="phone-ad-meta">
+              <span class="phone-ad-source">${source}</span>
+              <span>${tag}</span>
+            </div>
+            <h4>${title}</h4>
+            <p>${desc}</p>
+            ${imeiLine}
+            <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="phone-ad-link">${cta}</a>
+          </div>
+        `;
+      }).join("");
+
+      panel.innerHTML = (head ? head.outerHTML : "") + cardsHtml;
+    }
+
+    async function syncPhoneAds(forceRefresh = false) {
+      if (!forceRefresh) {
+        try {
+          const cached = JSON.parse(localStorage.getItem(ADS_CACHE_KEY) || "null");
+          if (cached && Array.isArray(cached.ads) && cached.ads.length > 0 && Date.now() - cached.ts < ONE_HOUR) {
+            renderAds(cached.ads);
+            return;
+          }
+        } catch (_) {}
+      }
+
+      try {
+        const url = forceRefresh ? `${ADS_JSON_URL}?t=${Date.now()}` : ADS_JSON_URL;
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) {
+          renderAds(currentAdsList);
+          return;
+        }
+        const data = await res.json();
+        if (Array.isArray(data?.ads) && data.ads.length > 0) {
+          localStorage.setItem(ADS_CACHE_KEY, JSON.stringify({ ts: Date.now(), ads: data.ads }));
+          renderAds(data.ads);
+        } else {
+          renderAds(currentAdsList);
+        }
+      } catch (_) {
+        renderAds(currentAdsList);
+      }
+    }
+
+    new MutationObserver(() => renderAds(currentAdsList)).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["lang"]
+    });
+
+    document.getElementById("imeiInput")?.addEventListener("input", () => renderAds(currentAdsList));
+
+    document.addEventListener("click", (e) => {
+      if (e.target.closest("#iphone-news-refresh-btn")) {
+        syncPhoneAds(true);
+      }
+    });
+
+    setInterval(() => syncPhoneAds(true), ONE_HOUR);
+    syncPhoneAds(false);
   })();
   </script>
 
