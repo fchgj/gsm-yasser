@@ -804,7 +804,7 @@
       color: var(--muted);
     }
 
-    /* ---------- GLOBAL PHONE ADS COLUMN BESIDE IPHONE NEWS ---------- */
+    /* ---------- VISUAL PHONE ADS COLUMN BESIDE IPHONE NEWS ---------- */
     .phone-ads-panel {
       display: flex;
       flex-direction: column;
@@ -847,7 +847,7 @@
       padding: 10px 12px;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
       transition: border-color 0.2s ease, transform 0.18s ease;
     }
 
@@ -870,6 +870,23 @@
       color: var(--gold);
     }
 
+    .phone-ad-visual {
+      width: 100%;
+      height: 112px;
+      border-radius: 9px;
+      overflow: hidden;
+      background: var(--surface-3);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .phone-ad-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .phone-ad-card h4 {
       margin: 0;
       font-size: 0.88rem;
@@ -885,9 +902,16 @@
       color: var(--muted);
     }
 
-    .phone-ad-link {
-      align-self: flex-start;
+    .phone-ad-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
       margin-top: 2px;
+    }
+
+    .phone-ad-link {
       font-size: 0.78rem;
       font-weight: 800;
       color: #60a5fa;
@@ -900,6 +924,23 @@
 
     .phone-ad-link:hover {
       text-decoration: underline;
+    }
+
+    .phone-ad-dl-btn {
+      background: var(--surface-3);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .phone-ad-dl-btn:hover {
+      border-color: var(--gold);
+      background: var(--gold-soft);
     }
 
     /* ---------- MESSAGES ---------- */
@@ -2120,7 +2161,7 @@
           </div>
         </section>
 
-        <!-- ===== IPHONE NEWS + GLOBAL PHONE ADS SIDE BY SIDE ===== -->
+        <!-- ===== IPHONE NEWS + VISUAL PHONE ADS SIDE BY SIDE ===== -->
         <section id="iphone-news-wrapper" class="iphone-news-section" lang="ar" aria-label="أخبار آيفون وإعلانات الهواتف">
           <div class="iphone-news-header">
             <h2 id="iphone-news-heading" class="iphone-news-title">أخبار آيفون</h2>
@@ -2142,35 +2183,11 @@
             <!-- العمود الأول: أخبار آيفون -->
             <div id="iphone-news" class="news-grid"></div>
 
-            <!-- العمود الثاني: إعلانات هواتف من موقع عالمي (تحديث تلقائي) -->
-            <aside id="globalPhoneAdsPanel" class="phone-ads-panel" aria-label="إعلانات هواتف من موقع عالمي">
+            <!-- العمود الثاني: إعلانات مصوّرة لهواتف عالمية + تحميل PNG -->
+            <aside id="globalPhoneAdsPanel" class="phone-ads-panel" aria-label="إعلانات مصوّرة لهواتف عالمية">
               <div class="phone-ads-head">
                 <span class="phone-ads-title" id="phoneAdsTitle">إعلانات هواتف عالمية</span>
                 <span class="phone-ad-pill" id="phoneAdsBadge">إعلان</span>
-              </div>
-
-              <div class="phone-ad-card">
-                <div class="phone-ad-meta">
-                  <span class="phone-ad-source">GSMArena</span>
-                  <span id="adTag1">مواصفات</span>
-                </div>
-                <h4 id="ad1Title">أحدث هواتف iPhone و iOS</h4>
-                <p id="ad1Desc">مواصفات الهواتف العالمية، المعالجات، والكاميرات من قاعدة بيانات GSMArena.</p>
-                <a href="https://www.gsmarena.com/apple-phones-48.php" target="_blank" rel="noopener noreferrer" class="phone-ad-link" id="ad1Link">
-                  تصفح على GSMArena ↗
-                </a>
-              </div>
-
-              <div class="phone-ad-card">
-                <div class="phone-ad-meta">
-                  <span class="phone-ad-source">GSMArena</span>
-                  <span id="adTag2">مقارنة</span>
-                </div>
-                <h4 id="ad2Title">هواتف Android الرائدة عالمياً</h4>
-                <p id="ad2Desc">قارن بين أحدث إصدارات الهواتف الذكية العالمية قبل الشراء أو الفحص.</p>
-                <a href="https://www.gsmarena.com/samsung-phones-9.php" target="_blank" rel="noopener noreferrer" class="phone-ad-link" id="ad2Link">
-                  استعراض الهواتف ↗
-                </a>
               </div>
             </aside>
           </div>
@@ -2503,14 +2520,6 @@
         whereImeiLink: "أين أجد IMEI؟",
         phoneAdsTitle: "إعلانات هواتف عالمية",
         phoneAdsBadge: "إعلان",
-        adTag1: "مواصفات",
-        ad1Title: "أحدث هواتف iPhone و iOS",
-        ad1Desc: "مواصفات الهواتف العالمية، المعالجات، والكاميرات من قاعدة بيانات GSMArena.",
-        ad1Link: "تصفح على GSMArena ↗",
-        adTag2: "مقارنة",
-        ad2Title: "هواتف Android الرائدة عالمياً",
-        ad2Desc: "قارن بين أحدث إصدارات الهواتف الذكية العالمية قبل الشراء أو الفحص.",
-        ad2Link: "استعراض الهواتف ↗",
         paidTitle: "خدمات الفحص المدفوعة",
         paidSubHtml: 'اطلب خدمات الفحص المدفوعة مباشرة عبر واتساب <span class="ltr-num">+213657241710</span>',
         badge: "مدفوع",
@@ -2588,14 +2597,6 @@
         whereImeiLink: "Où trouver l'IMEI ?",
         phoneAdsTitle: "Pubs téléphones mondiales",
         phoneAdsBadge: "Sponsorisé",
-        adTag1: "Fiche tech",
-        ad1Title: "Derniers iPhone et iOS",
-        ad1Desc: "Fiches techniques, processeurs et appareils photo sur GSMArena.",
-        ad1Link: "Voir sur GSMArena ↗",
-        adTag2: "Comparatif",
-        ad2Title: "Smartphones Android mondiaux",
-        ad2Desc: "Comparez les modèles internationaux avant achat ou vérification.",
-        ad2Link: "Explorer les modèles ↗",
         paidTitle: "Services de vérification",
         paidSubHtml: 'Commandez directement via WhatsApp <span class="ltr-num">+213657241710</span>',
         badge: "Payant",
@@ -2673,14 +2674,6 @@
         whereImeiLink: "Where to find IMEI?",
         phoneAdsTitle: "Global Phone Ads",
         phoneAdsBadge: "Ad",
-        adTag1: "Specs",
-        ad1Title: "Latest iPhone & iOS Models",
-        ad1Desc: "Global phone specs, chipsets, and cameras from GSMArena.",
-        ad1Link: "Browse GSMArena ↗",
-        adTag2: "Compare",
-        ad2Title: "Top Global Android Phones",
-        ad2Desc: "Compare international smartphone releases before buying or checking.",
-        ad2Link: "View Phones ↗",
         paidTitle: "Paid Verification Services",
         paidSubHtml: 'Order paid checks directly via WhatsApp <span class="ltr-num">+213657241710</span>',
         badge: "Paid",
@@ -2927,14 +2920,6 @@
 
       document.getElementById("phoneAdsTitle").textContent = t.phoneAdsTitle;
       document.getElementById("phoneAdsBadge").textContent = t.phoneAdsBadge;
-      document.getElementById("adTag1").textContent = t.adTag1;
-      document.getElementById("ad1Title").textContent = t.ad1Title;
-      document.getElementById("ad1Desc").textContent = t.ad1Desc;
-      document.getElementById("ad1Link").textContent = t.ad1Link;
-      document.getElementById("adTag2").textContent = t.adTag2;
-      document.getElementById("ad2Title").textContent = t.ad2Title;
-      document.getElementById("ad2Desc").textContent = t.ad2Desc;
-      document.getElementById("ad2Link").textContent = t.ad2Link;
 
       document.getElementById("paidTitle").textContent = t.paidTitle;
       document.getElementById("paidSub").innerHTML = t.paidSubHtml;
@@ -3495,15 +3480,21 @@
   })();
   </script>
 
-  <!-- ========== AUTO-SYNC GLOBAL PHONE ADS (JSON + LIVE SITE CONTEXT) ========== -->
+  <!-- ========== VISUAL PHONE ADS + AUTO-SYNC + PNG DOWNLOAD ========== -->
   <script>
   (function () {
     const ADS_JSON_URL = "./phone-ads.json";
-    const ADS_CACHE_KEY = "gsm_yasser_phone_ads_v1";
+    const ADS_CACHE_KEY = "gsm_yasser_phone_ads_img_v1";
     const ONE_HOUR = 60 * 60 * 1000;
 
     const panel = document.getElementById("globalPhoneAdsPanel");
     if (!panel) return;
+
+    const UI_STR = {
+      ar: { dl: "تحميل صورة ⬇" },
+      fr: { dl: "Télécharger PNG ⬇" },
+      en: { dl: "Download PNG ⬇" }
+    };
 
     const DEFAULT_ADS = [
       {
@@ -3511,10 +3502,11 @@
         tag: { ar: "مواصفات", fr: "Fiche tech", en: "Specs" },
         title: { ar: "أحدث هواتف iPhone و iOS", fr: "Derniers iPhone et iOS", en: "Latest iPhone & iOS Models" },
         desc: {
-          ar: "مواصفات الهواتف العالمية، المعالجات، والكاميرات من قاعدة بيانات GSMArena.",
+          ar: "مواصفات الهواتف العالمية، المعالجات، والكاميرات من GSMArena.",
           fr: "Fiches techniques, processeurs et appareils photo sur GSMArena.",
           en: "Global phone specs, chipsets, and cameras from GSMArena."
         },
+        image: "",
         url: "https://www.gsmarena.com/apple-phones-48.php",
         cta: { ar: "تصفح على GSMArena ↗", fr: "Voir sur GSMArena ↗", en: "Browse GSMArena ↗" }
       },
@@ -3527,6 +3519,7 @@
           fr: "Comparez les modèles internationaux avant achat ou vérification.",
           en: "Compare international smartphone releases before buying or checking."
         },
+        image: "",
         url: "https://www.gsmarena.com/samsung-phones-9.php",
         cta: { ar: "استعراض الهواتف ↗", fr: "Explorer les modèles ↗", en: "View Phones ↗" }
       }
@@ -3549,25 +3542,125 @@
       return (localStorage.getItem("gsm_yasser_last_imei") || "").replace(/\D/g, "");
     };
 
-    let currentAdsList = DEFAULT_ADS;
+    function buildFallbackSvgDataUrl(ad, lang, imei) {
+      const isRtl = lang === "ar";
+      const title = pickLang(ad.title, lang);
+      const source = ad.source || "GSMArena";
+      const tag = pickLang(ad.tag, lang);
+      const sub = imei ? `IMEI: ${imei}` : pickLang(ad.desc, lang).slice(0, 68);
 
-    function renderAds(adsList = currentAdsList) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="220" viewBox="0 0 600 220">
+        <defs>
+          <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0f172a"/>
+            <stop offset="100%" stop-color="#1e3a8a"/>
+          </linearGradient>
+        </defs>
+        <rect width="600" height="220" rx="16" fill="url(#bg)"/>
+        <rect x="24" y="22" width="140" height="28" rx="14" fill="rgba(234,179,8,0.2)"/>
+        <text x="${isRtl ? 154 : 36}" y="41" fill="#fbbf24" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="${isRtl ? "end" : "start"}">${esc(source)} · ${esc(tag)}</text>
+        <text x="${isRtl ? 572 : 28}" y="102" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="25" font-weight="bold" text-anchor="${isRtl ? "end" : "start"}">${esc(title)}</text>
+        <text x="${isRtl ? 572 : 28}" y="144" fill="#cbd5e1" font-family="Segoe UI, Arial, sans-serif" font-size="15" text-anchor="${isRtl ? "end" : "start"}">${esc(sub)}</text>
+        <text x="${isRtl ? 572 : 28}" y="192" fill="#93c5fd" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="${isRtl ? "end" : "start"}">GSM Yasser Server</text>
+      </svg>`;
+      return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+    }
+
+    async function downloadAdAsPng(ad, lang, imei) {
+      const scale = 2;
+      const width = 640;
+      const height = 280;
+      const canvas = document.createElement("canvas");
+      canvas.width = width * scale;
+      canvas.height = height * scale;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      ctx.scale(scale, scale);
+      const isRtl = lang === "ar";
+      ctx.direction = isRtl ? "rtl" : "ltr";
+      ctx.textAlign = isRtl ? "right" : "left";
+
+      const grad = ctx.createLinearGradient(0, 0, width, height);
+      grad.addColorStop(0, "#0b1324");
+      grad.addColorStop(1, "#172554");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+
+      const imgSrc = /^https?:\/\/|^\.\/|^\/|^data:image\//i.test(ad.image || "")
+        ? ad.image
+        : buildFallbackSvgDataUrl(ad, lang, imei);
+
+      try {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = imgSrc;
+        });
+        ctx.save();
+        ctx.globalAlpha = 0.28;
+        ctx.drawImage(img, 0, 0, width, height);
+        ctx.restore();
+      } catch (_) {}
+
+      const xPad = isRtl ? width - 28 : 28;
+      ctx.fillStyle = "#fbbf24";
+      ctx.font = "bold 15px 'Segoe UI', Tahoma, Arial, sans-serif";
+      ctx.fillText(`${ad.source || "GSMArena"}  •  ${pickLang(ad.tag, lang)}`, xPad, 44);
+
+      ctx.fillStyle = "#f8fafc";
+      ctx.font = "bold 26px 'Segoe UI', Tahoma, Arial, sans-serif";
+      ctx.fillText(pickLang(ad.title, lang), xPad, 96);
+
+      ctx.fillStyle = "#e2e8f0";
+      ctx.font = "16px 'Segoe UI', Tahoma, Arial, sans-serif";
+      ctx.fillText(pickLang(ad.desc, lang).slice(0, 76), xPad, 142);
+
+      if (imei) {
+        ctx.fillStyle = "#fde047";
+        ctx.font = "bold 15px monospace";
+        ctx.fillText(`IMEI: ${imei}`, xPad, 186);
+      }
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "bold 14px 'Segoe UI', Tahoma, Arial, sans-serif";
+      ctx.fillText("GSM Yasser Server", xPad, height - 26);
+
+      try {
+        const pngUrl = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.download = `gsm-yasser-ad-${Date.now()}.png`;
+        link.href = pngUrl;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      } catch (_) {}
+    }
+
+    let currentAds = DEFAULT_ADS;
+
+    function renderVisualAds(adsList = currentAds) {
       if (!Array.isArray(adsList) || adsList.length === 0) return;
-      currentAdsList = adsList;
+      currentAds = adsList;
+
       const lang = (document.documentElement.lang || "ar").slice(0, 2).toLowerCase();
+      const ui = UI_STR[lang] || UI_STR.ar;
       const imei = getActiveImei();
       const head = panel.querySelector(".phone-ads-head");
 
-      const cardsHtml = adsList.slice(0, 2).map((ad) => {
+      const cardsHtml = adsList.slice(0, 2).map((ad, idx) => {
         const source = esc(ad.source || "GSMArena");
         const tag = esc(pickLang(ad.tag, lang));
         const title = esc(pickLang(ad.title, lang));
         const desc = esc(pickLang(ad.desc, lang));
         const cta = esc(pickLang(ad.cta, lang));
         const safeUrl = /^https?:\/\//i.test(ad.url || "") ? esc(ad.url) : "#";
-        const imeiLine = imei
-          ? `<div style="font-size:0.72rem;color:var(--muted);font-family:var(--mono);" dir="ltr">IMEI: ${esc(imei)}</div>`
-          : "";
+        const fallbackImg = buildFallbackSvgDataUrl(ad, lang, imei);
+        const imgSrc = /^https?:\/\/|^\.\/|^\/|^data:image\//i.test(ad.image || "")
+          ? esc(ad.image)
+          : esc(fallbackImg);
 
         return `
           <div class="phone-ad-card">
@@ -3575,10 +3668,15 @@
               <span class="phone-ad-source">${source}</span>
               <span>${tag}</span>
             </div>
+            <div class="phone-ad-visual">
+              <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.onerror=null;this.src='${esc(fallbackImg)}';" />
+            </div>
             <h4>${title}</h4>
             <p>${desc}</p>
-            ${imeiLine}
-            <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="phone-ad-link">${cta}</a>
+            <div class="phone-ad-actions">
+              <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="phone-ad-link">${cta}</a>
+              <button type="button" class="phone-ad-dl-btn" data-ad-dl="${idx}">${esc(ui.dl)}</button>
+            </div>
           </div>
         `;
       }).join("");
@@ -3586,12 +3684,12 @@
       panel.innerHTML = (head ? head.outerHTML : "") + cardsHtml;
     }
 
-    async function syncPhoneAds(forceRefresh = false) {
+    async function syncVisualAds(forceRefresh = false) {
       if (!forceRefresh) {
         try {
           const cached = JSON.parse(localStorage.getItem(ADS_CACHE_KEY) || "null");
           if (cached && Array.isArray(cached.ads) && cached.ads.length > 0 && Date.now() - cached.ts < ONE_HOUR) {
-            renderAds(cached.ads);
+            renderVisualAds(cached.ads);
             return;
           }
         } catch (_) {}
@@ -3601,36 +3699,46 @@
         const url = forceRefresh ? `${ADS_JSON_URL}?t=${Date.now()}` : ADS_JSON_URL;
         const res = await fetch(url, { cache: "no-store" });
         if (!res.ok) {
-          renderAds(currentAdsList);
+          renderVisualAds(currentAds);
           return;
         }
         const data = await res.json();
         if (Array.isArray(data?.ads) && data.ads.length > 0) {
           localStorage.setItem(ADS_CACHE_KEY, JSON.stringify({ ts: Date.now(), ads: data.ads }));
-          renderAds(data.ads);
+          renderVisualAds(data.ads);
         } else {
-          renderAds(currentAdsList);
+          renderVisualAds(currentAds);
         }
       } catch (_) {
-        renderAds(currentAdsList);
+        renderVisualAds(currentAds);
       }
     }
 
-    new MutationObserver(() => renderAds(currentAdsList)).observe(document.documentElement, {
+    panel.addEventListener("click", (e) => {
+      const dlBtn = e.target.closest("[data-ad-dl]");
+      if (!dlBtn) return;
+      const idx = Number(dlBtn.dataset.adDl);
+      const ad = currentAds[idx];
+      if (!ad) return;
+      const lang = (document.documentElement.lang || "ar").slice(0, 2).toLowerCase();
+      downloadAdAsPng(ad, lang, getActiveImei());
+    });
+
+    new MutationObserver(() => renderVisualAds(currentAds)).observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["lang"]
     });
 
-    document.getElementById("imeiInput")?.addEventListener("input", () => renderAds(currentAdsList));
+    document.getElementById("imeiInput")?.addEventListener("input", () => renderVisualAds(currentAds));
 
     document.addEventListener("click", (e) => {
       if (e.target.closest("#iphone-news-refresh-btn")) {
-        syncPhoneAds(true);
+        syncVisualAds(true);
       }
     });
 
-    setInterval(() => syncPhoneAds(true), ONE_HOUR);
-    syncPhoneAds(false);
+    setInterval(() => syncVisualAds(true), ONE_HOUR);
+    syncVisualAds(false);
   })();
   </script>
 
@@ -4167,7 +4275,7 @@
             const tr = getEntryById(m.entryId, chatLang);
             if (tr) {
               m.text = tr;
-              m.lang = chatLang;
+              m.lang = targetLang;
             }
           }
         });
