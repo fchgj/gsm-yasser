@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GSM Yasser Server — Independent Query Platform</title>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
     :root {
       --bg: #0b1020;
@@ -58,6 +57,7 @@
     .toolbar,
     .main-grid,
     .services-grid,
+    .news-grid,
     .card,
     .history-item {
       min-width: 0;
@@ -223,6 +223,16 @@
       font-weight: 700;
     }
 
+    .badge-news {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
     .imei-input {
       width: 100%;
       min-height: 48px;
@@ -236,7 +246,7 @@
     }
 
     .captcha-row {
-      margin: 14px 0 8px;
+      margin: 14px 0;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -280,13 +290,6 @@
       justify-content: center;
     }
 
-    .recaptcha-wrap {
-      margin: 12px 0 14px;
-      display: flex;
-      justify-content: center;
-      overflow-x: auto;
-    }
-
     .result-box {
       margin-top: 14px;
       padding: 12px 14px;
@@ -325,7 +328,8 @@
       font-size: 0.85rem;
     }
 
-    .services-grid {
+    .services-grid,
+    .news-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 12px;
@@ -337,7 +341,14 @@
       }
     }
 
-    .service-item {
+    @media (min-width: 768px) {
+      .news-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .service-item,
+    .news-item {
       background: var(--surface-2);
       border: 1px solid var(--border);
       border-radius: 14px;
@@ -355,15 +366,23 @@
       gap: 8px;
     }
 
-    .service-item h3 {
+    .service-item h3,
+    .news-item h3 {
       margin: 0;
       font-size: 0.98rem;
     }
 
-    .service-item p {
+    .service-item p,
+    .news-item p {
       margin: 6px 0 0;
       color: var(--muted);
       font-size: 0.85rem;
+    }
+
+    .news-meta {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: var(--muted);
     }
 
     .modal-backdrop {
@@ -533,10 +552,6 @@
           <button type="button" class="btn-sm" onclick="refreshCaptcha()" aria-label="Refresh CAPTCHA">↻</button>
         </div>
 
-        <div class="recaptcha-wrap">
-          <div class="g-recaptcha" data-sitekey="6Le_AjcuAAAAAOUzKbAkGqZe7U1R_QI_02Lzl6oe"></div>
-        </div>
-
         <button type="button" class="btn-primary" onclick="handleFreeCheck()" data-i18n="freeCheckBtn">Free Check</button>
 
         <div id="freeResultBox" class="result-box"></div>
@@ -609,6 +624,49 @@
       </section>
     </div>
 
+    <section id="iphone-news-wrapper" class="card">
+      <div class="card-header">
+        <h2 data-i18n="newsTitle">iPhone News &amp; Announcements</h2>
+        <span class="badge-news" data-i18n="newsBadge">Updates</span>
+      </div>
+      <p class="card-sub" data-i18n="newsSub">Latest iPhone updates, service notices, and announcements</p>
+
+      <div class="news-grid">
+        <article class="news-item">
+          <div>
+            <div class="service-top">
+              <h3 data-i18n="news1Title">iPhone IMEI &amp; Carrier Status Tips</h3>
+              <span class="badge-news" data-i18n="tagNews">News</span>
+            </div>
+            <p data-i18n="news1Desc">Always verify IMEI and SIM lock status before buying or transferring an iPhone.</p>
+          </div>
+          <div class="news-meta" data-i18n="news1Meta">GSM Yasser Server · iPhone Updates</div>
+        </article>
+
+        <article class="news-item">
+          <div>
+            <div class="service-top">
+              <h3 data-i18n="news2Title">PDF Reports via WhatsApp</h3>
+              <span class="badge" data-i18n="tagNotice">Notice</span>
+            </div>
+            <p data-i18n="news2Desc">Paid verification orders are handled directly via WhatsApp with PDF delivery after payment confirmation.</p>
+          </div>
+          <div class="news-meta" data-i18n="news2Meta">Support: +213657241710</div>
+        </article>
+
+        <article class="news-item">
+          <div>
+            <div class="service-top">
+              <h3 data-i18n="news3Title">Digital Services &amp; Announcements</h3>
+              <span class="badge-news" data-i18n="tagPromo">Announcement</span>
+            </div>
+            <p data-i18n="news3Desc">Stay tuned for upcoming software, channel, and gaming top-up announcements on our platform.</p>
+          </div>
+          <div class="news-meta" data-i18n="news3Meta">Independent Query Platform</div>
+        </article>
+      </div>
+    </section>
+
     <footer>
       <div>+213657241710</div>
       <div class="footer-links">
@@ -668,6 +726,21 @@
         srvBlacklistDesc: "Lost, stolen, or GSMA blacklisted status",
         srvFullTitle: "Full PRO Complete Report",
         srvFullDesc: "Full report: GSX, warranty, purchase date, carrier, iCloud",
+        newsTitle: "iPhone News & Announcements",
+        newsBadge: "Updates",
+        newsSub: "Latest iPhone updates, service notices, and announcements",
+        tagNews: "News",
+        tagNotice: "Notice",
+        tagPromo: "Announcement",
+        news1Title: "iPhone IMEI & Carrier Status Tips",
+        news1Desc: "Always verify IMEI and SIM lock status before buying or transferring an iPhone.",
+        news1Meta: "GSM Yasser Server · iPhone Updates",
+        news2Title: "PDF Reports via WhatsApp",
+        news2Desc: "Paid verification orders are handled directly via WhatsApp with PDF delivery after payment confirmation.",
+        news2Meta: "Support: +213657241710",
+        news3Title: "Digital Services & Announcements",
+        news3Desc: "Stay tuned for upcoming software, channel, and gaming top-up announcements on our platform.",
+        news3Meta: "Independent Query Platform",
         privacy: "Privacy Policy",
         terms: "Terms of Use",
         disclaimer: "Disclaimer",
@@ -679,7 +752,6 @@
         invalidLuhn: "Invalid Luhn Check",
         errImei: "Please enter a valid 15-digit IMEI number.",
         errCaptcha: "Please enter the matching CAPTCHA code.",
-        errRecaptcha: "Please complete the reCAPTCHA verification first.",
         useBtn: "Use",
         copyBtn: "Copy",
         copiedBtn: "Copied"
@@ -714,6 +786,21 @@
         srvBlacklistDesc: "Statut perdu, volé ou bloqué GSMA",
         srvFullTitle: "Rapport complet Full PRO",
         srvFullDesc: "Rapport complet : GSX, garantie, date d'achat, opérateur, iCloud",
+        newsTitle: "Actualités iPhone & Annonces",
+        newsBadge: "Mises à jour",
+        newsSub: "Dernières actualités iPhone, avis de service et annonces",
+        tagNews: "Actu",
+        tagNotice: "Avis",
+        tagPromo: "Annonce",
+        news1Title: "Conseils IMEI & État Réseau iPhone",
+        news1Desc: "Vérifiez toujours l'IMEI et l'état de verrouillage avant l'achat ou le transfert d'un iPhone.",
+        news1Meta: "GSM Yasser Server · Actualités iPhone",
+        news2Title: "Rapports PDF sur WhatsApp",
+        news2Desc: "Les commandes payantes sont traitées sur WhatsApp avec envoi du rapport PDF après confirmation du paiement.",
+        news2Meta: "Support : +213657241710",
+        news3Title: "Services Numériques & Annonces",
+        news3Desc: "Suivez nos prochaines annonces concernant les logiciels, chaînes et recharges de jeux.",
+        news3Meta: "Plateforme de requête indépendante",
         privacy: "Politique de confidentialité",
         terms: "Conditions d'utilisation",
         disclaimer: "Clause de non-responsabilité",
@@ -725,7 +812,6 @@
         invalidLuhn: "Vérification Luhn invalide",
         errImei: "Veuillez saisir un numéro IMEI valide à 15 chiffres.",
         errCaptcha: "Veuillez saisir le code CAPTCHA correspondant.",
-        errRecaptcha: "Veuillez d'abord valider le reCAPTCHA.",
         useBtn: "Utiliser",
         copyBtn: "Copier",
         copiedBtn: "Copié"
@@ -760,6 +846,21 @@
         srvBlacklistDesc: "حالة الفقدان أو السرقة أو الحظر في قائمة GSMA",
         srvFullTitle: "Full PRO Complete Report",
         srvFullDesc: "تقرير كامل شامل: GSX، الضمان، تاريخ الشراء، الشبكة، iCloud",
+        newsTitle: "أخبار iPhone والإعلانات",
+        newsBadge: "تحديثات",
+        newsSub: "أحدث أخبار iPhone وتنبيهات الخدمات والإعلانات",
+        tagNews: "أخبار",
+        tagNotice: "تنبيه",
+        tagPromo: "إعلان",
+        news1Title: "تنبيهات فحص IMEI وحالة الشبكة لـ iPhone",
+        news1Desc: "تحقق دائماً من رقم IMEI وحالة القفل قبل شراء أو استلام أي جهاز iPhone.",
+        news1Meta: "GSM Yasser Server · أخبار iPhone",
+        news2Title: "إرسال تقارير PDF عبر واتساب",
+        news2Desc: "تُنفّذ الفحوصات المدفوعة عبر واتساب ويُرسل تقرير PDF بعد تأكيد الدفع.",
+        news2Meta: "الدعم: +213657241710",
+        news3Title: "إعلانات الخدمات الرقمية",
+        news3Desc: "ترقبوا إعلانات البرامج والقنوات وشحن الألعاب ضمن خدماتنا الرقمية.",
+        news3Meta: "منصة استعلام مستقلة",
         privacy: "سياسة الخصوصية",
         terms: "شروط الاستخدام",
         disclaimer: "إخلاء المسؤولية",
@@ -771,7 +872,6 @@
         invalidLuhn: "غير مطابق للخوارزمية",
         errImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
         errCaptcha: "يرجى إدخال رمز التحقق الصحيح.",
-        errRecaptcha: "يرجى إتمام التحقق في مربع reCAPTCHA أولاً.",
         useBtn: "إدخال",
         copyBtn: "نسخ",
         copiedBtn: "تم النسخ"
@@ -936,12 +1036,6 @@
         return;
       }
 
-      const token = typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
-      if (!token) {
-        box.innerHTML = t("errRecaptcha");
-        return;
-      }
-
       const valid = isValidLuhn(imei);
       const statusText = valid ? t("validLuhn") : t("invalidLuhn");
       const dateText = new Date().toLocaleString();
@@ -954,9 +1048,6 @@
 
       saveHistoryItem({ imei, statusText, dateText });
       refreshCaptcha();
-      if (typeof grecaptcha !== "undefined") {
-        grecaptcha.reset();
-      }
     }
 
     updateThemeLabel();
