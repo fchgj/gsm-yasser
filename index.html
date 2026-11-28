@@ -1805,7 +1805,7 @@
             <div class="captcha-row">
               <div
                 class="g-recaptcha"
-                data-sitekey="6LfOMDYuAAAAACK8ZA_Cq5CSIVxWGzBVzGJewcmr"
+                data-sitekey="6Len5zYuAAAAAE2MJPLkYSnGGqsHndURb5t4u1H8"
                 data-theme="dark"
                 data-callback="onGsmCaptchaSuccess"
                 data-expired-callback="onGsmCaptchaExpired"
@@ -2466,6 +2466,14 @@
     const HISTORY_KEY = "gsm_yasser_history";
     const HISTORY_MAX = 5;
 
+    function getActiveImeiDigits() {
+      const typed = imeiInput ? imeiInput.value.replace(/\D/g, "") : "";
+      if (typed.length === 15) return typed;
+      return (localStorage.getItem("gsm_yasser_last_imei") || "").replace(/\D/g, "");
+    }
+
+    window.getGsmActiveImei = getActiveImeiDigits;
+
     function closeDrawerImmediate() {
       drawerBackdrop.classList.remove("open");
       drawerBackdrop.setAttribute("aria-hidden", "true");
@@ -2561,7 +2569,7 @@
         return;
       }
       if (digits.length < 15) {
-        imeiHint.textContent = t.hintIncomplete.replace("{n}", digits.length);
+        imeiHint.textContent = t.hintIncomplete.replace("{n}", String(digits.length));
         return;
       }
       if (!isValidLuhn(digits)) {
@@ -2870,10 +2878,7 @@
     document.querySelectorAll(".wa-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const srv = btn.dataset.service || "";
-        const currentInputImei = imeiInput.value.replace(/\D/g, "");
-        const imei = currentInputImei.length === 15
-          ? currentInputImei
-          : (localStorage.getItem("gsm_yasser_last_imei") || "");
+        const imei = getActiveImeiDigits();
         const refId = typeof generateOrderRef === "function"
           ? generateOrderRef("GY")
           : `GY-${Date.now().toString(36).toUpperCase().slice(-6)}`;
@@ -3241,6 +3246,7 @@
     };
 
     const getActiveImei = () => {
+      if (typeof window.getGsmActiveImei === "function") return window.getGsmActiveImei();
       const inputEl = document.getElementById("imeiInput");
       const typed = inputEl ? inputEl.value.replace(/\D/g, "") : "";
       if (typed.length === 15) return typed;
@@ -3803,6 +3809,7 @@
       } catch (_) {}
 
       const getActiveImei = () => {
+        if (typeof window.getGsmActiveImei === "function") return window.getGsmActiveImei();
         const inputEl = document.getElementById("imeiInput");
         const typed = inputEl ? inputEl.value.replace(/\D/g, "") : "";
         if (typed.length === 15) return typed;
