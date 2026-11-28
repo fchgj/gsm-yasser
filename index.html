@@ -1803,7 +1803,13 @@
             <div id="imeiHint" class="imei-hint" aria-live="polite"></div>
 
             <div class="captcha-row">
-              <div class="g-recaptcha" data-sitekey="6LfOMDYuAAAAACK8ZA_Cq5CSIVxWGzBVzGJewcmr" data-theme="dark"></div>
+              <div
+                class="g-recaptcha"
+                data-sitekey="6LfOMDYuAAAAACK8ZA_Cq5CSIVxWGzBVzGJewcmr"
+                data-theme="dark"
+                data-callback="onGsmCaptchaSuccess"
+                data-expired-callback="onGsmCaptchaExpired"
+              ></div>
             </div>
 
             <button type="submit" class="primary-btn" id="freeCheckBtn">
@@ -2165,6 +2171,30 @@
     } catch (_) {}
 
     const WHATSAPP_PHONE = "213657241710";
+    let latestCaptchaToken = "";
+
+    window.onGsmCaptchaSuccess = (token) => {
+      latestCaptchaToken = typeof token === "string" ? token : "";
+    };
+
+    window.onGsmCaptchaExpired = () => {
+      latestCaptchaToken = "";
+    };
+
+    function readCaptchaToken() {
+      let token = latestCaptchaToken || "";
+      if (!token && typeof window.grecaptcha !== "undefined" && typeof window.grecaptcha.getResponse === "function") {
+        try {
+          token = window.grecaptcha.getResponse() || "";
+        } catch (_) {}
+      }
+      if (!token) {
+        const respField = document.querySelector('textarea[name="g-recaptcha-response"]');
+        if (respField && respField.value) token = respField.value.trim();
+      }
+      if (token) latestCaptchaToken = token;
+      return token;
+    }
 
     const texts = {
       ar: {
@@ -2736,11 +2766,11 @@
       }
     });
 
-    imeiForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    async function handleFreeCheckSubmit(e) {
+      if (e && typeof e.preventDefault === "function") e.preventDefault();
       const t = texts[currentLang] || texts.ar;
       const cleanImei = imeiInput.value.replace(/\D/g, "");
-      const captchaToken = typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
+      const captchaToken = readCaptchaToken();
 
       if (!captchaToken) {
         statusMsg.textContent = t.errCaptcha;
@@ -2771,20 +2801,34 @@
       freeCheckBtnText.textContent = t.checkingBtn;
 
       try {
-        await checkFreeImei(cleanImei, reportData.tac, reportData.device || "iPhone");
+        await Promise.race([
+          checkFreeImei(cleanImei, reportData.tac, reportData.device || "iPhone"),
+          new Promise((resolve) => setTimeout(resolve, 2500))
+        ]);
+      } catch (_) {
+      } finally {
         statusMsg.textContent = `${t.okImei} ${cleanImei}`;
         statusMsg.className = "msg ok";
         resultSummary.textContent = `IMEI: ${reportData.imei} | TAC: ${reportData.tac} | iPhone`;
         resultPanel.classList.add("visible");
-      } catch (_) {
-      } finally {
+        resultPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
         freeCheckBtn.disabled = false;
         freeCheckBtn.classList.remove("loading");
         freeCheckBtnText.textContent = t.freeCheckBtn;
-        if (typeof grecaptcha !== "undefined") {
-          grecaptcha.reset();
+        latestCaptchaToken = "";
+        if (typeof window.grecaptcha !== "undefined" && typeof window.grecaptcha.reset === "function") {
+          try { window.grecaptcha.reset(); } catch (_) {}
         }
       }
+    }
+
+    imeiForm.addEventListener("submit", handleFreeCheckSubmit);
+    freeCheckBtn.addEventListener("click", (e) => {
+      if (imeiForm.getAttribute("data-direct-trigger") === "1") return;
+      imeiForm.setAttribute("data-direct-trigger", "1");
+      setTimeout(() => imeiForm.removeAttribute("data-direct-trigger"), 0);
+      handleFreeCheckSubmit(e);
     });
 
     copyImeiBtn.addEventListener("click", async () => {
@@ -3503,7 +3547,7 @@
             `• <strong>GSX + Sold By + Repairs (${SERVICE_PRICES.gsx.credits}):</strong> تقرير GSX، مصدر البيع Sold By، وسجل الصيانة والإصلاحات.<br>` +
             `• <strong>Carrier & SIMLock (${SERVICE_PRICES.carrier.credits}):</strong> حالة قفل الشبكة والشريحة (Unlocked / Locked وملاءمة شرائح Mobilis / Djezzy / Ooredoo).<br>` +
             `• <strong>iCloud / FMI (${SERVICE_PRICES.icloud.credits}):</strong> حالة FMI (ON/OFF) وقفل التنشيط المرتبط بحساب المالك السابق.<br>` +
-            `• <strong>Blacklist GSMA PRO (${SERVICE_PRICES.blacklist.credits}):</strong> فحص حالة الفقدان أو السرقة أو الحظر في قاعدة GSMA (نتيجة Clean لا تضمن جميع المشغلين).<br>` +
+            `• <strong>Blacklist GSMA PRO (${SERVICE_PRICES.blacklist.credits}):</strong> فحص حالة الفقدان أو السرقة أو الحظر في GSMA (نتيجة Clean لا تضمن جميع المشغلين).<br>` +
             `• <strong>MDM Lock (${SERVICE_PRICES.mdm.credits}):</strong> التحقق من وجود إدارة أو قفل مؤسسي MDM على الجهاز.<br>` +
             `للطلب أو الاستفسار المباشر عبر واتساب: <span class='ltr-num'>+${WA_NUMBER}</span>.`,
           placeholder: "اسأل عن خدمة، سعر الكريدت، أو اكتب IMEI...",
