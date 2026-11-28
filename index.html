@@ -432,87 +432,14 @@
     .captcha-row {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
       margin-top: 14px;
       flex-wrap: wrap;
       max-width: 100%;
       min-width: 0;
+      overflow-x: auto;
     }
-
-    .captcha-label {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .captcha-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1 1 220px;
-      max-width: 100%;
-      min-width: 0;
-      flex-wrap: wrap;
-    }
-
-    .captcha-input {
-      flex: 1 1 95px;
-      min-width: 0;
-      min-height: 50px;
-      text-align: center;
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1.5px solid var(--border);
-      border-radius: 13px;
-      padding: 10px 12px;
-      font-family: var(--mono);
-      letter-spacing: 2px;
-      font-size: 1.08rem;
-      font-weight: 800;
-      outline: none;
-      text-transform: uppercase;
-    }
-
-    .captcha-input:focus { border-color: var(--accent); }
-
-    .captcha-box {
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1.5px dashed var(--border);
-      border-radius: 13px;
-      min-height: 50px;
-      padding: 10px 14px;
-      font-weight: 800;
-      letter-spacing: 2.5px;
-      font-size: 1.1rem;
-      user-select: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--mono);
-      flex-shrink: 0;
-    }
-
-    .refresh-btn {
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1.5px solid var(--border);
-      border-radius: 13px;
-      width: 50px;
-      height: 50px;
-      font-size: 1.3rem;
-      cursor: pointer;
-      flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.2s ease, background 0.2s ease, transform 0.08s ease;
-    }
-
-    .refresh-btn:hover {
-      border-color: var(--accent);
-      background: rgba(37, 99, 235, 0.12);
-    }
-    .refresh-btn:active { transform: scale(0.96); }
 
     .primary-btn {
       width: 100%;
@@ -1742,7 +1669,6 @@
       .help-line { margin-top: 12px; }
       .service-item, .iphone-news-section { padding: 15px; }
       .badge, .badge-pro { font-size: 0.78rem; padding: 3px 9px; }
-      .captcha-controls { min-width: 0; }
       .chip-btn { min-height: 44px; padding: 8px 11px; font-size: 0.9rem; }
       .footer-box { padding: 20px 14px 16px; gap: 14px; }
       .gsm-fab-btn { bottom: 14px; inset-inline-start: 14px; width: 56px; height: 56px; }
@@ -1877,20 +1803,7 @@
             <div id="imeiHint" class="imei-hint" aria-live="polite"></div>
 
             <div class="captcha-row">
-              <label for="captchaInput" class="captcha-label" id="captchaLabel">رمز التحقق:</label>
-              <div class="captcha-controls">
-                <input
-                  type="text"
-                  id="captchaInput"
-                  class="captcha-input"
-                  maxlength="6"
-                  placeholder="الرمز"
-                  autocomplete="off"
-                  required
-                />
-                <span id="captchaCode" class="captcha-box" aria-label="رمز التحقق المرئي">NMKLU</span>
-                <button type="button" id="refreshCaptcha" class="refresh-btn" title="تحديث الرمز" aria-label="تحديث رمز التحقق">↻</button>
-              </div>
+              <div class="g-recaptcha" data-sitekey="6LfOMDYuAAAAACK8ZA_Cq5CSIVxWGzBVzGJewcmr" data-theme="dark"></div>
             </div>
 
             <button type="submit" class="primary-btn" id="freeCheckBtn">
@@ -2280,8 +2193,6 @@
         freeBadge: "مجاني 100%",
         freeSub: "فحص مجاني لمعلومات مختصرة عبر الموقع لجذب العملاء أو التحقق الرياضي",
         imeiPlaceholder: "أدخل رقم IMEI المكوّن من 15 رقماً",
-        captchaLabel: "رمز التحقق:",
-        captchaPlaceholder: "الرمز",
         freeCheckBtn: "فحص مجاني",
         checkingBtn: "جاري الفحص...",
         promoTitle: "فحص احترافي لـ iPhone عبر IMEI",
@@ -2302,7 +2213,7 @@
         srv3Desc: "<strong>شرح مختصر:</strong> فحص سجل الفقدان أو السرقة أو الحظر الدولي.<br><strong>الخصائص:</strong> يفحص قاعدة GSMA؛ نتيجة Clean لا تضمن عدم وجود حظر لدى جميع المشغلين.",
         srv4Name: "GSX + Sold By + Repairs",
         srv4Desc: "<strong>شرح مختصر:</strong> تقرير متقدم شامل لبيانات GSX، مصدر البيع، وسجل الإصلاحات.<br><strong>الخصائص:</strong> يوضح GSX، الضمان والتغطية (#6)، Sold By حسب مصدر الفحص، وسجل الصيانة.",
-        errCaptcha: "رمز التحقق غير صحيح.",
+        errCaptcha: "يرجى إتمام التحقق من reCAPTCHA أولاً.",
         errImei: "يرجى إدخال رقم IMEI صحيح مكوّن من 15 رقماً.",
         okImei: "تم التحقق الرياضي من رقم IMEI بنجاح:",
         hintIncomplete: "أدخل 15 رقماً (المدخل حالياً: {n})",
@@ -2357,8 +2268,6 @@
         freeBadge: "100% Gratuit",
         freeSub: "Aperçu gratuit rapide sur le site ou validation mathématique IMEI",
         imeiPlaceholder: "Entrez l'IMEI à 15 chiffres",
-        captchaLabel: "Code CAPTCHA :",
-        captchaPlaceholder: "Code",
         freeCheckBtn: "Vérification gratuite",
         checkingBtn: "Vérification...",
         promoTitle: "Diagnostic iPhone pro via IMEI",
@@ -2379,7 +2288,7 @@
         srv3Desc: "<strong>Aperçu :</strong> statut perdu, volé ou bloqué GSMA.<br><strong>Caractéristiques :</strong> Clean ne garantit pas tous les opérateurs.",
         srv4Name: "GSX + Sold By + Repairs",
         srv4Desc: "<strong>Aperçu :</strong> rapport détaillé GSX, Sold By et réparations.<br><strong>Caractéristiques :</strong> GSX, couverture (#6), Sold By et historique.",
-        errCaptcha: "Code CAPTCHA invalide.",
+        errCaptcha: "Veuillez valider le reCAPTCHA avant de continuer.",
         errImei: "Veuillez saisir un IMEI valide à 15 chiffres.",
         okImei: "IMEI validé mathématiquement :",
         hintIncomplete: "Entrez 15 chiffres (actuellement : {n})",
@@ -2434,8 +2343,6 @@
         freeBadge: "100% Free",
         freeSub: "Quick free summary check on the site or mathematical IMEI validation",
         imeiPlaceholder: "Enter 15-digit IMEI number",
-        captchaLabel: "Captcha:",
-        captchaPlaceholder: "Code",
         freeCheckBtn: "Free Check",
         checkingBtn: "Checking...",
         promoTitle: "Pro iPhone IMEI Check",
@@ -2456,7 +2363,7 @@
         srv3Desc: "<strong>Summary:</strong> lost, stolen, or barred GSMA status.<br><strong>Features:</strong> GSMA check; Clean does not guarantee all carriers.",
         srv4Name: "GSX + Sold By + Repairs",
         srv4Desc: "<strong>Summary:</strong> detailed GSX, Sold By, and repair history report.<br><strong>Features:</strong> GSX, coverage (#6), Sold By, and repairs.",
-        errCaptcha: "Invalid captcha code.",
+        errCaptcha: "Please complete the reCAPTCHA check first.",
         errImei: "Please enter a valid 15-digit IMEI number.",
         okImei: "IMEI mathematically validated:",
         hintIncomplete: "Enter 15 digits (currently: {n})",
@@ -2491,12 +2398,9 @@
     const themeToggle = document.getElementById("themeToggle");
     const themeText = document.getElementById("themeText");
     const themeIcon = document.getElementById("themeIcon");
-    const captchaCodeEl = document.getElementById("captchaCode");
-    const refreshCaptcha = document.getElementById("refreshCaptcha");
     const imeiForm = document.getElementById("imeiForm");
     const imeiInput = document.getElementById("imeiInput");
     const imeiHint = document.getElementById("imeiHint");
-    const captchaInput = document.getElementById("captchaInput");
     const freeCheckBtn = document.getElementById("freeCheckBtn");
     const freeCheckBtnText = document.getElementById("freeCheckBtnText");
     const statusMsg = document.getElementById("statusMsg");
@@ -2543,13 +2447,6 @@
       drawerBackdrop.setAttribute("aria-hidden", String(!open));
       drawerOpenBtn.setAttribute("aria-expanded", String(open));
       if (!open) drawerOpenBtn.focus();
-    }
-
-    function generateCaptcha() {
-      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      let code = "";
-      for (let i = 0; i < 5; i++) code += chars[Math.floor(Math.random() * chars.length)];
-      captchaCodeEl.textContent = code;
     }
 
     function isValidLuhn(imei) {
@@ -2680,8 +2577,6 @@
       document.getElementById("freeBadgeText").textContent = t.freeBadge;
       document.getElementById("freeSub").textContent = t.freeSub;
       imeiInput.placeholder = t.imeiPlaceholder;
-      document.getElementById("captchaLabel").textContent = t.captchaLabel;
-      captchaInput.placeholder = t.captchaPlaceholder;
       freeCheckBtnText.textContent = t.freeCheckBtn;
       document.getElementById("promoTitle").textContent = t.promoTitle;
       document.getElementById("promoSub").textContent = t.promoSub;
@@ -2819,8 +2714,6 @@
       updateThemeLabel();
     });
 
-    refreshCaptcha.addEventListener("click", generateCaptcha);
-
     imeiInput.addEventListener("input", (e) => {
       const raw = e.target.value;
       const pos = e.target.selectionStart;
@@ -2847,15 +2740,12 @@
       e.preventDefault();
       const t = texts[currentLang] || texts.ar;
       const cleanImei = imeiInput.value.replace(/\D/g, "");
-      const enteredCaptcha = captchaInput.value.trim().toUpperCase();
-      const expectedCaptcha = captchaCodeEl.textContent.trim().toUpperCase();
+      const captchaToken = typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
 
-      if (enteredCaptcha !== expectedCaptcha) {
+      if (!captchaToken) {
         statusMsg.textContent = t.errCaptcha;
         statusMsg.className = "msg err";
         resultPanel.classList.remove("visible");
-        generateCaptcha();
-        captchaInput.value = "";
         return;
       }
 
@@ -2882,19 +2772,19 @@
 
       try {
         await checkFreeImei(cleanImei, reportData.tac, reportData.device || "iPhone");
+        statusMsg.textContent = `${t.okImei} ${cleanImei}`;
+        statusMsg.className = "msg ok";
+        resultSummary.textContent = `IMEI: ${reportData.imei} | TAC: ${reportData.tac} | iPhone`;
+        resultPanel.classList.add("visible");
       } catch (_) {
       } finally {
         freeCheckBtn.disabled = false;
         freeCheckBtn.classList.remove("loading");
         freeCheckBtnText.textContent = t.freeCheckBtn;
+        if (typeof grecaptcha !== "undefined") {
+          grecaptcha.reset();
+        }
       }
-
-      statusMsg.textContent = `${t.okImei} ${cleanImei}`;
-      statusMsg.className = "msg ok";
-      resultSummary.textContent = `IMEI: ${reportData.imei} | TAC: ${reportData.tac} | iPhone`;
-      resultPanel.classList.add("visible");
-      generateCaptcha();
-      captchaInput.value = "";
     });
 
     copyImeiBtn.addEventListener("click", async () => {
@@ -2973,7 +2863,6 @@
     if (savedTheme === "light" || savedTheme === "dark") {
       document.documentElement.setAttribute("data-theme", savedTheme);
     }
-    generateCaptcha();
     applyLang(currentLang);
   </script>
 
@@ -4191,5 +4080,7 @@
       renderUi();
     })();
   </script>
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
   </html>
